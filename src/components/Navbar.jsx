@@ -82,9 +82,9 @@ const Navbar = () => {
           />
 
           <div
-            className={`${
-              !toggle ? "hidden" : "flex"
-            } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
+            className={`${!toggle ? "hidden" : "flex"} p-6  absolute flex-col ${
+              theme === "light" ? "bg-violet-500" : "bg-violet-800"
+            } top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
           >
             <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
               {navLinks.map((nav) => (
@@ -102,12 +102,18 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
+            <button
+              onClick={toggleTheme}
+              className={` text-start  mt-4 ${theme==='light'?'text-black':'text-white'}`}
+            >
+              {theme === "light" ? "Dark" : "Light"}
+            </button>
           </div>
         </div>
       </div>
       <button
         onClick={toggleTheme}
-        className={`px-12 font-bold ${
+        className={`hidden lg:block md:block px-12 font-bold ${
           theme === "light" ? "text-text-light" : "text-text-dark"
         }`}
       >

@@ -61,23 +61,23 @@ const Experience = () => {
   const { theme } = useTheme();
   return (
     <>
-      <motion.div variants={textVariant()}>
+      <div className="animate-pulse">
         <p
           className={`${styles.sectionSubText} text-center ${
-            theme === "light" ? "text-tertiary" : ""
+            theme === "light" ? "text-text-light" : ""
           }`}
         >
           What I have done so far
         </p>
         <h2
           className={`${styles.sectionHeadText} text-center ${
-            theme === "light" ? "text-text-light" : ""
+            theme === "light" ? "text-text-light" : "text-text-dark"
           }`}
         >
           Work Experience.
         </h2>
-      </motion.div>
-
+      </div>
+          
       <div className="mt-20 flex flex-col">
         <VerticalTimeline
           lineColor={`${theme === "light" ? "#001989" : "#d7dfff"}`}

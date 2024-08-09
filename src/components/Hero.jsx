@@ -35,7 +35,7 @@ const Hero = () => {
           </h1>
           <p
             className={`${styles.heroSubText} mt-2 ${
-              theme === "light" ? "text-[#222e67]" : "text-text-dark"
+              theme === "light" ? "text-text-light" : "text-text-dark"
             }  `}
           >
             I develop 3D visuals, user <br className="sm:block hidden" />
@@ -43,8 +43,8 @@ const Hero = () => {
           </p>
         </div>
       </div>
-      <div className="w-full flex justify-end">
-        <div className=" w-[50%] h-[80vh] ">
+      <div className="hidden md:block lg:w-full lg:flex lg:justify-end">
+        <div className="md:w-[50%] md:h-[80vh] hidden md:block">
           <ComputersCanvas />
         </div>
       </div>
