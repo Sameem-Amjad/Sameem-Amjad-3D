@@ -1,116 +1,69 @@
-import React from "react";
-import Tilt from "react-tilt";
-import { motion } from "framer-motion";
-import { useTheme } from "./ThemeContext";
-import { styles } from "../styles";
-import { github } from "../assets";
-import { SectionWrapper } from "../hoc";
-import { projects } from "../constants";
-import { fadeIn, textVariant } from "../utils/motion";
-
-const ProjectCard = ({
-  index,
-  name,
-  description,
-  tags,
-  image,
-  source_code_link,
-}) => {
-  const {theme}=useTheme()
-  return (
-    <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
-      <Tilt
-        options={{
-          max: 45,
-          scale: 1,
-          speed: 450,
-        }}
-        className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full'
-      >
-        <div className='relative w-full h-[230px]'>
-          <img
-            src={image}
-            alt='project_image'
-            className='w-full h-full object-cover rounded-2xl'
-          />
-
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
-            <div
-              onClick={() => window.open(source_code_link, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
-            >
-              <img
-                src={github}
-                alt='source code'
-                className='w-1/2 h-1/2 object-contain'
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className='mt-5'>
-          <h3 className='text-white font-bold text-[24px]'>{name}</h3>
-          <p className='mt-2 text-secondary text-[14px]'>{description}</p>
-        </div>
-
-        <div className='mt-4 flex flex-wrap gap-2'>
-          {tags.map((tag) => (
-            <p
-              key={`${name}-${tag.name}`}
-              className={`text-[14px] ${tag.color}`}
-            >
-              #{tag.name}
-            </p>
-          ))}
-        </div>
-      </Tilt>
-    </motion.div>
-  );
-};
+import { Link } from "react-router-dom";
+import { featuredProjects, moreProjects } from "../constants";
+import { SectionHeading, Reveal, Icon } from "./shared";
+import { FeaturedCard } from "./projects";
 
 const Works = () => {
-  const { theme } = useTheme();
+  const teaser = featuredProjects.slice(0, 3);
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p
-          className={`${styles.sectionSubText}${
-            theme === "light" ? "text-[#3c1f7b]" : " text-[#915EFF]"
-          } `}
-        >
-          My work
-        </p>
-        <h2
-          className={`${styles.sectionHeadText}  ${
-            theme === "light" ? "text-text-light" : " text-white"
-          }`}
-        >
-          Projects.
-        </h2>
-      </motion.div>
+    <section id="work" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-10">
+      <SectionHeading
+        index="02"
+        eyebrow="selected work"
+        title="Products people"
+        accent="actually use."
+        description="Platforms I've led at DevoraX — live in production, on the App Store, Google Play and the web. Real clients, real scale, real revenue."
+        right={
+          <Link
+            to="/work"
+            data-cursor="button"
+            className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wide text-acid"
+          >
+            All {featuredProjects.length} projects
+            <Icon name="arrowRight" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        }
+      />
 
-      <div className="w-full flex">
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className={`mt-3 text-secondary text-[17px] max-w-3xl leading-[30px] ${
-            theme === "light" ? "text-[#412381]" : " text-secondary"
-          }`}
-        >
-          Following projects showcases my skills and experience through
-          real-world examples of my work. Each project is briefly described with
-          links to code repositories and live demos in it. It reflects my
-          ability to solve complex problems, work with different technologies,
-          and manage projects effectively.
-        </motion.p>
-      </div>
-
-      <div className="mt-20 flex flex-wrap gap-6">
-        {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
+      <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {teaser.map((p, i) => (
+          <FeaturedCard key={p.title} p={p} i={i} />
         ))}
       </div>
-    </>
+
+      {/* route CTAs */}
+      <Reveal delay={0.1}>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Link
+            to="/work"
+            data-cursor="button"
+            className="panel panel-hover group flex items-center justify-between p-6"
+          >
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-wide text-faint">// featured</p>
+              <p className="mt-1 font-display text-xl font-bold text-ink">
+                All {featuredProjects.length} case studies
+              </p>
+            </div>
+            <Icon name="arrowUpRight" className="h-6 w-6 text-acid transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </Link>
+          <Link
+            to="/builds"
+            data-cursor="button"
+            className="panel panel-hover group flex items-center justify-between p-6"
+          >
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-wide text-faint">// the lab</p>
+              <p className="mt-1 font-display text-xl font-bold text-ink">
+                {moreProjects.length} more builds
+              </p>
+            </div>
+            <Icon name="arrowUpRight" className="h-6 w-6 text-acid transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </Link>
+        </div>
+      </Reveal>
+    </section>
   );
 };
 
-export default SectionWrapper(Works, "");
+export default Works;

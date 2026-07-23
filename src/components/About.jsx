@@ -1,87 +1,94 @@
-import React from "react";
-import Tilt from "react-tilt";
 import { motion } from "framer-motion";
-import { useTheme } from "./ThemeContext";
-import { styles } from "../styles";
-import { services } from "../constants";
-import { SectionWrapper } from "../hoc";
-import { fadeIn, textVariant } from "../utils/motion";
+import { services, profile, links } from "../constants";
+import { SectionHeading, Icon, Reveal, PrimaryButton, GhostButton, cn } from "./shared";
 
-
-const ServiceCard = ({ index, title, icon,theme }) => (
-  <Tilt className='xs:w-[250px] w-full'>
-    <motion.div
-      variants={fadeIn("right", "spring", index * 0.5, 0.75)}
-      className='w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card'
-    >
-      <div
-        options={{
-          max: 45,
-          scale: 1,
-          speed: 450,
-        }}
-        className={`${theme==='light'?'bg-tertiary':''} rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col`}
-      >
-        <img
-          src={icon}
-          alt='web-development'
-          className='w-16 h-16 object-contain'
-        />
-
-        <h3 className='text-white text-[20px] font-bold text-center'>
-          {title}
-        </h3>
+const ServiceCard = ({ s, i }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay: i * 0.08 }}
+    data-cursor="card"
+    className={cn(
+      "panel panel-hover group relative flex flex-col overflow-hidden p-7",
+      s.span
+    )}
+  >
+    <div className="mb-8 flex items-start justify-between">
+      <div className="grid h-12 w-12 place-items-center rounded-xl border border-line text-acid transition-colors group-hover:border-acid">
+        <Icon name={s.icon} className="h-6 w-6" />
       </div>
-    </motion.div>
-  </Tilt>
+      <span className="font-mono text-xs text-faint">0{i + 1}</span>
+    </div>
+    <h3 className="font-display text-xl font-bold text-ink">{s.title}</h3>
+    <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.blurb}</p>
+    <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-acid transition-all duration-500 group-hover:w-full" />
+  </motion.div>
 );
 
-const About = () => {
-  const { theme } = useTheme();
-  return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p
-          className={`${styles.sectionSubText} 
-        ${theme === "light" ? "text-[#3c1f7b]" : " text-[#915EFF]"}`}
-        >
-          Introduction
-        </p>
-        <h2
-          className={`${styles.sectionHeadText} ${
-            theme === "light" ? "text-text-light" : " text-white"
-          }`}
-        >
-          Overview.
-        </h2>
-      </motion.div>
+const About = () => (
+  <section id="services" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-10">
+    <SectionHeading
+      index="01"
+      eyebrow="what I do"
+      title="Full-stack delivery,"
+      accent="end to end."
+      description="At DevoraX I lead the design, engineering and launch of digital products across four core areas — the same stack that powers the work below."
+    />
 
-      <motion.p
-        variants={fadeIn("", "", 0.1, 1)}
-        className={`mt-4 text-[17px] max-w-3xl leading-[30px]
-          ${theme === "light" ? "text-[#3c1f7b]" : " text-secondary"}`}
-      >
-        I am an accomplished software developer with extensive experience in
-        TypeScript and JavaScript, and a strong proficiency in frameworks such
-        as React, Node.js, and Three.js. With a track record of successfully
-        completing over 100 projects, I excel in delivering efficient, scalable,
-        and user-centric solutions. My rapid learning ability and collaborative
-        approach enable me to work closely with clients to effectively address
-        real-world challenges and bring their ideas to fruition.
-      </motion.p>
+    <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+      {services.map((s, i) => (
+        <ServiceCard key={s.title} s={s} i={i} />
+      ))}
+    </div>
 
-      <div className="mt-20 flex flex-wrap gap-10">
-        {services.map((service, index) => (
-          <ServiceCard
-            key={service.title}
-            index={index}
-            {...service}
-            theme={theme}
+    {/* Founder */}
+    <Reveal delay={0.1}>
+      <div className="group mt-4 grid grid-cols-1 gap-8 border border-line bg-surface/40 p-6 sm:p-8 lg:grid-cols-[240px_1fr] lg:items-center lg:gap-12 lg:p-10">
+        {/* portrait */}
+        <div className="relative mx-auto w-48 sm:w-56 lg:mx-0 lg:w-[240px]">
+          <div
+            className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-acid/25 via-ember/10 to-transparent blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-70"
+            aria-hidden="true"
           />
-        ))}
-      </div>
-    </>
-  );
-};
+          <div className="relative aspect-square overflow-hidden rounded-2xl border border-line">
+            <img
+              src="/myimage/profile.png"
+              alt="Sameem Amjad, Founder & Lead Engineer at DevoraX"
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            />
+          </div>
+          <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-base px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-acid">
+            <span className="h-1.5 w-1.5 rounded-full bg-acid" />
+            Founder
+          </span>
+        </div>
 
-export default SectionWrapper(About, "about");
+        {/* bio */}
+        <div>
+          <p className="mono-label mb-4 text-acid">// the person behind the work</p>
+          <p className="font-display text-2xl font-medium leading-snug text-ink sm:text-3xl">
+            Hi, I'm Sameem. I don't just write code — I lead teams that turn ideas
+            into products <span className="text-acid">real people use every day.</span>
+          </p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-muted">
+            Not a template shop. Every product on this page was scoped, architected
+            and shipped under my direction — engineered to survive real users, real
+            load and real revenue.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <PrimaryButton href={links.calendly} icon="calendar" className="px-5 py-2.5">
+              Book a call
+            </PrimaryButton>
+            <GhostButton href={links.fiverr} icon="arrowUpRight" className="px-5 py-2.5">
+              Fiverr 5.0
+            </GhostButton>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </section>
+);
+
+export default About;

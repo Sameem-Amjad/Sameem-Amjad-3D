@@ -1,125 +1,123 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useTheme } from "./ThemeContext";
-import { styles } from "../styles";
-import { navLinks } from "../constants";
-import { logo, menu, close } from "../assets";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { links, profile } from "../constants";
+import { Icon, PrimaryButton, cn } from "./shared";
+
+const items = [
+  { label: "Work", to: "/work" },
+  { label: "Builds", to: "/builds" },
+  { label: "Services", to: "/#services" },
+  { label: "Process", to: "/#process" },
+  { label: "Contact", to: "/#contact" },
+];
 
 const Navbar = () => {
-  const [active, setActive] = useState("");
-  const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setScrolled(scrollTop > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => setOpen(false), [pathname]);
+
   return (
-    <nav
-      className={`${
-        styles.paddingX
-      } w-full flex items-center py-5 fixed top-0 z-20 ${
-        scrolled
-          ? theme === "light"
-            ? "bg-primary-light"
-            : "bg-primary-dark"
-          : "bg-transparent"
-      }`}
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4"
     >
-      <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
-        <Link
-          to="/"
-          className="flex items-center gap-2"
-          onClick={() => {
-            setActive("");
-            window.scrollTo(0, 0);
-          }}
-        >
-          <img src={logo} alt="logo" className="w-9 h-9 object-contain" />
-          <p
-            className={`${
-              theme === "light" ? "text-text-light" : "text-text-dark"
-            } text-[18px] font-bold cursor-pointer flex`}
-          >
-            SAMEEM &nbsp;
-            <span className="sm:block hidden"> | THE MERN DEVELOPER</span>
-          </p>
+      <div
+        className={cn(
+          "flex w-full max-w-6xl items-center justify-between rounded-full px-4 py-2.5 transition-all duration-300 sm:px-5",
+          scrolled ? "border border-line bg-base/70 backdrop-blur-xl" : "border border-transparent"
+        )}
+      >
+        <Link to="/" data-cursor="button" className="flex items-center gap-2.5">
+          <span className="grid h-9 w-9 place-items-center rounded-lg bg-acid font-display text-sm font-bold text-night">
+            SA
+          </span>
+          <span className="hidden flex-col leading-tight sm:flex">
+            <span className="font-display text-[15px] font-bold text-ink">{profile.name}</span>
+            <span className="font-mono text-[10px] text-faint">{profile.role} · {profile.company}</span>
+          </span>
         </Link>
 
-        <ul className="list-none hidden sm:flex flex-row gap-10">
-          {navLinks.map((nav) => (
-            <li
-              key={nav.id}
-              className={`${
-                active === nav.title
-                  ? "text-[#3c1f7b]"
-                  : theme === "light"
-                  ? "text-text-light"
-                  : ""
-              }
-              hover:text-secondary text-[18px] font-medium cursor-pointer`}
-              onClick={() => setActive(nav.title)}
-            >
-              <a href={`#${nav.id}`}>{nav.title}</a>
-            </li>
-          ))}
+        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex">
+          {items.map((n) => {
+            const active = n.to === pathname;
+            return (
+              <li key={n.label}>
+                <Link
+                  to={n.to}
+                  data-cursor="button"
+                  className={cn(
+                    "rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wide transition-colors",
+                    active ? "text-acid" : "text-muted hover:text-ink"
+                  )}
+                >
+                  {n.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="sm:hidden flex flex-1 justify-end items-center">
-          <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain"
-            onClick={() => setToggle(!toggle)}
-          />
+        <div className="hidden md:block">
+          <PrimaryButton href={links.calendly} icon="calendar" className="px-5 py-2.5">
+            Book a call
+          </PrimaryButton>
+        </div>
 
-          <div
-            className={`${!toggle ? "hidden" : "flex"} p-6  absolute flex-col ${
-              theme === "light" ? "bg-violet-500" : "bg-violet-800"
-            } top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
+        <button
+          onClick={() => setOpen((o) => !o)}
+          data-cursor="button"
+          className="grid h-10 w-10 place-items-center rounded-lg border border-line text-ink md:hidden"
+          aria-label="Toggle menu"
+        >
+          <Icon name={open ? "close" : "menu"} />
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute inset-x-4 top-[70px] rounded-2xl border border-line bg-base/95 p-4 backdrop-blur-xl md:hidden"
           >
-            <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
-              {navLinks.map((nav) => (
-                <li
-                  key={nav.id}
-                  className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                    active === nav.title ? "text-white" : "text-secondary"
-                  }`}
-                  onClick={() => {
-                    setToggle(!toggle);
-                    setActive(nav.title);
-                  }}
-                >
-                  <a href={`#${nav.id}`}>{nav.title}</a>
+            <ul className="flex flex-col gap-1">
+              {items.map((n) => (
+                <li key={n.label}>
+                  <Link
+                    to={n.to}
+                    className="block rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-wide text-muted hover:bg-surface hover:text-acid"
+                  >
+                    {n.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <button
-              onClick={toggleTheme}
-              className={` text-start  mt-4 ${theme==='light'?'text-black':'text-white'}`}
+            <a
+              href={links.calendly}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-acid px-5 py-3 font-mono text-[13px] font-semibold uppercase tracking-wider text-night"
             >
-              {theme === "light" ? "Dark" : "Light"}
-            </button>
-          </div>
-        </div>
-      </div>
-      <button
-        onClick={toggleTheme}
-        className={`hidden lg:block md:block px-12 font-bold ${
-          theme === "light" ? "text-text-light" : "text-text-dark"
-        }`}
-      >
-        {theme === "light" ? "Dark" : "Light"}
-      </button>
-    </nav>
+              <Icon name="calendar" className="h-4 w-4" strokeWidth={2} />
+              Book a call
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
