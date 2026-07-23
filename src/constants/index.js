@@ -4,6 +4,8 @@
 //  NOTE: replace the two placeholder links flagged below with the real ones.
 // ─────────────────────────────────────────────────────────────
 
+import { caseStudies } from "./caseStudies";
+
 export const profile = {
   name: "Sameem Amjad",
   role: "Founder & Lead Engineer",
@@ -558,6 +560,36 @@ export const processSteps = [
       "Monitoring, iteration and growth engineering so the product keeps performing as usage climbs.",
   },
 ];
+
+// ── Project detail lookup ───────────────────────────────────────
+// URL-safe slug from a project title. "Dooz Inspected Cars" → "dooz-inspected-cars"
+export const slugify = (s = "") =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+// Single ordered list backing the /work/:slug detail pages + prev/next nav.
+export const allProjects = [...featuredProjects, ...moreProjects];
+
+// Base project merged with its rich case-study content (if any).
+export const getProjectBySlug = (slug) => {
+  const base = allProjects.find((p) => slugify(p.title) === slug);
+  if (!base) return null;
+  return { ...base, ...(caseStudies[slug] || {}) };
+};
+
+// Previous / next project (wraps around) for the detail-page footer nav.
+export const getAdjacentProjects = (slug) => {
+  const i = allProjects.findIndex((p) => slugify(p.title) === slug);
+  if (i === -1) return { prev: null, next: null };
+  const n = allProjects.length;
+  return {
+    prev: allProjects[(i - 1 + n) % n],
+    next: allProjects[(i + 1) % n],
+  };
+};
 
 // Kept so any legacy imports don't break the build.
 export const technologies = [];

@@ -143,6 +143,43 @@ export const SectionHeading = ({ index, eyebrow, title, accent, description, rig
   </div>
 );
 
+/* ───────────────── Smart image (shimmer skeleton + fade-in) ─────────────────
+   Wrap in a `relative overflow-hidden` box. While the image loads, a shimmer
+   skeleton fills the box; the image fades in on load. `className` should carry a
+   transition (e.g. `transition-all`) so the opacity fade animates. If the src is
+   missing or errors, `fallback` is rendered instead (must fill the box). */
+export const SmartImage = ({
+  src,
+  alt,
+  className,
+  skeletonClassName,
+  fallback = null,
+  eager = false,
+}) => {
+  const [status, setStatus] = useState("loading"); // loading | loaded | error
+  const valid = src && src !== '""' && src !== "null";
+
+  if ((!valid || status === "error") && fallback) return fallback;
+
+  return (
+    <>
+      {status !== "loaded" && (
+        <span className={cn("skeleton absolute inset-0", skeletonClassName)} aria-hidden="true" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        onLoad={() => setStatus("loaded")}
+        onError={() => setStatus("error")}
+        style={{ opacity: status === "loaded" ? 1 : 0 }}
+        className={className}
+      />
+    </>
+  );
+};
+
 /* ───────────────── Live links ───────────────── */
 const isValid = (u) => u && u !== "null" && u !== '""' && u !== '"\\""';
 

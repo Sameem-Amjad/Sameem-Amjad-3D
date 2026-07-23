@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { services, profile, links } from "../constants";
-import { SectionHeading, Icon, Reveal, PrimaryButton, GhostButton, cn } from "./shared";
+import { SectionHeading, Icon, Reveal, PrimaryButton, GhostButton, SmartImage, cn } from "./shared";
 
 const ServiceCard = ({ s, i }) => (
   <motion.div
@@ -52,11 +52,10 @@ const About = () => (
             aria-hidden="true"
           />
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-line">
-            <img
+            <SmartImage
               src="/myimage/profile.png"
               alt="Sameem Amjad, Founder & Lead Engineer at DevoraX"
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04]"
             />
           </div>
           <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-base px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-acid">

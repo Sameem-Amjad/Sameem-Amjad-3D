@@ -8,6 +8,7 @@ import { CustomCursor, CursorTrail, ScrollProgress } from "./components/fx";
 import Home from "./pages/Home";
 import WorkPage from "./pages/WorkPage";
 import BuildsPage from "./pages/BuildsPage";
+import ProjectDetail from "./pages/ProjectDetail";
 
 /* Scroll to top on route change, or to a #section when a hash is present. */
 const ScrollManager = () => {
@@ -48,6 +49,7 @@ const App = () => {
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
             <Route path="/work" element={<WorkPage />} />
+            <Route path="/work/:slug" element={<ProjectDetail />} />
             <Route path="/builds" element={<BuildsPage />} />
             <Route path="*" element={<Home />} />
           </Routes>

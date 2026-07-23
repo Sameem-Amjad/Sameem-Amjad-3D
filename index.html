@@ -16,9 +16,91 @@
       content="Web, mobile and AI products that ship — and scale. 24+ products, 2.4M+ users, live on the App Store, Google Play and the web."
     />
     <title>Sameem Amjad — Founder & Lead Engineer · DevoraX</title>
+
+    <!-- Boot splash: paints on first byte, before the JS bundle loads.
+         Removed by main.jsx once React mounts. Keeps mobile from flashing
+         a blank white screen on slow connections. -->
+    <style>
+      #boot {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        background: #0a0a0b;
+        transition: opacity 0.5s ease;
+      }
+      #boot.boot-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #boot .boot-mark {
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.5rem, 6vw, 2.25rem);
+        letter-spacing: -0.02em;
+        color: #f4f1ea;
+      }
+      #boot .boot-mark b {
+        color: #c6ff3d;
+        font-weight: 700;
+      }
+      #boot .boot-bar {
+        position: relative;
+        width: min(180px, 42vw);
+        height: 3px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(244, 241, 234, 0.08);
+      }
+      #boot .boot-bar::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #c6ff3d 50%,
+          transparent
+        );
+        animation: boot-sweep 1.2s ease-in-out infinite;
+      }
+      #boot .boot-tag {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #7d776c;
+      }
+      @keyframes boot-sweep {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot .boot-bar::after {
+          animation: none;
+          transform: none;
+        }
+        #boot {
+          transition: none;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <div id="boot" aria-hidden="true">
+      <div class="boot-mark">Sameem<b>.</b></div>
+      <div class="boot-bar"></div>
+      <div class="boot-tag">Loading portfolio</div>
+    </div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
