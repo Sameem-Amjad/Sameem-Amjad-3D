@@ -84,6 +84,30 @@ export const services = [
   },
 ];
 
+// Leadership / team
+export const team = [
+  {
+    name: "Sameem Amjad",
+    badge: "Founder",
+    role: "Founder & Lead Engineer",
+    title: "Full-Stack Engineer · Web · Mobile · AI",
+    image: "/myimage/profile.png",
+    imgPos: "object-center",
+    bio: "I lead teams that turn ideas into products real people use every day — from MVPs to platforms serving millions. Clean architecture, honest communication, and software that solves real business problems.",
+    tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],
+  },
+  {
+    name: "Usman",
+    badge: "CTO",
+    role: "Chief Technical Officer",
+    title: "Full-Stack AI Architect · Web · Mobile · 35-Day Free Maintenance",
+    image: "/myimage/usman_cto.jpeg",
+    imgPos: "object-top",
+    bio: "Expert Full-Stack AI Architect with 5+ years building scalable Generative-AI systems, custom web apps and SaaS platforms. I turn slow, outdated systems into fast, scalable, user-friendly products — architecting cross-platform mobile (React Native, Flutter) and high-concurrency web on Kubernetes & AWS for 99.9% uptime.",
+    tags: ["Generative AI", "React Native", "Flutter", "Kubernetes", "AWS", "SaaS"],
+  },
+];
+
 // ── Featured (curated, rich cards) ──────────────────────────────
 export const featuredProjects = [
   {

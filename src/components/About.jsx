@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { services, profile, links } from "../constants";
+import { services, links, team } from "../constants";
 import { SectionHeading, Icon, Reveal, PrimaryButton, GhostButton, SmartImage, cn } from "./shared";
 
 const ServiceCard = ({ s, i }) => (
@@ -26,6 +26,53 @@ const ServiceCard = ({ s, i }) => (
   </motion.div>
 );
 
+const TeamCard = ({ m, i }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.6, delay: i * 0.1 }}
+    data-cursor="card"
+    className="panel panel-hover group relative flex flex-col overflow-hidden"
+  >
+    <div className="relative aspect-[3/2] w-full overflow-hidden">
+      <SmartImage
+        src={m.image}
+        alt={`${m.name}, ${m.role} at DevoraX`}
+        className={cn(
+          "h-full w-full object-cover grayscale-[0.35] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.04]",
+          m.imgPos
+        )}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
+      <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-line bg-base/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-acid backdrop-blur">
+        <span className="h-1.5 w-1.5 rounded-full bg-acid" />
+        {m.badge}
+      </span>
+    </div>
+    <div className="flex flex-1 flex-col gap-3 p-6">
+      <div>
+        <h4 className="font-display text-2xl font-bold text-ink transition-colors group-hover:text-acid">
+          {m.name}
+        </h4>
+        <p className="mt-1 font-mono text-xs text-acid">{m.role}</p>
+        <p className="mt-1.5 font-mono text-[11px] leading-relaxed text-faint">{m.title}</p>
+      </div>
+      <p className="text-sm leading-relaxed text-muted">{m.bio}</p>
+      <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+        {m.tags.map((t) => (
+          <span
+            key={t}
+            className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wide text-muted"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  </motion.div>
+);
+
 const About = () => (
   <section id="services" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-10">
     <SectionHeading
@@ -42,51 +89,42 @@ const About = () => (
       ))}
     </div>
 
-    {/* Founder */}
-    <Reveal delay={0.1}>
-      <div className="group mt-4 grid grid-cols-1 gap-8 border border-line bg-surface/40 p-6 sm:p-8 lg:grid-cols-[240px_1fr] lg:items-center lg:gap-12 lg:p-10">
-        {/* portrait */}
-        <div className="relative mx-auto w-48 sm:w-56 lg:mx-0 lg:w-[240px]">
-          <div
-            className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-acid/25 via-ember/10 to-transparent blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-70"
-            aria-hidden="true"
-          />
-          <div className="relative aspect-square overflow-hidden rounded-2xl border border-line">
-            <SmartImage
-              src="/myimage/profile.png"
-              alt="Sameem Amjad, Founder & Lead Engineer at DevoraX"
-              className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04]"
-            />
+    {/* Leadership / team */}
+    <div className="mt-20">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal>
+          <div>
+            <p className="mono-label mb-4 text-acid">// leadership</p>
+            <h3 className="font-display text-3xl font-bold leading-tight text-ink sm:text-4xl md:text-5xl">
+              The team behind <span className="text-acid">DevoraX.</span>
+            </h3>
           </div>
-          <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-base px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-acid">
-            <span className="h-1.5 w-1.5 rounded-full bg-acid" />
-            Founder
-          </span>
-        </div>
-
-        {/* bio */}
-        <div>
-          <p className="mono-label mb-4 text-acid">// the person behind the work</p>
-          <p className="font-display text-2xl font-medium leading-snug text-ink sm:text-3xl">
-            Hi, I'm Sameem. I don't just write code — I lead teams that turn ideas
-            into products <span className="text-acid">real people use every day.</span>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="max-w-sm leading-relaxed text-muted">
+            Two engineers, one standard — production-grade products, built to scale
+            and backed after launch.
           </p>
-          <p className="mt-4 max-w-2xl leading-relaxed text-muted">
-            Not a template shop. Every product on this page was scoped, architected
-            and shipped under my direction — engineered to survive real users, real
-            load and real revenue.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <PrimaryButton href={links.calendly} icon="calendar" className="px-5 py-2.5">
-              Book a call
-            </PrimaryButton>
-            <GhostButton href={links.fiverr} icon="arrowUpRight" className="px-5 py-2.5">
-              Fiverr 5.0
-            </GhostButton>
-          </div>
-        </div>
+        </Reveal>
       </div>
-    </Reveal>
+
+      <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {team.map((m, i) => (
+          <TeamCard key={m.name} m={m} i={i} />
+        ))}
+      </div>
+
+      <Reveal delay={0.1}>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <PrimaryButton href={links.calendly} icon="calendar">
+            Book a call
+          </PrimaryButton>
+          <GhostButton href="#contact" icon="arrowDown">
+            Start a project
+          </GhostButton>
+        </div>
+      </Reveal>
+    </div>
   </section>
 );
 
