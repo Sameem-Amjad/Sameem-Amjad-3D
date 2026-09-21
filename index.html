@@ -5,18 +5,34 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="4II4UEErd2UTCqjkBl2HKXwF3M7FOn-ihPDRuIl3yDA" />
-    <meta
-      name="description"
-      content="Sameem Amjad — Founder & Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products that scale to millions of users."
-    />
     <meta name="theme-color" content="#05060f" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sameem Amjad — Founder & Lead Engineer, DevoraX" />
-    <meta
-      property="og:description"
-      content="Web, mobile and AI products that ship — and scale. 24+ products, 2.4M+ users, live on the App Store, Google Play and the web."
-    />
-    <title>Sameem Amjad — Founder & Lead Engineer · DevoraX</title>
+    <meta name="author" content="Sameem Amjad" />
+    <!-- Everything between these markers is route-specific and is replaced
+         per page by scripts/prerender.mjs at build time; <Seo> keeps it in
+         step afterwards on client-side navigation. What is here is the
+         homepage default, which is also what `vite dev` serves. -->
+    <!--seo:start-->
+    <title>Sameem Amjad — Founder &amp; Lead Engineer · DevoraX</title>
+    <meta name="description" content="Sameem Amjad — Founder &amp; Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products that scale to millions of users." data-seo="name:description" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" data-seo="name:robots" />
+    <link rel="canonical" href="https://sameem-the-dev.vercel.app/" data-seo="rel:canonical" />
+    <meta property="og:type" content="profile" data-seo="prop:og:type" />
+    <meta property="og:site_name" content="Sameem Amjad" data-seo="prop:og:site_name" />
+    <meta property="og:title" content="Sameem Amjad — Founder &amp; Lead Engineer · DevoraX" data-seo="prop:og:title" />
+    <meta property="og:description" content="Sameem Amjad — Founder &amp; Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products that scale to millions of users." data-seo="prop:og:description" />
+    <meta property="og:url" content="https://sameem-the-dev.vercel.app/" data-seo="prop:og:url" />
+    <meta property="og:image" content="https://sameem-the-dev.vercel.app/myimage/profile.png" data-seo="prop:og:image" />
+    <meta property="og:locale" content="en_US" data-seo="prop:og:locale" />
+    <meta name="twitter:card" content="summary_large_image" data-seo="name:twitter:card" />
+    <meta name="twitter:image" content="https://sameem-the-dev.vercel.app/myimage/profile.png" data-seo="name:twitter:image" />
+    <!--seo:end-->
+
+    <!-- Fonts come in through an @import in index.css, so the browser only
+         discovers fonts.gstatic.com after the stylesheet parses. Preconnecting
+         here starts the handshake early and takes a chunk off LCP. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
 
     <!-- Boot splash: paints on first byte, before the JS bundle loads.
          Removed by main.jsx once React mounts. Keeps mobile from flashing
