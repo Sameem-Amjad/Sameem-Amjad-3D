@@ -20,16 +20,17 @@
 | 9 | Alt text | ✅ **Fixed** |
 | 10 | Schema markup | ✅ Done — rendered via prerender |
 | 11 | Internal links | ✅ Good |
-| 12 | Broken links | ⚠️ **4 dead — needs your call** |
+| 12 | Broken links | ✅ **Fixed** — dead links removed, checker added |
 | 13 | Compress images | ✅ **Fixed** — 776 KB → 106 KB |
-| 14 | Core Web Vitals | 🟡 Partly — see below |
+| 14 | Core Web Vitals | ✅ **Fonts + chunking done** |
 | 15 | Mobile responsiveness | ✅ Sound in code (not device-tested) |
 | 16 | Enforce HTTPS | ✅ **Fixed** |
 | 17 | URL slugs | ✅ Clean |
 | 18 | llms.txt | ✅ **Added** |
-| 19 | Backlink strategy | ❌ **Needs you** |
+| 19 | Backlink strategy | 📘 **Explained below — your move** |
 
-**15 of 19 done. 4 open — and 3 of those are decisions only you can make.**
+**18 of 19 done.** The last one (backlinks) is off-site work only you can do —
+explained in plain terms at the bottom.
 
 ---
 
@@ -100,83 +101,157 @@ have been stale within a week.
 6.2 KB: profile, all 28 pages grouped into Pages / Case studies / More builds,
 plus outbound profile links.
 
----
+### 12 · Broken links — removed, plus a checker
 
-## Still open
+**WOD Pro League** — site and both store listings 404, so all three links are
+gone and the card renders without badges. `LiveLinks` already hides a project
+with no valid URLs, so nothing broke. Commented with a TODO for when you send
+the current links.
 
-### ⚠️ 12 · Four dead links — I need your call on each
+**Outstride** — both store listings 404, website is live. Store links dropped,
+`out-stride.com` kept.
 
-Verified individually over HTTP, not just in a burst:
+On *"don't show links if they aren't responding"* — that can't be a runtime
+feature. A page can't test its own outbound links, because CORS hides the
+response status from JavaScript; and even if it could, you'd be firing 40
+requests on every page load to hide two badges. It has to be a maintenance job
+instead, so I automated the job:
 
-| Link | Result |
-|---|---|
-| `wodproleague.es` | DNS resolves to `13.61.144.207`, **no HTTP response** |
-| WOD Pro League — Play Store | **404** |
-| WOD Pro League — App Store | **404** |
-| Outstride — Play Store | **404** |
-| Outstride — App Store | **404** |
-
-Both apps 404 on **both** stores. That usually means delisted, not a typo.
-Outstride's website (`out-stride.com`) is still live and returns 200.
-
-**Fix the URLs, or drop the badges?** A dead store badge on a portfolio reads
-worse than no badge — it suggests the work didn't survive. I'd drop the store
-links for both and keep Outstride's web link, but they're your projects and you
-know whether they're coming back.
-
-*Not broken, for the record:* Fiverr returns 403 to bots, and the App Store
-429s in my first pass were my own rate-limiting — they pass on retry.
-
-### 🔴 The booking link — highest-value fix on this page, and it isn't SEO
-
-[`src/constants/index.js:27`](src/constants/index.js#L27)
-
-```js
-calendly: "https://cal.com/", // TODO: replace with your real Calendly / Cal.com link
+```bash
+npm run check:links
 ```
 
-That's the **"Book a call" CTA on every page, in the nav, and in the footer** —
-currently dropping people on cal.com's marketing homepage. Every visitor who
-wants to hire you hits a dead end.
+Walks `src/`, finds every outbound URL, checks it with a browser user-agent and
+a proper connection pool, and reports what's dead and where it's referenced. It
+separates **bot-blocked** hosts (Fiverr 403s every crawler — that's not a dead
+link) from genuinely dead ones, and flags any `http://` that should be `https://`.
+Exit code is always 0 — it reports, it never fails your deploy. A flaky network
+shouldn't block a release.
 
-**Send me the real link and I'll wire it in a minute.**
+Current run: **32 links, all responding.**
 
-### ❌ 19 · Backlink strategy — needs your input
+### 14 · Core Web Vitals — both items done
 
-Can't live in the repo; backlinks are earned off-site. I'll draft a real plan,
-but tell me which of these you actually have or will do:
+**Fonts moved out of CSS.** They were loading via `@import` in `index.css`. An
+`@import` is only discovered *after* the bundled stylesheet downloads and
+parses, so the font request started a full round trip late and blocked first
+paint for that whole window. `preconnect` could not fix this — it warms the TCP
+connection but never tells the browser what to fetch. As a `<link>` in
+`index.html`, the request now goes out with the initial HTML parse, in parallel
+with the CSS.
 
-- [ ] `thedevorax.tech` — does it link back to this portfolio?
-- [ ] GitHub profile README + pinned repos
-- [ ] LinkedIn featured section
-- [ ] Fiverr profile — does it link out?
-- [ ] Client sites willing to carry a "built by" credit
-- [ ] Dev.to / Hashnode / Medium — will you actually write?
-- [ ] Directories: Peerlist, Wellfound, Awwwards, Product Hunt
+**Vendor chunking.** One 427 KB chunk became three:
 
-Fastest real wins are the DevoraX cross-link and client credits — domains you
-or people you know already control. The rest is slower and mostly depends on
-whether you'll write consistently.
+| Chunk | Size | gzip |
+|---|---|---|
+| `react` (react, dom, router) | 162 KB | 53 KB |
+| `motion` (framer-motion) | 105 KB | 36 KB |
+| app code | 159 KB | 48 KB |
 
-### 🟡 14 · Core Web Vitals — two known items left
+Same bytes on a first visit, but editing your copy now invalidates 48 KB of
+cache instead of all 136 KB — returning visitors stop re-downloading React
+because you reworded a heading.
 
-Needs a deployed URL for real numbers (PageSpeed Insights). Statically visible:
+**I did not do route-level `React.lazy`**, though it's the usual advice here. It
+would break the prerender: React 18's `renderToString` can't resolve a lazy
+component, so every page would bake its loading spinner into the static HTML and
+undo the entire SEO gain. The prerender is worth far more than the code split.
 
-1. **427 KB JS in a single chunk**, no code splitting. Route-level lazy loading
-   would cut what `/` has to parse before paint.
-2. **Fonts still load via `@import` in `index.css`** — render-blocking
-   regardless of the new `preconnect` hints, because the browser can't discover
-   the font URL until the stylesheet parses. Moving it to a `<link>` in
-   `index.html` is a straightforward LCP win.
+### The booking CTA — no longer dead
 
-Say the word on either.
+`links.calendly` was `https://cal.com/` — cal.com's *marketing homepage*, not a
+booking page. All **ten** "Book a call" CTAs dead-ended there: nav, hero,
+services, team, FAQ, footer, contact panel, and every work/builds/project page.
 
-### 15 · Mobile — sound, but not device-tested
+It now points at `/#contact`, your own form, which is already wired to EmailJS
+and works. Strictly better than a dead link while you decide on a scheduler.
+**To switch to a real one, change one line** in `src/constants/index.js`.
 
-Tailwind breakpoints used consistently, `min-h-[44px]` on every tap target,
-`overflow-x-hidden` on the shell, a `prefers-reduced-motion` block. I can't
-confirm it without driving a real browser. Ask and I'll run the dev server and
-check properly.
+While doing this I found `PrimaryButton` accepted a `to` prop and silently
+ignored it, so both buttons now route internal links through React Router
+instead of emitting a bare `<a>` that would full-reload the SPA.
+
+---
+
+## Item 19 · Backlinks, explained properly
+
+You asked what this actually means. Here it is without the jargon.
+
+### What a backlink is
+
+A backlink is just **another website linking to yours**. That's the whole
+concept.
+
+Google's original insight was to treat a link as a *vote*. If lots of sites
+link to you, you're probably worth showing. Votes aren't equal, though — a link
+from a site Google already trusts counts for far more than a link from a site
+nobody visits.
+
+### Why you specifically need them
+
+Everything in items 1–18 was **on-page** SEO: making your site legible to
+crawlers. That work is now done, and it's the part you control completely.
+
+But on-page SEO only decides *whether you can rank*. It doesn't make you rank.
+Your domain is `sameem-the-dev.vercel.app` — brand new, on a shared host, with
+**zero** sites linking to it. To Google you're currently indistinguishable from
+an abandoned side project. Perfect markup on a site with no inbound links still
+lands on page 5.
+
+Backlinks are the part that moves you up. They're also the only part that
+can't be done in code — which is why this is the one item I can't finish for you.
+
+### What counts, and what actively hurts
+
+**Real votes:** a relevant site, genuinely choosing to link to you, in
+content a human reads.
+
+**Worthless:** paid link farms, "1000 backlinks for $5" gigs, comment spam,
+directory blasts. Google has classified these for fifteen years. At best they
+do nothing; at worst you get a manual penalty that's slow and painful to
+reverse. **Do not buy backlinks.** If you take one thing from this section,
+that's it.
+
+### Your actual list, ordered by effort-to-payoff
+
+**1 · DevoraX → portfolio.** You own `thedevorax.tech`. Does it link here? If
+not, that's a free link from a relevant domain, and it's a two-minute edit on a
+site you control. Do this first.
+
+**2 · GitHub profile.** Put the URL in your profile's website field and your
+profile README. `github.com` is one of the most trusted domains on the web.
+
+**3 · Fiverr.** You have a 5.0 top-rated profile. Check whether it links out —
+Fiverr may `nofollow` it, which passes less ranking weight, but it still sends
+you *real clients*, which matters more than the SEO.
+
+**4 · Client credits.** The strongest links on your list. You built
+`mypastel.com`, `out-stride.com`, `talservices.co.uk`, `got2.travel`,
+`bondlypets.com` and more. A "Built by Sameem Amjad" in the footer of even
+three of those is exactly the kind of link Google weighs heavily: a real,
+relevant site vouching for you in context. Ask the clients you're on good terms
+with. Some will say yes immediately.
+
+**5 · Profile sites.** LinkedIn featured section, Peerlist, Wellfound. Fast,
+low value individually, but they're 15 minutes total and they establish that the
+same name and site appear consistently across the web — which Google uses to
+connect the dots about who you are.
+
+**6 · Writing.** Dev.to, Hashnode, a personal blog. Highest ceiling by far —
+you've built serverless video pipelines, real-time leaderboards at 120 countries,
+marketplaces moving $1.2B. That's genuinely rare material. But it only works if
+you write *consistently*, and one abandoned post does nothing. Only commit if
+you'll actually keep going.
+
+**Skip entirely:** Awwwards and Product Hunt. They're for launches and visual
+showcases, not engineer portfolios. Poor fit for your time.
+
+### What to expect
+
+Backlinks are slow. Weeks to months before Google recrystallises rankings, not
+days. The DevoraX link and two or three client credits will do more for you than
+everything else on that list combined — and they're the ones you can get this
+week.
 
 ---
 

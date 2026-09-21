@@ -27,11 +27,21 @@
     <meta name="twitter:image" content="https://sameem-the-dev.vercel.app/myimage/profile.png" data-seo="name:twitter:image" />
     <!--seo:end-->
 
-    <!-- Fonts come in through an @import in index.css, so the browser only
-         discovers fonts.gstatic.com after the stylesheet parses. Preconnecting
-         here starts the handshake early and takes a chunk off LCP. -->
+    <!-- Fonts load here, not via @import in index.css. An @import is only
+         discovered after the bundled stylesheet downloads and parses, so the
+         font request starts one round trip late and blocks first paint for
+         that whole window — preconnect cannot fix that, because it warms the
+         connection but never tells the browser what to fetch. As a <link> in
+         the document the request goes out with the initial HTML parse, in
+         parallel with the CSS. `display=swap` keeps text visible meanwhile. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+
+    <!-- Project imagery is served from Supabase Storage. -->
     <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
 
     <!-- Boot splash: paints on first byte, before the JS bundle loads.

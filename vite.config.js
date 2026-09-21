@@ -113,6 +113,26 @@ const seoFiles = () => ({
 });
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ ssrBuild }) => ({
   plugins: [react(), seoFiles()],
-});
+  build: {
+    rollupOptions: {
+      /* Client build only. The SSR pass shares this config and treats react
+         as external, so naming it in manualChunks there fails the build. */
+      output: ssrBuild
+        ? {}
+        : {
+            /* Split the framework and animation libs out of the app chunk.
+               Deliberately NOT route-level React.lazy: the prerenderer uses
+               renderToString, which cannot resolve a lazy component, so every
+               page would bake its Suspense fallback into the static HTML and
+               undo the prerender. Same bytes on a cold visit, but app edits
+               stop invalidating the vendor code that never changed. */
+            manualChunks: {
+              react: ["react", "react-dom", "react-router-dom"],
+              motion: ["framer-motion"],
+            },
+          },
+    },
+  },
+}));

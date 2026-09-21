@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { sized, srcSetFor } from "../utils/img";
 
@@ -82,11 +83,25 @@ export const Eyebrow = ({ children, index, dot = true, className }) => (
 );
 
 /* ───────────────── Buttons ───────────────── */
+/* Link resolution —
+   One rule for both buttons. An external href opens in a new tab; an
+   in-app path ("/work", "/#contact") goes through the router instead of a
+   bare <a>, which would full-reload the SPA and throw away the loaded
+   bundle. `to` was previously accepted by PrimaryButton and silently
+   ignored — it works now. */
+const resolveTag = ({ href, to, onClick }) => {
+  const dest = to || href;
+  const external = typeof dest === "string" && /^(https?:|mailto:|tel:)/.test(dest);
+
+  if (!dest) return ["button", { onClick }];
+  if (external)
+    return ["a", { href: dest, target: dest.startsWith("http") ? "_blank" : undefined,
+                   rel: dest.startsWith("http") ? "noopener noreferrer" : undefined, onClick }];
+  return [Link, { to: dest, onClick }];
+};
+
 export const PrimaryButton = ({ children, href, to, icon = "arrowRight", onClick, className }) => {
-  const Tag = href ? "a" : "button";
-  const linkProps = href
-    ? { href, target: href.startsWith("http") ? "_blank" : undefined, rel: href.startsWith("http") ? "noopener noreferrer" : undefined }
-    : { onClick };
+  const [Tag, linkProps] = resolveTag({ href, to, onClick });
   return (
     <Magnetic>
       <Tag {...linkProps}
@@ -107,11 +122,8 @@ export const PrimaryButton = ({ children, href, to, icon = "arrowRight", onClick
   );
 };
 
-export const GhostButton = ({ children, href, icon, onClick, className }) => {
-  const Tag = href ? "a" : "button";
-  const linkProps = href
-    ? { href, target: href.startsWith("http") ? "_blank" : undefined, rel: href.startsWith("http") ? "noopener noreferrer" : undefined }
-    : { onClick };
+export const GhostButton = ({ children, href, to, icon, onClick, className }) => {
+  const [Tag, linkProps] = resolveTag({ href, to, onClick });
   return (
     <Tag {...linkProps} data-cursor="button"
       className={cn(

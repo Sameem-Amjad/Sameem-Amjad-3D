@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────
 //  Real portfolio data for Sameem Amjad — Founder & Lead Engineer, DevoraX
 //  Projects sourced from the DevoraX case-study (Supabase `projects` table).
-//  NOTE: one placeholder link remains — `links.calendly`. Flagged below.
+//  NOTE: `links.calendly` points at the on-site contact form, not a
+//  scheduler. See the comment on it below.
 // ─────────────────────────────────────────────────────────────
 
 import { caseStudies } from "./caseStudies";
@@ -24,7 +25,13 @@ export const profile = {
 export const links = {
   devorax: "https://thedevorax.tech",
   fiverr: "https://www.fiverr.com/sameemamjad", // confirmed from fiverr_reviews.json freelancerUrl
-  calendly: "https://cal.com/", // TODO: replace with your real Calendly / Cal.com link
+  // Booking: points at the on-site contact form for now. It was
+  // "https://cal.com/" — cal.com's own marketing homepage, not a booking
+  // page — so all ten "Book a call" CTAs dead-ended there. The form below
+  // is already wired to EmailJS and works, which makes it strictly better
+  // than a dead link while the real scheduler is decided.
+  // To switch to a real one, change this single line to the booking URL.
+  calendly: "/#contact",
   email: "mailto:sameemamjadarsu@gmail.com",
 };
 
@@ -285,10 +292,9 @@ export const featuredProjects = [
       { k: "Countries", v: "120+" },
     ],
     tags: ["Flutter", "React", "Node.js", "AWS", "Redis"],
-    web: "https://wodproleague.es/",
-    android:
-      "https://play.google.com/store/apps/details?id=com.webrangesolutions.wod_pro_league",
-    ios: "https://apps.apple.com/pk/app/wod-pro-league/id6538719686",
+    // Site and both store listings 404 as of 2026-09-21. LiveLinks hides a
+    // project with no valid URLs, so the card shows without dead badges.
+    // TODO: restore when Sameem supplies the current links.
   },
   {
     title: "JUJU Streaming",
@@ -508,9 +514,8 @@ export const moreProjects = [
     ],
     tags: ["React", "Frontend"],
     web: "https://out-stride.com/",
-    android:
-      "https://play.google.com/store/apps/details?id=com.webrange.outstride&hl=en",
-    ios: "https://apps.apple.com/us/app/outstride/id6736747732",
+    // Both store listings 404 as of 2026-09-21 (the site is live). Dropped
+    // rather than shown broken — a dead badge reads worse than no badge.
   },
   {
     title: "Food Magnet",
