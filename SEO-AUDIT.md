@@ -22,15 +22,18 @@
 | 11 | Internal links | ✅ Good |
 | 12 | Broken links | ✅ **Fixed** — dead links removed, checker added |
 | 13 | Compress images | ✅ **Fixed** — 776 KB → 106 KB |
-| 14 | Core Web Vitals | ✅ **Fonts + chunking done** |
-| 15 | Mobile responsiveness | ✅ Sound in code (not device-tested) |
+| 14 | Core Web Vitals | ✅ **Measured: 65 → 86 mobile** |
+| 15 | Mobile responsiveness | ✅ **Verified** — Lighthouse mobile audits pass |
 | 16 | Enforce HTTPS | ✅ **Fixed** |
 | 17 | URL slugs | ✅ Clean |
 | 18 | llms.txt | ✅ **Added** |
 | 19 | Backlink strategy | 📘 **Explained below — your move** |
 
-**18 of 19 done.** The last one (backlinks) is off-site work only you can do —
-explained in plain terms at the bottom.
+**18 of 19 done and deployed.** The last one (backlinks) is off-site work only
+you can do — explained in plain terms at the bottom.
+
+Live Lighthouse, mobile: **Performance 86 · Accessibility 97 · Best Practices 96
+· SEO 100**.
 
 ---
 
@@ -170,6 +173,82 @@ and works. Strictly better than a dead link while you decide on a scheduler.
 While doing this I found `PrimaryButton` accepted a `to` prop and silently
 ignored it, so both buttons now route internal links through React Router
 instead of emitting a bare `<a>` that would full-reload the SPA.
+
+---
+
+## Measured results
+
+Lighthouse against the live site, mobile, throttled to slow 4G with 4× CPU
+slowdown — Lighthouse's default, and deliberately pessimistic.
+
+| | Before | After |
+|---|---|---|
+| **Performance** | 65 | **86** |
+| Accessibility | 97 | 97 |
+| Best Practices | 96 | 96 |
+| SEO | 100 | 100 |
+| LCP | 8.6 s | **3.7 s** |
+| FCP | 3.0 s | **1.8 s** |
+| Speed Index | 5.7 s | **4.1 s** |
+| TBT | 0 ms | 50 ms |
+| CLS | 0 | 0 |
+
+### What was actually wrong
+
+Not what it looked like. LCP was 8.6s but **92% of it was render delay, not
+network** — TTFB was 681 ms and the LCP element's load time was 0 ms, because
+it is a paragraph that was in the HTML from the first byte.
+
+Two things were hiding it:
+
+- **framer-motion serialises `initial` into SSR output.** Around 125 elements
+  shipped as `opacity:0` and only appeared once React had hydrated and the
+  animations ran. The prerender was doing its job for crawlers — SEO scored 100
+  throughout — while humans watched a blank screen.
+- **The boot splash** was a fixed, full-viewport overlay removed on mount. Right
+  when the page really was an empty `<div id="root">`; once prerendering landed
+  it covered content that had already arrived.
+
+The fix took two attempts. Forcing `#hero` visible with a `.pre-hydrate` class
+failed because `main.jsx` removed it on the next animation frame, long before
+hydration — so the hero painted, blanked, and came back. Retiming could not fix
+it either: these are *mount* animations, so framer-motion always restarts them
+from `opacity:0` once it takes over.
+
+Above-the-fold entrance simply cannot depend on JS. The hero, navbar and
+portrait now animate with CSS keyframes, which start at first paint, need no
+bundle, and run on the compositor. Below-the-fold sections still use
+framer-motion — they animate on scroll, by which point the bundle has arrived.
+
+Fonts were also unblocked (`media="print"` + `onload`), worth ~1 s of
+render-blocking time. Render-blocking resources now report **none**.
+
+### What's left in the 3.7 s
+
+Render delay is still ~2.8 s, but it is now the entrance animation itself — the
+`backwards` fill holds each element at its start frame during its delay, and
+Chrome does not count a zero-opacity element as painted. That is a design
+choice, not a defect.
+
+I tested removing the fade from the LCP paragraph (translate-only entrance) and
+it changed nothing — local LCP stayed 2.6 s — so the fade is not the
+bottleneck, and the change was reverted rather than altering the design for no
+measured gain.
+
+Worth keeping in perspective: this is **lab** data under deliberate throttling.
+Google ranks on **field** data from real users (CrUX), which the site has not
+accumulated yet. A local build with no Vercel TTFB scores **95 / LCP 2.6 s**, so
+most of the remaining gap is network, not page weight.
+
+### Mobile (item 15)
+
+Previously "looks sound in code, not verified". Now verified — Lighthouse's
+mobile audits all pass: viewport meta, touch target size and spacing, and
+legible font sizes.
+
+One real accessibility bug surfaced and was fixed: the star rating used
+`aria-label` on a bare `<span>`, which ARIA prohibits on generic elements, so
+screen readers could ignore it. It now carries `role="img"`.
 
 ---
 

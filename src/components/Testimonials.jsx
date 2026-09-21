@@ -6,7 +6,7 @@ import { SectionHeading, Section, Icon, cn } from "./shared";
 const SHOWN = 6;
 
 const Stars = ({ n = 5 }) => (
-  <span className="flex gap-0.5" aria-label={`${n} out of 5 stars`}>
+  <span className="flex gap-0.5" role="img" aria-label={`${n} out of 5 stars`}>
     {Array.from({ length: n }).map((_, i) => (
       <Icon key={i} name="star" className="h-3 w-3 text-acid" />
     ))}
