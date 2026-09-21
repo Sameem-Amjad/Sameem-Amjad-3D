@@ -20,7 +20,7 @@ const clamp = (s = "", max = 158) => {
   if (t.length <= max) return t;
   const cut = t.slice(0, max - 1);
   const stop = cut.lastIndexOf(" ");
-  return `${(stop > max * 0.6 ? cut.slice(0, stop) : cut).replace(/[\s,;:.–—-]+$/, "")}…`;
+  return `${(stop > max * 0.6 ? cut.slice(0, stop) : cut).replace(/[\s,;:.·–—-]+$/, "")}…`;
 };
 
 /* "/work/foo/" and "/work/foo" are the same page — pick one spelling so the

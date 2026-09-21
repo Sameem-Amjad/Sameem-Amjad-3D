@@ -41,9 +41,15 @@ if (!SEO_BLOCK.test(template) || !template.includes(ROOT_DIV)) {
 const fileFor = (route) =>
   route === "/" ? join(DIST, "index.html") : join(DIST, route, "index.html");
 
-// Visible text, ignoring markup. Used as the floor below which a route is
-// treated as a failed render rather than a page.
-const textLength = (html) => html.replace(/<[^>]+>/g, " ").trim().length;
+/* Visible text inside <main>, i.e. the routed content only.
+   Measuring the whole document is useless here: Navbar and Footer sit outside
+   <Routes>, so a route that renders nothing still scores several hundred
+   characters of chrome and sails past any floor. */
+const mainText = (html) =>
+  (html.match(/<main[^>]*>([\s\S]*)<\/main>/)?.[1] ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim().length;
 const MIN_TEXT = 200;
 
 let written = 0;
@@ -58,10 +64,10 @@ for (const route of seoRoutes) {
     // returning null, or a <Navigate> short-circuiting, produces a valid but
     // empty page. main.jsx then sees a non-empty #root and hydrates the
     // emptiness rather than rendering, so the route ships permanently blank.
-    if (textLength(appHtml) < MIN_TEXT) {
+    if (mainText(appHtml) < MIN_TEXT) {
       throw new Error(
-        `rendered almost no text (${textLength(appHtml)} chars) — the route ` +
-          `resolved but produced an empty page`
+        `<main> rendered ${mainText(appHtml)} chars of text (floor ${MIN_TEXT}) ` +
+          `— the route resolved but produced an empty page`
       );
     }
 
