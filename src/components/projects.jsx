@@ -5,10 +5,12 @@ import { projectFilters, slugify } from "../constants";
 import { LiveLinks, Icon, SmartImage, cn } from "./shared";
 
 /* image with shimmer skeleton while loading + graceful gradient fallback */
-const ProjectImage = ({ image, title, accent, className, width = 700 }) => (
+const ProjectImage = ({ image, title, tagline, accent, className, width = 700 }) => (
   <SmartImage
     src={image}
-    alt={title}
+    // The heading beside this already says the title, so repeating it alone
+    // adds nothing for a screen reader. The tagline says what was built.
+    alt={tagline ? `${title} — ${tagline}` : `${title} project screenshot`}
     width={width}
     className={cn("h-full w-full object-cover", className)}
     fallback={
@@ -59,7 +61,7 @@ export const FeaturedCard = ({ p, i }) => (
     />
 
     <div className="relative h-56 overflow-hidden">
-      <ProjectImage image={p.image} title={p.title} accent={p.accent} width={700}
+      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={700}
         className="grayscale-[0.35] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.06]" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
       <span className="absolute left-4 top-4 rounded-full border border-line bg-base/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink backdrop-blur">
@@ -108,7 +110,7 @@ export const GridCard = ({ p }) => (
     />
 
     <div className="relative h-40 overflow-hidden">
-      <ProjectImage image={p.image} title={p.title} accent={p.accent} width={520}
+      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={520}
         className="grayscale-[0.4] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
       <span className="absolute bottom-3 right-3 grid h-8 w-8 translate-y-1 place-items-center rounded-full border border-line bg-base/70 text-acid opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -117,7 +119,7 @@ export const GridCard = ({ p }) => (
     </div>
     <div className="flex flex-1 flex-col gap-3 p-5">
       <div>
-        <h4 className="font-display text-lg font-bold text-ink transition-colors group-hover:text-acid">{p.title}</h4>
+        <h3 className="font-display text-lg font-bold text-ink transition-colors group-hover:text-acid">{p.title}</h3>
         <p className="font-mono text-[11px] text-faint">{p.category}</p>
       </div>
       <p className="text-sm leading-relaxed text-muted line-clamp-2">{p.description}</p>

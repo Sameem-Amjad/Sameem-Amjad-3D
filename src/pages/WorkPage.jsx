@@ -25,6 +25,9 @@ const WorkPage = () => (
       />
 
       <div className="mt-14">
+        {/* Cards inside the grid are h3s; without this the page steps h1 -> h3.
+            sr-only because PageHeader above already carries the label visually. */}
+        <h2 className="sr-only">Featured case studies</h2>
         <FeaturedGrid items={featuredProjects} />
       </div>
 

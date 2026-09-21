@@ -1,6 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { ORIGIN, seoRoutes } from "./src/constants/seo.js";
+import { ORIGIN, seoRoutes, seoForPath } from "./src/constants/seo.js";
+import {
+  profile,
+  links,
+  featuredProjects,
+  moreProjects,
+  slugify,
+} from "./src/constants/index.js";
 
 // Date the site's *content* was last revised — not the date of the last build.
 // Bump this when project copy or case-study text actually changes.
@@ -27,7 +34,43 @@ ${routes
 </urlset>
 `;
 
-/* Emits sitemap.xml + robots.txt at build time from the same route list the
+/* llmstxt.org format — the machine-readable index assistants look for.
+   Built from seoForPath, the same resolver the prerenderer and <Seo> use, so
+   the blurb an LLM reads is the blurb Google reads. A second hand-kept copy
+   would be wrong within a week. */
+const buildLlmsTxt = () => {
+  const line = (path, label) => {
+    const { title, description } = seoForPath(path);
+    return `- [${label || title}](${ORIGIN}${path}): ${description}`;
+  };
+  const project = (p) => line(`/work/${slugify(p.title)}`, p.title);
+
+  return `# ${profile.name}
+
+> ${profile.subheadline}
+
+${profile.role} at ${profile.company}. ${profile.location}. Contact: ${profile.email}
+
+## Pages
+
+${["/", "/work", "/builds"].map((r) => line(r)).join("\n")}
+
+## Case studies
+
+${featuredProjects.map(project).join("\n")}
+
+## More builds
+
+${moreProjects.map(project).join("\n")}
+
+## Elsewhere
+
+- [${profile.company}](${links.devorax}): the studio I founded and lead
+- [Fiverr](${links.fiverr}): freelance profile and client reviews
+`;
+};
+
+/* Emits sitemap.xml, robots.txt and llms.txt at build time from the same route list the
    prerenderer walks — so a project added to src/constants/index.js can't end
    up prerendered but missing from the sitemap, or the reverse. */
 const seoFiles = () => ({
@@ -60,6 +103,11 @@ const seoFiles = () => ({
       type: "asset",
       fileName: "robots.txt",
       source: `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`,
+    });
+    this.emitFile({
+      type: "asset",
+      fileName: "llms.txt",
+      source: buildLlmsTxt(),
     });
   },
 });

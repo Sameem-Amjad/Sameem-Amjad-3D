@@ -218,7 +218,7 @@ const Hero = () => {
             className="relative aspect-square overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-card"
           >
             <img
-              src="/myimage/profile.png"
+              src="/myimage/profile.webp"
               alt={`${profile.name}, ${profile.role} at ${profile.company}`}
               width={1254}
               height={1254}

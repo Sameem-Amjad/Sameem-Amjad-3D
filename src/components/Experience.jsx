@@ -19,7 +19,7 @@ const Mark = ({ org, logo }) => {
       {logo ? (
         <SmartImage
           src={logo}
-          alt=""
+          alt={`${org} logo`}
           className="h-8 w-8 object-contain"
           fallback={
             <span className="font-display text-sm font-bold text-night">{initials}</span>

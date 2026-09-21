@@ -25,6 +25,9 @@ const BuildsPage = () => (
       />
 
       <div className="mt-14">
+        {/* Same reason as /work: the grid renders h3 cards, so the page needs
+            an h2 between them and the PageHeader h1. */}
+        <h2 className="sr-only">More builds</h2>
         <BuildsGrid items={moreProjects} />
       </div>
 

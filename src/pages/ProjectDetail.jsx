@@ -21,13 +21,17 @@ import {
   cn,
 } from "../components/shared";
 
-/* Terminal-style numbered section label: 01 // the problem */
+/* Terminal-style numbered section label: 01 // the problem.
+   An h2, not a p: it is the visual section heading, and the feature cards
+   below it are h3s — as a p the page stepped h1 -> h3 and the case-study
+   structure was invisible to crawlers on the pages most meant to rank.
+   `mono-label` carries the sizing, so nothing moves. */
 const SectionLabel = ({ n, children }) => (
-  <p className="mono-label mb-5 flex items-center gap-2 text-acid">
+  <h2 className="mono-label mb-5 flex items-center gap-2 text-acid">
     <span className="text-faint">{n}</span>
     <span className="text-faint">//</span>
     {children}
-  </p>
+  </h2>
 );
 
 /* One row in the spec.config panel */

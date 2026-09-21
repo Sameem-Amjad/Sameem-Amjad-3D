@@ -31,9 +31,9 @@ const TeamCard = ({ m, i }) => (
     </div>
     <div className="flex flex-1 flex-col gap-3 p-6">
       <div>
-        <h4 className="font-display text-2xl font-bold text-ink transition-colors group-hover:text-acid">
+        <h3 className="font-display text-2xl font-bold text-ink transition-colors group-hover:text-acid">
           {m.name}
-        </h4>
+        </h3>
         <p className="mt-1 font-mono text-xs text-acid">{m.role}</p>
         <p className="mt-1.5 font-mono text-[11px] leading-relaxed text-faint">{m.title}</p>
       </div>
