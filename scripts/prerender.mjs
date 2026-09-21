@@ -41,6 +41,11 @@ if (!SEO_BLOCK.test(template) || !template.includes(ROOT_DIV)) {
 const fileFor = (route) =>
   route === "/" ? join(DIST, "index.html") : join(DIST, route, "index.html");
 
+// Visible text, ignoring markup. Used as the floor below which a route is
+// treated as a failed render rather than a page.
+const textLength = (html) => html.replace(/<[^>]+>/g, " ").trim().length;
+const MIN_TEXT = 200;
+
 let written = 0;
 const failures = [];
 
@@ -49,9 +54,24 @@ for (const route of seoRoutes) {
     const seo = seoForPath(route);
     const appHtml = render(route);
 
+    // A route that renders to almost nothing doesn't throw — a component
+    // returning null, or a <Navigate> short-circuiting, produces a valid but
+    // empty page. main.jsx then sees a non-empty #root and hydrates the
+    // emptiness rather than rendering, so the route ships permanently blank.
+    if (textLength(appHtml) < MIN_TEXT) {
+      throw new Error(
+        `rendered almost no text (${textLength(appHtml)} chars) — the route ` +
+          `resolved but produced an empty page`
+      );
+    }
+
+    // Function replacers: a plain replacement string treats $&, $` and $' as
+    // substitution patterns, and React escapes an apostrophe to &#x27; — so a
+    // literal "$" before one in any project copy would splice the matched text
+    // into the middle of the page.
     const html = template
-      .replace(SEO_BLOCK, headTagsToHtml(seo))
-      .replace(ROOT_DIV, `<div id="root">${appHtml}</div>`);
+      .replace(SEO_BLOCK, () => headTagsToHtml(seo))
+      .replace(ROOT_DIV, () => `<div id="root">${appHtml}</div>`);
 
     const file = fileFor(route);
     await mkdir(dirname(file), { recursive: true });
@@ -70,8 +90,8 @@ const notFound = seoForPath("/__not-found__");
 await writeFile(
   join(DIST, "404.html"),
   template
-    .replace(SEO_BLOCK, headTagsToHtml(notFound))
-    .replace(ROOT_DIV, `<div id="root">${render("/__not-found__")}</div>`),
+    .replace(SEO_BLOCK, () => headTagsToHtml(notFound))
+    .replace(ROOT_DIV, () => `<div id="root">${render("/__not-found__")}</div>`),
   "utf8"
 );
 

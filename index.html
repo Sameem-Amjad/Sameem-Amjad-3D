@@ -108,6 +108,24 @@
         }
       }
     </style>
+
+    <!-- Prerendered markup is present in the HTML but invisible without JS:
+         #boot is an opaque fixed overlay that only main.jsx removes, and every
+         framer-motion element ships its `initial` state as inline opacity:0.
+         A crawler that doesn't execute scripts would see a blank near-black
+         page — exactly what prerendering exists to prevent. Scoped to
+         <noscript>, so the animated first paint is untouched when JS runs. -->
+    <noscript>
+      <style>
+        #boot {
+          display: none !important;
+        }
+        [style*="opacity:0"] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

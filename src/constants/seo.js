@@ -91,6 +91,29 @@ const projectListItems = (list) =>
     name: p.title,
   }));
 
+/* Every page's @graph must DEFINE the @ids it references. Citing
+   ".../#person" from a project page while only the homepage defines that node
+   leaves a dangling reference, and consumers drop the relation rather than
+   resolving it across documents. These three are cheap and self-contained, so
+   each page carries its own copy. */
+const SHARED_NODES = [person, organization, website];
+
+/* Google truncates titles around 60 characters. Drop the brand suffix before
+   letting the subtitle be cut, and cut the subtitle before the project name —
+   a title truncated mid-word reads as broken in the SERP. */
+const TITLE_MAX = 60;
+const composeTitle = (head, subtitle, brand) => {
+  const full = subtitle ? `${head} — ${subtitle} · ${brand}` : `${head} · ${brand}`;
+  if (full.length <= TITLE_MAX) return full;
+
+  const noBrand = subtitle ? `${head} — ${subtitle}` : head;
+  if (noBrand.length <= TITLE_MAX) return noBrand;
+
+  const room = TITLE_MAX - head.length - 3;
+  if (subtitle && room >= 12) return `${head} — ${clamp(subtitle, room)}`;
+  return clamp(head, TITLE_MAX);
+};
+
 /* ── Static routes ───────────────────────────────────────── */
 
 const STATIC = {
@@ -127,6 +150,7 @@ const STATIC = {
         { name: "Home", path: "/" },
         { name: "Work", path: "/work" },
       ]),
+      ...SHARED_NODES,
     ],
   },
   "/builds": {
@@ -148,6 +172,7 @@ const STATIC = {
         { name: "Home", path: "/" },
         { name: "Builds", path: "/builds" },
       ]),
+      ...SHARED_NODES,
     ],
   },
 };
@@ -169,9 +194,7 @@ export const seoForPath = (pathname = "/") => {
     return {
       path,
       canonical: `${ORIGIN}/work/${slug}`,
-      title: subtitle
-        ? `${project.title} — ${subtitle} · ${profile.name}`
-        : `${project.title} · ${profile.name}`,
+      title: composeTitle(project.title, subtitle, profile.name),
       description: clamp(project.description || subtitle || project.title),
       image: ogFor(project),
       type: "article",
@@ -194,6 +217,7 @@ export const seoForPath = (pathname = "/") => {
           { name: "Work", path: "/work" },
           { name: project.title, path: `/work/${slug}` },
         ]),
+        ...SHARED_NODES,
       ],
     };
   }
@@ -207,8 +231,9 @@ export const seoForPath = (pathname = "/") => {
     return {
       path,
       canonical: null,
-      title: STATIC["/"].title,
-      description: STATIC["/"].description,
+      title: `Page not found · ${profile.name}`,
+      description:
+        "That page doesn't exist. Browse the work, the builds, or head back to the homepage.",
       image: DEFAULT_OG_IMAGE,
       type: "website",
       robots: "noindex,follow",

@@ -233,7 +233,17 @@ export const SmartImage = ({
   width,
 }) => {
   const [status, setStatus] = useState("loading"); // loading | loaded | error
+  const imgRef = useRef(null);
   const valid = src && src !== '""' && src !== "null";
+
+  /* Pages are prerendered, so the <img> is in the HTML and the browser often
+     finishes fetching it before React hydrates. That load fires no React
+     onLoad — the handler attaches afterwards — leaving the image stuck at
+     opacity:0 behind its skeleton forever. Reconcile with the DOM on mount. */
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete) setStatus(el.naturalWidth > 0 ? "loaded" : "error");
+  }, []);
 
   if ((!valid || status === "error") && fallback) return fallback;
 
@@ -248,6 +258,7 @@ export const SmartImage = ({
         <span className={cn("skeleton absolute inset-0", skeletonClassName)} aria-hidden="true" />
       )}
       <img
+        ref={imgRef}
         src={finalSrc}
         srcSet={set}
         alt={alt}
