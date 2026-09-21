@@ -23,13 +23,14 @@ if (container.hasChildNodes()) {
   ReactDOM.createRoot(container).render(app);
 }
 
-/* Dismiss the pre-React boot splash once the app has painted. */
-const boot = document.getElementById("boot");
-if (boot) {
-  requestAnimationFrame(() => {
-    boot.classList.add("boot-done");
-    boot.addEventListener("transitionend", () => boot.remove(), { once: true });
-    // Fallback in case the transitionend event never fires.
-    setTimeout(() => boot.remove(), 800);
-  });
-}
+/* Hand the hero back to framer-motion.
+   index.html marks <html class="pre-hydrate"> and forces the above-the-fold
+   block visible, so the prerendered text paints immediately instead of waiting
+   for this bundle. Once React has mounted, the inline opacity:0 styles are
+   framer-motion's to drive again, so the override comes off.
+
+   Deferred a frame past createRoot so the removal lands after the first
+   committed paint, not between hydration and it. */
+requestAnimationFrame(() => {
+  document.documentElement.classList.remove("pre-hydrate");
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="pre-hydrate">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
@@ -36,86 +36,48 @@
          parallel with the CSS. `display=swap` keeps text visible meanwhile. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- media="print" makes the browser fetch this without blocking the first
+         paint, and onload flips it to "all" so it applies the moment it lands.
+         As a plain stylesheet it cost ~1s of render-blocking time on mobile;
+         `display=swap` already means text is readable in a fallback face
+         meanwhile, so blocking bought nothing. <noscript> keeps it working
+         with JS disabled. -->
     <link
       rel="stylesheet"
+      media="print"
+      onload="this.media='all';this.onload=null"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
 
     <!-- Project imagery is served from Supabase Storage. -->
     <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
 
-    <!-- Boot splash: paints on first byte, before the JS bundle loads.
-         Removed by main.jsx once React mounts. Keeps mobile from flashing
-         a blank white screen on slow connections. -->
+    <!-- Framer Motion serialises its `initial` state into the prerendered
+         HTML, so ~125 elements ship as opacity:0 and only become visible once
+         React has hydrated and the animations run. The content was in the
+         HTML the whole time, but on mobile that put LCP at 8.6s, 92% of it
+         render delay rather than network.
+
+         Until hydration, show the above-the-fold block. Scoped to #hero on
+         purpose: everything below it animates on scroll, and forcing those
+         visible would make them flash in and back out when framer-motion
+         takes over. main.jsx drops .pre-hydrate on mount, after which
+         framer-motion owns these styles again.
+
+         There was a boot splash here — a fixed, full-viewport overlay shown
+         until React mounted. It made sense when the page really was an empty
+         <div id="root">; once prerendering landed it covered content that had
+         already arrived, so it is gone. -->
     <style>
-      #boot {
-        position: fixed;
-        inset: 0;
-        z-index: 200;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 22px;
-        background: #0a0a0b;
-        transition: opacity 0.5s ease;
-      }
-      #boot.boot-done {
-        opacity: 0;
-        pointer-events: none;
-      }
-      #boot .boot-mark {
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-weight: 700;
-        font-size: clamp(1.5rem, 6vw, 2.25rem);
-        letter-spacing: -0.02em;
-        color: #f4f1ea;
-      }
-      #boot .boot-mark b {
-        color: #c6ff3d;
-        font-weight: 700;
-      }
-      #boot .boot-bar {
-        position: relative;
-        width: min(180px, 42vw);
-        height: 3px;
-        border-radius: 999px;
-        overflow: hidden;
-        background: rgba(244, 241, 234, 0.08);
-      }
-      #boot .boot-bar::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        transform: translateX(-100%);
-        background: linear-gradient(
-          90deg,
-          transparent,
-          #c6ff3d 50%,
-          transparent
-        );
-        animation: boot-sweep 1.2s ease-in-out infinite;
-      }
-      #boot .boot-tag {
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 11px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #8a8478;
-      }
-      @keyframes boot-sweep {
-        100% {
-          transform: translateX(100%);
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        #boot .boot-bar::after {
-          animation: none;
-          transform: none;
-        }
-        #boot {
-          transition: none;
-        }
+      .pre-hydrate #hero [style*="opacity:0"] {
+        opacity: 1 !important;
+        transform: none !important;
       }
     </style>
 
@@ -139,9 +101,6 @@
   </head>
   <body>
     <div id="root"></div>
-
-    <div id="boot" aria-hidden="true">
-      <div class="boot-mark">Sameem<b>.</b></div>
       <div class="boot-bar"></div>
       <div class="boot-tag">Loading portfolio</div>
     </div>
