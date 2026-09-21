@@ -4,9 +4,15 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Stats from "./Stats";
 import Marquee from "./Marquee";
-import About from "./About";
+import Services from "./Services";
 import Works from "./Works";
+import Showcase from "./Showcase";
+import Stack from "./Stack";
 import Process from "./Process";
+import Experience from "./Experience";
+import Team from "./Team";
+import Testimonials from "./Testimonials";
+import Faq from "./Faq";
 import Contact from "./Contact";
 import Footer from "./Footer";
 
@@ -16,9 +22,15 @@ export {
   Hero,
   Stats,
   Marquee,
-  About,
+  Services,
   Works,
+  Showcase,
+  Stack,
   Process,
+  Experience,
+  Team,
+  Testimonials,
+  Faq,
   Contact,
   Footer,
 };

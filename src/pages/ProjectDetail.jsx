@@ -8,7 +8,7 @@ import {
   profile,
   links,
 } from "../constants";
-import { PageTransition, ShaderOrb } from "../components/fx";
+import { PageTransition } from "../components/fx";
 import {
   Icon,
   PrimaryButton,
@@ -17,6 +17,7 @@ import {
   Reveal,
   LiveLinks,
   SmartImage,
+  Eyebrow,
   cn,
 } from "../components/shared";
 
@@ -115,13 +116,20 @@ const ProjectDetail = () => {
 
       {/* ── hero ── */}
       <section ref={heroRef} className="relative overflow-hidden mx-auto max-w-7xl px-6 pb-6 pt-10 sm:px-10">
-        <ShaderOrb className="pointer-events-none absolute right-[-32%] top-2 h-44 w-44 opacity-40 sm:right-[-10%] sm:top-16 sm:h-72 sm:w-72 sm:opacity-60 lg:right-[1%] lg:h-80 lg:w-80" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[-20%] top-4 h-56 w-56 rounded-full bg-ember/12 blur-[100px] sm:right-[-4%] sm:top-12 sm:h-80 sm:w-80 lg:right-[4%] lg:h-96 lg:w-96"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[6%] top-24 h-40 w-40 rounded-full bg-acid/10 blur-[80px] lg:right-[14%]"
+        />
 
         <div className="relative">
           <Reveal>
-            <p className="mono-label mb-5 text-acid">{project.category}</p>
+            <Eyebrow>{project.category}</Eyebrow>
           </Reveal>
-          <h1 className="font-display text-[2.6rem] font-bold leading-[0.98] tracking-tight text-ink [overflow-wrap:anywhere] xs:text-5xl sm:text-7xl sm:leading-[0.95] lg:text-[5.5rem]">
+          <h1 className="mt-5 font-display text-[2.6rem] font-bold leading-[0.98] tracking-tight text-ink [overflow-wrap:anywhere] xs:text-5xl sm:text-7xl sm:leading-[0.95] lg:text-[5.5rem]">
             <MaskLine>{project.title}</MaskLine>
           </h1>
           <Reveal delay={0.1}>
@@ -154,6 +162,7 @@ const ProjectDetail = () => {
                   src={project.image}
                   alt={project.title}
                   eager
+                  width={1400}
                   className="h-full w-full object-cover"
                   fallback={
                     <div className={cn("flex h-full w-full items-center justify-center bg-gradient-to-br", project.accent)}>

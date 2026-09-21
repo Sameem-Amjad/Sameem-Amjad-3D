@@ -12,10 +12,11 @@ module.exports = {
         surface: "#141414",
         "surface-2": "#1a1a1b",
         line: "rgba(244,241,234,0.10)",
+        "line-strong": "rgba(244,241,234,0.18)",
         // Editorial cream ink
         ink: "#f4f1ea",
         muted: "#b3ada1",
-        faint: "#7d776c",
+        faint: "#8a8478",
         // Developer-terminal acid accent
         acid: {
           DEFAULT: "#c6ff3d",
@@ -46,8 +47,20 @@ module.exports = {
         acid: "0 0 0 1px rgba(198,255,61,0.4), 0 18px 60px -20px rgba(198,255,61,0.35)",
         brut: "6px 6px 0 0 #c6ff3d",
         soft: "0 24px 70px -24px rgba(0,0,0,0.7)",
+        // new: accent glows for pills / CTAs
+        glow: "0 0 24px -4px rgba(198,255,61,0.45), 0 0 60px -20px rgba(198,255,61,0.35)",
+        "glow-sm": "0 0 12px -2px rgba(198,255,61,0.55)",
+        "glow-ember": "0 0 30px -6px rgba(255,106,61,0.45)",
+        lift: "0 30px 80px -40px rgba(0,0,0,0.9)",
       },
       screens: { xs: "450px" },
+      // Tailwind's stock opacity scale skips most values (no 8, 12, 15, 35,
+      // 45, 88...), and a miss is silent: `bg-base/88` simply emits nothing and
+      // the scrim disappears. Full 0-100 in steps of 1; JIT only ships what's
+      // actually used, so this costs nothing in the bundle.
+      opacity: Object.fromEntries(
+        Array.from({ length: 101 }, (_, i) => [i, String(i / 100)])
+      ),
       backgroundImage: {
         "grid-lines":
           "linear-gradient(to right, rgba(244,241,234,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(244,241,234,0.045) 1px, transparent 1px)",
@@ -62,6 +75,7 @@ module.exports = {
           "50%": { backgroundPosition: "100% 50%" },
         },
         float: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-16px)" } },
+        "float-sm": { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-8px)" } },
         blob: {
           "0%,100%": { borderRadius: "42% 58% 63% 37% / 42% 45% 55% 58%", transform: "rotate(0deg)" },
           "50%": { borderRadius: "58% 42% 38% 62% / 55% 58% 42% 45%", transform: "rotate(180deg)" },
@@ -75,6 +89,17 @@ module.exports = {
           "0%": { transform: "translateY(110%)" },
           "100%": { transform: "translateY(0)" },
         },
+        // new
+        sheen: { "100%": { transform: "translateX(200%) skewX(-12deg)" } },
+        "scroll-dot": {
+          "0%": { transform: "translateY(0)", opacity: "0" },
+          "35%": { opacity: "1" },
+          "100%": { transform: "translateY(14px)", opacity: "0" },
+        },
+        "sweep-y": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(400%)" },
+        },
       },
       animation: {
         blink: "blink 1.1s step-end infinite",
@@ -82,9 +107,13 @@ module.exports = {
         "marquee-rev": "marquee-rev 38s linear infinite",
         "gradient-x": "gradient-x 6s ease infinite",
         float: "float 7s ease-in-out infinite",
+        "float-sm": "float-sm 5s ease-in-out infinite",
         blob: "blob 18s ease-in-out infinite",
         "orb-spin": "orb-spin 24s linear infinite",
         "pulse-dot": "pulse-dot 2.4s cubic-bezier(0.2,0.6,0.35,1) infinite",
+        sheen: "sheen 1.1s ease-out",
+        "scroll-dot": "scroll-dot 1.9s ease-in-out infinite",
+        "sweep-y": "sweep-y 5s linear infinite",
       },
     },
   },

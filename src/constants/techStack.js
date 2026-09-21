@@ -67,3 +67,8 @@ export const techStack = [
 ];
 
 export default techStack;
+
+// Logo lookup for the grouped stack section. Returns undefined for names we
+// don't have a mark for — callers render a plain text chip in that case.
+const byName = new Map(techStack.map((t) => [t.name.toLowerCase(), t.svg]));
+export const getTechSvg = (name) => byName.get(String(name).toLowerCase());

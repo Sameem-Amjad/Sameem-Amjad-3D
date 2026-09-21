@@ -1,14 +1,13 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { profile, links } from "../constants";
-import { SectionHeading, Icon, Reveal, cn } from "./shared";
-import { ShaderOrb } from "./fx";
+import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
 
 const methods = [
-  { icon: "calendar", label: "Book a call", value: "Free 30-min discovery call", href: links.calendly },
-  { icon: "star", label: "Hire me on Fiverr", value: "5.0 rating · top-rated seller", href: links.fiverr },
+  { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.calendly },
+  { icon: "star", label: "Fiverr", value: "5.0 · top rated", href: links.fiverr },
   { icon: "globe", label: "DevoraX", value: "thedevorax.tech", href: links.devorax },
-  { icon: "mail", label: "Email", value: profile.email, href: links.email },
+  { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
 ];
 
 const availability = [
@@ -55,12 +54,12 @@ const Contact = () => {
   };
 
   const inputCls =
-    "w-full rounded-none border-b border-line bg-transparent px-0 py-3 text-ink outline-none transition-colors placeholder:text-faint focus:border-acid";
+    "w-full min-h-[44px] rounded-none border-b border-line bg-transparent px-0 py-3 text-ink outline-none transition-colors placeholder:text-faint hover:border-line-strong focus:border-acid";
 
   return (
-    <section id="contact" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-10">
+    <Section id="contact">
       <SectionHeading
-        index="04"
+        index="08"
         eyebrow="let's build"
         title="Have a product"
         accent="in mind?"
@@ -89,15 +88,36 @@ const Contact = () => {
                   className={cn(inputCls, "resize-none")} />
               </label>
 
-              <button type="submit" disabled={status === "loading"} data-cursor="button"
-                className="group mt-2 inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-acid px-7 py-3.5 font-mono text-[13px] font-semibold uppercase tracking-wider text-night disabled:opacity-70">
-                {status === "loading" ? "Sending…" : status === "ok" ? "Message sent" : "Send message"}
-                <Icon name={status === "ok" ? "check" : "arrowUpRight"} className="h-4 w-4" strokeWidth={2} />
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                data-cursor="button"
+                className="group relative mt-2 inline-flex min-h-[48px] w-fit items-center gap-2 overflow-hidden rounded-full bg-acid px-7 font-mono text-[13px] font-semibold uppercase tracking-wider text-night shadow-glow-sm transition-shadow hover:shadow-glow disabled:cursor-wait disabled:opacity-70 disabled:shadow-none"
+              >
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-700 group-hover:translate-x-[300%]"
+                />
+                <span className="relative">
+                  {status === "loading" ? "Sending…" : status === "ok" ? "Message sent" : "Send message"}
+                </span>
+                <Icon
+                  name={status === "ok" ? "check" : "arrowUpRight"}
+                  className={cn("relative h-4 w-4", status === "loading" && "animate-pulse")}
+                  strokeWidth={2}
+                />
               </button>
 
-              {status === "ok" && <p className="font-mono text-sm text-acid">// thanks — reply within 24h</p>}
+              <p aria-live="polite" className="sr-only">
+                {status === "loading" ? "Sending your message" : status === "ok" ? "Message sent" : ""}
+              </p>
+              {status === "ok" && (
+                <p className="font-mono text-sm text-acid">// thanks — reply within 24h</p>
+              )}
               {status === "error" && (
-                <p className="font-mono text-sm text-ember">// error — email {profile.email} directly</p>
+                <p role="alert" className="font-mono text-sm text-ember">
+                  // error — email {profile.email} directly
+                </p>
               )}
             </form>
           </div>
@@ -127,7 +147,10 @@ const Contact = () => {
 
             {/* terminal panel */}
             <div className="panel relative flex-1 overflow-hidden p-6">
-              <ShaderOrb className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 opacity-40" />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-acid/10 blur-[70px]"
+              />
               <div className="relative font-mono text-sm leading-relaxed">
                 <p className="mb-4 flex items-center gap-1.5 text-faint">
                   <span className="h-2.5 w-2.5 rounded-full bg-ember/70" />
@@ -155,7 +178,7 @@ const Contact = () => {
           </div>
         </Reveal>
       </div>
-    </section>
+    </Section>
   );
 };
 

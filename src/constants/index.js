@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 //  Real portfolio data for Sameem Amjad — Founder & Lead Engineer, DevoraX
 //  Projects sourced from the DevoraX case-study (Supabase `projects` table).
-//  NOTE: replace the two placeholder links flagged below with the real ones.
+//  NOTE: one placeholder link remains — `links.calendly`. Flagged below.
 // ─────────────────────────────────────────────────────────────
 
 import { caseStudies } from "./caseStudies";
@@ -10,7 +10,10 @@ export const profile = {
   name: "Sameem Amjad",
   role: "Founder & Lead Engineer",
   company: "DevoraX",
-  headline: ["I build products", "that scale to", "millions."],
+  // Hero headline is the name — a portfolio is a personal brand, not a job ad.
+  // `kicker` is the role line that sits under it in acid.
+  headline: ["Sameem", "Amjad"],
+  kicker: "Full-Stack & AI Engineer",
   subheadline:
     "Founder & Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products — from first line of code to millions of users.",
   location: "Available worldwide · Remote",
@@ -20,7 +23,7 @@ export const profile = {
 
 export const links = {
   devorax: "https://thedevorax.tech",
-  fiverr: "https://www.fiverr.com/sameemamjad", // TODO: replace with your real Fiverr profile URL
+  fiverr: "https://www.fiverr.com/sameemamjad", // confirmed from fiverr_reviews.json freelancerUrl
   calendly: "https://cal.com/", // TODO: replace with your real Calendly / Cal.com link
   email: "mailto:sameemamjadarsu@gmail.com",
 };
@@ -51,33 +54,77 @@ export const impactStats = [
 
 export const services = [
   {
+    key: "web",
     title: "Web Platforms",
+    label: "Web",
     blurb:
       "Next.js & React apps with SSR, role-based dashboards and real-time data — engineered for speed and SEO.",
+    detail:
+      "Most businesses do not need a clever frontend, they need one that loads fast, ranks, and does not fall over when traffic arrives. I build multi-tenant platforms with real dashboards, real permissions and real data behind them.",
+    points: [
+      "Server-rendered Next.js for speed and search visibility",
+      "Role-based admin, seller and customer dashboards",
+      "Real-time data over sockets, not polling",
+      "Stripe payments, subscriptions and webhook flows",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
     icon: "web",
     accent: "from-violet-500/25 to-transparent",
     span: "md:col-span-2",
   },
   {
+    key: "mobile",
     title: "Mobile Apps",
+    label: "Mobile",
     blurb:
       "Cross-platform React Native & Flutter apps live on the App Store and Google Play.",
+    detail:
+      "One codebase, both stores, and an actual release process at the end of it. I have shipped marketplaces, delivery apps and social platforms through review and out to hundreds of thousands of installs.",
+    points: [
+      "React Native and Flutter, one codebase for iOS and Android",
+      "Push, deep links, offline state and background sync",
+      "App Store and Play Store submission handled end to end",
+      "Over-the-air updates so fixes do not wait on review",
+    ],
+    tech: ["React Native", "Flutter", "Firebase", "Node.js"],
     icon: "mobile",
     accent: "from-cyan-400/25 to-transparent",
     span: "",
   },
   {
+    key: "ai",
     title: "AI & ML",
+    label: "AI",
     blurb:
       "Recommendation engines, Stable Diffusion pipelines, risk engines and LLM-powered products.",
+    detail:
+      "AI as a feature that earns its place, not a demo bolted onto a landing page. Recommendation engines that lift conversion, risk scoring that catches what rules miss, and generative pipelines that run at production cost.",
+    points: [
+      "LLM features with structured outputs you can actually trust",
+      "Recommendation and ranking engines tuned on your data",
+      "Stable Diffusion and image pipelines at production cost",
+      "Risk and fraud scoring on live transaction streams",
+    ],
+    tech: ["OpenAI", "Stable Diffusion", "Python", "PostgreSQL"],
     icon: "ai",
     accent: "from-fuchsia-500/25 to-transparent",
     span: "",
   },
   {
+    key: "cloud",
     title: "Backend & Cloud",
+    label: "Backend",
     blurb:
       "Node/NestJS microservices on AWS — queues, streaming, sockets and bank-grade security at scale.",
+    detail:
+      "The part nobody sees until it breaks. Services that scale horizontally, queues that absorb spikes, and infrastructure you can hand to another engineer without an apology.",
+    points: [
+      "Node and NestJS services, containerised and horizontally scaled",
+      "Queues and event streams that absorb traffic spikes",
+      "AWS infrastructure as code, with CI/CD from day one",
+      "Monitoring and alerting so you hear it from us, not your users",
+    ],
+    tech: ["Node.js", "NestJS", "AWS", "Docker", "Kubernetes", "Redis"],
     icon: "cloud",
     accent: "from-emerald-400/25 to-transparent",
     span: "md:col-span-2",
@@ -617,6 +664,404 @@ export const getAdjacentProjects = (slug) => {
 
 // Kept so any legacy imports don't break the build.
 export const technologies = [];
-export const experiences = [];
-export const testimonials = [];
 export const projects = featuredProjects;
+
+// ── Tech stack, grouped by layer ────────────────────────────────
+// `names` must match the `name` field in techStack.js so the logo resolves.
+// Anything without a logo still renders as a text chip.
+export const stackGroups = [
+  {
+    label: "Frontend",
+    hint: "Interfaces people actually enjoy using",
+    names: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Redux Toolkit"],
+  },
+  {
+    label: "Mobile",
+    hint: "Shipped to the App Store and Google Play",
+    names: ["React Native", "Flutter", "Expo", "Swift", "Kotlin"],
+  },
+  {
+    label: "Backend & Data",
+    hint: "The part that has to stay up at 3am",
+    names: ["Node.js", "NestJS", "PostgreSQL", "Redis", "Supabase", "Firebase", "Elasticsearch"],
+  },
+  {
+    label: "Cloud & AI",
+    hint: "Infrastructure and the models that run on it",
+    names: ["AWS", "Docker", "Kubernetes", "Stripe", "OpenAI", "Stable Diffusion"],
+  },
+];
+
+// ── FAQ ─────────────────────────────────────────────────────────
+export const faqs = [
+  {
+    q: "What exactly do you do?",
+    a: "I'm the founder and lead engineer at DevoraX. I take products from an idea to something live that real people use — web platforms, mobile apps on both stores, and AI features on top of them. On most projects I'm doing the architecture and the hard parts myself, not handing it off.",
+  },
+  {
+    q: "Do I hire you, or an agency?",
+    a: "Both, and you choose. For a focused build it's me. For a larger product I bring in the DevoraX team — currently two senior engineers plus specialists as the scope needs them. Either way I stay the person you talk to, and I stay accountable for what ships.",
+  },
+  {
+    q: "What does a project usually cost, and how long does it take?",
+    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. The discovery call is free and you get an honest number at the end of it.",
+  },
+  {
+    q: "What happens after launch?",
+    a: "Launch is where most builds get abandoned. Every DevoraX project ships with monitoring, CI/CD and 35 days of free maintenance. After that, ongoing support is an option rather than an obligation — the code is yours, documented, and handed over properly.",
+  },
+  {
+    q: "Which stack do you work in?",
+    a: "Next.js and React on the frontend, React Native or Flutter for mobile, Node/NestJS on the backend, Postgres or Supabase for data, and AWS for infrastructure. I pick the boring, well-supported option unless the problem genuinely needs something else — you shouldn't inherit a stack nobody else can hire for.",
+  },
+  {
+    q: "Can you take over an existing codebase?",
+    a: "Yes, and a fair share of my work is exactly that: a project that stalled, a contractor who disappeared, a system that got slow as it grew. I start with an audit and tell you honestly whether it's worth fixing or worth replacing, before you spend anything on the build.",
+  },
+  {
+    q: "How do we start?",
+    a: "Book a call. Thirty minutes, no pitch deck. Tell me what you're building and what success looks like, and you'll leave with a scope, a timeline and a number — whether or not you work with me.",
+  },
+];
+
+// ── Client testimonials ─────────────────────────────────────────
+// Real Fiverr reviews, scraped 24 -> 21 after removing exact
+// duplicates (the same review posted twice). All 5 stars, newest first.
+// Nothing here is written by me; `quote` is the client's text verbatim.
+export const testimonials = [
+  {
+    quote:
+      "very quick turn around",
+    name: "fabeice",
+    country: "United Kingdom",
+    rating: 5,
+    when: "1 month ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "I had an absolute pleasure working with Sameem and his team, they are very reliable, respectful, and professional. They provided an exceptional result, and I can't recommend them enough. Will definitely continue working with them for all my future projects. Thank you Sameem and team!",
+    name: "roychid",
+    country: "Canada",
+    rating: 5,
+    when: "3 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Excellent work, definitely recommended! The seller was great to work with, very professional and paid close attention to every detail. Everything was handled smoothly and delivered exactly as expected. I'm really happy with the result and would gladly work together again.",
+    name: "monica7o9",
+    country: "United States",
+    rating: 5,
+    when: "4 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Excellent seller! Delivered outstanding quality with great attention to detail. Very professional, responsive, and reliable. Will definitely work again!",
+    name: "airo001",
+    country: "United States",
+    rating: 5,
+    when: "4 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Amazingly friendly person. Operates with great skill, expertise and knowhow. Genuine person who communicates openly and honestly. Thank your brother.",
+    name: "stevieowen",
+    country: "Hong Kong",
+    rating: 5,
+    when: "5 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Seller delivered a high Quality work. Highly recommended",
+    name: "johnniedrtu",
+    country: "United States",
+    rating: 5,
+    when: "5 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Sameem did an excellent job deploying my React application on AWS EC2 and connecting it to my domain. Everything was configured perfectly, including Nginx and SSL. The website is fast, secure, and running smoothly. Communication was clear throughout the process, and he delivered on time. Highly recommended for server deployment and AWS work!",
+    name: "monica_lisa",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Working with Sameem was an amazing experience! He integrated Stripe payment API, and built a user dashboard in my Next.js 15 app - all delivered one day early! What impressed me most was his attention to detail and the bonus features he added without extra charge, including email notifications and an... See more",
+    name: "matthew4l2",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "I had a great experience working with Sameem. He delivered exactly what I needed for my Doctor & Patient Appointment app landing page. The design is modern, clean, and very professional, and it works perfectly on mobile, tablet, and desktop. Sameem built the page using Next.js with great performance... See more",
+    name: "irmairvin",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Sameem did an excellent job optimizing and restructuring our Next.js app. The codebase is now clean, scalable, and production-ready with noticeable performance improvements. Professional, efficient, and highly recommended.",
+    name: "irmairvin",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Amazing work! The website looks professional, works perfectly, and the order system is smooth. Seller was responsive and delivered on time. Will definitely work again.",
+    name: "cedric_coleman",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Sameem and his team are skilled and know their stuff. They do solid work and are a pleasure to work with.",
+    name: "samuelfmdan",
+    country: "United States",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "He was delivered on time and the communication was clear throughout the project.",
+    name: "amybrown31",
+    country: "United Kingdom",
+    rating: 5,
+    when: "6 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Sameem successfully completed the full OneSignal integration for both iOS and Android apps, including push notifications, in-app notifications, and email notifications using OneSignal APIs. The implementation was done properly, worked as expected, and followed the required setup and configuration steps... See more",
+    name: "cedric_coleman",
+    country: "United States",
+    rating: 5,
+    when: "7 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Great experience working with this Sameem! They improved my existing Figma website design by fixing alignment issues, spacing, typography, and responsiveness. The final design looks much cleaner, more professional, and well-organized. Communication was smooth, and delivery was on time. Highly recommended!",
+    name: "smith3131",
+    country: "United Kingdom",
+    rating: 5,
+    when: "7 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Very quick delivery and great communication. Fixed my issue perfectly. The developer understood the problem immediately, provided timely updates, and ensured everything was fully responsive and bug-free. Highly recommend for anyone needing fast and efficient solutions.",
+    name: "irmairvin",
+    country: "United States",
+    rating: 5,
+    when: "7 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Amazing experience working with him! He was professional, responsive, and delivered exactly what I needed. I'm very satisfied with the results and will definitely hire him again in the future. Highly recommended!",
+    name: "lilyadam2",
+    country: "Canada",
+    rating: 5,
+    when: "7 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Excellent Sameem! He fixed all the UI issues in my mobile app and made it look very professional and clean. Communication was smooth and delivery was on time. Highly recommended!",
+    name: "robertfelt0n",
+    country: "United Kingdom",
+    rating: 5,
+    when: "7 months ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Great work, beat my expectations",
+    name: "juldany4",
+    country: "United States",
+    rating: 5,
+    when: "1 year ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Did exactly what i asked for",
+    name: "juldany4",
+    country: "United States",
+    rating: 5,
+    when: "1 year ago",
+    source: "Fiverr",
+  },
+  {
+    quote:
+      "Well he was a professional in his work. he deliver more than my expectation. I highly recommend him and he deliver before the due date and he always give explanation more for the project. Well done for the great work",
+    name: "tidem06",
+    country: "United States",
+    rating: 5,
+    when: "2 years ago",
+    source: "Fiverr",
+  },
+];
+
+export const testimonialStats = {
+  total: 21, // unique reviews shown; the raw Fiverr scrape had 24 with 3 exact dupes
+  average: 5.0,
+  countries: 4,
+};
+
+// ── Experience ──────────────────────────────────────────────────
+// `current: true` roles render as concurrent branches off HEAD; the rest fall
+// into the merged history below, newest first.
+// ⚠️ DevoraX `from` is a placeholder — set it to the real founding year.
+export const experiences = [
+  {
+    role: "Founder & Lead Engineer",
+    org: "DevoraX",
+    logo: "/logos/devorax.png",
+    kind: "Founder",
+    period: "2022 — Present",
+    from: 2022,
+    location: "Remote · worldwide",
+    current: true,
+    summary:
+      "The studio I run. Client products end to end — scoping, architecture, build and launch — with specialists brought in as scope demands.",
+    bullets: [
+      "Lead the design, engineering and launch of web, mobile and AI products for clients across four continents.",
+      "Own architecture and the hard parts personally; every build ships with CI/CD, monitoring and 35 days of maintenance.",
+      "24+ products shipped, 2.4M+ users reached, 99.9% peak uptime across the portfolio.",
+    ],
+    tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],
+  },
+  {
+    role: "Software Engineer (Full Stack)",
+    org: "Pastel",
+    logo: "/logos/pastel.png",
+    kind: "Full-time",
+    period: "Apr 2026 — Present",
+    from: 2026,
+    location: "Dover, Delaware, US · Remote",
+    current: true,
+    summary: "Building the iOS marketplace app for Pastel.",
+    bullets: [
+      "Building the iOS marketplace app for Pastel's antiques and vintage platform.",
+    ],
+    tags: ["iOS", "React Native", "Marketplace"],
+    href: "https://mypastel.com/",
+  },
+  {
+    role: "Software Engineer (Full Stack)",
+    org: "ivector",
+    logo: "/logos/ivector.png",
+    kind: "Full-time",
+    period: "Apr 2026 — Present",
+    from: 2026,
+    location: "Sacramento, California, US · Remote",
+    current: true,
+    summary: "Live bidding marketplace, iOS.",
+    bullets: [
+      "Developing and maintaining iOS features for a live bidding marketplace app: real-time bidding, authentication, listings and backend API integration.",
+      "Contributed to UI/UX improvements, database management and deployment, plus performance work to keep the real-time experience smooth.",
+    ],
+    tags: ["iOS", "Real-time", "Auth", "APIs"],
+    href: "https://www.ivector.co/",
+  },
+  {
+    role: "Freelance Full-Stack Developer",
+    org: "Fiverr",
+    logo: "/logos/fiverr.png",
+    kind: "Freelance",
+    period: "Jan 2022 — Present",
+    from: 2022,
+    location: "Pakistan · Remote",
+    current: true,
+    summary: "50+ projects, 5.0 rating, still taking work.",
+    bullets: [
+      "50+ projects completed with a 5.0 rating across 30+ reviews from clients in the US, UK, Canada and Hong Kong.",
+      "MERN stack, React Native and Flutter builds, plus AWS deployment, Docker, Kubernetes and CI/CD.",
+    ],
+    tags: ["MERN", "React Native", "Flutter", "AWS", "Docker", "CI/CD"],
+    href: "https://www.fiverr.com/sameemamjad",
+  },
+  {
+    role: "Full Stack Engineer",
+    org: "Climaxcode Technology",
+    logo: "/logos/climaxcode.png",
+    kind: "Full-time",
+    period: "Mar 2026 — May 2026",
+    from: 2026,
+    location: "Islamabad, Pakistan · On-site",
+    summary: "CRM, AI notes and AI image generation.",
+    bullets: [
+      "Shipped a CRM system, an AI notes application and an AI image generation platform.",
+      "Handled both ends: APIs, database design, authentication and deployment workflows.",
+      "Managed DigitalOcean servers end to end — setup, environment configuration and production deploys.",
+    ],
+    tags: ["Next.js", "Node.js", "DigitalOcean", "AI"],
+    href: "https://climaxcode.com/",
+  },
+  {
+    role: "Software Engineer",
+    org: "Zencloud Technologies",
+    logo: "/logos/zencloud.png",
+    kind: "Full-time",
+    period: "Oct 2024 — Mar 2026",
+    from: 2024,
+    location: "Islamabad, Pakistan · On-site",
+    summary: "Backend architecture for enterprise, data-heavy platforms.",
+    bullets: [
+      "Led backend work across the full lifecycle — system design, API development, AWS deployment, performance tuning and monitoring.",
+      "e-fuldmagt, a Danish digital authorization platform: secure authentication flows, document management and GDPR-compliant REST APIs.",
+      "Barfly's flight transfer risk module: Duffel API plus custom heuristics to predict disruption in real time, over resilient pipelines and background jobs.",
+    ],
+    tags: ["Node.js", "NestJS", "MongoDB", "AWS", "Swagger", "GitHub Actions"],
+    href: "https://www.zencloudtechnologies.com/",
+  },
+  {
+    role: "Full Stack Developer",
+    org: "Webrange Solutions",
+    logo: "/logos/webrange.png",
+    kind: "Full-time",
+    period: "Jan 2024 — Oct 2024",
+    from: 2024,
+    location: "Islamabad, Pakistan · On-site",
+    summary: "E-commerce and subscription platforms.",
+    bullets: [
+      "Led backend for Bondly, a Node.js + Firebase pet-care ecosystem behind a Flutter app: subscription billing, credit logic, real-time notifications and Stripe.",
+      "Built Afriva, a four-role e-commerce platform on Next.js and Supabase — admin, manager, seller and buyer, with real-time order tracking.",
+      "Worked on Ginger, a React e-commerce app, focused on component architecture and state management.",
+    ],
+    tags: ["Next.js", "React", "Supabase", "Firebase", "Stripe", "AWS"],
+    href: "https://www.webrangesolutions.com/",
+  },
+  {
+    role: "MERN Stack Developer",
+    org: "ByteSight Technologies",
+    kind: "Hybrid",
+    period: "Jun 2023 — Dec 2023",
+    from: 2023,
+    location: "Pakistan · Hybrid",
+    summary: "Three projects, front to back.",
+    bullets: [
+      "Led three builds: the Foxtel and Nove inventory systems, and the Glorious Publications website.",
+      "Owned frontend and backend on the MERN stack, with Material UI and Tailwind for the interfaces.",
+    ],
+    tags: ["MERN", "Next.js", "Material UI", "Tailwind CSS", "Git"],
+  },
+];

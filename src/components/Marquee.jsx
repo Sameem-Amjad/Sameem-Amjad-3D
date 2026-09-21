@@ -13,7 +13,7 @@ const Chip = ({ name, svg }) => (
   </div>
 );
 
-const Marquee = ({ bare = false }) => {
+const Marquee = () => {
   const row = [...techStack, ...techStack];
   const track = (
     <div className="marquee-mask pause-hover relative flex overflow-hidden py-4">
@@ -25,12 +25,10 @@ const Marquee = ({ bare = false }) => {
     </div>
   );
 
-  if (bare) return track;
-
   return (
     <section className="relative border-y border-line py-2">
       <p className="mb-1 px-6 font-mono text-[11px] uppercase tracking-[0.3em] text-faint sm:px-10">
-        // the stack
+        // trusted in production
       </p>
       {track}
     </section>

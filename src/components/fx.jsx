@@ -257,17 +257,3 @@ export const PageTransition = ({ children }) => (
     {children}
   </motion.div>
 );
-
-/* ───────── CSS "shader" orb (no WebGL) ───────── */
-// NOTE: caller must supply positioning (e.g. `absolute`). We intentionally do
-// NOT hardcode `relative` here — Tailwind orders `.relative` after `.absolute`,
-// so a base `relative` would override a passed `absolute` and drop the orb into
-// normal flow (which pushed hero content down). The orb is always positioned by
-// the caller, and its `absolute inset-0` children anchor to it.
-export const ShaderOrb = ({ className }) => (
-  <div className={cn("isolate", className)} aria-hidden="true">
-    <div className="absolute inset-0 orb animate-blob" />
-    <div className="absolute inset-[18%] orb animate-orb-spin opacity-70 [animation-direction:reverse]" />
-    <div className="absolute inset-[38%] rounded-full bg-base/60 blur-md" />
-  </div>
-);

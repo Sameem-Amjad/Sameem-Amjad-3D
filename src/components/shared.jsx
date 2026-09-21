@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { sized, srcSetFor } from "../utils/img";
 
 export const cn = (...c) => c.filter(Boolean).join(" ");
 
@@ -17,12 +18,18 @@ const PATHS = {
   arrowDown: <path d="M12 5v14M6 13l6 6 6-6" />,
   calendar: (<><rect x="3" y="4.5" width="18" height="16" rx="2" /><path d="M3 9h18M8 3v3M16 3v3" /></>),
   mail: (<><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></>),
-  spark: <path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4L12 3z" />,
   check: <path d="M4 12.5l5 5 11-11" />,
   star: <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5z" fill="currentColor" stroke="none" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   terminal: (<><rect x="3" y="4" width="18" height="16" rx="2" /><path d="m7 9 3 3-3 3M13 15h4" /></>),
+  chevronDown: <path d="m6 9 6 6 6-6" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  minus: <path d="M5 12h14" />,
+  quote: (<path d="M9.5 6C6.5 7.5 5 10.2 5 14v4h6v-6H8.2c.1-1.9.9-3.3 2.4-4.2L9.5 6Zm9 0c-3 1.5-4.5 4.2-4.5 8v4h6v-6h-2.8c.1-1.9.9-3.3 2.4-4.2L18.5 6Z" fill="currentColor" stroke="none" />),
+  shield: (<><path d="M12 3l8 3v6c0 4.6-3.2 8.3-8 9.5C7.2 20.3 4 16.6 4 12V6l8-3Z" /><path d="m9 12 2 2 4-4" /></>),
+  zap: <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />,
+  compass: (<><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>),
 };
 
 export const Icon = ({ name, className = "w-5 h-5", strokeWidth = 1.6 }) => (
@@ -53,6 +60,27 @@ export const Magnetic = ({ children, strength = 0.4, className }) => {
   );
 };
 
+/* ───────────────── Eyebrow pill ─────────────────
+   One consistent section marker. Keeps the terminal `//` signature but
+   frames it, so every section opens with the same visual note. */
+export const Eyebrow = ({ children, index, dot = true, className }) => (
+  <span className={cn("eyebrow", className)}>
+    {dot && (
+      <span className="relative flex h-1.5 w-1.5 shrink-0">
+        <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-acid" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-acid" />
+      </span>
+    )}
+    {index && (
+      <>
+        <span className="text-faint">{index}</span>
+        <span className="h-2.5 w-px bg-line-strong" aria-hidden="true" />
+      </>
+    )}
+    <span className="text-muted">{children}</span>
+  </span>
+);
+
 /* ───────────────── Buttons ───────────────── */
 export const PrimaryButton = ({ children, href, to, icon = "arrowRight", onClick, className }) => {
   const Tag = href ? "a" : "button";
@@ -64,10 +92,14 @@ export const PrimaryButton = ({ children, href, to, icon = "arrowRight", onClick
       <Tag {...linkProps}
         data-cursor="button"
         className={cn(
-          "group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-acid px-6 py-3 font-mono text-[13px] font-semibold uppercase tracking-wider text-night transition-transform",
+          "group relative inline-flex min-h-[44px] items-center gap-2 overflow-hidden rounded-full bg-acid px-6 py-3 font-mono text-[13px] font-semibold uppercase tracking-wider text-night shadow-glow-sm transition-shadow duration-300 hover:shadow-glow",
           className
         )}>
-        <span className="absolute inset-0 -translate-x-full bg-base/20 transition-transform duration-500 group-hover:translate-x-0" aria-hidden="true" />
+        {/* light sweeps across the face on hover */}
+        <span
+          className="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-700 group-hover:translate-x-[300%]"
+          aria-hidden="true"
+        />
         <span className="relative">{children}</span>
         {icon && <Icon name={icon} className="relative h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2} />}
       </Tag>
@@ -83,7 +115,7 @@ export const GhostButton = ({ children, href, icon, onClick, className }) => {
   return (
     <Tag {...linkProps} data-cursor="button"
       className={cn(
-        "group inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 font-mono text-[13px] font-medium uppercase tracking-wider text-ink transition-colors hover:border-acid hover:text-acid",
+        "glass group inline-flex min-h-[44px] items-center gap-2 rounded-full px-6 py-3 font-mono text-[13px] font-medium uppercase tracking-wider text-ink transition-colors duration-300 hover:border-acid/50 hover:text-acid",
         className
       )}>
       {children}
@@ -120,18 +152,26 @@ export const MaskLine = ({ children, delay = 0, className }) => (
   </span>
 );
 
-/* ───────────────── Section heading (terminal + editorial) ───────────────── */
-export const SectionHeading = ({ index, eyebrow, title, accent, description, right }) => (
-  <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+/* ───────────────── Section heading (terminal + editorial) ─────────────────
+   `accent` is the tail phrase — it gets the cream→acid gradient so the
+   sentence reads as one line that brightens, not two colours bolted together. */
+export const SectionHeading = ({ index, eyebrow, title, accent, description, right, align = "between" }) => (
+  <div
+    className={cn(
+      "flex flex-col gap-6",
+      align === "between" && "md:flex-row md:items-end md:justify-between"
+    )}
+  >
     <div className="max-w-3xl">
       <Reveal>
-        <p className="mono-label mb-5 flex items-center gap-2 text-acid">
-          {index && <span className="text-faint">{index}</span>}
-          <span className="text-faint">//</span> {eyebrow}
-        </p>
+        <Eyebrow index={index}>{eyebrow}</Eyebrow>
       </Reveal>
-      <h2 className="font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink sm:text-5xl md:text-6xl">
-        <MaskLine>{title}{accent ? " " : ""}<span className="text-acid">{accent}</span></MaskLine>
+      <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.04] tracking-tight text-ink sm:text-5xl md:text-[3.5rem]">
+        <MaskLine>
+          {title}
+          {accent ? " " : ""}
+          <span className="text-tail">{accent}</span>
+        </MaskLine>
       </h2>
       {description && (
         <Reveal delay={0.1}>
@@ -141,6 +181,41 @@ export const SectionHeading = ({ index, eyebrow, title, accent, description, rig
     </div>
     {right && <Reveal delay={0.15}>{right}</Reveal>}
   </div>
+);
+
+/* ───────────────── Page header ─────────────────
+   Top-of-page counterpart to SectionHeading: same eyebrow pill and gradient
+   tail, but with the clearance the fixed nav needs. */
+export const PageHeader = ({ eyebrow, title, accent, lede, right }) => (
+  <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+    <div className="max-w-3xl">
+      <Reveal>
+        <Eyebrow>{eyebrow}</Eyebrow>
+      </Reveal>
+      <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+        <MaskLine>
+          {title}
+          {accent ? " " : ""}
+          <span className="text-tail">{accent}</span>
+        </MaskLine>
+      </h1>
+      {lede && (
+        <Reveal delay={0.1}>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{lede}</p>
+        </Reveal>
+      )}
+    </div>
+    {right && <Reveal delay={0.15}>{right}</Reveal>}
+  </div>
+);
+
+/* ───────────────── Section shell ─────────────────
+   One source of truth for section rhythm and width, so vertical spacing
+   can't drift between sections the way it had. */
+export const Section = ({ id, children, className, width = "max-w-7xl" }) => (
+  <section id={id} className={cn("relative mx-auto px-6 py-16 sm:px-10 sm:py-24", width, className)}>
+    {children}
+  </section>
 );
 
 /* ───────────────── Smart image (shimmer skeleton + fade-in) ─────────────────
@@ -155,11 +230,17 @@ export const SmartImage = ({
   skeletonClassName,
   fallback = null,
   eager = false,
+  width,
 }) => {
   const [status, setStatus] = useState("loading"); // loading | loaded | error
   const valid = src && src !== '""' && src !== "null";
 
   if ((!valid || status === "error") && fallback) return fallback;
+
+  // `width` opts the image into Supabase's resize + WebP pipeline. Without it
+  // the original src is used, which is what local assets want.
+  const finalSrc = width ? sized(src, width) : src;
+  const set = width ? srcSetFor(src, width) : undefined;
 
   return (
     <>
@@ -167,7 +248,8 @@ export const SmartImage = ({
         <span className={cn("skeleton absolute inset-0", skeletonClassName)} aria-hidden="true" />
       )}
       <img
-        src={src}
+        src={finalSrc}
+        srcSet={set}
         alt={alt}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
@@ -207,28 +289,3 @@ export const LiveLinks = ({ web, android, ios, size = "sm" }) => {
   );
 };
 
-/* ───────────────── Scramble/decrypt hook ───────────────── */
-const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>_$#*";
-export const useScramble = (text, { speed = 40, active = true } = {}) => {
-  const [out, setOut] = useState(text);
-  useEffect(() => {
-    if (!active) return;
-    let frame = 0;
-    const total = text.length;
-    const id = setInterval(() => {
-      frame++;
-      const revealed = Math.floor(frame / 2);
-      let s = "";
-      for (let i = 0; i < total; i++) {
-        if (i < revealed || text[i] === " ") s += text[i];
-        else s += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-      }
-      setOut(s);
-      if (revealed >= total) clearInterval(id);
-    }, speed);
-    return () => clearInterval(id);
-  }, [text, speed, active]);
-  return out;
-};
-
-export { isValid };
