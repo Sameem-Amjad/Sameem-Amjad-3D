@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="pre-hydrate">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
@@ -57,30 +57,6 @@
 
     <!-- Project imagery is served from Supabase Storage. -->
     <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
-
-    <!-- Framer Motion serialises its `initial` state into the prerendered
-         HTML, so ~125 elements ship as opacity:0 and only become visible once
-         React has hydrated and the animations run. The content was in the
-         HTML the whole time, but on mobile that put LCP at 8.6s, 92% of it
-         render delay rather than network.
-
-         Until hydration, show the above-the-fold block. Scoped to #hero on
-         purpose: everything below it animates on scroll, and forcing those
-         visible would make them flash in and back out when framer-motion
-         takes over. main.jsx drops .pre-hydrate on mount, after which
-         framer-motion owns these styles again.
-
-         There was a boot splash here — a fixed, full-viewport overlay shown
-         until React mounted. It made sense when the page really was an empty
-         <div id="root">; once prerendering landed it covered content that had
-         already arrived, so it is gone. -->
-    <style>
-      .pre-hydrate #hero [style*="opacity:0"] {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    </style>
-
     <!-- Prerendered markup is present in the HTML but invisible without JS:
          #boot is an opaque fixed overlay that only main.jsx removes, and every
          framer-motion element ships its `initial` state as inline opacity:0.

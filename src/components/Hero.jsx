@@ -3,28 +3,26 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { profile, heroStats, links } from "../constants";
 import { PrimaryButton, GhostButton, Icon, cn } from "./shared";
 
-/* Staggered fade-up for everything below the headline. */
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  show: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, delay: 0.6 + i * 0.09, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
+/* Staggered fade-up for everything below the headline.
+   CSS, not framer-motion: this is above-the-fold entrance, and a JS-driven
+   `initial` serialises opacity:0 into the prerendered HTML, leaving the hero
+   blank until the bundle hydrates. See `.anim-*` in index.css.
+
+   The base delay came down from 0.6s to 0.35s. It used to start only after
+   hydration, so the long lead-in was hidden inside that wait; now the
+   sequence begins at first paint and 0.6s would just be dead air. */
+const riseDelay = (i = 0) => ({ animationDelay: `${0.35 + i * 0.08}s` });
 
 /* One masked line of the name. The mask is what makes it read as type
    sliding up from behind a rule, rather than just fading in. */
 const Line = ({ children, delay, className }) => (
   <span className="reveal-line">
-    <motion.span
-      initial={{ y: "110%" }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.95, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("block", className)}
+    <span
+      style={{ animationDelay: `${delay}s` }}
+      className={cn("anim-unmask", className)}
     >
       {children}
-    </motion.span>
+    </span>
   </span>
 );
 
@@ -32,11 +30,9 @@ const Line = ({ children, delay, className }) => (
 const Badge = ({ icon, title, sub, href, className, delay }) => {
   const Tag = href ? "a" : "div";
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("absolute z-20 hidden sm:block", className)}
+    <div
+      style={{ animationDelay: `${delay}s` }}
+      className={cn("anim-pop absolute z-20 hidden sm:block", className)}
     >
       <Tag
         {...(href
@@ -62,7 +58,7 @@ const Badge = ({ icon, title, sub, href, className, delay }) => {
           />
         )}
       </Tag>
-    </motion.div>
+    </div>
   );
 };
 
@@ -87,11 +83,9 @@ const Hero = () => {
         {/* ─────────── Copy ─────────── */}
         <motion.div style={{ y: copyY, opacity: fade }} className="relative z-10">
           {/* status row */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="mb-6 flex flex-wrap items-center gap-3"
+          <div
+            style={{ animationDelay: "0.15s" }}
+            className="anim-rise-sm mb-6 flex flex-wrap items-center gap-3"
           >
             <span className="eyebrow">
               <span className="relative flex h-2 w-2">
@@ -103,7 +97,7 @@ const Hero = () => {
             <span className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-faint sm:inline">
               {profile.location}
             </span>
-          </motion.div>
+          </div>
 
           {/* name — the headline of a portfolio is the person */}
           <h1 className="font-display text-[clamp(3rem,11vw,6.5rem)] font-bold leading-[0.92] tracking-[-0.03em] text-ink">
@@ -114,12 +108,9 @@ const Hero = () => {
           </h1>
 
           {/* role, in the terminal voice that runs through the whole site */}
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0}
-            className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm text-acid sm:text-[1rem]"
+          <p
+            style={riseDelay(0)}
+            className="anim-rise mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm text-acid sm:text-[1rem]"
           >
             <span className="inline-flex items-center gap-2">
               <Icon name="terminal" className="h-4 w-4 shrink-0" />
@@ -129,25 +120,19 @@ const Hero = () => {
             <span className="caret text-muted">
               {profile.role} @ {profile.company}
             </span>
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={1}
-            className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-[1rem]"
+          <p
+            style={riseDelay(1)}
+            className="anim-rise mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-[1rem]"
           >
             {profile.subheadline}
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={2}
-            className="mt-9 flex flex-wrap items-center gap-3"
+          <div
+            style={riseDelay(2)}
+            className="anim-rise mt-9 flex flex-wrap items-center gap-3"
           >
             <PrimaryButton href={links.booking} icon="calendar">
               Book a call
@@ -169,15 +154,12 @@ const Hero = () => {
                 className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
             </a>
-          </motion.div>
+          </div>
 
           {/* stat strip */}
-          <motion.dl
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={3}
-            className="mt-12 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-line bg-line"
+          <dl
+            style={riseDelay(3)}
+            className="anim-rise mt-12 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-line bg-line"
           >
             {heroStats.map((s) => (
               <div key={s.label} className="bg-base/60 px-4 py-4 backdrop-blur-sm">
@@ -192,7 +174,7 @@ const Hero = () => {
                 </dd>
               </div>
             ))}
-          </motion.dl>
+          </dl>
         </motion.div>
 
         {/* ─────────── Portrait ─────────── */}
@@ -211,11 +193,12 @@ const Hero = () => {
             className="pointer-events-none absolute -right-6 top-1/4 h-40 w-40 rounded-full bg-acid/15 blur-[80px]"
           />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-square overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-card"
+          {/* CSS entrance: the portrait is the largest element on wide
+              viewports, so a JS-gated opacity:0 would make it the LCP and
+              hold it until hydration. */}
+          <div
+            style={{ animationDelay: "0.25s" }}
+            className="anim-pop relative aspect-square overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-card"
           >
             <img
               src="/myimage/profile.webp"
@@ -254,7 +237,7 @@ const Hero = () => {
                 Web · Mobile · AI
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* floating credentials */}
           <Badge

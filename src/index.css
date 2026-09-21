@@ -4,6 +4,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Above-the-fold entrance, in CSS rather than JS ──────────────────
+   The hero and navbar used framer-motion mount animations. framer-motion
+   serialises `initial` into the prerendered HTML, so the hero shipped as
+   opacity:0 and stayed invisible until ~430 KB of JS had downloaded,
+   parsed and hydrated. Mobile LCP measured 8.6s, 92% of it render delay —
+   on text that was in the HTML from the first byte.
+
+   As CSS keyframes the entrance begins at first paint, needs no JS, and
+   runs on the compositor. `backwards` holds the start frame during the
+   delay, which is what framer-motion's initial state was doing.
+
+   Below-the-fold sections keep using framer-motion: they animate on
+   scroll, by which point the bundle has long since arrived. */
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes rise-in-sm {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes drop-in {
+  from { opacity: 0; transform: translateY(-80px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes unmask-up {
+  from { transform: translateY(110%); }
+  to   { transform: none; }
+}
+
+.anim-rise    { animation: rise-in    0.7s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-rise-sm { animation: rise-in-sm 0.6s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-pop     { animation: pop-in     0.6s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-drop    { animation: drop-in    0.8s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-unmask  { display: block; animation: unmask-up 0.95s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+
+/* Never let an entrance animation be the reason content is unreadable. */
+@media (prefers-reduced-motion: reduce) {
+  .anim-rise,
+  .anim-rise-sm,
+  .anim-pop,
+  .anim-drop,
+  .anim-unmask {
+    animation: none;
+  }
+}
+
+
 :root {
   color-scheme: dark;
   /* one z-scale for the whole app — nothing invents its own number */

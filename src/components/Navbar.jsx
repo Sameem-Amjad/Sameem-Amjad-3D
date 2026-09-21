@@ -65,13 +65,11 @@ const Navbar = () => {
 
   const isActive = (n) => (n.watch ? onHome && active === n.watch : pathname === n.to);
 
+  /* CSS entrance, not framer-motion: the nav is above the fold, and a JS
+     `initial` ships opacity:0 in the prerendered HTML — invisible until the
+     bundle hydrates. See `.anim-*` in index.css. */
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4"
-    >
+    <header className="anim-drop fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4">
       <nav
         aria-label="Primary"
         className={cn(
@@ -188,7 +186,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };
 
