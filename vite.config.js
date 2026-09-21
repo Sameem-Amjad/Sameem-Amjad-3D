@@ -2,16 +2,30 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { ORIGIN, seoRoutes } from "./src/constants/seo.js";
 
-/* Priority by shape of route, so adding a project never needs a second edit.
-   Detail pages outrank /builds: they're the pages that actually rank. */
-const weight = (loc) =>
-  loc === "/"
-    ? { changefreq: "weekly", priority: "1.0" }
-    : loc === "/work"
-    ? { changefreq: "weekly", priority: "0.9" }
-    : loc === "/builds"
-    ? { changefreq: "monthly", priority: "0.7" }
-    : { changefreq: "monthly", priority: "0.8" };
+// Date the site's *content* was last revised — not the date of the last build.
+// Bump this when project copy or case-study text actually changes.
+//
+// Deliberately a constant rather than new Date(): Google checks a claimed
+// lastmod against the page's real modification history and, once a site is
+// caught restamping every URL on every deploy, it stops trusting the field
+// site-wide. A CSS tweak must not tell Google all 28 pages were rewritten.
+const CONTENT_REVISED = "2026-09-21";
+
+// sitemaps.org 0.9. <loc> and <lastmod> only: Google ignores <changefreq> and
+// <priority>, and Bing confirmed in 2025 that it does too, so emitting them
+// adds bytes and a second thing to keep honest in exchange for nothing.
+const buildSitemap = (routes) => `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+  .map(
+    (loc) => `  <url>
+    <loc>${ORIGIN}${loc}</loc>
+    <lastmod>${CONTENT_REVISED}</lastmod>
+  </url>`
+  )
+  .join("\n")}
+</urlset>
+`;
 
 /* Emits sitemap.xml + robots.txt at build time from the same route list the
    prerenderer walks — so a project added to src/constants/index.js can't end
@@ -22,25 +36,26 @@ const seoFiles = () => ({
   // guard it would emit a second copy of both files into dist-ssr.
   apply: (config, { command }) => command === "build" && !config.build?.ssr,
   generateBundle() {
-    const today = new Date().toISOString().slice(0, 10);
+    // A duplicate <loc> means two project titles collapsed to one slug — a
+    // routing bug where one project silently shadows the other.
+    const dupes = seoRoutes.filter((r, i) => seoRoutes.indexOf(r) !== i);
+    if (dupes.length) {
+      this.error(`Duplicate sitemap URLs (slug collision): ${dupes.join(", ")}`);
+    }
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${seoRoutes
-  .map((loc) => {
-    const { changefreq, priority } = weight(loc);
-    return `  <url>
-    <loc>${ORIGIN}${loc}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-  })
-  .join("\n")}
-</urlset>
-`;
+    // Slugs are [a-z0-9-] by construction, so nothing needs XML escaping —
+    // assert it rather than assume it, since one stray & invalidates the file
+    // and Search Console then rejects all 28 URLs, not just the bad one.
+    const unsafe = seoRoutes.filter((r) => !/^\/[a-z0-9\-/]*$/.test(r));
+    if (unsafe.length) {
+      this.error(`Sitemap URLs need XML escaping: ${unsafe.join(", ")}`);
+    }
 
-    this.emitFile({ type: "asset", fileName: "sitemap.xml", source: sitemap });
+    this.emitFile({
+      type: "asset",
+      fileName: "sitemap.xml",
+      source: buildSitemap(seoRoutes),
+    });
     this.emitFile({
       type: "asset",
       fileName: "robots.txt",
