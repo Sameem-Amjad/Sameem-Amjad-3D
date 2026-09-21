@@ -135,7 +135,7 @@ const Navbar = () => {
             </span>
             Available
           </span>
-          <PrimaryButton href={links.calendly} icon="calendar" className="px-5 py-2.5">
+          <PrimaryButton href={links.booking} icon="calendar" className="px-5 py-2.5">
             Book a call
           </PrimaryButton>
         </div>
@@ -177,7 +177,7 @@ const Navbar = () => {
               ))}
             </ul>
             <a
-              href={links.calendly}
+              href={links.booking}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-acid px-5 font-mono text-[13px] font-semibold uppercase tracking-wider text-night"

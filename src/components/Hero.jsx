@@ -149,7 +149,7 @@ const Hero = () => {
             custom={2}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <PrimaryButton href={links.calendly} icon="calendar">
+            <PrimaryButton href={links.booking} icon="calendar">
               Book a call
             </PrimaryButton>
             <GhostButton href="#work" icon="arrowDown">

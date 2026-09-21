@@ -107,7 +107,7 @@ const Faq = () => {
               </p>
             </div>
             <a
-              href={links.calendly}
+              href={links.booking}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="button"

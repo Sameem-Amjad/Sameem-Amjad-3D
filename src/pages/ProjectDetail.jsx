@@ -333,7 +333,7 @@ const ProjectDetail = () => {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <PrimaryButton href={links.calendly} icon="calendar">Book a call</PrimaryButton>
+            <PrimaryButton href={links.booking} icon="calendar">Book a call</PrimaryButton>
             <GhostButton href={links.email} icon="mail">Email me</GhostButton>
           </div>
         </div>

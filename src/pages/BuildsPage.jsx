@@ -41,7 +41,7 @@ const BuildsPage = () => (
             <Icon name="arrowRight" className="h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" />
             Back to {featuredProjects.length} featured case studies
           </Link>
-          <PrimaryButton href={links.calendly} icon="calendar">
+          <PrimaryButton href={links.booking} icon="calendar">
             Book a call
           </PrimaryButton>
         </div>

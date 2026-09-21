@@ -1,8 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 //  Real portfolio data for Sameem Amjad — Founder & Lead Engineer, DevoraX
 //  Projects sourced from the DevoraX case-study (Supabase `projects` table).
-//  NOTE: `links.calendly` points at the on-site contact form, not a
-//  scheduler. See the comment on it below.
+//  NOTE: `links.booking` is the DevoraX scheduler, not a third-party one.
 // ─────────────────────────────────────────────────────────────
 
 import { caseStudies } from "./caseStudies";
@@ -25,13 +24,11 @@ export const profile = {
 export const links = {
   devorax: "https://thedevorax.tech",
   fiverr: "https://www.fiverr.com/sameemamjad", // confirmed from fiverr_reviews.json freelancerUrl
-  // Booking: points at the on-site contact form for now. It was
-  // "https://cal.com/" — cal.com's own marketing homepage, not a booking
-  // page — so all ten "Book a call" CTAs dead-ended there. The form below
-  // is already wired to EmailJS and works, which makes it strictly better
-  // than a dead link while the real scheduler is decided.
-  // To switch to a real one, change this single line to the booking URL.
-  calendly: "/#contact",
+  // Booking: the real scheduler, on DevoraX. Picks a slot from Sameem's
+  // live Google Calendar availability and sends a calendar invite with a
+  // Meet link. Was "https://cal.com/" — cal.com's own marketing homepage,
+  // not a booking page — so all ten "Book a call" CTAs dead-ended there.
+  booking: "https://thedevorax.tech/book",
   email: "mailto:sameemamjadarsu@gmail.com",
 };
 

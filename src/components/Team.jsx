@@ -81,7 +81,7 @@ const Team = () => (
 
     <Reveal delay={0.1}>
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <PrimaryButton href={links.calendly} icon="calendar">
+        <PrimaryButton href={links.booking} icon="calendar">
           Book a call
         </PrimaryButton>
         <GhostButton href="#contact" icon="arrowDown">

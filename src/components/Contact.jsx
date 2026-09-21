@@ -4,7 +4,7 @@ import { profile, links } from "../constants";
 import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
 
 const methods = [
-  { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.calendly },
+  { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.booking },
   { icon: "star", label: "Fiverr", value: "5.0 · top rated", href: links.fiverr },
   { icon: "globe", label: "DevoraX", value: "thedevorax.tech", href: links.devorax },
   { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
