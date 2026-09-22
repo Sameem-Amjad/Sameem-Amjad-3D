@@ -9,7 +9,15 @@
 import { allProjects, slugify, getProjectBySlug, profile, links } from "./index";
 import { sized } from "../utils/img";
 
-export const ORIGIN = "https://sameem-the-dev.vercel.app";
+/* The canonical origin. Everything derives from it: canonicals, og:url,
+   the sitemap, llms.txt and every @id in the schema graph — so the site can
+   only ever declare one home.
+
+   Apex, not www: sameemamjad.com is what goes in an email signature. Vercel
+   must have the apex set as the primary domain so www redirects to it; if
+   that is ever flipped, every canonical here would point at a URL that
+   redirects, which Google tolerates but should not have to. */
+export const ORIGIN = "https://sameemamjad.com";
 export const SITE_NAME = "Sameem Amjad";
 export const DEFAULT_OG_IMAGE = `${ORIGIN}/myimage/profile.png`;
 
