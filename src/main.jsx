@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { initAnalytics } from "./utils/analytics";
 import "./index.css";
+
+/* Before render, so the tag request goes out in parallel with hydration
+   rather than after it. */
+initAnalytics();
 
 const container = document.getElementById("root");
 

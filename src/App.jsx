@@ -5,6 +5,7 @@ import Background from "./components/Background";
 import Seo from "./components/Seo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AnalyticsNotice from "./components/AnalyticsNotice";
 import { CustomCursor, CursorTrail, ScrollProgress } from "./components/fx";
 import { CommandPaletteProvider, CommandPalette } from "./components/CommandPalette";
 import Home from "./pages/Home";
@@ -63,6 +64,8 @@ const App = () => {
         </main>
 
         <Footer />
+        {/* Client-only, so the prerendered HTML is untouched. */}
+        <AnalyticsNotice />
       </div>
     </CommandPaletteProvider>
   );

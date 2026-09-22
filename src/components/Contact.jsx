@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { profile, links } from "../constants";
 import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
+import { track } from "../utils/analytics";
 
 const methods = [
   { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.booking },
@@ -43,6 +44,9 @@ const Contact = () => {
       .then(
         () => {
           setStatus("ok");
+          // The one number that matters for a portfolio. Marked as a key
+          // event in GA (Admin → Events → toggle "contact_submit").
+          track("contact_submit", { method: "emailjs" });
           setForm({ name: "", email: "", message: "" });
           setTimeout(() => setStatus("idle"), 5000);
         },
