@@ -41,7 +41,13 @@
          As a plain stylesheet it cost ~1s of render-blocking time on mobile;
          `display=swap` already means text is readable in a fallback face
          meanwhile, so blocking bought nothing. <noscript> keeps it working
-         with JS disabled. -->
+         with JS disabled.
+
+         The CSP in vercel.json whitelists this one inline handler by its
+         sha256 rather than opening script-src up to 'unsafe-inline'. Edit the
+         handler text and the hash stops matching, so the stylesheet stays
+         media="print" and no webfont ever applies — recompute it with:
+           printf %s "this.media='all';this.onload=null" | openssl dgst -sha256 -binary | openssl base64 -->
     <link
       rel="stylesheet"
       media="print"
