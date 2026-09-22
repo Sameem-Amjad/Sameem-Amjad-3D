@@ -6,6 +6,7 @@ import Seo from "./components/Seo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { CustomCursor, CursorTrail, ScrollProgress } from "./components/fx";
+import { CommandPaletteProvider, CommandPalette } from "./components/CommandPalette";
 import Home from "./pages/Home";
 import WorkPage from "./pages/WorkPage";
 import BuildsPage from "./pages/BuildsPage";
@@ -37,29 +38,33 @@ const ScrollManager = () => {
 const App = () => {
   const location = useLocation();
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-base text-ink">
-      <Background />
-      <CursorTrail />
-      <CustomCursor />
-      <ScrollProgress />
-      <ScrollManager />
-      <Seo />
-      <Navbar />
+    <CommandPaletteProvider>
+      <div className="relative min-h-screen w-full overflow-x-hidden bg-base text-ink">
+        <Background />
+        <CursorTrail />
+        <CustomCursor />
+        <ScrollProgress />
+        <ScrollManager />
+        <Seo />
+        <Navbar />
+        {/* Renders nothing until opened, so the prerendered HTML is untouched. */}
+        <CommandPalette />
 
-      <main className="relative z-0">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Home />} />
-            <Route path="/work" element={<WorkPage />} />
-            <Route path="/work/:slug" element={<ProjectDetail />} />
-            <Route path="/builds" element={<BuildsPage />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </AnimatePresence>
-      </main>
+        <main className="relative z-0">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/work" element={<WorkPage />} />
+              <Route path="/work/:slug" element={<ProjectDetail />} />
+              <Route path="/builds" element={<BuildsPage />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </AnimatePresence>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </CommandPaletteProvider>
   );
 };
 

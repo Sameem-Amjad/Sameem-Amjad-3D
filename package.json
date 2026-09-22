@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "build:spa": "vite build",
-    "check:links": "node scripts/check-links.mjs"
+    "check:links": "node scripts/check-links.mjs",
+    "check:palette": "node scripts/check-palette.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^3.10.0",

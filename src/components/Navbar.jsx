@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { links, profile } from "../constants";
 import { Icon, PrimaryButton, cn } from "./shared";
+import { useCommandPalette } from "./CommandPalette";
 
 /* `watch` is the in-page section id this item highlights for, when we're on
    the home route. Route items (Work / Builds) highlight on pathname instead. */
@@ -22,6 +23,23 @@ const Navbar = () => {
   const [active, setActive] = useState("");
   const { pathname } = useLocation();
   const onHome = pathname === "/";
+  const { setOpen: setPalette } = useCommandPalette();
+
+  /* The shortcut hint reads ⌘K on Apple hardware and Ctrl K elsewhere.
+     Decided after mount, not at render: the prerendered HTML is the same
+     for everyone, so anything platform-specific in the first paint would
+     be a hydration mismatch. The chip reserves its width, so the text swap
+     for a Windows visitor moves nothing. */
+  const [mac, setMac] = useState(true);
+  useEffect(() => {
+    const p = navigator.userAgentData?.platform || navigator.platform || "";
+    setMac(/mac|iphone|ipad|ipod/i.test(p));
+  }, []);
+
+  const openPalette = () => {
+    setOpen(false);
+    setPalette(true);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -125,7 +143,19 @@ const Navbar = () => {
           })}
         </ul>
 
-        <div className="hidden shrink-0 items-center gap-4 md:flex">
+        <div className="hidden shrink-0 items-center gap-3 md:flex lg:gap-4">
+          <button
+            type="button"
+            onClick={openPalette}
+            data-cursor="button"
+            aria-label="Open command menu"
+            aria-keyshortcuts="Meta+K Control+K"
+            className="group inline-flex h-9 items-center gap-2 rounded-full border border-line pl-2.5 pr-1.5 font-mono text-[10px] uppercase tracking-wider text-faint transition-colors hover:border-acid/40 hover:text-ink"
+          >
+            <Icon name="search" className="h-3.5 w-3.5" />
+            <span className="hidden xl:inline">Search</span>
+            <kbd className="kbd min-w-[2.9rem]">{mac ? "⌘K" : "Ctrl K"}</kbd>
+          </button>
           <span className="hidden items-center gap-1.5 border-r border-line pr-4 font-mono text-[10px] uppercase tracking-wider text-faint lg:flex">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-acid" />
@@ -138,15 +168,26 @@ const Navbar = () => {
           </PrimaryButton>
         </div>
 
-        <button
-          onClick={() => setOpen((o) => !o)}
-          data-cursor="button"
-          className="grid h-11 w-11 place-items-center rounded-xl border border-line text-ink transition-colors hover:border-acid hover:text-acid md:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          <Icon name={open ? "close" : "menu"} />
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            type="button"
+            onClick={openPalette}
+            data-cursor="button"
+            className="grid h-11 w-11 place-items-center rounded-xl border border-line text-ink transition-colors hover:border-acid hover:text-acid"
+            aria-label="Search"
+          >
+            <Icon name="search" />
+          </button>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            data-cursor="button"
+            className="grid h-11 w-11 place-items-center rounded-xl border border-line text-ink transition-colors hover:border-acid hover:text-acid"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            <Icon name={open ? "close" : "menu"} />
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>

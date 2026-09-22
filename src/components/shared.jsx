@@ -31,6 +31,8 @@ const PATHS = {
   shield: (<><path d="M12 3l8 3v6c0 4.6-3.2 8.3-8 9.5C7.2 20.3 4 16.6 4 12V6l8-3Z" /><path d="m9 12 2 2 4-4" /></>),
   zap: <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />,
   compass: (<><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>),
+  search: (<><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.3-4.3" /></>),
+  copy: (<><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" /></>),
 };
 
 export const Icon = ({ name, className = "w-5 h-5", strokeWidth = 1.6 }) => (
