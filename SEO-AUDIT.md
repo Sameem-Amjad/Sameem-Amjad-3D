@@ -1,6 +1,6 @@
 # SEO audit — 19-point checklist
 
-**Site:** https://sameem-the-dev.vercel.app
+**Site:** https://sameemamjad.com
 **Audited:** 2026-09-21 · **Updated after fixes:** 2026-09-21
 
 ---
@@ -272,7 +272,7 @@ Everything in items 1–18 was **on-page** SEO: making your site legible to
 crawlers. That work is now done, and it's the part you control completely.
 
 But on-page SEO only decides *whether you can rank*. It doesn't make you rank.
-Your domain is `sameem-the-dev.vercel.app` — brand new, on a shared host, with
+Your domain is `sameemamjad.com` — brand new, with
 **zero** sites linking to it. To Google you're currently indistinguishable from
 an abandoned side project. Perfect markup on a site with no inbound links still
 lands on page 5.
@@ -293,9 +293,10 @@ that's it.
 
 ### Your actual list, ordered by effort-to-payoff
 
-**1 · DevoraX → portfolio.** You own `thedevorax.tech`. Does it link here? If
-not, that's a free link from a relevant domain, and it's a two-minute edit on a
-site you control. Do this first.
+**1 · DevoraX → portfolio.** ✅ **Done.** `thedevorax.tech/team` now carries a
+visible "Portfolio" link and lists `sameemamjad.com` first in the Person
+`sameAs` schema — a hyperlink and an entity assertion, which are different
+signals. That is your first real backlink.
 
 **2 · GitHub profile.** Put the URL in your profile's website field and your
 profile README. `github.com` is one of the most trusted domains on the web.
