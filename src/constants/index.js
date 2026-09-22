@@ -1112,18 +1112,4 @@ export const experiences = [
     tags: ["Next.js", "React", "Supabase", "Firebase", "Stripe", "AWS"],
     href: "https://www.webrangesolutions.com/",
   },
-  {
-    role: "MERN Stack Developer",
-    org: "ByteSight Technologies",
-    kind: "Hybrid",
-    period: "Jun 2023 — Dec 2023",
-    from: 2023,
-    location: "Pakistan · Hybrid",
-    summary: "Three projects, front to back.",
-    bullets: [
-      "Led three builds: the Foxtel and Nove inventory systems, and the Glorious Publications website.",
-      "Owned frontend and backend on the MERN stack, with Material UI and Tailwind for the interfaces.",
-    ],
-    tags: ["MERN", "Next.js", "Material UI", "Tailwind CSS", "Git"],
-  },
 ];

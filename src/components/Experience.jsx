@@ -5,7 +5,7 @@ import { SectionHeading, Section, Icon, SmartImage, cn } from "./shared";
 
 /* Company mark on a light tile — most real logos are drawn for white
    backgrounds and vanish on near-black. Falls back to a monogram when we
-   have no mark (ByteSight has no website to pull one from). */
+   have no mark. */
 const Mark = ({ org, logo }) => {
   const initials = org
     .split(/\s+/)
