@@ -94,8 +94,7 @@ const Services = () => {
             prerendered HTML and no crawler ever saw them. Content behind a
             tab is indexed; content that was never rendered is not. */}
         <div className="relative">
-          {services.map((svc, idx) => {
-            const s = svc;
+          {services.map((s, idx) => {
             const shown = idx === active;
             return (
             <div
@@ -111,7 +110,7 @@ const Services = () => {
             >
               <div>
                 <p className="mono-label flex items-center gap-2 text-acid">
-                  <span className="text-faint">{String(active + 1).padStart(2, "0")}</span>
+                  <span className="text-faint">{String(idx + 1).padStart(2, "0")}</span>
                   <span className="text-faint">//</span>
                   {s.title}
                 </p>

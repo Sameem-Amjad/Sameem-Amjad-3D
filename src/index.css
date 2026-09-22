@@ -4,6 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── `hidden` has to actually hide ───────────────────────────────────
+   Preflight's `[hidden]:where(...) { display: none }` and a display
+   utility like `.grid` both weigh 0,1,0, and utilities are emitted
+   later — so `<div hidden class="grid">` stays on screen. That is how
+   all five Services panels ended up stacked on top of each other once
+   the inactive ones started rendering for crawlers. Give the attribute
+   the last word; an element asking to be hidden while also asking for a
+   display mode is always a mistake, never an intent. */
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none !important;
+}
+
 /* ── Above-the-fold entrance, in CSS rather than JS ──────────────────
    The hero and navbar used framer-motion mount animations. framer-motion
    serialises `initial` into the prerendered HTML, so the hero shipped as
