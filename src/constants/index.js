@@ -13,9 +13,12 @@ export const profile = {
   // Hero headline is the name — a portfolio is a personal brand, not a job ad.
   // `kicker` is the role line that sits under it in acid.
   headline: ["Sameem", "Amjad"],
-  kicker: "Full-Stack & AI Engineer",
+  // The two lines under the name carry the positioning, so they carry the
+  // words people actually search. "Full-Stack & AI Engineer" said AI without
+  // saying which kind, and the kind is the whole point now.
+  kicker: "AI Agents & Full-Stack Systems",
   subheadline:
-    "Founder & Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products — from first line of code to millions of users.",
+    "Founder & Lead Engineer at DevoraX. I design and ship AI agents, agentic workflows and the production systems around them — web, mobile and cloud, from architecture to millions of users.",
   location: "Available worldwide · Remote",
   availability: "Available for new projects",
   email: "sameemamjadarsu@gmail.com",
@@ -97,22 +100,23 @@ export const services = [
   },
   {
     key: "ai",
-    title: "AI & ML",
+    title: "AI Agents & Automation",
     label: "AI",
     blurb:
-      "Recommendation engines, Stable Diffusion pipelines, risk engines and LLM-powered products.",
+      "Agentic systems, voice agents and AI orchestration — software that decides and acts, not a chat box bolted onto a landing page.",
     detail:
-      "AI as a feature that earns its place, not a demo bolted onto a landing page. Recommendation engines that lift conversion, risk scoring that catches what rules miss, and generative pipelines that run at production cost.",
+      "Most \"AI features\" are a prompt box wired to an API. The work worth paying for is agentic: systems that plan a task, call real tools, check their own output and hand back something you can act on. I build those, wire them into the systems you already run, and keep them inside a cost you agreed to.",
     points: [
+      "Agentic workflows that plan, call tools and complete real tasks",
+      "Voice agents — speech in, action out, over phone or web",
+      "RAG and AI orchestration over your own data, not the open internet",
       "LLM features with structured outputs you can actually trust",
-      "Recommendation and ranking engines tuned on your data",
-      "Stable Diffusion and image pipelines at production cost",
-      "Risk and fraud scoring on live transaction streams",
+      "Cleaning up AI-generated codebases into something production-grade",
     ],
-    tech: ["OpenAI", "Stable Diffusion", "Python", "PostgreSQL"],
+    tech: ["OpenAI", "LangChain", "Python", "Whisper", "Vector DBs"],
     icon: "ai",
     accent: "from-fuchsia-500/25 to-transparent",
-    span: "",
+    span: "md:col-span-2",
   },
   {
     key: "cloud",
@@ -128,10 +132,30 @@ export const services = [
       "AWS infrastructure as code, with CI/CD from day one",
       "Monitoring and alerting so you hear it from us, not your users",
     ],
-    tech: ["Node.js", "NestJS", "AWS", "Docker", "Kubernetes", "Redis"],
+    tech: ["Node.js", "NestJS", "Python", "AWS", "Docker", "Kubernetes"],
     icon: "cloud",
     accent: "from-emerald-400/25 to-transparent",
-    span: "md:col-span-2",
+    span: "",
+  },
+  {
+    key: "architecture",
+    title: "Solution Architecture",
+    label: "Architecture",
+    blurb:
+      "System design and architecture for products that have to survive their own success — before a line of code is written.",
+    detail:
+      "The most expensive decisions on a project are made in week one, by whoever happens to be in the room. I do that part deliberately: the data model, the service boundaries, what is queued and what is synchronous, and which parts are allowed to be boring. Usually it means building less, not more.",
+    points: [
+      "System design and architecture reviews before the build starts",
+      "Data modelling and service boundaries that survive the next feature",
+      "Scaling paths costed honestly — what breaks first, and at what number",
+      "Technical due diligence on a codebase you are about to buy or inherit",
+      "Rescuing projects that shipped fast and are now stuck",
+    ],
+    tech: ["System Design", "Microservices", "Event-Driven", "PostgreSQL", "AWS"],
+    icon: "compass",
+    accent: "from-sky-400/25 to-transparent",
+    span: "",
   },
 ];
 
@@ -672,6 +696,22 @@ export const projects = featuredProjects;
 // `names` must match the `name` field in techStack.js so the logo resolves.
 // Anything without a logo still renders as a text chip.
 export const stackGroups = [
+  // AI leads the list deliberately. It used to be four names tacked onto the
+  // end of "Cloud & AI", which reads as a side interest — while agentic and
+  // LLM work is the thing people are actively searching for.
+  {
+    label: "AI & Agents",
+    hint: "Systems that decide and act, not chat wrappers",
+    names: [
+      "OpenAI",
+      "LangChain",
+      "Python",
+      "Vector DBs",
+      "RAG",
+      "Whisper",
+      "Stable Diffusion",
+    ],
+  },
   {
     label: "Frontend",
     hint: "Interfaces people actually enjoy using",
@@ -685,12 +725,32 @@ export const stackGroups = [
   {
     label: "Backend & Data",
     hint: "The part that has to stay up at 3am",
-    names: ["Node.js", "NestJS", "PostgreSQL", "Redis", "Supabase", "Firebase", "Elasticsearch"],
+    names: [
+      "Node.js",
+      "NestJS",
+      "Python",
+      "FastAPI",
+      "PHP",
+      "Laravel",
+      "PostgreSQL",
+      "Redis",
+      "Supabase",
+      "Firebase",
+      "Elasticsearch",
+    ],
   },
   {
-    label: "Cloud & AI",
-    hint: "Infrastructure and the models that run on it",
-    names: ["AWS", "Docker", "Kubernetes", "Stripe", "OpenAI", "Stable Diffusion"],
+    label: "Cloud & Architecture",
+    hint: "Infrastructure, and the design decisions above it",
+    names: [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "System Design",
+      "Microservices",
+      "Event-Driven",
+      "Stripe",
+    ],
   },
 ];
 

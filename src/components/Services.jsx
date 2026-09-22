@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { services, links } from "../constants";
 import { SectionHeading, Section, Icon, PrimaryButton, cn } from "./shared";
 
@@ -36,8 +36,6 @@ const Services = () => {
     return () => clearTimeout(id);
   }, [auto, active]);
 
-  const s = services[active];
-
   return (
     <Section id="services">
       <SectionHeading
@@ -45,7 +43,7 @@ const Services = () => {
         eyebrow="what I do"
         title="Full-stack delivery,"
         accent="end to end."
-        description="Four things people hire me for. Pick one — or tell me the business problem and I'll tell you which of these it actually is."
+        description="Five things people hire me for. Pick one — or tell me the business problem and I'll tell you which of these it actually is."
       />
 
       <div
@@ -89,19 +87,27 @@ const Services = () => {
           })}
         </div>
 
-        {/* panel */}
+        {/* Panels.
+            All five render; the inactive ones are `hidden`. Previously only
+            the active tab existed in the DOM, so four of the five services —
+            every word of the AI and architecture copy — were absent from the
+            prerendered HTML and no crawler ever saw them. Content behind a
+            tab is indexed; content that was never rendered is not. */}
         <div className="relative">
-          <AnimatePresence mode="wait">
-            <motion.div
+          {services.map((svc, idx) => {
+            const s = svc;
+            const shown = idx === active;
+            return (
+            <div
               key={s.key}
+              hidden={!shown}
               id={`svc-panel-${s.key}`}
               role="tabpanel"
               aria-labelledby={`svc-tab-${s.key}`}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="grid items-stretch gap-10 p-7 sm:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14"
+              className={cn(
+                "grid items-stretch gap-10 p-7 sm:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14",
+                shown && "anim-rise"
+              )}
             >
               <div>
                 <p className="mono-label flex items-center gap-2 text-acid">
@@ -145,24 +151,19 @@ const Services = () => {
                   <p className="mono-label mb-5 text-faint">What that includes</p>
                   <ul className="flex flex-col gap-4">
                     {s.points.map((p, i) => (
-                      <motion.li
-                        key={p}
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.1 + i * 0.07 }}
-                        className="flex items-start gap-3"
-                      >
+                      <li key={p} className="flex items-start gap-3">
                         <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-acid/12 text-acid">
                           <Icon name="check" className="h-3 w-3" strokeWidth={2.6} />
                         </span>
                         <span className="text-sm leading-relaxed text-muted">{p}</span>
-                      </motion.li>
+                      </li>
                     ))}
                   </ul>
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+            );
+          })}
         </div>
       </div>
 

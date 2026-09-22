@@ -53,12 +53,23 @@ const person = {
   image: DEFAULT_OG_IMAGE,
   description: profile.subheadline,
   worksFor: { "@id": `${ORIGIN}/#organization` },
+  // knowsAbout is how the Person entity gets associated with a topic. Listed
+  // specifically, because "AI engineering" is too broad to attach to anything.
   knowsAbout: [
+    "AI agents",
+    "Agentic systems and workflows",
+    "AI orchestration",
+    "Voice agents",
+    "Retrieval-augmented generation (RAG)",
+    "LLM application development",
+    "Solution architecture",
+    "System design",
     "Full-stack web development",
     "React",
+    "Next.js",
     "Node.js",
+    "Python",
     "React Native",
-    "AI engineering",
     "Cloud architecture",
   ],
   sameAs: [links.devorax, links.fiverr].filter(Boolean),
@@ -127,8 +138,10 @@ const composeTitle = (head, subtitle, brand) => {
 const STATIC = {
   "/": {
     title: `${profile.name} — ${profile.role} · ${profile.company}`,
+    // What Google prints under the title. Leads with the work people search
+    // for rather than a job title, and stays inside the ~158-char clamp.
     description:
-      "Sameem Amjad — Founder & Lead Engineer at DevoraX. I lead teams that ship production-grade web, mobile and AI products that scale to millions of users.",
+      "Sameem Amjad builds AI agents, agentic workflows and voice agents, plus the web, mobile and cloud systems around them. Founder & Lead Engineer, DevoraX.",
     type: "profile",
     image: DEFAULT_OG_IMAGE,
     graph: [person, organization, website],
