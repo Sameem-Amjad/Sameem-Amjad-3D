@@ -34,7 +34,12 @@ const Mark = ({ org, logo }) => {
 
 const Row = ({ e }) => {
   const [open, setOpen] = useState(false);
-  const Wrapper = e.href ? "a" : "div";
+  /* span, not div: this renders inside a <p>. A <div> there is invalid
+     HTML, so the browser's parser closed the paragraph early when reading
+     the prerendered page, the DOM no longer matched React's tree, and
+     hydration failed at the root — React threw the prerendered markup
+     away and re-rendered every page from scratch on every load. */
+  const Wrapper = e.href ? "a" : "span";
 
   return (
     <li className="relative grid grid-cols-[28px_1fr] gap-x-4 pb-5 sm:grid-cols-[36px_1fr] sm:gap-x-6">
