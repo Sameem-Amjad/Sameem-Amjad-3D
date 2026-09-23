@@ -8,8 +8,12 @@
          the original kept as a fallback. apple-touch-icon is what iOS uses
          when someone adds the site to their home screen; without it Safari
          screenshots the page instead. -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <!-- 192x192 because Google renders a favicon beside search results and
+         wants a square, ideally a multiple of 48. The source art is 1270x1306,
+         so it is letterboxed into a square rather than stretched.
+         apple-touch-icon is what iOS uses for a home-screen shortcut; without
+         one Safari screenshots the page instead. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo-sa.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="4II4UEErd2UTCqjkBl2HKXwF3M7FOn-ihPDRuIl3yDA" />

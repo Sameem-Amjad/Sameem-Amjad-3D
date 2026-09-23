@@ -101,9 +101,16 @@ const Navbar = () => {
           className="flex shrink-0 items-center gap-2.5 rounded-full pl-1 pr-2"
           aria-label={`${profile.name} — home`}
         >
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-acid font-display text-sm font-bold text-night shadow-glow-sm">
-            SA
-          </span>
+          {/* alt="" on purpose: the <Link> already carries an aria-label with
+              the full name, so labelling the image too would make a screen
+              reader announce the same thing twice. */}
+          <img
+            src="/logo-sa.png"
+            alt=""
+            width="36"
+            height="36"
+            className="h-9 w-9 shrink-0 rounded-xl shadow-glow-sm"
+          />
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-[15px] font-bold text-ink">{profile.name}</span>
             <span className="font-mono text-[10px] text-faint">
