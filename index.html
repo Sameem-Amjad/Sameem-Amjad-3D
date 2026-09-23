@@ -2,7 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Google renders a favicon beside search results, but only takes one it
+         can use: square, and it recommends a multiple of 48px. logo.png is
+         171x171 — square, but an odd size — so a 192x192 is served first and
+         the original kept as a fallback. apple-touch-icon is what iOS uses
+         when someone adds the site to their home screen; without it Safari
+         screenshots the page instead. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="4II4UEErd2UTCqjkBl2HKXwF3M7FOn-ihPDRuIl3yDA" />
     <meta name="theme-color" content="#05060f" />
