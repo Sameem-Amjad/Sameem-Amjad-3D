@@ -76,16 +76,13 @@
     <!-- Project imagery is served from Supabase Storage. -->
     <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
     <!-- Prerendered markup is present in the HTML but invisible without JS:
-         #boot is an opaque fixed overlay that only main.jsx removes, and every
-         framer-motion element ships its `initial` state as inline opacity:0.
-         A crawler that doesn't execute scripts would see a blank near-black
-         page — exactly what prerendering exists to prevent. Scoped to
-         <noscript>, so the animated first paint is untouched when JS runs. -->
+         every framer-motion element below the fold ships its `initial` state
+         as inline opacity:0. A crawler that doesn't execute scripts would see
+         a mostly blank page — exactly what prerendering exists to prevent.
+         Scoped to <noscript>, so the animated first paint is untouched when
+         JS runs. (The #boot overlay this also used to cover is gone.) -->
     <noscript>
       <style>
-        #boot {
-          display: none !important;
-        }
         [style*="opacity:0"] {
           opacity: 1 !important;
           transform: none !important;
@@ -95,9 +92,6 @@
   </head>
   <body>
     <div id="root"></div>
-      <div class="boot-bar"></div>
-      <div class="boot-tag">Loading portfolio</div>
-    </div>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>

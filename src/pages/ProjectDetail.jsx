@@ -94,8 +94,12 @@ const ProjectDetail = () => {
   // Only show a separate "problem" block when it won't duplicate the lead.
   const problemText = project.problem || (project.tagline ? project.description : null);
   const hasLinks = project.web || project.android || project.ios;
-  const previewUrl =
-    project.web || project.android || project.ios || `devorax.tech/${slug}`;
+  /* No fabricated fallback. This fell back to `devorax.tech/${slug}` — not a
+     domain that exists (the real one is thedevorax.tech, which addresses
+     projects as /projects/N, not by slug), so eight case studies printed a
+     dead address in the browser-chrome mock, on the very pages meant to prove
+     the work shipped. Undefined renders nothing and the bar stays empty. */
+  const previewUrl = project.web || project.android || project.ios || undefined;
 
   return (
     <PageTransition>

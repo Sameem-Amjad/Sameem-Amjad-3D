@@ -72,7 +72,11 @@ const person = {
     "React Native",
     "Cloud architecture",
   ],
-  sameAs: [links.devorax, links.fiverr].filter(Boolean),
+  /* Pages about this person, not the company. links.devorax was doing double
+     duty — asserted here as another page about Sameem and at organization.url
+     as the company's website, which are different claims. The team page is a
+     page about him; the company homepage is not. */
+  sameAs: [`${links.devorax}/team`, links.fiverr].filter(Boolean),
 };
 
 const organization = {
@@ -117,10 +121,27 @@ const projectListItems = (list) =>
    each page carries its own copy. */
 const SHARED_NODES = [person, organization, website];
 
-/* Google truncates titles around 60 characters. Drop the brand suffix before
-   letting the subtitle be cut, and cut the subtitle before the project name —
-   a title truncated mid-word reads as broken in the SERP. */
-const TITLE_MAX = 60;
+/* Google truncates on rendered width (~600px), not a character count; 65 is
+   the closer proxy and 60 was throwing away usable characters. Drop the brand
+   suffix before letting the subtitle be cut, and cut the subtitle before the
+   project name — a title truncated mid-word reads as broken in the SERP. */
+const TITLE_MAX = 65;
+
+/* Subtitles are " · "-separated clauses, and clamping used to cut inside one:
+   "Global fitness competitions · 120+…" strands a number from its unit and
+   looks machine-broken rather than merely long. Drop whole trailing clauses
+   instead, so what survives is always complete. Falls back to the character
+   clamp only when even the first clause is too long. */
+const clampSubtitle = (subtitle, room) => {
+  if (subtitle.length <= room) return subtitle;
+  const parts = subtitle.split(" · ");
+  for (let n = parts.length - 1; n >= 1; n--) {
+    const candidate = parts.slice(0, n).join(" · ");
+    if (candidate.length <= room) return candidate;
+  }
+  return clamp(subtitle, room);
+};
+
 const composeTitle = (head, subtitle, brand) => {
   const full = subtitle ? `${head} — ${subtitle} · ${brand}` : `${head} · ${brand}`;
   if (full.length <= TITLE_MAX) return full;
@@ -129,7 +150,7 @@ const composeTitle = (head, subtitle, brand) => {
   if (noBrand.length <= TITLE_MAX) return noBrand;
 
   const room = TITLE_MAX - head.length - 3;
-  if (subtitle && room >= 12) return `${head} — ${clamp(subtitle, room)}`;
+  if (subtitle && room >= 12) return `${head} — ${clampSubtitle(subtitle, room)}`;
   return clamp(head, TITLE_MAX);
 };
 
@@ -175,9 +196,13 @@ const STATIC = {
     ],
   },
   "/builds": {
-    title: `Builds — experiments & side projects · ${profile.name}`,
+    title: `Builds — more shipped production work · ${profile.name}`,
     description: clamp(
-      "Smaller builds, experiments and tools — the things built between client projects: prototypes, internal tooling and AI side projects by Sameem Amjad."
+      // Described these as "experiments and side projects" while the page
+      // itself lists seven Live-badged client products with revenue figures.
+      // The title tag is the highest-weight on-page relevance signal and it
+      // was undervaluing its own page, and contradicting /work.
+      "A wider cut of production work across web, mobile, AI and cloud — client products shipped and live, beyond the featured case studies."
     ),
     type: "website",
     image: DEFAULT_OG_IMAGE,
