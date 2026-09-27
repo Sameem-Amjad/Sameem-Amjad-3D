@@ -119,6 +119,21 @@ const projectListItems = (list) =>
    leaves a dangling reference, and consumers drop the relation rather than
    resolving it across documents. These three are cheap and self-contained, so
    each page carries its own copy. */
+/* The homepage's primary subject is a person, which is exactly what Google
+   documents ProfilePage for. Person alone describes the entity; ProfilePage
+   says "and this page is about them", which is the part that makes the page
+   itself resolvable as the entity's profile. mainEntity points at the same
+   Person node rather than restating it, so there is still one Person in the
+   graph. Only on "/" — /work and the case studies are not profile pages. */
+const profilePage = {
+  "@type": "ProfilePage",
+  "@id": `${ORIGIN}/#profilepage`,
+  url: ORIGIN,
+  name: `${profile.name} — ${profile.role}`,
+  mainEntity: { "@id": `${ORIGIN}/#person` },
+  isPartOf: { "@id": `${ORIGIN}/#website` },
+};
+
 const SHARED_NODES = [person, organization, website];
 
 /* Google truncates on rendered width (~600px), not a character count; 65 is
@@ -165,7 +180,7 @@ const STATIC = {
       "Sameem Amjad builds AI agents, agentic workflows and voice agents, plus the web, mobile and cloud systems around them. Founder & Lead Engineer, DevoraX.",
     type: "profile",
     image: DEFAULT_OG_IMAGE,
-    graph: [person, organization, website],
+    graph: [profilePage, person, organization, website],
   },
   "/work": {
     title: `Work — ${allProjects.length} shipped products · ${profile.name}`,
