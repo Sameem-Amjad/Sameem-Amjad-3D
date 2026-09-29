@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
-import { links, profile } from "../constants";
+import { links, profile, whatsappHref } from "../constants";
+import { servicePages } from "../constants/services";
+import { track } from "../utils/analytics";
 import { Icon, Magnetic } from "./shared";
 
 const explore = [
   { label: "Work", to: "/work" },
   { label: "Builds", to: "/builds" },
-  { label: "Services", to: "/#services" },
+  { label: "Services", to: "/services" },
+  { label: "Guides", to: "/guides" },
   { label: "Stack", to: "/#stack" },
   { label: "Process", to: "/#process" },
   { label: "Experience", to: "/#experience" },
@@ -13,9 +16,13 @@ const explore = [
   { label: "FAQ", to: "/#faq" },
 ];
 const socials = [
-  { label: "DevoraX", href: links.devorax },
-  { label: "Fiverr", href: links.fiverr },
+  { label: "WhatsApp", href: whatsappHref("/"), track: true },
   { label: "Email", href: links.email },
+  { label: "LinkedIn", href: links.linkedin },
+  { label: "GitHub", href: links.github },
+  { label: "X", href: links.x },
+  { label: "Fiverr", href: links.fiverr },
+  { label: "DevoraX", href: links.devorax },
 ];
 
 const Footer = () => (
@@ -58,7 +65,24 @@ const Footer = () => (
           </Magnetic>
         </div>
 
-        <div className="flex gap-12 sm:gap-20">
+        <div className="flex flex-wrap gap-12 sm:gap-16">
+          <nav aria-label="Services">
+            <p className="mono-label text-faint">Services</p>
+            <ul className="mt-5 flex flex-col gap-3.5">
+              {servicePages.map((sv) => (
+                <li key={sv.slug}>
+                  <Link
+                    to={`/services/${sv.slug}`}
+                    data-cursor="button"
+                    className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-acid"
+                  >
+                    <span className="h-px w-0 bg-acid transition-all duration-300 group-hover:w-4" />
+                    {sv.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <nav aria-label="Footer">
             <p className="mono-label text-faint">Explore</p>
             <ul className="mt-5 flex flex-col gap-3.5">
@@ -85,6 +109,7 @@ const Footer = () => (
                     href={s.href}
                     target={s.href.startsWith("http") ? "_blank" : undefined}
                     rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    onClick={s.track ? () => track("whatsapp_click", { placement: "footer" }) : undefined}
                     data-cursor="button"
                     className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-acid"
                   >
@@ -101,7 +126,14 @@ const Footer = () => (
         </div>
       </div>
 
-      <div className="mt-20 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 font-mono text-xs text-faint sm:flex-row">
+      {/* The quotable who-is-he paragraph, on every page. Same text as the
+          Person description in the schema and the top of llms.txt, so an
+          engine that reads any one of them gets identical facts. */}
+      <p className="mt-16 max-w-3xl text-[13px] leading-relaxed text-faint">{profile.bio}</p>
+
+      {/* sm:pr-20 keeps "Back to top" clear of the floating WhatsApp button,
+          which sits over this corner at the bottom of every page. */}
+      <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 font-mono text-xs text-faint sm:flex-row sm:pr-20">
         <p>
           © {new Date().getFullYear()} {profile.name} · {profile.company}
         </p>

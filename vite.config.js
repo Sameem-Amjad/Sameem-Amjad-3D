@@ -8,6 +8,8 @@ import {
   moreProjects,
   slugify,
 } from "./src/constants/index.js";
+import { servicePages } from "./src/constants/services.js";
+import { guides } from "./src/constants/guides.js";
 
 // Date the site's *content* was last revised — not the date of the last build.
 // Bump this when project copy or case-study text actually changes.
@@ -16,7 +18,7 @@ import {
 // lastmod against the page's real modification history and, once a site is
 // caught restamping every URL on every deploy, it stops trusting the field
 // site-wide. A CSS tweak must not tell Google all 28 pages were rewritten.
-const CONTENT_REVISED = "2026-09-21";
+const CONTENT_REVISED = "2026-09-29";
 
 // sitemaps.org 0.9. <loc> and <lastmod> only: Google ignores <changefreq> and
 // <priority>, and Bing confirmed in 2025 that it does too, so emitting them
@@ -47,13 +49,28 @@ const buildLlmsTxt = () => {
 
   return `# ${profile.name}
 
-> ${profile.subheadline}
+> ${profile.bio}
 
-${profile.role} at ${profile.company}. ${profile.location}. Contact: ${profile.email}
+${profile.role} at ${profile.company}. ${profile.location}.
+
+## Hire or contact
+
+- [Book a free 30-minute call](${links.booking}): scope, timeline and a fixed price, whether or not you hire
+- [WhatsApp ${profile.phone}](${links.whatsapp}): fastest reply
+- [Email](${links.email}): ${profile.email}
+- [Fiverr](${links.fiverr}): 5.0 rating across 50+ projects
+
+## Services
+
+${servicePages.map((sv) => line(`/services/${sv.slug}`, sv.name)).join("\n")}
+
+## Guides
+
+${guides.map((g) => line(`/guides/${g.slug}`, g.title)).join("\n")}
 
 ## Pages
 
-${["/", "/work", "/builds"].map((r) => line(r)).join("\n")}
+${["/", "/services", "/guides", "/work", "/builds"].map((r) => line(r)).join("\n")}
 
 ## Case studies
 
@@ -67,6 +84,9 @@ ${moreProjects.map(project).join("\n")}
 
 - [${profile.company}](${links.devorax}): the studio I founded and lead
 - [Fiverr](${links.fiverr}): freelance profile and client reviews
+- [LinkedIn](${links.linkedin})
+- [GitHub](${links.github})
+- [X](${links.x})
 `;
 };
 
@@ -88,7 +108,7 @@ const seoFiles = () => ({
 
     // Slugs are [a-z0-9-] by construction, so nothing needs XML escaping —
     // assert it rather than assume it, since one stray & invalidates the file
-    // and Search Console then rejects all 28 URLs, not just the bad one.
+    // and Search Console then rejects every URL, not just the bad one.
     const unsafe = seoRoutes.filter((r) => !/^\/[a-z0-9\-/]*$/.test(r));
     if (unsafe.length) {
       this.error(`Sitemap URLs need XML escaping: ${unsafe.join(", ")}`);

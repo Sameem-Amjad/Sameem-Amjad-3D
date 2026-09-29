@@ -9,10 +9,11 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { profile } from "../constants";
+import { profile, links } from "../constants";
 import { buildCommands } from "../constants/commands";
 import { filterCommands, readSystem, GROUPS } from "../utils/palette";
 import { Icon, cn } from "./shared";
+import { track } from "../utils/analytics";
 
 /* ⌘K / Ctrl+K command menu.
 
@@ -269,6 +270,10 @@ export const CommandPalette = () => {
         return;
       }
       close();
+      if (cmd.id === "act-whatsapp") track("whatsapp_click", { placement: "palette" });
+      // Opened with window.open, so the delegated anchor listener in
+      // analytics.js never sees it — count it here.
+      if (cmd.href === links.booking) track("book_call_click", { placement: "palette", page_path: pathname });
       if (cmd.to) {
         go(cmd.to);
       } else if (cmd.href) {
@@ -276,7 +281,7 @@ export const CommandPalette = () => {
         else window.location.href = cmd.href;
       }
     },
-    [close, go]
+    [close, go, pathname]
   );
 
   const onKeyDown = (e) => {

@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "build:spa": "vite build",
     "check:links": "node scripts/check-links.mjs",
-    "check:palette": "node scripts/check-palette.mjs"
+    "check:palette": "node scripts/check-palette.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^3.10.0",

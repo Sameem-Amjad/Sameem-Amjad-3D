@@ -67,6 +67,6 @@ assert.equal(co[1], "act-copy");
 assert.deepEqual(ids(cmds), snapshot);
 
 // Group order is what the palette renders when the field is empty.
-assert.deepEqual(GROUPS.map((g) => g.key), ["navigate", "case-studies", "builds", "connect"]);
+assert.deepEqual(GROUPS.map((g) => g.key), ["navigate", "services", "guides", "case-studies", "builds", "connect"]);
 
 console.log("check-palette: all ranking assertions passed");

@@ -10,7 +10,7 @@ import { useCommandPalette } from "./CommandPalette";
 const items = [
   { label: "Work", to: "/work" },
   { label: "Builds", to: "/builds" },
-  { label: "Services", to: "/#services", watch: "services" },
+  { label: "Services", to: "/services" },
   { label: "Stack", to: "/#stack", watch: "stack" },
   { label: "Process", to: "/#process", watch: "process" },
   { label: "Experience", to: "/#experience", watch: "experience" },
@@ -81,7 +81,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", spy);
   }, [onHome]);
 
-  const isActive = (n) => (n.watch ? onHome && active === n.watch : pathname === n.to);
+  // Route items stay lit on their child pages too: /work on a case study,
+  // /services on a service page.
+  const isActive = (n) =>
+    n.watch ? onHome && active === n.watch : pathname === n.to || pathname.startsWith(`${n.to}/`);
 
   /* CSS entrance, not framer-motion: the nav is above the fold, and a JS
      `initial` ships opacity:0 in the prerendered HTML — invisible until the

@@ -6,12 +6,17 @@ import Seo from "./components/Seo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AnalyticsNotice from "./components/AnalyticsNotice";
+import WhatsAppButton from "./components/WhatsAppButton";
 import { CustomCursor, CursorTrail, ScrollProgress } from "./components/fx";
 import { CommandPaletteProvider, CommandPalette } from "./components/CommandPalette";
 import Home from "./pages/Home";
 import WorkPage from "./pages/WorkPage";
 import BuildsPage from "./pages/BuildsPage";
 import ProjectDetail from "./pages/ProjectDetail";
+import ServicesPage from "./pages/ServicesPage";
+import ServicePage from "./pages/ServicePage";
+import GuidesPage from "./pages/GuidesPage";
+import GuidePage from "./pages/GuidePage";
 
 /* Scroll to top on route change, or to a #section when a hash is present. */
 const ScrollManager = () => {
@@ -58,14 +63,21 @@ const App = () => {
               <Route path="/work" element={<WorkPage />} />
               <Route path="/work/:slug" element={<ProjectDetail />} />
               <Route path="/builds" element={<BuildsPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/:slug" element={<ServicePage />} />
+              <Route path="/guides" element={<GuidesPage />} />
+              <Route path="/guides/:slug" element={<GuidePage />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </AnimatePresence>
         </main>
 
         <Footer />
-        {/* Client-only, so the prerendered HTML is untouched. */}
+        {/* Client-only, so the prerendered HTML is untouched. Before the
+            WhatsApp button so that, at the same z-index, the button's
+            hover label paints over the notice rather than under it. */}
         <AnalyticsNotice />
+        <WhatsAppButton />
       </div>
     </CommandPaletteProvider>
   );

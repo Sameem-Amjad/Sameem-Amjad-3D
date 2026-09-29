@@ -1,14 +1,18 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { profile, links } from "../constants";
+import { profile, links, whatsappHref } from "../constants";
 import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
 import { track } from "../utils/analytics";
 
+/* WhatsApp sits second: for a lot of founders it is the fastest way to ask
+   "can you look at this?", and a question asked is a lead. It spans both
+   columns, and the grid packs densely, so the five cards tile 2 · 1 · 2. */
 const methods = [
   { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.booking },
+  { icon: "whatsapp", label: "WhatsApp", value: profile.phone, href: whatsappHref("/#contact"), track: "contact", wide: true },
+  { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
   { icon: "star", label: "Fiverr", value: "5.0 · top rated", href: links.fiverr },
   { icon: "globe", label: "DevoraX", value: "thedevorax.tech", href: links.devorax },
-  { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
 ];
 
 const availability = [
@@ -130,13 +134,16 @@ const Contact = () => {
         {/* methods + terminal availability panel */}
         <Reveal delay={0.1}>
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {/* row-dense: WhatsApp spans both columns, so let Email move up
+                beside Book a call instead of leaving a hole in row one. */}
+            <div className="grid grid-flow-row-dense grid-cols-1 gap-3 sm:grid-cols-2">
               {methods.map((m) => (
                 <a key={m.label} href={m.href}
                   target={m.href.startsWith("http") ? "_blank" : undefined}
                   rel={m.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={m.track ? () => track("whatsapp_click", { placement: m.track }) : undefined}
                   data-cursor="button"
-                  className="panel panel-hover group flex items-center gap-3 p-4">
+                  className={cn("panel panel-hover group flex items-center gap-3 p-4", m.wide && "sm:col-span-2")}>
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line text-acid transition-colors group-hover:border-acid">
                     <Icon name={m.icon} className="h-5 w-5" />
                   </span>

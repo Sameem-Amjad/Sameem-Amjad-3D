@@ -137,8 +137,11 @@ const Hero = () => {
             <PrimaryButton href={links.booking} icon="calendar">
               Book a call
             </PrimaryButton>
-            <GhostButton href="#work" icon="arrowDown">
-              View work
+            {/* The lead offer gets the second button. "View work" is one
+                scroll away and in the nav; a founder whose app is broken
+                should not have to hunt for the page that says we fix that. */}
+            <GhostButton to="/services/fix-vibe-coded-app" icon="arrowRight">
+              Fix a stuck app
             </GhostButton>
             <a
               href={links.fiverr}

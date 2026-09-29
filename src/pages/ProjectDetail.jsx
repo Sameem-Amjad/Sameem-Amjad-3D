@@ -8,6 +8,7 @@ import {
   profile,
   links,
 } from "../constants";
+import { servicesForProject } from "../constants/services";
 import { PageTransition } from "../components/fx";
 import {
   Icon,
@@ -83,6 +84,9 @@ const ProjectDetail = () => {
   if (!project) return <Navigate to="/work" replace />;
 
   const { prev, next } = getAdjacentProjects(slug);
+  // The services this project is cited as proof for, so the case study
+  // links back to the page where someone can hire for the same work.
+  const related = servicesForProject(project.title);
   const features = project.features || [];
   const platforms = [
     project.web && "Web",
@@ -341,6 +345,22 @@ const ProjectDetail = () => {
             <GhostButton href={links.email} icon="mail">Email me</GhostButton>
           </div>
         </div>
+        {related.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-[12px] uppercase tracking-wide">
+            <span className="text-faint">Related service</span>
+            {related.map((sv) => (
+              <Link
+                key={sv.slug}
+                to={`/services/${sv.slug}`}
+                data-cursor="button"
+                className="group inline-flex items-center gap-1.5 text-acid"
+              >
+                {sv.name}
+                <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </PageTransition>
   );

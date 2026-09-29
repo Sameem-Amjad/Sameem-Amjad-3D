@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { testimonials, testimonialStats, links } from "../constants";
 import { SectionHeading, Section, Icon, cn } from "./shared";
 
@@ -13,9 +13,9 @@ const Stars = ({ n = 5 }) => (
   </span>
 );
 
-const Card = ({ t, i }) => (
+const Card = ({ t, i, hidden }) => (
   <motion.figure
-    layout
+    hidden={hidden}
     initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.2 }}
@@ -51,7 +51,6 @@ const Testimonials = () => {
   const [expanded, setExpanded] = useState(false);
   if (!testimonials.length) return null;
 
-  const visible = expanded ? testimonials : testimonials.slice(0, SHOWN);
   const rest = testimonials.length - SHOWN;
 
   return (
@@ -101,12 +100,14 @@ const Testimonials = () => {
 
       {/* Masonry keeps a one-line "very quick turn around" next to a paragraph
           without either being padded out to match the other. */}
+      {/* Every review is in the HTML; past the first SHOWN they are `hidden`
+          until expanded. Slicing them out meant 15 of the 21 real reviews —
+          including most of the specific ones about Next.js, AWS and Stripe
+          work — never reached a crawler or an assistant. */}
       <motion.div layout className="mt-4 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
-        <AnimatePresence initial={false}>
-          {visible.map((t, i) => (
-            <Card key={`${t.name}-${t.when}-${i}`} t={t} i={i} />
-          ))}
-        </AnimatePresence>
+        {testimonials.map((t, i) => (
+          <Card key={`${t.name}-${t.when}-${i}`} t={t} i={i} hidden={!expanded && i >= SHOWN} />
+        ))}
       </motion.div>
 
       {rest > 0 && (

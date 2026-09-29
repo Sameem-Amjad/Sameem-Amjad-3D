@@ -46,3 +46,22 @@ export const track = (name, params) => {
 /* True when analytics is active in this build — the notice uses it so nothing
    is shown where nothing is measured. */
 export const analyticsEnabled = Boolean(id) && import.meta.env.PROD;
+
+/* "Book a call" links live in a dozen components (hero, nav, services,
+   FAQ, footer, every case study and service page). One delegated listener
+   counts them all as `book_call_click`, rather than threading an onClick
+   through each. Mark it as a key event in GA alongside contact_submit and
+   whatsapp_click (which the WhatsApp links fire themselves). */
+export const initLeadTracking = (bookingUrl) => {
+  if (!bookingUrl || typeof document === "undefined") return;
+  document.addEventListener(
+    "click",
+    (e) => {
+      const a = e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (a && a.href.startsWith(bookingUrl)) {
+        track("book_call_click", { page_path: window.location.pathname });
+      }
+    },
+    { capture: true }
+  );
+};

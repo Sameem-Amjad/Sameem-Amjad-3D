@@ -246,14 +246,34 @@ export const ScrollProgress = () => {
   );
 };
 
-/* ───────── Page transition wrapper ───────── */
-export const PageTransition = ({ children }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 16 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -12 }}
-    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-  >
-    {children}
-  </motion.div>
-);
+/* ───────── Page transition wrapper ─────────
+   The page a visitor lands on must not start at opacity:0. framer-motion
+   serialises `initial` into the prerendered HTML, and this wrapper sits
+   around every route — so every page, hero included, shipped as
+   `style="opacity:0"` and stayed invisible until the whole bundle had
+   downloaded and hydrated. That is render delay the CSS hero entrance could
+   never fix, because its parent was still transparent.
+
+   So the first render (the prerender, and the hydration pass that must
+   match it) uses initial={false}: framer-motion renders the resting state
+   and animates nothing. Once the app has mounted, later route changes get
+   the fade-and-rise as before. Module scope, not state, because the
+   wrapper remounts on every navigation (App keys <Routes> on pathname). */
+let landed = false;
+
+export const PageTransition = ({ children }) => {
+  const [initial] = useState(() => (landed ? { opacity: 0, y: 16 } : false));
+  useEffect(() => {
+    landed = true;
+  }, []);
+  return (
+    <motion.div
+      initial={initial}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+};

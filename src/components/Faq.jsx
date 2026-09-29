@@ -1,9 +1,9 @@
 import { useId, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { faqs, profile, links } from "../constants";
 import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
 
-const Item = ({ q, a, open, onToggle, index }) => {
+const Item = ({ q, a, link, open, onToggle, index }) => {
   const id = useId();
   return (
     <div
@@ -45,23 +45,26 @@ const Item = ({ q, a, open, onToggle, index }) => {
         </button>
       </h3>
 
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            id={id}
-            key="body"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <p className="max-w-3xl px-2 pb-7 pl-[3.1rem] text-[15px] leading-relaxed text-muted sm:px-4 sm:pl-[3.6rem]">
-              {a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Every answer is in the DOM; closed ones are `hidden`. This used to
+          mount only the open answer, so six of the seven were missing from
+          the prerendered HTML — invisible to crawlers and assistants, and to
+          the FAQPage markup that restates them. Same fix as the services
+          tabs: hidden content is indexed, content never rendered is not. */}
+      <div id={id} hidden={!open} className={cn(open && "anim-rise-sm")}>
+        <p className="max-w-3xl px-2 pb-7 pl-[3.1rem] text-[15px] leading-relaxed text-muted sm:px-4 sm:pl-[3.6rem]">
+          {a}
+          {link && (
+            <Link
+              to={link.to}
+              data-cursor="button"
+              className="mt-3 flex w-fit items-center gap-1.5 font-mono text-[12px] uppercase tracking-wide text-acid"
+            >
+              {link.label}
+              <Icon name="arrowRight" className="h-3.5 w-3.5" />
+            </Link>
+          )}
+        </p>
+      </div>
     </div>
   );
 };
@@ -87,6 +90,7 @@ const Faq = () => {
               index={i}
               q={f.q}
               a={f.a}
+              link={f.link}
               open={open === i}
               onToggle={() => setOpen(open === i ? -1 : i)}
             />

@@ -6,7 +6,9 @@
 //  in-app head can never drift apart.
 // ─────────────────────────────────────────────────────────────
 
-import { allProjects, slugify, getProjectBySlug, profile, links } from "./index";
+import { allProjects, slugify, getProjectBySlug, profile, links, faqs } from "./index";
+import { servicePages, getServiceBySlug, SERVICES_UPDATED } from "./services";
+import { guides, getGuideBySlug } from "./guides";
 import { sized } from "../utils/img";
 
 /* The canonical origin. Everything derives from it: canonicals, og:url,
@@ -43,45 +45,78 @@ export const normalizePath = (pathname = "/") => {
 const ogFor = (project) =>
   project?.image ? sized(project.image, 1200, 80) : DEFAULT_OG_IMAGE;
 
+/* DevoraX's own site already publishes an Organization node at this @id.
+   Using the same IRI here, rather than minting sameemamjad.com/#organization,
+   lets anything that reads both graphs merge them into one company instead
+   of two companies with the same name. */
+const ORG_ID = `${links.devorax}/#organization`;
+
 const person = {
   "@type": "Person",
   "@id": `${ORIGIN}/#person`,
   name: profile.name,
-  jobTitle: profile.role,
+  // The spellings the same person goes by elsewhere: the GitHub display
+  // name and the Fiverr/handle form. Lets an engine tie those pages to him.
+  alternateName: ["Sameem_Amjad", "sameemamjad"],
+  // One title, the one buyers search for. The DevoraX role lives in worksFor
+  // and in the description, not as a second jobTitle.
+  jobTitle: "Full-Stack Developer",
   email: profile.email,
   url: ORIGIN,
   image: DEFAULT_OG_IMAGE,
-  description: profile.subheadline,
-  worksFor: { "@id": `${ORIGIN}/#organization` },
-  // knowsAbout is how the Person entity gets associated with a topic. Listed
-  // specifically, because "AI engineering" is too broad to attach to anything.
+  // Third person and fact-only, because this is the sentence an assistant
+  // lifts when asked who he is. Same text as llms.txt and the footer.
+  description: profile.bio,
+  worksFor: { "@id": ORG_ID },
+  homeLocation: { "@type": "Country", name: "Pakistan" },
+  // knowsAbout is how the Person entity gets associated with a topic. Proven
+  // work first (it is what the reviews and case studies back), AI after.
   knowsAbout: [
-    "AI agents",
-    "Agentic systems and workflows",
-    "AI orchestration",
-    "Voice agents",
-    "Retrieval-augmented generation (RAG)",
-    "LLM application development",
-    "Solution architecture",
-    "System design",
     "Full-stack web development",
-    "React",
     "Next.js",
+    "React",
     "Node.js",
-    "Python",
+    "Supabase",
+    "Stripe integration",
+    "AWS deployment",
     "React Native",
-    "Cloud architecture",
+    "Flutter",
+    "Fixing and securing AI-generated apps (Lovable, Bolt, Replit, Cursor)",
+    "Marketplace development",
+    "System design",
+    "LLM application development",
+    "AI agents",
   ],
   /* Pages about this person, not the company. links.devorax was doing double
      duty — asserted here as another page about Sameem and at organization.url
      as the company's website, which are different claims. The team page is a
      page about him; the company homepage is not. */
-  sameAs: [`${links.devorax}/team`, links.fiverr].filter(Boolean),
+  sameAs: [
+    `${links.devorax}/team`,
+    links.linkedin,
+    links.github,
+    links.x,
+    links.fiverr,
+  ].filter(Boolean),
+  /* How to reach him, stated as data. An assistant asked "how do I contact
+     Sameem Amjad" can answer from this without scraping a button label. */
+  telephone: profile.phone.replace(/\s+/g, ""),
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: profile.phone.replace(/\s+/g, ""),
+      email: profile.email,
+      url: links.whatsapp,
+      availableLanguage: ["English"],
+      areaServed: "Worldwide",
+    },
+  ],
 };
 
 const organization = {
   "@type": "Organization",
-  "@id": `${ORIGIN}/#organization`,
+  "@id": ORG_ID,
   name: profile.company,
   url: links.devorax,
   founder: { "@id": `${ORIGIN}/#person` },
@@ -169,18 +204,36 @@ const composeTitle = (head, subtitle, brand) => {
   return clamp(head, TITLE_MAX);
 };
 
+/* FAQ markup restates exactly what the page renders. Google only honours
+   it for text a visitor can reach, and assistants quote the answer text, so
+   the markup and the page must be the same words — both read from one
+   array. */
+const faqPage = (id, list) => ({
+  "@type": "FAQPage",
+  "@id": id,
+  mainEntity: list.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+});
+
 /* ── Static routes ───────────────────────────────────────── */
 
 const STATIC = {
   "/": {
-    title: `${profile.name} — ${profile.role} · ${profile.company}`,
-    // What Google prints under the title. Leads with the work people search
-    // for rather than a job title, and stays inside the ~158-char clamp.
+    // Name first (branded searches have to be won before anything else),
+    // then the phrase buyers type. "Freelance Full-Stack Developer for Hire"
+    // is the one title pattern that ranks for an individual on that query.
+    title: `${profile.name} — Freelance Full-Stack Developer for Hire`,
+    // What Google prints under the title: the lead offer, in the words people
+    // search, inside the ~158-char clamp. Was "AI agents … voice agents",
+    // which no review or case study backs.
     description:
-      "Sameem Amjad builds AI agents, agentic workflows and voice agents, plus the web, mobile and cloud systems around them. Founder & Lead Engineer, DevoraX.",
+      "Freelance full-stack developer. I fix stuck apps and ship them: Next.js, React Native, Supabase, Stripe and AWS, including apps built with Lovable or Bolt.",
     type: "profile",
     image: DEFAULT_OG_IMAGE,
-    graph: [profilePage, person, organization, website],
+    graph: [profilePage, person, organization, website, faqPage(`${ORIGIN}/#faq`, faqs)],
   },
   "/work": {
     title: `Work — ${allProjects.length} shipped products · ${profile.name}`,
@@ -236,6 +289,173 @@ const STATIC = {
       ...SHARED_NODES,
     ],
   },
+  "/services": {
+    title: `Services — full-stack & AI development · ${profile.name}`,
+    description: clamp(
+      "App rescue, Next.js development, App Store launch and marketplace builds. Senior-led, fixed scope and fixed price, from Sameem Amjad and DevoraX."
+    ),
+    type: "website",
+    image: DEFAULT_OG_IMAGE,
+    graph: [
+      {
+        "@type": "CollectionPage",
+        "@id": `${ORIGIN}/services#page`,
+        url: `${ORIGIN}/services`,
+        name: "Services",
+        isPartOf: { "@id": `${ORIGIN}/#website` },
+        about: { "@id": `${ORIGIN}/#person` },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: servicePages.length,
+          itemListElement: servicePages.map((s, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${ORIGIN}/services/${s.slug}`,
+            name: s.name,
+          })),
+        },
+      },
+      breadcrumb([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+      ]),
+      ...SHARED_NODES,
+    ],
+  },
+  "/guides": {
+    title: `Guides — fixing apps that break in production · ${profile.name}`,
+    description: clamp(
+      "Short, complete fixes for the problems AI-built apps hit in production — Supabase security, deploys, 404s — with the exact code for each."
+    ),
+    type: "website",
+    image: DEFAULT_OG_IMAGE,
+    graph: [
+      {
+        "@type": "CollectionPage",
+        "@id": `${ORIGIN}/guides#page`,
+        url: `${ORIGIN}/guides`,
+        name: "Guides",
+        isPartOf: { "@id": `${ORIGIN}/#website` },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: guides.length,
+          itemListElement: guides.map((g, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${ORIGIN}/guides/${g.slug}`,
+            name: g.title,
+          })),
+        },
+      },
+      breadcrumb([
+        { name: "Home", path: "/" },
+        { name: "Guides", path: "/guides" },
+      ]),
+      ...SHARED_NODES,
+    ],
+  },
+};
+
+/* A service page's graph: the Service itself, provided by the Person, plus
+   its FAQ. */
+const serviceSeo = (service) => {
+  const url = `${ORIGIN}/services/${service.slug}`;
+  return {
+    path: `/services/${service.slug}`,
+    canonical: url,
+    title: service.seoTitle,
+    description: clamp(service.seoDescription),
+    image: DEFAULT_OG_IMAGE,
+    type: "website",
+    robots: "index,follow,max-image-preview:large,max-snippet:-1",
+    graph: [
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: service.name,
+        serviceType: service.serviceType,
+        description: service.seoDescription,
+        url,
+        provider: { "@id": `${ORIGIN}/#person` },
+        areaServed: "Worldwide",
+        availableChannel: {
+          "@type": "ServiceChannel",
+          serviceUrl: links.booking,
+          availableLanguage: "English",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${url}#page`,
+        url,
+        name: service.seoTitle,
+        isPartOf: { "@id": `${ORIGIN}/#website` },
+        about: { "@id": `${url}#service` },
+        dateModified: SERVICES_UPDATED,
+      },
+      ...(service.faqs?.length ? [faqPage(`${url}#faq`, service.faqs)] : []),
+      breadcrumb([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+        { name: service.name, path: `/services/${service.slug}` },
+      ]),
+      ...SHARED_NODES,
+    ],
+  };
+};
+
+/* A guide is a TechArticle written by the Person — authorship and dates
+   are what make a how-to citable, so both are stated here and shown on the
+   page. `about` ties it to the service it leads to. */
+const guideService = (guide) => (guide.service ? getServiceBySlug(guide.service) : null);
+
+const guideSeo = (guide) => {
+  const url = `${ORIGIN}/guides/${guide.slug}`;
+  return {
+    path: `/guides/${guide.slug}`,
+    canonical: url,
+    title: guide.seoTitle,
+    description: clamp(guide.seoDescription),
+    image: DEFAULT_OG_IMAGE,
+    type: "article",
+    robots: "index,follow,max-image-preview:large,max-snippet:-1",
+    graph: [
+      {
+        "@type": "TechArticle",
+        "@id": `${url}#article`,
+        headline: guide.title,
+        description: guide.seoDescription,
+        url,
+        mainEntityOfPage: url,
+        image: DEFAULT_OG_IMAGE,
+        datePublished: guide.published,
+        dateModified: guide.updated,
+        author: { "@id": `${ORIGIN}/#person` },
+        publisher: { "@id": `${ORIGIN}/#person` },
+        isPartOf: { "@id": `${ORIGIN}/#website` },
+        inLanguage: "en",
+        // Named inline, not a bare @id: the Service node itself lives on the
+        // service page's graph, and a reference this graph doesn't define
+        // would be dropped by consumers.
+        ...(guideService(guide)
+          ? {
+              about: {
+                "@type": "Service",
+                "@id": `${ORIGIN}/services/${guide.service}#service`,
+                name: guideService(guide).name,
+                url: `${ORIGIN}/services/${guide.service}`,
+              },
+            }
+          : {}),
+      },
+      breadcrumb([
+        { name: "Home", path: "/" },
+        { name: "Guides", path: "/guides" },
+        { name: guide.title, path: `/guides/${guide.slug}` },
+      ]),
+      ...SHARED_NODES,
+    ],
+  };
 };
 
 /* ── Resolver ────────────────────────────────────────────── */
@@ -243,6 +463,14 @@ const STATIC = {
 export const seoForPath = (pathname = "/") => {
   const path = normalizePath(pathname);
   const canonical = `${ORIGIN}${path}`;
+
+  const guideMatch = path.match(/^\/guides\/([^/]+)$/);
+  const guide = guideMatch ? getGuideBySlug(guideMatch[1]) : null;
+  if (guide) return guideSeo(guide);
+
+  const serviceMatch = path.match(/^\/services\/([^/]+)$/);
+  const service = serviceMatch ? getServiceBySlug(serviceMatch[1]) : null;
+  if (service) return serviceSeo(service);
 
   const match = path.match(/^\/work\/([^/]+)$/);
   const project = match ? getProjectBySlug(match[1]) : null;
@@ -313,6 +541,10 @@ export const seoForPath = (pathname = "/") => {
 /* Every route the prerenderer and the sitemap should emit. */
 export const seoRoutes = [
   "/",
+  "/services",
+  ...servicePages.map((s) => `/services/${s.slug}`),
+  "/guides",
+  ...guides.map((g) => `/guides/${g.slug}`),
   "/work",
   "/builds",
   ...allProjects.map((p) => `/work/${slugify(p.title)}`),

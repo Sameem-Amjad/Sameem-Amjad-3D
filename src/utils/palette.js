@@ -6,6 +6,8 @@
 /* Fixed display order for the grouped (empty-query) view. */
 export const GROUPS = [
   { key: "navigate", label: "navigate" },
+  { key: "services", label: "services" },
+  { key: "guides", label: "guides" },
   { key: "case-studies", label: "case studies" },
   { key: "builds", label: "builds" },
   { key: "connect", label: "connect" },

@@ -14,14 +14,24 @@ export const profile = {
   // `kicker` is the role line that sits under it in acid.
   headline: ["Sameem", "Amjad"],
   // The two lines under the name carry the positioning, so they carry the
-  // words people actually search. "Full-Stack & AI Engineer" said AI without
-  // saying which kind, and the kind is the whole point now.
-  kicker: "AI Agents & Full-Stack Systems",
+  // words buyers actually search. Keyword research (2026-09-29): people type
+  // "freelance full stack developer" and "fix my vibe coded app"; nobody
+  // types "AI agents & full-stack systems", and none of the reviews are
+  // about AI, so AI moves to the end of the pitch rather than leading it.
+  kicker: "Freelance Full-Stack Developer",
   subheadline:
-    "Founder & Lead Engineer at DevoraX. I design and ship AI agents, agentic workflows and the production systems around them — web, mobile and cloud, from architecture to millions of users.",
+    "I fix stuck apps and ship them — Next.js, React Native, Supabase, Stripe and AWS, including apps built with Lovable, Bolt, Replit or Cursor. At DevoraX I build marketplaces, mobile apps and AI features, from architecture to launch.",
+  // Third person, facts only: Person.description in the schema, the opening
+  // of llms.txt and the footer's about line. It is the paragraph an
+  // assistant quotes when asked who he is, so every clause must be checkable.
+  bio:
+    "Sameem Amjad is a freelance full-stack developer based in Pakistan and the founder of DevoraX. He fixes and ships stuck web and mobile apps — Next.js, React Native, Supabase, Stripe and AWS — including apps built with AI tools such as Lovable, Bolt, Replit and Cursor. He has sold on Fiverr since 2022, with a 5.0 rating across 50+ projects for clients in the US, UK, Canada and Hong Kong.",
   location: "Available worldwide · Remote",
   availability: "Available for new projects",
   email: "sameemamjadarsu@gmail.com",
+  // Business WhatsApp. `phone` is the display form; the wa.me link below
+  // needs the bare international digits.
+  phone: "+92 371 1285190",
 };
 
 export const links = {
@@ -33,6 +43,28 @@ export const links = {
   // not a booking page — so all ten "Book a call" CTAs dead-ended there.
   booking: "https://thedevorax.tech/book",
   email: "mailto:sameemamjadarsu@gmail.com",
+  // wa.me opens the WhatsApp app on phones and WhatsApp Web on desktop.
+  // Use whatsappHref() when a prefilled message helps; this bare form is
+  // what the schema graph and llms.txt cite.
+  // Written out literally (bare international digits) so check:links,
+  // which reads source text, can test it.
+  whatsapp: "https://wa.me/923711285190",
+  // Profiles about Sameem himself — the schema graph's sameAs, and the
+  // footer.
+  // The URL thedevorax.tech links everywhere. The older numeric one in the
+  // GitHub README stops resolving once a custom URL is set.
+  linkedin: "https://www.linkedin.com/in/sameem-amjad-dev",
+  github: "https://github.com/Sameem-Amjad",
+  x: "https://x.com/SameemAmjad",
+};
+
+/* A wa.me link with the first message already typed. The page it came from
+   is in the text so a WhatsApp lead says where it started — GA sees the
+   click, but only the message itself reaches the phone. */
+export const whatsappHref = (pathname = "/") => {
+  const page = pathname && pathname !== "/" ? `sameemamjad.com${pathname}` : "sameemamjad.com";
+  const text = `Hi Sameem, I found you on ${page} and I'd like to talk about a project.`;
+  return `${links.whatsapp}?text=${encodeURIComponent(text)}`;
 };
 
 export const navLinks = [
@@ -55,11 +87,34 @@ export const impactStats = [
   { value: 2.4, decimals: 1, suffix: "M+", label: "Users reached" },
   { value: 99.9, decimals: 1, suffix: "%", label: "Peak uptime" },
   { value: 120, decimals: 0, suffix: "k+", label: "Orders processed" },
-  { value: 120, decimals: 0, suffix: "+", label: "Countries served" },
+  // "Countries served" read as 120 countries of *clients*, next to reviews
+  // from four. The figure is where the products' users are, so say that.
+  { value: 120, decimals: 0, suffix: "+", label: "Countries reached" },
   { value: 5, decimals: 1, suffix: "", label: "Fiverr rating", isRating: true },
 ];
 
+// `page` links a tab to its full /services/<slug> page (constants/services.js).
 export const services = [
+  {
+    key: "rescue",
+    title: "App Rescue",
+    label: "Rescue",
+    blurb:
+      "Your app works in the demo and breaks with real users. I find out why, fix it and ship it.",
+    detail:
+      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, or with a contractor who has since disappeared. They look finished, then fall over at login, payments or deploy. I audit first, quote one fixed price, and fix the app in your codebase.",
+    points: [
+      "Login, Supabase security rules and exposed keys",
+      "Stripe checkout, webhooks and subscriptions",
+      "Deploys: Vercel, AWS, custom domains and SSL",
+      "Slow pages, broken layouts and mobile UI bugs",
+      "Moving the app off the builder onto accounts you own",
+    ],
+    tech: ["Lovable", "Bolt", "Next.js", "Supabase", "Stripe", "AWS"],
+    icon: "shield",
+    accent: "from-amber-400/25 to-transparent",
+    page: "fix-vibe-coded-app",
+  },
   {
     key: "web",
     title: "Web Platforms",
@@ -76,6 +131,7 @@ export const services = [
     ],
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
     icon: "web",
+    page: "nextjs-developer",
     accent: "from-violet-500/25 to-transparent",
     span: "md:col-span-2",
   },
@@ -95,6 +151,7 @@ export const services = [
     ],
     tech: ["React Native", "Flutter", "Firebase", "Node.js"],
     icon: "mobile",
+    page: "app-store-launch",
     accent: "from-cyan-400/25 to-transparent",
     span: "",
   },
@@ -766,7 +823,12 @@ export const faqs = [
   },
   {
     q: "What does a project usually cost, and how long does it take?",
-    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. The discovery call is free and you get an honest number at the end of it.",
+    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. The discovery call is free and you get an honest number at the end of it.",
+  },
+  {
+    q: "My app was built with Lovable, Bolt or Cursor and it's broken. Can you fix it?",
+    a: "Yes. A lot of my Fiverr work is fixing and finishing other people's apps — deploys, payments, restructuring and UI bugs — and AI-built apps break in the same places. I audit the app first, then fix login, database security, payments and deploys in your codebase for one fixed price, and get it live.",
+    link: { to: "/services/fix-vibe-coded-app", label: "How app rescue works" },
   },
   {
     q: "What happens after launch?",
@@ -781,6 +843,14 @@ export const faqs = [
     a: "Yes, and a fair share of my work is exactly that: a project that stalled, a contractor who disappeared, a system that got slow as it grew. I start with an audit and tell you honestly whether it's worth fixing or worth replacing, before you spend anything on the build.",
   },
   {
+    q: "Where are you based, and will our hours overlap?",
+    a: "I'm based in Pakistan (PKT, UTC+5) and work with clients in the US, UK, Canada and Hong Kong. Calls are booked through the scheduler in your own time zone, work updates are written so nothing waits on a meeting, and messages get a reply within 24 hours.",
+  },
+  {
+    q: "Can I message you on WhatsApp?",
+    a: "Yes. WhatsApp +92 371 1285190 is the fastest way to reach me: send your app link and what's going wrong, and I'll reply with next steps. You can also book a free 30-minute call or use the form below.",
+  },
+  {
     q: "How do we start?",
     a: "Book a call. Thirty minutes, no pitch deck. Tell me what you're building and what success looks like, and you'll leave with a scope, a timeline and a number — whether or not you work with me.",
   },
@@ -790,6 +860,8 @@ export const faqs = [
 // Real Fiverr reviews, scraped 24 -> 21 after removing exact
 // duplicates (the same review posted twice). All 5 stars, newest first.
 // Nothing here is written by me; `quote` is the client's text verbatim.
+// `tags` say what a review is evidence of; the service pages pick their
+// reviews by tag, so a quote is never retyped anywhere.
 export const testimonials = [
   {
     quote:
@@ -808,6 +880,7 @@ export const testimonials = [
     rating: 5,
     when: "3 months ago",
     source: "Fiverr",
+    tags: ["team"],
   },
   {
     quote:
@@ -853,6 +926,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["rescue", "deploy", "fullstack"],
   },
   {
     quote:
@@ -862,6 +936,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["rescue", "fullstack", "nextjs"],
   },
   {
     quote:
@@ -871,6 +946,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["fullstack", "nextjs"],
   },
   {
     quote:
@@ -880,6 +956,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["rescue", "fullstack", "nextjs"],
   },
   {
     quote:
@@ -889,6 +966,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["fullstack", "marketplace"],
   },
   {
     quote:
@@ -898,6 +976,7 @@ export const testimonials = [
     rating: 5,
     when: "6 months ago",
     source: "Fiverr",
+    tags: ["team"],
   },
   {
     quote:
@@ -916,6 +995,7 @@ export const testimonials = [
     rating: 5,
     when: "7 months ago",
     source: "Fiverr",
+    tags: ["mobile"],
   },
   {
     quote:
@@ -934,6 +1014,7 @@ export const testimonials = [
     rating: 5,
     when: "7 months ago",
     source: "Fiverr",
+    tags: ["rescue"],
   },
   {
     quote:
@@ -952,6 +1033,7 @@ export const testimonials = [
     rating: 5,
     when: "7 months ago",
     source: "Fiverr",
+    tags: ["mobile", "rescue"],
   },
   {
     quote:

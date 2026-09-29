@@ -39,10 +39,14 @@ const AnalyticsNotice = () => {
 
   if (!show) return null;
 
+  /* The right inset leaves the corner to the WhatsApp button on narrow
+     screens. From md up the notice is centred and clears the resting
+     button; the button's hover label can overlap it, and paints on top
+     because App renders the button after this. */
   return (
     <div
       role="status"
-      className="fixed inset-x-4 bottom-4 z-40 mx-auto flex max-w-xl items-center gap-4 rounded-2xl border border-line bg-base-2/95 px-5 py-3.5 text-[13px] leading-snug text-muted shadow-2xl backdrop-blur sm:inset-x-6 sm:bottom-6"
+      className="fixed bottom-4 left-4 right-20 z-40 mx-auto flex max-w-xl items-center gap-4 rounded-2xl border border-line bg-base-2/95 px-5 py-3.5 text-[13px] leading-snug text-muted shadow-2xl backdrop-blur sm:bottom-6 sm:left-6 sm:right-24 md:inset-x-6"
     >
       <p className="flex-1">
         This site uses Google Analytics to count visits. No ads, no

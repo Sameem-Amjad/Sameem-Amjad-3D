@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { services, links } from "../constants";
 import { SectionHeading, Section, Icon, PrimaryButton, cn } from "./shared";
@@ -43,7 +44,7 @@ const Services = () => {
         eyebrow="what I do"
         title="Full-stack delivery,"
         accent="end to end."
-        description="Five things people hire me for. Pick one — or tell me the business problem and I'll tell you which of these it actually is."
+        description="Six things people hire me for. Pick one — or tell me the business problem and I'll tell you which of these it actually is."
       />
 
       <div
@@ -130,10 +131,23 @@ const Services = () => {
                   ))}
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 flex flex-wrap items-center gap-3">
                   <PrimaryButton href="#contact" icon="arrowRight">
                     Talk about this
                   </PrimaryButton>
+                  {/* A real link to the full page, in every panel's HTML —
+                      the homepage is where the service pages get their
+                      internal links from. */}
+                  {s.page && (
+                    <Link
+                      to={`/services/${s.page}`}
+                      data-cursor="button"
+                      className="group inline-flex min-h-[44px] items-center gap-2 px-2 font-mono text-[13px] uppercase tracking-wider text-muted transition-colors hover:text-acid"
+                    >
+                      {s.title}: how it works
+                      <Icon name="arrowRight" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  )}
                 </div>
               </div>
 
@@ -189,6 +203,14 @@ const Services = () => {
         <PrimaryButton href={links.booking} icon="calendar">
           Book a call
         </PrimaryButton>
+        <Link
+          to="/services"
+          data-cursor="button"
+          className="group inline-flex min-h-[44px] items-center gap-2 px-2 font-mono text-[13px] uppercase tracking-wider text-muted transition-colors hover:text-acid"
+        >
+          All services
+          <Icon name="arrowRight" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
         <a
           href={links.devorax}
           target="_blank"
