@@ -24,7 +24,7 @@ The source of sameemamjad.com: a React 18 + Vite single-page app, **prerendered 
 | Generated at build | `sitemap.xml`, `robots.txt`, `llms.txt` (see `vite.config.js`) |
 | Hosting | Vercel, with security headers and a CSP in `vercel.json` |
 | Contact | EmailJS form, WhatsApp, booking link |
-| Analytics | Google Analytics 4, loaded from the bundle (`src/utils/analytics.js`) |
+| Analytics | Google Analytics 4 and Microsoft Clarity, loaded from the bundle (`src/utils/analytics.js`) |
 
 ### Where the content lives
 
