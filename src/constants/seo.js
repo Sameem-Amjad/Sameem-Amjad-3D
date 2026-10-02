@@ -21,7 +21,7 @@ import { sized } from "../utils/img";
    redirects, which Google tolerates but should not have to. */
 export const ORIGIN = "https://sameemamjad.com";
 export const SITE_NAME = "Sameem Amjad";
-export const DEFAULT_OG_IMAGE = `${ORIGIN}/myimage/profile.png`;
+export const DEFAULT_OG_IMAGE = `${ORIGIN}/myimage/profile.jpg`;
 
 /* Google truncates around 155–160 chars. Clamp on a word boundary so
    descriptions never end mid-word in the SERP. */

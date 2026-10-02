@@ -185,7 +185,7 @@ const Hero = () => {
           style={{ y: portraitY }}
           className="relative mx-auto w-full max-w-[19rem] sm:max-w-[22rem] lg:max-w-[24rem]"
         >
-          {/* ember bloom behind the frame — picks up the warm circuitry in the
+          {/* ember bloom behind the frame — picks up the warm skin tones in the
               photo so the portrait sits in the palette rather than on top of it */}
           <div
             aria-hidden="true"
@@ -206,8 +206,8 @@ const Hero = () => {
             <img
               src="/myimage/profile.webp"
               alt={`${profile.name}, ${profile.role} at ${profile.company}`}
-              width={1254}
-              height={1254}
+              width={1000}
+              height={1000}
               fetchpriority="high"
               decoding="async"
               className="h-full w-full scale-[1.03] object-cover object-center"

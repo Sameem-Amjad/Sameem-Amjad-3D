@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { team, links } from "../constants";
-import { Section, Eyebrow, Reveal, MaskLine, Icon, PrimaryButton, GhostButton, SmartImage, cn } from "./shared";
+import { Section, Eyebrow, Reveal, MaskLine, Icon, PrimaryButton, GhostButton, SmartImage } from "./shared";
 
 const TeamCard = ({ m, i }) => (
   <motion.article
@@ -11,14 +11,15 @@ const TeamCard = ({ m, i }) => (
     data-cursor="card"
     className="panel panel-hover group relative flex flex-col overflow-hidden"
   >
-    <div className="relative aspect-[3/2] w-full overflow-hidden">
+    {/* Square, because the portraits are head-and-shoulders: a 3:2 crop of
+        them can only show a face from hairline to chin. Both photos are
+        pre-framed on the same backdrop with the same eye line, so no
+        per-person object-position is needed. */}
+    <div className="relative aspect-square w-full overflow-hidden">
       <SmartImage
         src={m.image}
         alt={`${m.name}, ${m.role} at DevoraX`}
-        className={cn(
-          "h-full w-full object-cover grayscale-[0.35] transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0",
-          m.imgPos
-        )}
+        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
       />
       <div
         aria-hidden="true"
