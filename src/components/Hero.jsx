@@ -204,13 +204,13 @@ const Hero = () => {
             className="anim-pop relative aspect-square overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-card"
           >
             <img
-              src="/myimage/profile.webp"
+              src="/myimage/profile.png"
               alt={`${profile.name}, ${profile.role} at ${profile.company}`}
               width={1000}
               height={1000}
               fetchpriority="high"
               decoding="async"
-              className="h-full w-full scale-[1.03] object-cover object-center"
+              className="h-full w-full scale-[1.03] object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
             />
 
             {/* scrim: grounds the photo into the page background at the edges */}
@@ -220,7 +220,7 @@ const Hero = () => {
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-base/70 via-transparent to-transparent lg:from-base/50"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-base/70 via-transparent to-transparent lg:from-base/10"
             />
             {/* scanline sweep — the one bit of motion on the portrait itself */}
             <div
