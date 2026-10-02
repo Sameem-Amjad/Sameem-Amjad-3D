@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { links, profile, whatsappHref } from "../constants";
 import { servicePages } from "../constants/services";
-import { track } from "../utils/analytics";
+import { analyticsEnabled, openPrivacyChoices, track } from "../utils/analytics";
 import { Icon, Magnetic } from "./shared";
 
 const explore = [
@@ -139,6 +139,18 @@ const Footer = () => (
         </p>
         <div className="flex items-center gap-5">
           <p className="hidden sm:block">Built with React · Framer Motion · Tailwind</p>
+          {/* Withdrawing consent has to be as easy as giving it: this reopens
+              the analytics banner. Build-time flag, so SSR and client agree. */}
+          {analyticsEnabled && (
+            <button
+              type="button"
+              onClick={openPrivacyChoices}
+              data-cursor="button"
+              className="uppercase tracking-wide transition-colors hover:text-acid"
+            >
+              Privacy choices
+            </button>
+          )}
           <a
             href="#hero"
             data-cursor="button"
