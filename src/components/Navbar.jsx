@@ -108,7 +108,7 @@ const Navbar = () => {
               the full name, so labelling the image too would make a screen
               reader announce the same thing twice. */}
           <img
-            src="/logo-sa.png"
+            src="/logo-sa-96.webp"
             alt=""
             width="36"
             height="36"

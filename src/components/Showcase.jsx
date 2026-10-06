@@ -139,7 +139,7 @@ const Panel = ({ p, i, open, onOpen }) => {
                 Case study
                 <Icon name="arrowUpRight" className="h-3.5 w-3.5" strokeWidth={2.2} />
               </Link>
-              <LiveLinks web={p.web} android={p.android} ios={p.ios} />
+              <LiveLinks web={p.web} android={p.android} ios={p.ios} name={p.title} />
             </div>
           </motion.div>
         )}
@@ -184,7 +184,7 @@ const Rail = ({ items }) => (
             ))}
           </dl>
           <div className="relative z-20 pt-1">
-            <LiveLinks web={p.web} android={p.android} ios={p.ios} />
+            <LiveLinks web={p.web} android={p.android} ios={p.ios} name={p.title} />
           </div>
         </div>
       </article>

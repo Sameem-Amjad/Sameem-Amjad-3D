@@ -203,11 +203,16 @@ const Hero = () => {
             style={{ animationDelay: "0.25s" }}
             className="anim-pop relative aspect-square overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-card"
           >
+            {/* profile.png is the 5.6 MB master; never ship it. These are its
+                top square (all this box or the team card ever shows) as WebP,
+                ~40 KB / ~65 KB. `sizes` mirrors the max-w steps above. */}
             <img
-              src="/myimage/profile.png"
+              src="/myimage/profile-640.webp"
+              srcSet="/myimage/profile-640.webp 640w, /myimage/profile-960.webp 960w"
+              sizes="(min-width: 1024px) 384px, (min-width: 640px) 352px, 304px"
               alt={`${profile.name}, ${profile.role} at ${profile.company}`}
-              width={1000}
-              height={1000}
+              width={640}
+              height={640}
               fetchpriority="high"
               decoding="async"
               className="h-full w-full scale-[1.03] object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
@@ -261,21 +266,23 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* scroll cue */}
+      {/* scroll cue. Its entrance is CSS on an inner span, never framer's
+          initial/animate: those would animate `fade` itself, the MotionValue
+          this shares with the copy column, and so blank the whole hero copy
+          at hydration until the cue's own 1.4s delay ran out. */}
       <motion.a
         href="#impact"
         aria-label="Scroll to impact numbers"
         data-cursor="button"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
         style={{ opacity: fade }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block"
       >
-        <span className="grid h-9 w-5 place-items-start rounded-full border border-line p-1.5">
-          <span className="h-1.5 w-1.5 animate-scroll-dot rounded-full bg-acid" />
+        <span style={{ animationDelay: "1.4s" }} className="anim-fade flex flex-col items-center gap-2">
+          <span className="grid h-9 w-5 place-items-start rounded-full border border-line p-1.5">
+            <span className="h-1.5 w-1.5 animate-scroll-dot rounded-full bg-acid" />
+          </span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-faint">scroll</span>
         </span>
-        <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-faint">scroll</span>
       </motion.a>
     </section>
   );

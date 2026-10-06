@@ -50,12 +50,17 @@
   from { transform: translateY(110%); }
   to   { transform: none; }
 }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
 .anim-rise    { animation: rise-in    0.7s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 .anim-rise-sm { animation: rise-in-sm 0.6s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 .anim-pop     { animation: pop-in     0.6s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 .anim-drop    { animation: drop-in    0.8s  cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 .anim-unmask  { display: block; animation: unmask-up 0.95s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-fade    { animation: fade-in    0.6s  ease-out backwards; }
 
 /* Never let an entrance animation be the reason content is unreadable. */
 @media (prefers-reduced-motion: reduce) {
@@ -63,7 +68,8 @@
   .anim-rise-sm,
   .anim-pop,
   .anim-drop,
-  .anim-unmask {
+  .anim-unmask,
+  .anim-fade {
     animation: none;
   }
 }

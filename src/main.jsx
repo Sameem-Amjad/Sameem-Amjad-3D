@@ -6,9 +6,19 @@ import { initAnalytics, initLeadTracking } from "./utils/analytics";
 import { links } from "./constants";
 import "./index.css";
 
-/* Before render, so the tag request goes out in parallel with hydration
-   rather than after it. */
-initAnalytics();
+/* Analytics waits for the load event and then an idle moment. Started up
+   front, gtag (~175 KB) and Clarity (~25 KB) downloaded alongside the hero
+   and the app bundle, and PageSpeed counted them against first paint and
+   LCP on mobile (Oct 2026: ~330 ms main thread, 3 long tasks). The cost is
+   that a visitor who leaves before the page finishes loading isn't counted.
+   A consent answer given before then is stored, and initAnalytics reads it. */
+const afterLoad = (fn) => {
+  const idle = () =>
+    "requestIdleCallback" in window ? window.requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 0);
+  if (document.readyState === "complete") idle();
+  else window.addEventListener("load", idle, { once: true });
+};
+afterLoad(initAnalytics);
 initLeadTracking(links.booking);
 
 const container = document.getElementById("root");

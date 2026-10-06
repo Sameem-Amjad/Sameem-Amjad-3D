@@ -86,7 +86,7 @@ export const FeaturedCard = ({ p, i }) => (
       <StatRow stats={p.stats} />
       <Tags tags={p.tags} />
       <div className="relative z-20 mt-auto pt-2">
-        <LiveLinks web={p.web} android={p.android} ios={p.ios} />
+        <LiveLinks web={p.web} android={p.android} ios={p.ios} name={p.title} />
       </div>
     </div>
   </motion.article>
@@ -125,7 +125,7 @@ export const GridCard = ({ p }) => (
       <p className="text-sm leading-relaxed text-muted line-clamp-2">{p.description}</p>
       <StatRow stats={p.stats} />
       <div className="relative z-20 mt-auto pt-1">
-        <LiveLinks web={p.web} android={p.android} ios={p.ios} />
+        <LiveLinks web={p.web} android={p.android} ios={p.ios} name={p.title} />
       </div>
     </div>
   </motion.article>

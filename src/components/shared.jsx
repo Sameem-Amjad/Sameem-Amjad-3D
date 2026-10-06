@@ -291,17 +291,22 @@ export const SmartImage = ({
 /* ───────────────── Live links ───────────────── */
 const isValid = (u) => u && u !== "null" && u !== '""' && u !== '"\\""';
 
-export const LiveLinks = ({ web, android, ios, size = "sm" }) => {
+/* `name` goes into each link's accessible name. A grid of cards otherwise
+   reads as a run of identical "Live" links to different sites, which
+   Lighthouse flags and a screen-reader user can't tell apart. The label
+   keeps the visible word in it, so voice control ("click Live") still works. */
+export const LiveLinks = ({ web, android, ios, name, size = "sm" }) => {
   const items = [
-    { url: web, icon: "globe", label: "Live" },
-    { url: android, icon: "android", label: "Android" },
-    { url: ios, icon: "apple", label: "iOS" },
+    { url: web, icon: "globe", label: "Live", aria: "Live site" },
+    { url: android, icon: "android", label: "Android", aria: "Android app" },
+    { url: ios, icon: "apple", label: "iOS", aria: "iOS app" },
   ].filter((i) => isValid(i.url));
   if (!items.length) return null;
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((i) => (
         <a key={i.label} href={i.url} target="_blank" rel="noopener noreferrer"
+          aria-label={name ? `${name}: ${i.aria} (opens in a new tab)` : undefined}
           data-cursor="button" onClick={(e) => e.stopPropagation()}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-full border border-line font-mono uppercase tracking-wide text-ink/90 transition-colors hover:border-acid hover:text-acid",

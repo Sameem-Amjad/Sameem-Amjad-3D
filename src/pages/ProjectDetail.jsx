@@ -152,7 +152,7 @@ const ProjectDetail = () => {
           {hasLinks && (
             <Reveal delay={0.16}>
               <div className="mt-7">
-                <LiveLinks web={project.web} android={project.android} ios={project.ios} size="lg" />
+                <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} size="lg" />
               </div>
             </Reveal>
           )}
@@ -228,7 +228,7 @@ const ProjectDetail = () => {
 
               {hasLinks && (
                 <div className="mt-6 border-t border-line pt-5">
-                  <LiveLinks web={project.web} android={project.android} ios={project.ios} />
+                  <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} />
                 </div>
               )}
             </div>
