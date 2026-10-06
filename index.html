@@ -73,8 +73,10 @@
       />
     </noscript>
 
-    <!-- Project imagery is served from Supabase Storage. -->
-    <link rel="preconnect" href="https://arqdtyoiwvhpxkuyettb.supabase.co" />
+    <!-- No preconnect to Supabase: project screenshots are self-hosted under
+         /img/work (scripts/project-images.mjs). Supabase is now only a
+         fallback for an image not yet copied, so warming a connection to it
+         on every page would be wasted (Lighthouse flagged it as unused). -->
     <!-- Prerendered markup is present in the HTML but invisible without JS:
          every framer-motion element below the fold ships its `initial` state
          as inline opacity:0. A crawler that doesn't execute scripts would see

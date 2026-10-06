@@ -107,9 +107,13 @@ const ProjectDetail = () => {
 
   return (
     <PageTransition>
-      {/* ── breadcrumb ── */}
+      {/* ── breadcrumb ──
+          Everything above the fold here enters with CSS (.anim-* in
+          index.css), not <Reveal>/<MaskLine>: those prerender as opacity:0 /
+          translateY(110%) and stay hidden until the bundle hydrates, which
+          held back the screenshot that is this page's LCP. */}
       <div className="mx-auto max-w-7xl px-6 pt-28 sm:px-10 sm:pt-32">
-        <Reveal>
+        <div className="anim-rise-sm">
           <div className="flex items-center justify-between gap-4">
             <Link
               to="/work"
@@ -123,7 +127,7 @@ const ProjectDetail = () => {
               <span className="text-acid">$</span> cd ~/work/{slug}
             </p>
           </div>
-        </Reveal>
+        </div>
       </div>
 
       {/* ── hero ── */}
@@ -138,28 +142,31 @@ const ProjectDetail = () => {
         />
 
         <div className="relative">
-          <Reveal>
+          <div className="anim-rise-sm" style={{ animationDelay: "0.05s" }}>
             <Eyebrow>{project.category}</Eyebrow>
-          </Reveal>
+          </div>
           <h1 className="mt-5 font-display text-[2.6rem] font-bold leading-[0.98] tracking-tight text-ink [overflow-wrap:anywhere] xs:text-5xl sm:text-7xl sm:leading-[0.95] lg:text-[5.5rem]">
-            <MaskLine>{project.title}</MaskLine>
+            <span className="reveal-line">
+              <span className="anim-unmask" style={{ animationDelay: "0.1s" }}>
+                {project.title}
+              </span>
+            </span>
           </h1>
-          <Reveal delay={0.1}>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
-              {lead}
-            </p>
-          </Reveal>
+          <p
+            style={{ animationDelay: "0.2s" }}
+            className="anim-rise mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl"
+          >
+            {lead}
+          </p>
           {hasLinks && (
-            <Reveal delay={0.16}>
-              <div className="mt-7">
-                <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} size="lg" />
-              </div>
-            </Reveal>
+            <div className="anim-rise mt-7" style={{ animationDelay: "0.26s" }}>
+              <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} size="lg" />
+            </div>
           )}
         </div>
 
         {/* framed, parallax hero image */}
-        <Reveal delay={0.12}>
+        <div className="anim-rise" style={{ animationDelay: "0.22s" }}>
           <div className="mt-12 overflow-hidden rounded-2xl border border-line bg-surface/40 shadow-soft">
             {/* browser chrome */}
             <div className="flex items-center gap-2 border-b border-line px-4 py-3">
@@ -189,7 +196,7 @@ const ProjectDetail = () => {
               <div className="grain pointer-events-none absolute inset-0 opacity-[0.05]" />
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
 
       {/* ── spec rail + narrative ── */}

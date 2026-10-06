@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { sized, srcSetFor } from "../utils/img";
+import { localImage, sized, srcSetFor } from "../utils/img";
 
 export const cn = (...c) => c.filter(Boolean).join(" ");
 
@@ -262,26 +262,37 @@ export const SmartImage = ({
 
   if ((!valid || status === "error") && fallback) return fallback;
 
-  // `width` opts the image into Supabase's resize + WebP pipeline. Without it
-  // the original src is used, which is what local assets want.
-  const finalSrc = width ? sized(src, width) : src;
-  const set = width ? srcSetFor(src, width) : undefined;
+  // `width` opts the image into resizing: the self-hosted copies when
+  // scripts/project-images.mjs has made them, else Supabase's resize + WebP
+  // pipeline. Without it the original src is used, which is what local
+  // assets want.
+  const local = width ? localImage(src, width) : null;
+  const finalSrc = local ? local.src : width ? sized(src, width) : src;
+  const set = local ? local.srcSet : width ? srcSetFor(src, width) : undefined;
+
+  /* `eager` marks the image that is the page's LCP. It gets no skeleton and
+     no opacity gate: both are prerendered in their loading state and only
+     cleared once React hydrates, so the image would stay hidden behind the
+     shimmer until the whole bundle had run — even after it had downloaded. */
+  const gated = !eager;
 
   return (
     <>
-      {status !== "loaded" && (
+      {gated && status !== "loaded" && (
         <span className={cn("skeleton absolute inset-0", skeletonClassName)} aria-hidden="true" />
       )}
       <img
         ref={imgRef}
         src={finalSrc}
         srcSet={set}
+        sizes={local?.sizes}
         alt={alt}
         loading={eager ? "eager" : "lazy"}
+        fetchpriority={eager ? "high" : undefined}
         decoding="async"
         onLoad={() => setStatus("loaded")}
         onError={() => setStatus("error")}
-        style={{ opacity: status === "loaded" ? 1 : 0 }}
+        style={gated ? { opacity: status === "loaded" ? 1 : 0 } : undefined}
         className={className}
       />
     </>

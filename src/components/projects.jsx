@@ -5,9 +5,10 @@ import { projectFilters, slugify } from "../constants";
 import { LiveLinks, Icon, SmartImage, cn } from "./shared";
 
 /* image with shimmer skeleton while loading + graceful gradient fallback */
-const ProjectImage = ({ image, title, tagline, accent, className, width = 700 }) => (
+const ProjectImage = ({ image, title, tagline, accent, className, width = 700, eager = false }) => (
   <SmartImage
     src={image}
+    eager={eager}
     // The heading beside this already says the title, so repeating it alone
     // adds nothing for a screen reader. The tagline says what was built.
     alt={tagline ? `${title} — ${tagline}` : `${title} project screenshot`}
@@ -42,10 +43,13 @@ const Tags = ({ tags }) => (
   </div>
 );
 
-/* ── Featured card ── */
+/* ── Featured card ──
+   The first row is the top of /work, so it renders in place: a framer
+   `initial` is prerendered as opacity:0 and would hide the page's LCP image
+   until hydration. Later rows still rise in on scroll. */
 export const FeaturedCard = ({ p, i }) => (
   <motion.article
-    initial={{ opacity: 0, y: 40 }}
+    initial={i < 3 ? false : { opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.15 }}
     transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
@@ -61,7 +65,7 @@ export const FeaturedCard = ({ p, i }) => (
     />
 
     <div className="relative h-56 overflow-hidden">
-      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={700}
+      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={700} eager={i === 0}
         className="grayscale-[0.35] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.06]" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
       <span className="absolute left-4 top-4 rounded-full border border-line bg-base/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink backdrop-blur">
@@ -93,7 +97,7 @@ export const FeaturedCard = ({ p, i }) => (
 );
 
 /* ── Compact build card ── */
-export const GridCard = ({ p }) => (
+export const GridCard = ({ p, eager = false }) => (
   <motion.article
     layout
     initial={{ opacity: 0, scale: 0.96 }}
@@ -110,7 +114,7 @@ export const GridCard = ({ p }) => (
     />
 
     <div className="relative h-40 overflow-hidden">
-      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={520}
+      <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={520} eager={eager}
         className="grayscale-[0.4] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
       <span className="absolute bottom-3 right-3 grid h-8 w-8 translate-y-1 place-items-center rounded-full border border-line bg-base/70 text-acid opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -159,9 +163,11 @@ export const BuildsGrid = ({ items }) => {
         ))}
       </div>
       <motion.div layout className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filtered.map((p) => (
-            <GridCard key={p.title} p={p} />
+        {/* initial={false}: cards present on first render (the prerendered
+            page) start visible; only ones a filter brings in animate. */}
+        <AnimatePresence mode="popLayout" initial={false}>
+          {filtered.map((p, i) => (
+            <GridCard key={p.title} p={p} eager={i === 0} />
           ))}
         </AnimatePresence>
       </motion.div>
