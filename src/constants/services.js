@@ -15,8 +15,10 @@
 //
 //  Every claim must be backed by something on the site: `projects` are
 //  titles from constants/index.js, `reviewTags` pick real Fiverr reviews by
-//  their `tags`. No invented clients, numbers or prices — the only prices
-//  quoted are the packages DevoraX publishes on thedevorax.tech.
+//  their `tags`. No invented clients, numbers or prices. The only prices
+//  quoted are DevoraX's published packages and the finish & ship prices
+//  Sameem set on 2026-10-09: $400 audit (credited to the fix), $1,200 per
+//  week of work, $1,500 a month for care.
 //
 //  FAQ answers are rendered open on the page AND restated in FAQPage
 //  markup, so the first sentence of each must answer the question on its
@@ -103,8 +105,8 @@ export const servicePages = [
           "What was wrong, what I changed, what's left and what to watch, so the next developer, or the next AI prompt, starts from the truth.",
       },
     ],
-    // The offer ladder from the 2026-10-09 strategy. No prices on purpose:
-    // the audit fee and sprint prices are Sameem's to set.
+    // The offer ladder from the 2026-10-09 strategy, with the prices Sameem
+    // set the same day. Keep them in step with src/data/offer.ts on DevoraX.
     steps: [
       {
         title: "Free call",
@@ -114,12 +116,12 @@ export const servicePages = [
       {
         title: "Launch-readiness audit",
         detail:
-          "A fixed fee, credited to the fix if you go ahead. I review the code, database security, payments, hosting and store readiness, and you keep the written report either way. There's an investor-ready version for founders facing technical due diligence.",
+          "$400, credited to the fix if you go ahead. I review the code, database security, payments, hosting and store readiness, and you keep the written report either way. There's an investor-ready version for founders facing technical due diligence.",
       },
       {
         title: "Finish sprint",
         detail:
-          "One fixed price, quoted from the audit, usually one to two weeks of work. I fix it in your codebase and test each change before it goes live.",
+          "$1,200 per week of work, usually one or two weeks. The audit says how many weeks it needs, so you know the total before anything starts. I fix it in your codebase and test each change before it goes live.",
       },
       {
         title: "Ship and hand over",
@@ -128,7 +130,7 @@ export const servicePages = [
       },
       {
         title: "Monthly care (optional)",
-        detail: "Fixes, updates and releases each month, so the next feature doesn't break the last one.",
+        detail: "$1,500 a month for fixes, updates and releases, so the next feature doesn't break the last one.",
       },
     ],
     // No project cards here: none of the portfolio builds was a rescue job,
@@ -171,7 +173,7 @@ export const servicePages = [
       },
       {
         q: "How much does it cost to fix a Lovable or Bolt app?",
-        a: "It depends on what's broken, so it starts with a fixed-fee audit, and the audit fee is credited to the fix if you go ahead. The audit ends with one fixed price for the work, so you know the full cost before anything starts, and there's no hourly billing.",
+        a: "Most fixes are one or two weeks of work at $1,200 a week. It starts with a $400 audit, credited to the fix if you go ahead, which tells you how many weeks your app needs, so you know the total before anything starts. Monthly care after launch is $1,500 a month, and there's no hourly billing.",
       },
       {
         q: "Who is this for?",

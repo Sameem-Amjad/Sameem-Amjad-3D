@@ -86,7 +86,7 @@ export const services = [
     blurb:
       "Your app works in the demo and breaks with real users. I find out why, finish it and ship it: to the web, the App Store and Google Play.",
     detail:
-      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, on Sharetribe, or with a contractor who has since disappeared. They look finished, then fall over at login, payments, deploy or App Store review. I start with a fixed-fee audit (credited to the fix), quote one fixed price, and finish the app in your codebase.",
+      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, on Sharetribe, or with a contractor who has since disappeared. They look finished, then fall over at login, payments, deploy or App Store review. I start with a $400 audit (credited to the fix), then finish the app in your codebase at $1,200 per week of work.",
     points: [
       "Login, Supabase security rules and exposed keys",
       "Stripe checkout, webhooks and subscriptions",
@@ -873,7 +873,7 @@ export const faqs = [
   },
   {
     q: "What does a project usually cost, and how long does it take?",
-    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. The discovery call is free and you get an honest number at the end of it.",
+    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. To finish an app you already have: a $400 audit (credited to the fix), then $1,200 per week, usually one or two weeks. The discovery call is free and you get an honest number at the end of it.",
   },
   {
     q: "My app was built with Lovable, Bolt or Cursor and it's broken. Can you fix it?",
