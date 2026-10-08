@@ -251,6 +251,660 @@ select * from public.orders;`,
       },
     ],
   },
+
+  {
+    slug: "app-store-guideline-4-2-minimum-functionality",
+    title: "Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved",
+    seoTitle: "Guideline 4.2 Minimum Functionality: How to Fix It · Sameem Amjad",
+    seoDescription:
+      "Apple rejected your Capacitor or WebView app under Guideline 4.2 Minimum Functionality? What it means, what to change, and how to reply to App Review.",
+    summary:
+      "Why apps that wrap a website get this rejection, the native features and fixes that give a reviewer something a website can't do, and how to reply in App Store Connect.",
+    published: "2026-10-09",
+    updated: "2026-10-09",
+    service: "app-store-launch",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Apple's reviewer decided your app is a website in an app's clothing. Guideline 4.2 asks for “features, content, and UI that elevate it beyond a repackaged website”, and a Lovable, Bolt or Replit web app wrapped with Capacitor or a WebView often shows none. To get approved, make the app do things the website can't, make it look and behave like an iPhone app, and tell the reviewer exactly where to find those things. If a phone adds nothing to what your app does, the honest fix is a native build, or no app yet.",
+          },
+        ],
+      },
+      {
+        h2: "What the rejection says",
+        blocks: [
+          {
+            p: "The message in App Store Connect usually reads like this. It's the wording developers have posted on Apple's own developer forums, and yours may differ slightly:",
+          },
+          {
+            code: `Guideline 4.2 - Design - Minimum Functionality
+
+Your app provides a limited user experience as it is not sufficiently
+different from a mobile browsing experience. As such, the experience it
+provides is similar to the general experience of using Safari. Including
+iOS features such as push notifications, Core Location, and sharing do not
+provide a robust enough experience to be appropriate for the App Store.`,
+            lang: "text",
+          },
+          { p: "It points at guideline 4.2 of Apple's App Review Guidelines, which opens:" },
+          {
+            code: `Your app should include features, content, and UI that elevate it beyond
+a repackaged website. If your app is not particularly useful, unique, or
+“app-like,” it doesn’t belong on the App Store. If your App doesn’t provide
+some sort of lasting entertainment value or adequate utility, it may not be
+accepted.`,
+            lang: "text",
+          },
+          {
+            p: "Some rejections cite 4.2.2 instead: “Other than catalogs, apps shouldn’t primarily be marketing materials, advertisements, web clippings, content aggregators, or a collection of links.” Same problem, same fix.",
+          },
+          {
+            p: "Read the last sentence of the rejection again. Apple is saying that push notifications, location and a share button, on their own, don't make an app. Adding features only to tick boxes is how a second submission ends up with the same rejection.",
+          },
+        ],
+      },
+      {
+        h2: "Why wrapped web apps get it",
+        blocks: [
+          {
+            p: "Capacitor and similar tools put your web app inside a native shell that displays it in a WebView. That's a legitimate way to build an app, and plenty of approved apps work this way. The problem is that a straight wrap still behaves like a website: a hamburger menu instead of a tab bar, links that open more web pages, a blank screen with no connection, a login that bounces out to a browser, and nothing that uses the phone.",
+          },
+          {
+            p: "The worst case loads your live website by URL instead of shipping the app's files inside it. In Capacitor that's the `server.url` setting, which Capacitor's own documentation says “is not intended for use in production.” Bundle the built app instead, so the app itself opens without a connection and doesn't change every time the website does:",
+          },
+          {
+            code: `// capacitor.config.ts: no server.url, so the app ships its own files
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.yourcompany.yourapp',
+  appName: 'Your App',
+  webDir: 'dist',
+};
+
+export default config;`,
+            lang: "ts",
+          },
+          {
+            p: "Run `npm run build` and then `npx cap sync` before every native build, so the app gets your latest code. `webDir` must contain a finished `index.html`: `dist` is right for Vite apps, which covers older Lovable projects and most Bolt ones. An app that renders its pages on a server, such as a newer Lovable project on TanStack Start, has to be set up to produce static files before it can be bundled like this.",
+          },
+        ],
+      },
+      {
+        h2: "What makes an app more than a repackaged website",
+        blocks: [
+          {
+            p: "Apple doesn't publish a checklist, so nothing here guarantees approval. What it asks for is an app that's useful as an app, so choose the changes that serve what yours is for:",
+          },
+          {
+            list: [
+              "Native navigation. A bottom tab bar for the main sections, a back gesture that works, and no website header, footer or cookie banner. Remove links that lead out to your marketing site.",
+              "Push notifications people would want: an order shipped, a booking confirmed, a reply to their message. Apple says they won't carry the app alone, but as part of a real workflow they count. `@capacitor/push-notifications` or OneSignal handle the native side.",
+              "Offline behaviour. Show the last data the user loaded and a clear offline message, instead of a blank WebView or the browser's error page.",
+              "Device features tied to the core job: the camera for photos and documents, local notifications for reminders, the native share sheet.",
+              "Things that make it personal: saved items, history, settings. Apple's guidelines say that if your app doesn't include significant account-based features, people should be able to use it without a login, so don't add a login wall just to look substantial.",
+              "No web giveaways: no pinch-zoom on the layout, no text that highlights when tapped, nothing hidden under the notch, and external links opened in an in-app browser (`@capacitor/browser`) rather than replacing your app.",
+            ],
+          },
+          {
+            p: "Offline handling takes a few lines with Capacitor's official Network plugin (`npm install @capacitor/network`, then `npx cap sync`). A hook like this lets any screen swap a blank page for a proper offline state:",
+          },
+          {
+            code: `import { useEffect, useState } from 'react';
+import { Network } from '@capacitor/network';
+
+export function useOnline() {
+  const [online, setOnline] = useState(true);
+
+  useEffect(() => {
+    Network.getStatus().then((status) => setOnline(status.connected));
+    const listener = Network.addListener('networkStatusChange', (status) => {
+      setOnline(status.connected);
+    });
+    return () => {
+      listener.then((handle) => handle.remove());
+    };
+  }, []);
+
+  return online;
+}`,
+            lang: "jsx",
+          },
+        ],
+      },
+      {
+        h2: "The other rules that tend to come with it",
+        blocks: [
+          { p: "An app that clears 4.2 can still fail on another guideline. Check these before you resubmit:" },
+          {
+            list: [
+              "Login services (4.8). If users can sign in with Google, Facebook or another social login, Apple requires an equivalent option that limits data collection to name and email, lets users keep their email private, and doesn't collect their activity for advertising without consent. Sign in with Apple meets all three, which is why it's the usual answer.",
+              "Account deletion (5.1.1(v)). If people can create an account in the app, they must be able to delete it in the app.",
+              "A demo account (2.1). If anything sits behind a login, put working credentials in the App Review Information section of App Store Connect. A reviewer who can't get past the sign-in screen sees a web login page and nothing else.",
+              "In-app purchase (3.1.1). If the app unlocks digital features or content, such as a subscription to your software or credits, Apple's rule is in-app purchase, and a Stripe checkout inside the app won't pass. The rules on linking out to buy on your website vary by country; apps on the US storefront may include those links and buttons. Physical goods and real-world services are the opposite: under 3.1.3(e) they must use a payment method other than in-app purchase.",
+              "Who submits it (4.2.6). Apps made with a template or app-generation service are rejected unless they're “submitted directly by the provider of the app’s content”. Publish from your own Apple Developer account, not a builder's.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "How to reply in App Store Connect",
+        blocks: [
+          {
+            p: "Replies go through the App Review section of App Store Connect, which used to be called the Resolution Center. Open the app, click the link at the top of the page that says there are unresolved issues, click Resolve next to the submission, then Reply to App Review. You can attach screenshots and other files, and keep the conversation going until you resubmit. A 4.2 rejection is about what the app does, so the fix also means uploading a new build.",
+          },
+          { p: "Say what changed and where to see it, in steps a reviewer can follow:" },
+          {
+            code: `Hello App Review team,
+
+Thank you for the feedback. We've rebuilt the app around native features:
+
+1. Native tab navigation (Home, Orders, Messages, Account). The app no
+   longer shows any website header, footer or external links.
+2. Push notifications for order updates and new messages. To see one,
+   sign in with the demo account and place a test order from Home.
+3. Offline mode. Orders and messages stay readable without a connection,
+   with a clear offline banner.
+4. Camera capture for receipts on the Orders screen.
+
+The demo account is in App Review Information. Screenshots of each
+feature are attached.`,
+            lang: "text",
+          },
+          {
+            p: "If you believe the app already met the guideline and the reviewer missed something, say that in the reply first. Apple asks you to reply to the rejection before appealing. If that doesn't resolve it, you can file one appeal per rejected submission with the App Review Board, citing the guideline and explaining point by point how the app meets it.",
+          },
+        ],
+      },
+      {
+        h2: "When to rebuild in React Native instead",
+        blocks: [
+          {
+            p: "Wrapping is the right call when the web app is solid and the phone genuinely adds something: notifications, the camera, offline access. Rebuild the key screens natively, in React Native (usually with Expo) or Flutter, when:",
+          },
+          {
+            list: [
+              "The app has been rejected under 4.2 more than once and the native additions are starting to feel forced.",
+              "Most of the value is in the interface itself: long lists, gestures, maps or media that feel sluggish in a WebView.",
+              "It needs things a WebView handles badly: background location, home-screen widgets, deep links into system features, or reliable offline sync.",
+              "You're building a real mobile product rather than a companion to the website, and the code will live for years.",
+            ],
+          },
+          {
+            p: "React Native is usually the shorter path for a Lovable or Bolt app, because the business logic, the API calls and the Supabase client are already JavaScript and carry over. The screens are what get rebuilt.",
+          },
+        ],
+      },
+      {
+        h2: "If you'd rather hand it over",
+        blocks: [
+          {
+            p: "Getting a web-built app through review is mostly judgment: which native features earn their place, what to take out, and how to explain it to App Review. If you'd like that handled, from the native build to submission and the back-and-forth with review, that's what my App Store and Google Play launch service covers.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "stripe-webhook-no-signatures-found-matching-expected-signature",
+    title: "Stripe webhook error “No signatures found matching the expected signature for payload”: causes and fixes",
+    seoTitle: "Fix Stripe's “No Signatures Found” Webhook Error · Sameem Amjad",
+    seoDescription:
+      "Stripe webhook failing with “No signatures found matching the expected signature for payload”? The real causes, with working Next.js and Supabase code.",
+    summary:
+      "Why Stripe's signature check fails, the three things that cause it, working code for Next.js and Supabase Edge Functions, and how to make sure a paying customer always gets what they paid for.",
+    published: "2026-10-09",
+    updated: "2026-10-09",
+    service: "fix-vibe-coded-app",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Stripe signs every webhook using your endpoint's signing secret and the exact bytes of the request body. Your code recomputes that signature from the body it received and the secret it has, and this error means the two don't match. The full message asks the right question: “Are you passing the raw request body you received from Stripe?” Stripe's troubleshooting page says at least one of three inputs is wrong: the body, the secret or the signature header. Stripe names the wrong secret as the most common cause; a body that was parsed as JSON before it was checked is the other one to look for.",
+          },
+        ],
+      },
+      {
+        h2: "What it costs you: paid, but nothing unlocked",
+        blocks: [
+          {
+            p: "This error is behind one of the most expensive bugs a paid app can have: Stripe takes the customer's money, and the app never unlocks what they paid for. The app should grant access when Stripe's webhook confirms the payment. When verification fails, your endpoint returns an error, the code that records the payment never runs, and the customer is left with a receipt and a locked account.",
+          },
+          {
+            p: "Two things limit the damage. In live mode, Stripe retries a failed delivery for up to three days (in a sandbox, three times over a few hours), so if you fix the endpoint inside that window, the missed events arrive on their own. After that, open the event in the Dashboard and click Resend, which works for 15 days after the event was created, or run `stripe events resend` from the CLI, which works for 30.",
+          },
+          {
+            p: "Don't move the unlock to the success page to dodge the problem. Stripe's guide to fulfilling orders says you “can’t rely on triggering fulfillment only from your checkout landing page”, because customers don't always reach it. Unlocking from that page as well is fine; the webhook is what makes it certain.",
+          },
+        ],
+      },
+      {
+        h2: "Cause 1: the body was parsed before it was checked",
+        blocks: [
+          {
+            p: "Verification needs the raw body. Once anything turns it into a JavaScript object, even turning it straight back into a string produces different bytes (spacing, key order, escaped characters), and the signature can't match. This is the pattern to look for:",
+          },
+          {
+            code: `// Broken: the body has been parsed, so the original bytes are gone
+const body = await req.json();
+const event = stripe.webhooks.constructEvent(JSON.stringify(body), signature, secret);`,
+            lang: "ts",
+          },
+          {
+            p: "In a Next.js App Router route handler, read the body with `await req.text()` and pass that string straight in:",
+          },
+          {
+            code: `// app/api/webhooks/stripe/route.ts
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+export async function POST(req: Request) {
+  const body = await req.text(); // the raw body, exactly as Stripe sent it
+  const signature = req.headers.get('stripe-signature');
+
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature!,
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
+  } catch (err) {
+    console.error('Stripe signature check failed:', (err as Error).message);
+    return new Response('Invalid signature', { status: 400 });
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    console.log('Paid checkout session', session.id);
+    // Record the payment and unlock access here, keyed on session.id
+  }
+
+  return new Response(null, { status: 200 });
+}`,
+            lang: "ts",
+          },
+          {
+            p: "If the route runs on the Edge runtime, call `await stripe.webhooks.constructEventAsync(...)` with the same arguments instead; the synchronous version can't use the Web Crypto API there.",
+          },
+          {
+            p: "In the Pages Router, Next.js parses the body for you, so switch that off for the webhook route and read the raw stream:",
+          },
+          {
+            code: `// pages/api/webhooks/stripe.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+// Stop Next.js parsing the body of this route
+export const config = { api: { bodyParser: false } };
+
+async function readRawBody(req: NextApiRequest): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') return res.status(405).end();
+
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      await readRawBody(req),
+      req.headers['stripe-signature']!,
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
+  } catch {
+    return res.status(400).send('Invalid signature');
+  }
+
+  console.log('Received', event.type); // handle the event here
+  return res.status(200).json({ received: true });
+}`,
+            lang: "ts",
+          },
+          {
+            p: "In Express, give the webhook route `express.raw()` and register it before `express.json()`, because Express runs middleware in order:",
+          },
+          {
+            code: `// The webhook route comes first and gets the raw body
+app.post('/api/webhooks/stripe', express.raw({ type: 'application/json' }), (req, res) => {
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      req.headers['stripe-signature'],
+      process.env.STRIPE_WEBHOOK_SECRET,
+    );
+  } catch (err) {
+    return res.status(400).send('Invalid signature');
+  }
+
+  console.log('Received', event.type); // handle the event here
+  res.json({ received: true });
+});
+
+// JSON parsing for every other route
+app.use(express.json());`,
+            lang: "js",
+          },
+        ],
+      },
+      {
+        h2: "Cause 2: the wrong signing secret",
+        blocks: [
+          { p: "Every webhook endpoint has its own secret starting with `whsec_`, and it's easy to be using the wrong one:" },
+          {
+            list: [
+              "The `stripe listen` secret only works locally. The CLI prints its own `whsec_` value for the events it forwards. Your deployed app needs the endpoint's secret: in the Dashboard's Workbench, open Webhooks, select the endpoint and click Reveal secret.",
+              "Test and live are different. If the same URL is registered in a sandbox and in live mode, each has its own secret, so going live means a new secret in production.",
+              "A recreated endpoint has a new secret. Delete and re-add an endpoint, or roll its secret, and the old value stops working.",
+              "It isn't your API key. `sk_live_` and `pk_live_` keys are not signing secrets.",
+              "Stray whitespace. A trailing space or newline pasted into the environment variable breaks the match. Recent versions of Stripe's Node library add a note to the error when the secret contains whitespace.",
+              "The old value is still deployed. On Vercel, a changed environment variable only applies to new deployments, so redeploy after updating it.",
+            ],
+          },
+          {
+            p: "The quickest check is the one Stripe suggests: print the secret your code is actually using (the first few characters are enough) and compare it with the endpoint in Workbench.",
+          },
+        ],
+      },
+      {
+        h2: "Cause 3: something in between changed the request",
+        blocks: [
+          {
+            list: [
+              "App-wide body parsing: `app.use(express.json())` or `body-parser` registered before the webhook route, or a framework plugin that parses every request.",
+              "Proxies and forwarding tools. Stripe's error message covers this directly: if a webhook is forwarded by a third-party tool, “ensure that the exact request body, including JSON formatting and new line style, is preserved.”",
+              "AWS API Gateway in front of Lambda, which needs a mapping template that passes the raw body through. Stripe's troubleshooting page has the template.",
+            ],
+          },
+          {
+            p: "Some failures look similar but are a different error. Stripe treats redirects as failures, so an endpoint on `example.com` that redirects to `www.example.com`, or an auth middleware that sends `/api/webhooks` to a login page, fails with a 3xx. A 401 or 403 usually means something is guarding the route. The endpoint's Event deliveries tab in Workbench shows the status code of every attempt, so start there.",
+          },
+        ],
+      },
+      {
+        h2: "Supabase Edge Functions (Lovable and Bolt apps)",
+        blocks: [
+          {
+            p: "Edge Functions run on Deno, where Stripe's check has to be asynchronous and use the Web Crypto API; the synchronous `constructEvent` fails there with “SubtleCryptoProvider cannot be used in a synchronous context.” Supabase's own Stripe example creates a crypto provider, passes it to `constructEventAsync` and reads the body with `req.text()`:",
+          },
+          {
+            code: `// supabase/functions/stripe-webhook/index.ts
+import Stripe from 'npm:stripe@^22';
+
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
+// Needed to use the Web Crypto API in Deno
+const cryptoProvider = Stripe.createSubtleCryptoProvider();
+
+Deno.serve(async (req) => {
+  const signature = req.headers.get('Stripe-Signature');
+  const body = await req.text(); // never req.json() before verifying
+
+  let event: Stripe.Event;
+  try {
+    event = await stripe.webhooks.constructEventAsync(
+      body,
+      signature!,
+      Deno.env.get('STRIPE_WEBHOOK_SECRET')!,
+      undefined,
+      cryptoProvider,
+    );
+  } catch (err) {
+    return new Response((err as Error).message, { status: 400 });
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    console.log('Paid checkout session', session.id);
+    // Record the payment and unlock access here, keyed on session.id
+  }
+
+  return Response.json({ received: true });
+});`,
+            lang: "ts",
+          },
+          {
+            p: "By default, Supabase also requires a valid JWT on every function call. Stripe doesn't send one, so the request is rejected before your code runs. Turn that off for this function only, since the signature check is its security, in `supabase/config.toml`:",
+          },
+          {
+            code: `[functions.stripe-webhook]
+verify_jwt = false`,
+            lang: "toml",
+          },
+          { p: "Then set the secrets and deploy:" },
+          {
+            code: `supabase secrets set STRIPE_SECRET_KEY=sk_live_... STRIPE_WEBHOOK_SECRET=whsec_...
+supabase functions deploy stripe-webhook`,
+            lang: "bash",
+          },
+          {
+            p: "Register `https://YOUR-PROJECT.supabase.co/functions/v1/stripe-webhook` as the endpoint in Stripe and use that endpoint's secret. Supabase's newest function template wraps the handler in `withSupabase({ auth: 'none' }, ...)` from `@supabase/server` instead of `Deno.serve`; the Stripe part is the same either way.",
+          },
+        ],
+      },
+      {
+        h2: "Answer fast, and make the unlock safe to run twice",
+        blocks: [
+          {
+            p: "Stripe wants a 2xx response quickly, before any slow work, and counts a timeout as a failed delivery. With Checkout and a success page, Stripe waits up to 10 seconds for your webhook to respond before redirecting the customer, so a slow handler also means a slow checkout. Record the payment, return 200, and move anything slow (emails, invoices, syncing other systems) to a background job.",
+          },
+          {
+            p: "Stripe can also deliver the same event more than once, and a retry after a timeout can arrive when your handler already did the work. So the unlock has to be idempotent: running it twice must leave the same result as running it once. The simplest way is a unique key on the Checkout Session ID, so a second insert does nothing:",
+          },
+          {
+            code: `create table public.purchases (
+  stripe_session_id text primary key,
+  user_id uuid not null references auth.users (id),
+  created_at timestamptz not null default now()
+);
+
+alter table public.purchases enable row level security;`,
+            lang: "sql",
+          },
+          {
+            p: "Then replace the `checkout.session.completed` block in the App Router or Edge Function handler above. Here `supabaseAdmin` is a Supabase client created on the server with your secret (service role) key, and `client_reference_id` is set to the user's ID when you create the Checkout Session:",
+          },
+          {
+            code: `if (
+  event.type === 'checkout.session.completed' ||
+  event.type === 'checkout.session.async_payment_succeeded'
+) {
+  const session = event.data.object;
+
+  if (session.payment_status !== 'unpaid') {
+    const { error } = await supabaseAdmin
+      .from('purchases')
+      .upsert(
+        { stripe_session_id: session.id, user_id: session.client_reference_id },
+        { onConflict: 'stripe_session_id', ignoreDuplicates: true },
+      );
+
+    // A 500 makes Stripe retry later; a duplicate is not an error
+    if (error) return new Response('Could not record purchase', { status: 500 });
+  }
+}`,
+            lang: "ts",
+          },
+          {
+            p: "`checkout.session.async_payment_succeeded` covers payment methods that confirm later, such as bank debits. The table has RLS on and no policies, so only your server can touch it; add a select policy if users should see their own purchases. My guide to Supabase's “RLS disabled in public” warning shows how.",
+          },
+        ],
+      },
+      {
+        h2: "Test it before a customer does",
+        blocks: [
+          {
+            code: `stripe login
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+# in a second terminal
+stripe trigger checkout.session.completed --add checkout_session:client_reference_id=YOUR_TEST_USER_ID`,
+            lang: "bash",
+          },
+          {
+            p: "For a Supabase function served locally, forward to `localhost:54321/functions/v1/stripe-webhook` instead. While `stripe listen` runs, put the `whsec_` value it prints in your local environment. A triggered event creates real test-mode objects, so once the app is deployed, register the endpoint in a sandbox, run the trigger again and check that its Event deliveries tab shows a 200. Then pay once through your own Checkout page in test mode, with card `4242 4242 4242 4242`, any future expiry date and any CVC, and confirm the purchase unlocks.",
+          },
+        ],
+      },
+      {
+        h2: "When the webhook isn't the only payment problem",
+        blocks: [
+          {
+            p: "The webhook is the part of AI-built payment code that usually goes wrong, but rarely the only part: prices taken from the browser, subscriptions that never cancel, refunds nobody handles. If you'd like the payment flow checked end to end and fixed, that's part of my app rescue service.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "sharetribe-mobile-app",
+    title: "Does Sharetribe have a mobile app? Your options for iOS and Android",
+    seoTitle: "Sharetribe Mobile App: Options for iOS and Android · Sameem Amjad",
+    seoDescription:
+      "Sharetribe has no native mobile app out of the box. The three ways to get your marketplace into the App Store and Google Play, and what each costs to run.",
+    summary:
+      "What Sharetribe gives you on mobile, the three routes to iOS and Android apps with their trade-offs in cost, feel and upkeep, and what Apple's review means for a marketplace app.",
+    published: "2026-10-09",
+    updated: "2026-10-09",
+    service: "marketplace-development",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "No. In Sharetribe's own words, “Sharetribe doesn’t offer a mobile app out of the box.” What you get is a responsive website that works in mobile browsers. Sharetribe's help center lists three ways into the App Store and Google Play: wrap the website with Twinr, a no-code wrapper Sharetribe partners with; use a certified mobile template, by Journeyhorizon or DevsCrew; or build your own app on Sharetribe's APIs. All three run on the same Sharetribe backend as your website, so listings, users and transactions stay in sync and you keep managing everything in Console. Whichever you choose, Sharetribe says you need its Live plan to put the app in front of real users; you can build and test on the Build plan.",
+          },
+        ],
+      },
+      {
+        h2: "Do you need an app yet?",
+        blocks: [
+          {
+            p: "Sharetribe's template pages are frank about this: “For many early-stage marketplaces, a responsive website is enough.” An app earns its keep when people come back often and act on things that can't wait:",
+          },
+          {
+            list: [
+              "Providers who need to accept a booking or answer a message quickly, where a push notification beats an email.",
+              "Sellers who list from their phone and want the camera built in.",
+              "Buyers who use the marketplace every week, not once a year.",
+            ],
+          },
+          {
+            p: "If most customers find you through Google and buy once, put the money into the website first. An app doesn't replace the website in search, and every option below adds an ongoing cost.",
+          },
+        ],
+      },
+      {
+        h2: "Option 1: wrap the website with Twinr",
+        blocks: [
+          {
+            p: "A wrapper puts your existing marketplace website inside an app container that can be published to both stores. Sharetribe calls it “the quickest, simplest, and least expensive option.” Twinr is built to work with Sharetribe, and on top of the wrapped site it lets you add native tab screens, onboarding screens and push notifications through Firebase. Sharetribe customers get a lifetime 25% discount, and there's a 14-day free trial.",
+          },
+          {
+            list: [
+              "Cost: a monthly or annual Twinr subscription. Twinr's pricing page says the app is deactivated if you stop paying, so budget for it for as long as the app is live.",
+              "Native feel: the lowest of the three. Sharetribe notes that the experience “mirrors exactly how your marketplace site will look like on mobile browsers”, and some native capabilities aren't available.",
+              "Maintenance: the lowest. Changes to your website show up in the app without rebuilding it.",
+              "Review risk: the highest. This is the kind of app Apple's guideline 4.2 targets, so use the native screens and push notifications Twinr offers rather than shipping the bare website.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "Option 2: a certified mobile template",
+        blocks: [
+          {
+            p: "Sharetribe currently certifies two native app templates, by Journeyhorizon and DevsCrew, both independent Sharetribe Experts. Each is a separate mobile app rather than your website in a container, already connected to Sharetribe and Console, so your listing fields, categories and transaction settings carry over. Journeyhorizon's is built in Flutter and includes push notifications, Stripe payments and social login with Apple, Google and Facebook. Both providers can host and update the app for you and help submit it, and both publish under Apple and Google developer accounts your business owns.",
+          },
+          {
+            list: [
+              "Cost: a setup fee plus a monthly subscription to the template provider, on top of Sharetribe and the store fees. Journeyhorizon also sells a licence to its codebase if you'd rather modify it yourself.",
+              "Native feel: high. It's a real app with native screens, built for marketplaces.",
+              "Maintenance: handled by the provider on a managed plan, including keeping up with new Sharetribe features where possible. The trade-off is dependence: changes beyond the template are quoted by the provider, and if your website has custom code, they have to review what can be reused and what must be rebuilt for mobile.",
+              "Ownership: read the terms. Journeyhorizon keeps the copyright to its template and licenses the code to you. DevsCrew says you own the customisations it builds for you, though a minimum support commitment may apply before the code is handed over.",
+              "Review risk: much lower on 4.2, since these are native apps. The other store rules below still apply.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "Option 3: build your own app on Sharetribe's APIs",
+        blocks: [
+          {
+            p: "Sharetribe is headless, so a developer can build a fully custom app in React Native or Flutter against the same backend your website uses. The pieces that matter:",
+          },
+          {
+            list: [
+              "The Marketplace API is built for this. It covers what users do (signing up, managing listings, transactions, messaging) and is designed to be called directly from a user's device. Sharetribe's JavaScript SDK works with React Native and handles authentication and token renewal for you.",
+              "The Integration API is not. It can reach all marketplace data, and Sharetribe's docs say: “Never expose your Integration API application credentials to an untrusted device or application, such as end user’s browser or mobile app.”",
+              "You still need a small server. Privileged transitions, such as setting custom prices and commission with `privileged-set-line-items`, can only be called from a trusted context using your client secret, which must never ship inside an app. The Sharetribe Web Template's server already does this for the website, and a custom app needs the same.",
+              "Payments go through Stripe, so the app needs Stripe's React Native SDK, or a Flutter equivalent, for card entry and authentication.",
+            ],
+          },
+          {
+            list: [
+              "Cost: the highest up front, since every screen is designed and built. Development and testing can happen on the Build plan; real users need Live.",
+              "Native feel: the best, with no limits on device features, offline behaviour or design.",
+              "Maintenance: you own a second front end. New Sharetribe features and changes to your transaction process have to be built into the app as well as the website.",
+              "Review risk: low on 4.2, as long as it's a real app rather than a WebView of your site.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "What App Store review means for a marketplace app",
+        blocks: [
+          { p: "Apple reviews the app, not the platform behind it, and a marketplace app has a few rules of its own to clear:" },
+          {
+            list: [
+              "Minimum functionality (4.2). Apple wants “features, content, and UI that elevate it beyond a repackaged website”, and a bare wrapper of a marketplace site is the classic rejection. I've covered what to change in a separate guide on this site, “Apple rejected your app under Guideline 4.2”, at `/guides/app-store-guideline-4-2-minimum-functionality`.",
+              "Your own developer account (4.2.6). Apps made from a template or app-generation service are rejected unless they're “submitted directly by the provider of the app’s content”, which is why every route above publishes under accounts your business owns.",
+              "Payments (3.1.3(e)). If your marketplace sells physical goods or services used outside the app, such as rentals, bookings or products, Apple says you must use a payment method other than in-app purchase, so Sharetribe's Stripe checkout is the right tool. If it sells digital content used inside the app, guideline 3.1.1 and in-app purchase apply instead, so check before you build.",
+              "User-generated content (1.2). Listings, reviews and messages count. Apple requires a way to filter objectionable material, a way to report it with timely responses, the ability to block abusive users, and published contact information.",
+              "Login (4.8). If users can sign in with Google or Facebook, offer an equivalent privacy-focused option as well; Sign in with Apple is the usual one.",
+              "Account deletion (5.1.1(v)). If people can sign up in the app, they must be able to delete their account in the app.",
+              "Demo accounts (2.1). Put working logins for each side of the marketplace, such as a buyer and a provider, in the App Review Information notes, and make sure there are listings to browse.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "Which route fits",
+        blocks: [
+          {
+            list: [
+              "Still proving demand: stay on the responsive website, or use Twinr's free trial to see whether customers actually install and use an app.",
+              "Standard Sharetribe flows, and you want a real native app soon: a certified template.",
+              "A heavily customised transaction process, a mobile-first product, or a need to own every line of code: a custom app on the Marketplace API.",
+            ],
+          },
+          {
+            p: "Whichever you pick, open the Apple Developer and Google Play accounts in your company's name early. Organisation accounts need extra verification before you can publish (Apple asks for a D-U-N-S number), and the apps should belong to the business, not to whoever built them.",
+          },
+        ],
+      },
+      {
+        h2: "If you want it built",
+        blocks: [
+          {
+            p: "If you're weighing a custom app against a template, or need one built on Sharetribe's backend alongside your website, that's part of my marketplace development work.",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const getGuideBySlug = (slug) => guides.find((g) => g.slug === slug) || null;

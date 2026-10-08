@@ -25,22 +25,25 @@
 //  Plain data with no imports, so vite.config.js can read it in Node.
 // ─────────────────────────────────────────────────────────────
 
-export const SERVICES_UPDATED = "2026-09-29";
+export const SERVICES_UPDATED = "2026-10-09";
 
 export const servicePages = [
   {
     slug: "fix-vibe-coded-app",
-    name: "App rescue",
+    // Named "finish & ship" (2026-10-09 strategy): "rescue" is the crowded,
+    // cheap end of this market. The slug, SEO title and H1 keep the words
+    // buyers actually search ("fix vibe coded app").
+    name: "Finish & ship",
     icon: "shield",
     summary:
-      "Fix and ship an app that works in the demo but breaks with real users, including apps built with Lovable, Bolt, Replit or Cursor.",
+      "Finish and ship an app that works in the demo but breaks with real users: payments, security, deploys and the App Store, including apps built with Lovable, Bolt, Replit or Cursor.",
     serviceType: "Software repair, security hardening and deployment",
     seoTitle: "Fix Your Vibe-Coded App (Lovable, Bolt, Replit) · Sameem Amjad",
     seoDescription:
       "Lovable, Bolt, Replit or Cursor app broken in production? I fix login, Supabase security, Stripe payments and deploys, then ship it. Audit first, fixed price.",
-    eyebrow: "service · app rescue",
+    eyebrow: "service · finish & ship",
     h1: "Vibe-coded app broken in production?",
-    h1Accent: "I'll fix it and ship it.",
+    h1Accent: "I'll finish it and ship it.",
     lede:
       "AI builders get you to a working demo fast. Real users are where it breaks: logins that loop, payments that never record, a deploy that 404s, data anyone can read. I find what's wrong, fix it in your codebase and get it live, whether it was built with Lovable, Bolt, Replit, Cursor or v0, or by a contractor who disappeared.",
     problemsTitle: "signs your app needs fixing",
@@ -86,6 +89,11 @@ export const servicePages = [
           "Your code on GitHub, your database and users in a Supabase or AWS account you own, and hosting that isn't tied to the tool you built it with.",
       },
       {
+        title: "iOS and Android launch",
+        detail:
+          "When the next step is the stores: native features such as push notifications and deep links, accounts in your name, and submission until the app is approved.",
+      },
+      {
         title: "Mobile and UI bugs",
         detail: "Broken layouts, responsive issues and mobile-app UI fixes, down to spacing and typography.",
       },
@@ -95,20 +103,32 @@ export const servicePages = [
           "What was wrong, what I changed, what's left and what to watch, so the next developer, or the next AI prompt, starts from the truth.",
       },
     ],
+    // The offer ladder from the 2026-10-09 strategy. No prices on purpose:
+    // the audit fee and sprint prices are Sameem's to set.
     steps: [
       {
-        title: "Send the link",
+        title: "Free call",
         detail:
-          "Message me on WhatsApp or book a call with the app link and what's going wrong. Read access to the repo helps.",
+          "Book 30 minutes or message me on WhatsApp with the app link and what's going wrong. You'll hear what I'd check first, whether or not you hire me.",
       },
       {
-        title: "Audit and fixed quote",
+        title: "Launch-readiness audit",
         detail:
-          "I go through the app and send back what's broken, what's risky, and one fixed price to fix it. No hourly meter.",
+          "A fixed fee, credited to the fix if you go ahead. I review the code, database security, payments, hosting and store readiness, and you keep the written report either way. There's an investor-ready version for founders facing technical due diligence.",
       },
       {
-        title: "Fix, deploy, hand over",
-        detail: "I fix it in your codebase, deploy it, and hand over notes on everything that changed.",
+        title: "Finish sprint",
+        detail:
+          "One fixed price, quoted from the audit, usually one to two weeks of work. I fix it in your codebase and test each change before it goes live.",
+      },
+      {
+        title: "Ship and hand over",
+        detail:
+          "Deployed to your hosting, and to the App Store and Google Play if that's the goal, with notes on everything that changed.",
+      },
+      {
+        title: "Monthly care (optional)",
+        detail: "Fixes, updates and releases each month, so the next feature doesn't break the last one.",
       },
     ],
     // No project cards here: none of the portfolio builds was a rescue job,
@@ -145,8 +165,17 @@ export const servicePages = [
         a: "Fix it, unless the foundations are wrong. Fixing is usually far cheaper than rebuilding, and a rebuild only makes sense when the data model no longer fits what the product has become, or when every change breaks two other things. The audit tells you which you're dealing with before you spend money on either.",
       },
       {
+        q: "Stripe took the money but my app didn't unlock anything. Why?",
+        a: "Usually the webhook that tells your app about the payment is failing. The most common cause is Stripe's signature check, which fails with “No signatures found matching the expected signature for payload” when the code verifies a parsed body instead of the raw one, or uses the wrong signing secret. Until the webhook succeeds, Stripe keeps the money and your app never hears about it.",
+        link: { to: "/guides/stripe-webhook-no-signatures-found-matching-expected-signature", label: "Fix the Stripe webhook signature error" },
+      },
+      {
         q: "How much does it cost to fix a Lovable or Bolt app?",
-        a: "It depends on what's broken, so I quote one fixed price after I've looked at the app. You know the full cost before any work starts, and there's no hourly billing.",
+        a: "It depends on what's broken, so it starts with a fixed-fee audit, and the audit fee is credited to the fix if you go ahead. The audit ends with one fixed price for the work, so you know the full cost before anything starts, and there's no hourly billing.",
+      },
+      {
+        q: "Who is this for?",
+        a: "Founders whose app has real stakes: users signing up, a launch or investor date, a client waiting, or money on the line. It's not a fit for hobby projects with no users or deadline, for equity-only offers, or for WordPress and Shopify theme work.",
       },
       {
         q: "Can I hire you on Fiverr?",
@@ -155,7 +184,7 @@ export const servicePages = [
     ],
     related: ["nextjs-developer", "app-store-launch", "marketplace-development"],
     ctaTitle: "Tell me what's broken.",
-    keywords: ["fix", "rescue", "broken", "bug", "lovable", "bolt", "replit", "cursor", "vibe", "supabase", "stripe", "deploy"],
+    keywords: ["finish", "ship", "fix", "rescue", "broken", "bug", "lovable", "bolt", "replit", "cursor", "vibe", "supabase", "stripe", "deploy", "audit"],
   },
 
   {
@@ -281,7 +310,7 @@ export const servicePages = [
       {
         title: "The native features Apple expects",
         detail:
-          "Push notifications, offline states, device features and real navigation: the things that make an app more than a bookmarked website.",
+          "Native navigation, offline states and device features built into the core flows, with push on top. Apple says push alone isn't enough to make a website into an app.",
       },
       {
         title: "Push, in-app and email notifications",
@@ -318,13 +347,14 @@ export const servicePages = [
         detail: "Store listings, submission, and handling review feedback until the app is live.",
       },
     ],
-    projects: ["Dooz Inspected Cars", "Three28", "TAL Workforce", "Koor Food Delivery"],
+    projects: ["Hear With You", "Loopedin", "TAL Workforce", "Three28", "Dooz Inspected Cars", "Koor Food Delivery"],
     reviewTags: ["mobile"],
     tech: ["React Native", "Flutter", "OneSignal", "Firebase", "TestFlight", "App Store Connect", "Google Play Console"],
     faqs: [
       {
         q: "Can I upload a Lovable app to the Apple App Store?",
-        a: "Yes, but not as a plain website in a wrapper. Apple's guideline 4.2 rejects apps that are basically a repackaged website, so the app needs something a website can't do, such as push notifications, offline support, device features or proper native navigation. You either add those to a wrapped version or rebuild the key screens in React Native.",
+        a: "Yes, but not as a plain website in a wrapper. Apple's guideline 4.2 rejects apps that are basically a repackaged website, and its rejection notes say that adding push notifications, location or sharing on its own isn't enough. The app has to work like an app: native navigation, offline behaviour and device features built into what people actually do in it. That means either reworking the wrapped version around those, or rebuilding the key screens in React Native.",
+        link: { to: "/guides/app-store-guideline-4-2-minimum-functionality", label: "What to do about a Guideline 4.2 rejection" },
       },
       {
         q: "How do I publish a web app to the Google Play Store?",
@@ -349,23 +379,29 @@ export const servicePages = [
     name: "Marketplace development",
     icon: "globe",
     summary:
-      "Multi-vendor marketplaces built end to end: vendor onboarding, payments, search, reviews and admin dashboards.",
+      "Marketplaces finished and shipped: Sharetribe custom features, native iOS and Android apps, seller payouts, search and admin dashboards, or a custom build when a platform won't fit.",
     serviceType: "Online marketplace development",
     seoTitle: "Multi-Vendor Marketplace Development · Sameem Amjad",
     seoDescription:
-      "Multi-vendor marketplaces built end to end: vendor onboarding, payouts, search, reviews and admin dashboards. I've engineered Dooz, Koor, Afriva and Pastel.",
+      "Multi-vendor marketplaces finished and shipped: Sharetribe custom features, native iOS and Android apps, Stripe Connect payouts, search and admin dashboards.",
     eyebrow: "service · marketplaces",
     h1: "Multi-vendor marketplaces,",
     h1Accent: "built and shipped.",
     lede:
-      "A marketplace is two products in one: a shop for buyers and a business tool for sellers, with money moving between them. I've engineered marketplaces for used cars, home-cooked food, multi-vendor retail and antiques. For a full build, the DevoraX team delivers it with me leading the architecture.",
+      "A marketplace is two products in one: a shop for buyers and a business tool for sellers, with money moving between them. I've engineered marketplaces for used cars, home-cooked food, multi-vendor retail and antiques, on Sharetribe and on custom stacks. Sharetribe gets you live fast but ships no native mobile app, and payouts are where AI-built marketplaces stall: those are the parts I finish.",
     problems: [
       "You've proved there's demand and need a real two-sided product, not a template.",
+      "Your marketplace runs on Sharetribe and customers want an iOS and Android app, which Sharetribe doesn't ship.",
+      "Seller payouts or identity checks through Stripe Connect don't work end to end.",
       "Your prototype takes orders but can't handle payouts, refunds or disputes.",
       "Search has slowed down as the catalogue has grown.",
       "Vendors, buyers and admins all need different views of the same data.",
     ],
     includes: [
+      {
+        title: "Sharetribe custom features",
+        detail: "Custom code on Sharetribe's APIs and templates: transaction processes, extra listing data and integrations the no-code console can't do.",
+      },
       { title: "Vendor onboarding", detail: "Sign-up, verification, listings and a seller dashboard vendors actually use." },
       {
         title: "Payments and payouts",
@@ -375,8 +411,8 @@ export const servicePages = [
       { title: "Reviews, disputes and trust", detail: "Ratings, reporting and the admin tools to deal with problems." },
       { title: "Role-based dashboards", detail: "Separate views for admins, managers, sellers and buyers over one backend." },
       {
-        title: "Web and mobile",
-        detail: "A Next.js web app and, where it's needed, React Native or Flutter apps on the same API.",
+        title: "Native iOS and Android apps",
+        detail: "React Native or Flutter apps on Sharetribe's Marketplace API or your own backend, submitted to the App Store and Google Play until approved.",
       },
     ],
     steps: [
@@ -400,6 +436,11 @@ export const servicePages = [
         a: "Use Sharetribe or a similar platform when your marketplace works like the ones it was designed for and speed matters most. Build custom when your transactions, pricing or workflows are unusual, or when the platform's fees and limits start to cost more than engineering would. Pastel runs on Sharetribe; Dooz, Koor and Afriva are custom builds.",
       },
       {
+        q: "Does Sharetribe have a mobile app?",
+        a: "No. Sharetribe gives you a web marketplace and APIs, not native iOS and Android apps. Your options are a wrapper service, a certified mobile template, or a React Native app built on Sharetribe's Marketplace API; which fits depends on budget and how native the app needs to feel.",
+        link: { to: "/guides/sharetribe-mobile-app", label: "Sharetribe mobile app options, compared" },
+      },
+      {
         q: "Can I start my marketplace in Lovable or Bolt?",
         a: "For a prototype, yes: it's a quick way to test the idea with real users. Payouts, vendor verification, refunds and disputes are where AI-built marketplaces usually need an engineer, so plan for that step before you scale.",
       },
@@ -410,7 +451,7 @@ export const servicePages = [
     ],
     related: ["nextjs-developer", "app-store-launch", "fix-vibe-coded-app"],
     ctaTitle: "Tell me about the marketplace you want to build.",
-    keywords: ["marketplace", "multi-vendor", "ecommerce", "e-commerce", "sharetribe", "vendors"],
+    keywords: ["marketplace", "multi-vendor", "ecommerce", "e-commerce", "sharetribe", "vendors", "payouts", "stripe connect"],
   },
 ];
 

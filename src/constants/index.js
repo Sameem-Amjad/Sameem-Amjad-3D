@@ -19,13 +19,16 @@ export const profile = {
   // types "AI agents & full-stack systems", and none of the reviews are
   // about AI, so AI moves to the end of the pitch rather than leading it.
   kicker: "Freelance Full-Stack Developer",
+  // "Finish and ship" is the positioning chosen 2026-10-09: "fix/rescue"
+  // is the crowded, cheap end of the market. The search phrases ("fix vibe
+  // coded app") still live on the service page that targets them.
   subheadline:
-    "I fix stuck apps and ship them — Next.js, React Native, Supabase, Stripe and AWS, including apps built with Lovable, Bolt, Replit or Cursor. At DevoraX I build marketplaces, mobile apps and AI features, from architecture to launch.",
+    "I finish and ship stuck apps: payments that work, real iOS and Android apps, and App Store approval. For founders who built with Lovable, Replit, Bolt or Sharetribe, or whose developer left. Next.js, React Native, Supabase, Stripe and AWS.",
   // Third person, facts only: Person.description in the schema, the opening
   // of llms.txt and the footer's about line. It is the paragraph an
   // assistant quotes when asked who he is, so every clause must be checkable.
   bio:
-    "Sameem Amjad is a freelance full-stack developer based in Pakistan and the founder of DevoraX. He fixes and ships stuck web and mobile apps — Next.js, React Native, Supabase, Stripe and AWS — including apps built with AI tools such as Lovable, Bolt, Replit and Cursor. He has sold on Fiverr since 2022, with a 5.0 rating across 50+ projects for clients in the US, UK, Canada and Hong Kong.",
+    "Sameem Amjad is a freelance full-stack developer based in Pakistan and the founder of DevoraX. He finishes and ships stuck web and mobile apps — payments, iOS and Android apps and App Store approval, on Next.js, React Native, Supabase, Stripe and AWS — including apps built with AI tools such as Lovable, Bolt, Replit and Cursor, and marketplaces on Sharetribe. He has sold on Fiverr since 2022, with a 5.0 rating across 50+ projects for clients in the US, UK, Canada and Hong Kong.",
   location: "Available worldwide · Remote",
   availability: "Available for new projects",
   email: "sameemamjadarsu@gmail.com",
@@ -78,16 +81,17 @@ export const navLinks = [
 export const services = [
   {
     key: "rescue",
-    title: "App Rescue",
-    label: "Rescue",
+    title: "Finish & Ship",
+    label: "Finish",
     blurb:
-      "Your app works in the demo and breaks with real users. I find out why, fix it and ship it.",
+      "Your app works in the demo and breaks with real users. I find out why, finish it and ship it: to the web, the App Store and Google Play.",
     detail:
-      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, or with a contractor who has since disappeared. They look finished, then fall over at login, payments or deploy. I audit first, quote one fixed price, and fix the app in your codebase.",
+      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, on Sharetribe, or with a contractor who has since disappeared. They look finished, then fall over at login, payments, deploy or App Store review. I start with a fixed-fee audit (credited to the fix), quote one fixed price, and finish the app in your codebase.",
     points: [
       "Login, Supabase security rules and exposed keys",
       "Stripe checkout, webhooks and subscriptions",
       "Deploys: Vercel, AWS, custom domains and SSL",
+      "iOS and Android launch, submitted until approved",
       "Slow pages, broken layouts and mobile UI bugs",
       "Moving the app off the builder onto accounts you own",
     ],
@@ -874,7 +878,7 @@ export const faqs = [
   {
     q: "My app was built with Lovable, Bolt or Cursor and it's broken. Can you fix it?",
     a: "Yes. A lot of my Fiverr work is fixing and finishing other people's apps — deploys, payments, restructuring and UI bugs — and AI-built apps break in the same places. I audit the app first, then fix login, database security, payments and deploys in your codebase for one fixed price, and get it live.",
-    link: { to: "/services/fix-vibe-coded-app", label: "How app rescue works" },
+    link: { to: "/services/fix-vibe-coded-app", label: "How finish & ship works" },
   },
   {
     q: "What happens after launch?",

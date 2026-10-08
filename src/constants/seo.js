@@ -230,7 +230,7 @@ const STATIC = {
     // search, inside the ~158-char clamp. Was "AI agents … voice agents",
     // which no review or case study backs.
     description:
-      "Freelance full-stack developer. I fix stuck apps and ship them: Next.js, React Native, Supabase, Stripe and AWS, including apps built with Lovable or Bolt.",
+      "Freelance full-stack developer. I finish and ship stuck apps: payments that work, real iOS and Android apps, App Store approval. Lovable, Sharetribe, Next.js.",
     type: "profile",
     image: DEFAULT_OG_IMAGE,
     graph: [profilePage, person, organization, website, faqPage(`${ORIGIN}/#faq`, faqs)],
@@ -294,7 +294,7 @@ const STATIC = {
   "/services": {
     title: `Services — full-stack & AI development · ${profile.name}`,
     description: clamp(
-      "App rescue, Next.js development, App Store launch and marketplace builds. Senior-led, fixed scope and fixed price, from Sameem Amjad and DevoraX."
+      "Finish & ship for stuck apps, Next.js development, App Store launch and marketplace builds. Senior-led, fixed scope and fixed price, from Sameem Amjad and DevoraX."
     ),
     type: "website",
     image: DEFAULT_OG_IMAGE,
