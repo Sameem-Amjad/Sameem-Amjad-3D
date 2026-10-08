@@ -18,7 +18,9 @@
 //  their `tags`. No invented clients, numbers or prices. The only prices
 //  quoted are DevoraX's published packages and the finish & ship prices
 //  Sameem set on 2026-10-09: $400 audit (credited to the fix), $1,200 per
-//  week of work, $1,500 a month for care.
+//  week of work, $1,500 a month for care; plus, priced in those weeks, Stripe
+//  payments from $1,200 (Connect payouts from $2,400) and an iOS & Android
+//  launch from $2,400.
 //
 //  FAQ answers are rendered open on the page AND restated in FAQPage
 //  markup, so the first sentence of each must answer the question on its
@@ -68,7 +70,7 @@ export const servicePages = [
       {
         title: "Payments",
         detail:
-          "Stripe checkout, webhooks and subscriptions that record every payment, handle failures and never double-charge.",
+          "Stripe checkout, webhooks and subscriptions that record every payment, handle failures and never double-charge. From $1,200.",
       },
       {
         title: "Deploys and domains",
@@ -337,7 +339,7 @@ export const servicePages = [
     steps: [
       {
         title: "Look at the app",
-        detail: "Send the link. I'll tell you whether it can be wrapped or needs a native build, and what either costs.",
+        detail: "Send the link. I'll tell you whether it can be wrapped or needs a native build. A launch with the native features Apple expects starts at $2,400.",
       },
       {
         title: "Build and test",
@@ -357,6 +359,10 @@ export const servicePages = [
         q: "Can I upload a Lovable app to the Apple App Store?",
         a: "Yes, but not as a plain website in a wrapper. Apple's guideline 4.2 rejects apps that are basically a repackaged website, and its rejection notes say that adding push notifications, location or sharing on its own isn't enough. The app has to work like an app: native navigation, offline behaviour and device features built into what people actually do in it. That means either reworking the wrapped version around those, or rebuilding the key screens in React Native.",
         link: { to: "/guides/app-store-guideline-4-2-minimum-functionality", label: "What to do about a Guideline 4.2 rejection" },
+      },
+      {
+        q: "How much does it cost to get my app into the App Store and Google Play?",
+        a: "From $2,400 for both stores: the native features Apple expects, store accounts in your name, and submission until the app is approved, usually about two weeks of work. If the app needs a full React Native build instead, that's quoted after a $400 audit, which is credited to the work.",
       },
       {
         q: "How do I publish a web app to the Google Play Store?",
@@ -407,7 +413,7 @@ export const servicePages = [
       { title: "Vendor onboarding", detail: "Sign-up, verification, listings and a seller dashboard vendors actually use." },
       {
         title: "Payments and payouts",
-        detail: "Checkout, split payments, vendor payouts, refunds and the records your accountant will ask for.",
+        detail: "Checkout, split payments, vendor payouts, refunds and the records your accountant will ask for. Stripe Connect payouts from $2,400.",
       },
       { title: "Search and discovery", detail: "Fast search and filters that stay fast as the catalogue grows." },
       { title: "Reviews, disputes and trust", detail: "Ratings, reporting and the admin tools to deal with problems." },

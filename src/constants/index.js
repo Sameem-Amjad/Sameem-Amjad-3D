@@ -873,7 +873,7 @@ export const faqs = [
   },
   {
     q: "What does a project usually cost, and how long does it take?",
-    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. To finish an app you already have: a $400 audit (credited to the fix), then $1,200 per week, usually one or two weeks. The discovery call is free and you get an honest number at the end of it.",
+    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. To finish an app you already have: a $400 audit (credited to the fix), then $1,200 per week, usually one or two weeks. Stripe payments start at $1,200 and an App Store and Google Play launch at $2,400. The discovery call is free and you get an honest number at the end of it.",
   },
   {
     q: "My app was built with Lovable, Bolt or Cursor and it's broken. Can you fix it?",
