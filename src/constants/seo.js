@@ -6,7 +6,7 @@
 //  in-app head can never drift apart.
 // ─────────────────────────────────────────────────────────────
 
-import { allProjects, slugify, getProjectBySlug, profile, links, faqs } from "./index";
+import { allProjects, storeAppCount, slugify, getProjectBySlug, profile, links, faqs } from "./index";
 import { servicePages, getServiceBySlug, SERVICES_UPDATED } from "./services";
 import { guides, getGuideBySlug } from "./guides";
 import { sized } from "../utils/img";
@@ -236,9 +236,11 @@ const STATIC = {
     graph: [profilePage, person, organization, website, faqPage(`${ORIGIN}/#faq`, faqs)],
   },
   "/work": {
-    title: `Work — ${allProjects.length} shipped products · ${profile.name}`,
+    // "Shipped products" overstated a list that includes demos and work done
+    // as an employee; each card now says which it is.
+    title: `Work — ${allProjects.length} projects · ${profile.name}`,
     description: clamp(
-      `Case studies from ${allProjects.length} production products: social platforms at 2.4M+ users, marketplaces moving $1.2B+, AI systems and mobile apps live on the App Store and Google Play.`
+      `${allProjects.length} projects, each labelled with who it was built for: marketplaces, social and workforce apps, ${storeAppCount} of them live on the App Store or Google Play, plus AI builds.`
     ),
     type: "website",
     image: ogFor(allProjects[0]),

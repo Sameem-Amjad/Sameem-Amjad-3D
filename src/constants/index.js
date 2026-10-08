@@ -74,25 +74,6 @@ export const navLinks = [
   { id: "contact", title: "Contact" },
 ];
 
-// Trust chips shown in the hero
-export const heroStats = [
-  { value: "2.4M+", label: "users reached" },
-  { value: "120k+", label: "orders processed" },
-  { value: "99.9%", label: "uptime" },
-];
-
-// Animated counters in the impact bar
-export const impactStats = [
-  { value: 24, decimals: 0, suffix: "+", label: "Products shipped" },
-  { value: 2.4, decimals: 1, suffix: "M+", label: "Users reached" },
-  { value: 99.9, decimals: 1, suffix: "%", label: "Peak uptime" },
-  { value: 120, decimals: 0, suffix: "k+", label: "Orders processed" },
-  // "Countries served" read as 120 countries of *clients*, next to reviews
-  // from four. The figure is where the products' users are, so say that.
-  { value: 120, decimals: 0, suffix: "+", label: "Countries reached" },
-  { value: 5, decimals: 1, suffix: "", label: "Fiverr rating", isRating: true },
-];
-
 // `page` links a tab to its full /services/<slug> page (constants/services.js).
 export const services = [
   {
@@ -142,7 +123,7 @@ export const services = [
     blurb:
       "Cross-platform React Native & Flutter apps live on the App Store and Google Play.",
     detail:
-      "One codebase, both stores, and an actual release process at the end of it. I have shipped marketplaces, delivery apps and social platforms through review and out to hundreds of thousands of installs.",
+      "One codebase, both stores, and an actual release process at the end of it. I have taken marketplace, delivery, social and AI apps through App Store and Google Play review; the store links are on the project cards.",
     points: [
       "React Native and Flutter, one codebase for iOS and Android",
       "Push, deep links, offline state and background sync",
@@ -180,7 +161,7 @@ export const services = [
     title: "Backend & Cloud",
     label: "Backend",
     blurb:
-      "Node/NestJS microservices on AWS — queues, streaming, sockets and bank-grade security at scale.",
+      "Node/NestJS services on AWS — queues, media pipelines, sockets and secure APIs.",
     detail:
       "The part nobody sees until it breaks. Services that scale horizontally, queues that absorb spikes, and infrastructure you can hand to another engineer without an apology.",
     points: [
@@ -224,7 +205,7 @@ export const team = [
     role: "Founder & Lead Engineer",
     title: "Full-Stack Engineer · Web · Mobile · AI",
     image: "/myimage/profile-960.webp",
-    bio: "I lead teams that turn ideas into products real people use every day — from MVPs to platforms serving millions. Clean architecture, honest communication, and software that solves real business problems.",
+    bio: "I turn ideas and half-finished apps into products people can use, from first MVPs to apps live on both stores. Clean architecture, honest communication, and software that solves real business problems.",
     tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],
   },
   {
@@ -233,44 +214,55 @@ export const team = [
     role: "Chief Technical Officer",
     title: "Full-Stack AI Architect · Web · Mobile · 35-Day Free Maintenance",
     image: "/myimage/usman_cto-960.webp",
-    bio: "Expert Full-Stack AI Architect with 5+ years building scalable Generative-AI systems, custom web apps and SaaS platforms. I turn slow, outdated systems into fast, scalable, user-friendly products — architecting cross-platform mobile (React Native, Flutter) and high-concurrency web on Kubernetes & AWS for 99.9% uptime.",
+    bio: "Expert Full-Stack AI Architect with 5+ years building scalable Generative-AI systems, custom web apps and SaaS platforms. I turn slow, outdated systems into fast, scalable, user-friendly products — architecting cross-platform mobile (React Native, Flutter) and high-concurrency web on Kubernetes & AWS.",
     tags: ["Generative AI", "React Native", "Flutter", "Kubernetes", "AWS", "SaaS"],
   },
 ];
 
 // ── Featured (curated, rich cards) ──────────────────────────────
+// Every number on a card has to survive a buyer checking it (2026-10-08).
+// Store facts come from the live App Store / Google Play listings; nothing
+// is a "client-reported" figure nobody can see. `role` says whose project it
+// was: employer work is labelled as employer work, because these were
+// built while Sameem was employed elsewhere, not delivered by DevoraX.
+// Where the employer is unconfirmed the role says "previous employer".
 export const featuredProjects = [
   {
     title: "Loopedin",
-    tagline: "Social + events platform for 2.4M+ users",
+    tagline: "Social + local-events app · built at Zencloud, live on both stores",
+    role: "Backend engineer · Zencloud",
     category: "Node.js · Microservices · AWS",
     filter: "Platforms",
     description:
-      "Next-gen social platform blending short-form video with live local event discovery. Serverless video pipeline (AWS MediaConvert), real-time messaging (Socket.io + Redis) and a gamified LoopScore engine.",
+      "Social app blending short-form video with local event discovery. I built the backend at Zencloud: a serverless video pipeline on AWS MediaConvert, real-time messaging on Socket.io + Redis, and a gamified LoopScore engine. It launched on the App Store and Google Play in September 2026.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780687758048-dmnf119254.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Active users", v: "2.4M+" },
-      { k: "Messages sent", v: "96.3M+" },
-      { k: "Videos shared", v: "4.8M+" },
+      { k: "Launched", v: "Sep 2026" },
+      { k: "Stores", v: "iOS + Android" },
+      { k: "My part", v: "Backend" },
     ],
     tags: ["TypeScript", "Node.js", "Socket.io", "Redis", "AWS"],
+    web: "https://loopedin.life/",
+    android: "https://play.google.com/store/apps/details?id=com.zencloud.loopedin",
+    ios: "https://apps.apple.com/us/app/loopedin-life/id6757230032",
   },
   {
     title: "Dooz Inspected Cars",
-    tagline: "Verified used-car marketplace · $1.2B+ JD in transactions",
+    tagline: "Used-car marketplace in Jordan · 100K+ Google Play downloads",
+    role: "Full-stack engineer",
     category: "Angular · NestJS · React Native",
     filter: "Mobile",
     description:
-      "All-in-one platform to search, buy, finance and insure 20,000+ inspected vehicles. 150-point inspection reports, financing calculators and AI valuation across web, iOS and Android.",
+      "Platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators across web, iOS and Android, all served by one NestJS backend.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780687463421-x75fdi95mk8.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Verified vehicles", v: "20,000+" },
-      { k: "Transactions", v: "1.2B+ JD" },
-      { k: "Satisfaction", v: "98%" },
+      { k: "Google Play", v: "100K+ installs" },
+      { k: "Platforms", v: "Web · iOS · Android" },
+      { k: "Backend", v: "NestJS" },
     ],
     tags: ["Angular", "NestJS", "React Native", "PostgreSQL"],
     web: "https://dooz.com/en/cars-for-sale",
@@ -279,54 +271,57 @@ export const featuredProjects = [
   },
   {
     title: "Koor Food Delivery",
-    tagline: "Homemade-food marketplace · 120k+ orders",
+    tagline: "Homemade-food marketplace · v1 live on Google Play",
+    role: "Full-stack engineer",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
     description:
-      "Cloud-native marketplace connecting customers with home chefs. Real-time delivery via Firebase, Elasticsearch-powered discovery and AWS (EC2, S3, CloudFront) for reliability at scale.",
+      "Marketplace connecting customers with home chefs. NestJS backend, Elasticsearch-powered discovery, Firebase for live order tracking and AWS (EC2, S3, CloudFront) underneath. Version one went live on Google Play in October 2025.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780682366449-mqcg4kehwuc.png",
     accent: "from-yellow-400 to-orange-500",
     stats: [
-      { k: "Orders completed", v: "120,000+" },
-      { k: "User rating", v: "4.8 / 5" },
-      { k: "Delivery", v: "Real-time" },
+      { k: "Launched", v: "Oct 2025" },
+      { k: "Platform", v: "Android" },
+      { k: "Tracking", v: "Real-time" },
     ],
     tags: ["React Native", "NestJS", "Firebase", "Elasticsearch", "AWS"],
     android: "https://play.google.com/store/apps/details?id=com.koor_user",
   },
   {
     title: "Afriva",
-    tagline: "Multi-vendor e-commerce · $1.2M revenue",
+    tagline: "Four-role multi-vendor marketplace · built at Webrange",
+    role: "Full-stack engineer · Webrange Solutions",
     category: "Next.js 15 · Supabase",
     filter: "E-Commerce",
     description:
-      "Modern multi-vendor marketplace with role-based dashboards for admins, managers, sellers and buyers. SSR for performance and SEO, real-time delivery tracking across 120+ cities.",
+      "Multi-vendor marketplace with separate dashboards for admins, managers, sellers and buyers. Server-rendered Next.js 15 for speed and SEO, Supabase for auth and data, and real-time order tracking. Built while I was at Webrange Solutions; the link is the demo build.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780690136428-ugskg9kw1yo.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Total revenue", v: "$1.2M" },
-      { k: "Active vendors", v: "1,245" },
-      { k: "Cities covered", v: "120+" },
+      { k: "Dashboards", v: "4 roles" },
+      { k: "Framework", v: "Next.js 15" },
+      { k: "Built at", v: "Webrange" },
     ],
     tags: ["Next.js", "Supabase", "Redux Toolkit"],
     web: "https://afriva-buyer.vercel.app/",
   },
   {
     title: "Pastel Marketplace",
-    tagline: "Luxury antiques marketplace · 48k+ collectors",
-    category: "Next.js · Firebase",
+    tagline: "Antiques marketplace on Sharetribe · I work on its iOS app",
+    role: "Software engineer · Pastel",
+    category: "Next.js · Firebase · Sharetribe",
     filter: "E-Commerce",
     description:
-      "Elegant marketplace for antiques and vintage treasures with provenance. Curated collections, secure payments (Sharetribe) and insured global logistics via Shippo.",
+      "Marketplace for antiques and vintage pieces with provenance, running on Sharetribe with Shippo for shipping, on web, iOS and Android. I joined Pastel as a software engineer in 2026 and work on its iOS marketplace app.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686446029-4r69nforunv.png",
     accent: "from-orange-400 to-red-500",
     stats: [
-      { k: "Curated items", v: "12k+" },
-      { k: "Happy collectors", v: "48k+" },
-      { k: "Positive reviews", v: "98%" },
+      { k: "Platform", v: "Sharetribe" },
+      { k: "Apps", v: "Web · iOS · Android" },
+      { k: "My part", v: "iOS app" },
     ],
     tags: ["Next.js", "Firebase", "Sharetribe", "Shippo"],
     web: "https://mypastel.com/",
@@ -334,18 +329,19 @@ export const featuredProjects = [
   },
   {
     title: "TAL Workforce",
-    tagline: "Welfare platform for mobile workers · 5,000+ supported",
+    tagline: "UK welfare app for mobile workers · live on iOS and Android",
+    role: "Full-stack engineer · previous employer",
     category: "Flutter · React · Node.js",
     filter: "Mobile",
     description:
-      "Connects mobile workers with safe venues offering rest and welfare facilities. Real-time location services, venue search and employer-funded access across web, iOS and Android.",
+      "Connects mobile workers with venues offering rest and welfare facilities, paid for by their employers. Location-based venue search across a Flutter app, a React web dashboard and a Node.js backend on AWS. Built as an employee, not as a DevoraX client project.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689110015-zywscjbzpj.png",
     accent: "from-teal-400 to-emerald-400",
     stats: [
-      { k: "Workers supported", v: "5,000+" },
-      { k: "Partner venues", v: "2,500+" },
-      { k: "Satisfaction", v: "98%" },
+      { k: "Market", v: "UK" },
+      { k: "Platforms", v: "Web · iOS · Android" },
+      { k: "Context", v: "Employer project" },
     ],
     tags: ["Flutter", "React", "Node.js", "AWS"],
     web: "https://talservices.co.uk/",
@@ -354,109 +350,116 @@ export const featuredProjects = [
   },
   {
     title: "WOD Pro League",
-    tagline: "Global fitness competitions · 120+ countries",
+    tagline: "Online functional-fitness league · built at Zencloud",
+    role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · Node.js · AWS",
     filter: "Mobile",
     description:
-      "Functional-fitness competition platform with real-time leaderboards and score submission. AWS Lambda + S3 serverless backend, Redis and Socket.io for low-latency live updates.",
+      "Competition platform with real-time leaderboards and score submission, built by the Zencloud team I was part of: Flutter apps, an AWS Lambda + S3 backend, and Redis + Socket.io for live updates. The client's own words, on Zencloud's site: more than 600 athletes joined in the first season.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689938803-y248gktlxs9.png",
     accent: "from-purple-400 to-indigo-500",
     stats: [
-      { k: "Total athletes", v: "12,778" },
-      { k: "Scores submitted", v: "8,567" },
-      { k: "Countries", v: "120+" },
+      { k: "Season one", v: "600+ athletes" },
+      { k: "Leaderboards", v: "Real-time" },
+      { k: "Backend", v: "AWS Lambda" },
     ],
     tags: ["Flutter", "React", "Node.js", "AWS", "Redis"],
     // Site and both store listings 404 as of 2026-09-21. LiveLinks hides a
     // project with no valid URLs, so the card shows without dead badges.
+    // The 600-athlete figure is the client's quote on zencloudtechnologies.com.
     // TODO: restore when Sameem supplies the current links.
   },
   {
     title: "JUJU Streaming",
-    tagline: "Multimedia streaming platform · 1.2M watch-hours",
+    tagline: "Media-streaming backend · FFmpeg + BullMQ pipeline",
+    role: "Backend engineer · previous employer",
     category: "Node.js · AWS · Media",
     filter: "Platforms",
     description:
-      "Secure, scalable streaming for 9+ content types. Fluent-FFmpeg + BullMQ media pipeline on AWS S3/EC2, signed URLs and RBAC, subscription billing built in.",
+      "Backend for a streaming app serving video, audio and other media types: a Fluent-FFmpeg + BullMQ processing pipeline on AWS S3/EC2, signed URLs, role-based access and subscription billing. Built as an employee; there is no public link.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689640497-3073j1xez4v.png",
     accent: "from-purple-400 to-indigo-500",
     stats: [
-      { k: "Watch time", v: "1.2M hrs" },
-      { k: "Total users", v: "128,540" },
-      { k: "Revenue", v: "$48,760" },
+      { k: "Pipeline", v: "FFmpeg + BullMQ" },
+      { k: "Access", v: "Signed URLs" },
+      { k: "Context", v: "Employer project" },
     ],
     tags: ["Node.js", "AWS", "FFmpeg", "BullMQ"],
   },
   {
     title: "Pathana",
-    tagline: "EdTech planning platform · 10k+ students, 500+ schools",
+    tagline: "Career-planning platform for students and counselors",
+    role: "Full-stack engineer",
     category: "Next.js · Node.js · Firebase",
     filter: "Web",
     description:
-      "Guides students from high school to career readiness with personalized roadmaps, milestone tracking and counselor collaboration — backed by real-time data insights.",
+      "Guides students from high school towards a career with personalized roadmaps, milestone tracking and counselor collaboration.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686955522-g97v6wiz2bm.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Students reached", v: "10k+" },
-      { k: "School partners", v: "500+" },
-      { k: "Success rate", v: "85%" },
+      { k: "Users", v: "Students · counselors" },
+      { k: "Frontend", v: "Next.js" },
+      { k: "Status", v: "Live site" },
     ],
     tags: ["Next.js", "Node.js", "Firebase", "AWS"],
     web: "https://www.pathana.net/",
   },
   {
     title: "Three28",
-    tagline: "Creator monetization platform · 100% revenue retention",
+    tagline: "Creator video-monetization app · live on the App Store",
+    role: "Full-stack engineer",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
     description:
-      "Lets creators upload, distribute and monetize video with user-controlled pricing, merch integration, secure payments and a data-driven analytics dashboard.",
+      "Lets creators upload, distribute and sell their video with their own pricing, merch and payments, plus an analytics dashboard. React Native app on a NestJS/AWS backend, on the App Store since July 2024.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780683222648-emwgaqd7yf.png",
     accent: "from-purple-400 to-indigo-500",
     stats: [
-      { k: "Revenue retention", v: "100%" },
-      { k: "Monthly growth", v: "10k+" },
-      { k: "Engagement", v: "High" },
+      { k: "Platform", v: "iOS" },
+      { k: "Pricing", v: "Creator-set" },
+      { k: "Merch", v: "Built in" },
     ],
     tags: ["React Native", "NestJS", "AWS"],
     ios: "https://apps.apple.com/us/app/three28/id6504447934",
   },
   {
     title: "Digital Power of Attorney",
-    tagline: "GDPR & ISO 27001 authorization platform",
+    tagline: "Danish digital power-of-attorney service · built at Zencloud",
+    role: "Backend engineer · Zencloud",
     category: "Node.js · React · Flutter · AWS",
     filter: "Platforms",
     description:
-      "Manages digital authorizations across government and private portals with digital signatures, encrypted S3 storage and granular delegation — compliant with GDPR & ISO 27001.",
+      "e-fuldmagt manages digital powers of attorney for the Danish market. At Zencloud I built secure sign-in with MitID through Criipto, generated PDF documents, document management and REST APIs built to GDPR requirements, behind a Danish/English interface.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689033958-rhhcbvu4tq.png",
     accent: "from-purple-400 to-indigo-500",
     stats: [
-      { k: "Security", v: "Bank-grade" },
-      { k: "Compliance", v: "GDPR · ISO" },
-      { k: "Storage", v: "Encrypted S3" },
+      { k: "Identity", v: "MitID" },
+      { k: "Documents", v: "Generated PDFs" },
+      { k: "Built at", v: "Zencloud" },
     ],
     tags: ["Node.js", "Express", "React", "Flutter", "AWS"],
     web: "https://www.e-fuldmagt.dk/en",
   },
   {
     title: "Waitmate",
-    tagline: "Hospitality management suite · 87% occupancy",
+    tagline: "Hospitality management suite · demo build",
+    role: "Full-stack engineer",
     category: "React · Supabase · React Native",
     filter: "Web",
     description:
-      "Unified reservations, table, staff and CRM platform for restaurants and hotels. Smart bookings, real-time analytics and multi-location support with a React Native companion app.",
+      "Reservations, tables, staff and guest CRM for restaurants and hotels in one system, with multi-location support and a React Native companion app. The link is a demo build with sample data.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686310124-toexmepxwz.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Total revenue", v: "$24,680" },
-      { k: "Occupancy rate", v: "87%" },
-      { k: "Satisfaction", v: "4.8 / 5" },
+      { k: "Status", v: "Demo" },
+      { k: "Data", v: "Supabase" },
+      { k: "Companion", v: "React Native" },
     ],
     tags: ["React", "Supabase", "React Native"],
     web: "https://waitmate.vercel.app/dashboard",
@@ -466,17 +469,33 @@ export const featuredProjects = [
 // ── More work (compact, filterable grid) ────────────────────────
 export const moreProjects = [
   {
+    title: "Hear With You",
+    role: "Full-stack engineer · previous employer",
+    category: "Flutter · NestJS · Next.js",
+    filter: "AI",
+    description:
+      "AI storytelling app that reads personalized stories in the listener's own cloned voice. I built the Flutter app, the NestJS backend, the Next.js admin and landing page, and the deploy pipeline. Live on the App Store since June 2026.",
+    image: "",
+    accent: "from-fuchsia-400 to-purple-500",
+    stats: [
+      { k: "AI", v: "Voice cloning" },
+      { k: "Live", v: "App Store" },
+    ],
+    tags: ["Flutter", "NestJS", "Next.js", "AI"],
+    ios: "https://apps.apple.com/us/app/hear-with-you/id6766187555",
+  },
+  {
     title: "FinTech Mobile App",
     category: "React Native · Node.js",
     filter: "Mobile",
     description:
-      "Cross-platform banking app processing 50k+ daily transactions with bank-grade security.",
+      "Cross-platform banking app: secure APIs and real-time transaction handling on a Node.js backend. No public link.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/fintech/card_images/fintech_card_image.png",
     accent: "from-teal-400 to-emerald-400",
     stats: [
-      { k: "Uptime", v: "99.9%" },
-      { k: "Transactions", v: "50k+/day" },
+      { k: "Mobile", v: "React Native" },
+      { k: "Backend", v: "Node.js" },
     ],
     tags: ["React Native", "Node.js", "Security"],
   },
@@ -485,7 +504,7 @@ export const moreProjects = [
     category: "Next.js · Microservices",
     filter: "AI",
     description:
-      "Scalable multi-vendor marketplace with AI-driven recommendations on Docker/K8s microservices.",
+      "Multi-vendor marketplace with AI-driven recommendations on Docker/K8s microservices.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/ai_ecommerce_ecosystem/card_image.png",
     accent: "from-cyan-400 to-blue-500",
@@ -497,16 +516,17 @@ export const moreProjects = [
   },
   {
     title: "Barfly Risk Engine",
+    role: "Backend engineer · Zencloud",
     category: "Node.js · AI",
     filter: "AI",
     description:
-      "Real-time flight-transfer risk assessment using the Duffel API and heuristic algorithms.",
+      "Flight-transfer risk check built at Zencloud: Duffel API flight data plus heuristics that flag risky connections before booking. Live in got2.travel.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689308066-rn493il9vek.png",
     accent: "from-sky-400 to-blue-500",
     stats: [
-      { k: "On-time", v: "88%" },
-      { k: "Accuracy", v: "78%" },
+      { k: "Data", v: "Duffel API" },
+      { k: "Live in", v: "got2.travel" },
     ],
     tags: ["React", "Node.js", "AI"],
     web: "https://got2.travel/",
@@ -516,13 +536,13 @@ export const moreProjects = [
     category: "Next.js · Firebase",
     filter: "Web",
     description:
-      "Premium café web platform with SSR, interactive menu and e-commerce — 95 Lighthouse score.",
+      "Café website demo with server rendering, an interactive menu and ordering. Scores 95 on Lighthouse.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780685783771-wjgtujionwd.png",
     accent: "from-orange-400 to-red-500",
     stats: [
       { k: "Lighthouse", v: "95" },
-      { k: "Retention", v: "+15%" },
+      { k: "Type", v: "Demo build" },
     ],
     tags: ["Next.js", "React", "Firebase"],
     web: "https://coffee-shop-original.vercel.app/",
@@ -532,39 +552,41 @@ export const moreProjects = [
     category: "React · TypeScript · Supabase",
     filter: "Web",
     description:
-      "Fitness-management admin panel connecting trainers and users with BMI tracking and workout plans.",
+      "Fitness-management admin panel connecting trainers and users, with BMI tracking and workout plans.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686023549-17rflwl4eoy.png",
     accent: "from-teal-400 to-emerald-400",
     stats: [
-      { k: "Revenue", v: "$18,230" },
-      { k: "Retention", v: "87.3%" },
+      { k: "Type", v: "Admin panel" },
+      { k: "Data", v: "Supabase" },
     ],
     tags: ["React", "TypeScript", "Supabase"],
-    web: "https://augment-fit.vercel.app/dashboard",
+    // The Vercel demo now serves a blank page (2026-10-08), so no link.
   },
   {
     title: "ConstrActive",
     category: "GoHighLevel · Supabase · Stripe",
     filter: "Platforms",
     description:
-      "Construction CRM automating lead-gen, subscriptions and payments with recurring plans.",
+      "Construction CRM automating lead capture, subscriptions and recurring payments.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780796858509-2ivbajvu5mm.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Monthly rev.", v: "$28,450" },
-      { k: "Projects", v: "350+" },
+      { k: "CRM", v: "GoHighLevel" },
+      { k: "Payments", v: "Stripe" },
     ],
     tags: ["Supabase", "Stripe", "CRM"],
-    web: "https://constraction.ca/",
+    // constraction.ca now hosts a different product (a contract generator),
+    // so linking it would show a buyer something that is not this build.
   },
   {
     title: "Bondly Pet Care",
+    role: "Backend lead · Webrange Solutions",
     category: "Node.js · Firebase · Stripe",
     filter: "Mobile",
     description:
-      "Subscription-based pet-care ecosystem with credit management, Stripe payments and AWS deployment.",
+      "Backend for a subscription pet-care marketplace behind a Flutter app, built at Webrange: credit management, Stripe subscriptions, push notifications and AWS deployment.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/bondly/bondly.png",
     accent: "from-pink-400 to-rose-500",
@@ -577,28 +599,29 @@ export const moreProjects = [
   },
   {
     title: "Outstride / Ginger",
+    role: "Frontend engineer · Webrange Solutions",
     category: "React.js Frontend",
     filter: "E-Commerce",
     description:
-      "Modern React e-commerce storefront with modular components and optimized client-side performance.",
+      "React e-commerce storefront and admin, built at Webrange with modular components and React Hook Form + Zod for product management.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/outstride/outstride_card.png",
     accent: "from-lime-400 to-green-500",
     stats: [
       { k: "Frontend", v: "React" },
-      { k: "Perf", v: "Optimized" },
+      { k: "Forms", v: "RHF + Zod" },
     ],
     tags: ["React", "Frontend"],
-    web: "https://out-stride.com/",
-    // Both store listings 404 as of 2026-09-21 (the site is live). Dropped
-    // rather than shown broken — a dead badge reads worse than no badge.
+    // out-stride.com is now a Shopify store, not this build, and both store
+    // listings 404 (2026-09-21), so no links.
   },
   {
     title: "Food Magnet",
+    role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · AWS Lambda",
     filter: "Mobile",
     description:
-      "Real-time food-truck discovery with live location tracking, vendor profiles and a React admin dashboard.",
+      "Food-truck discovery with live location tracking, vendor profiles and a React admin dashboard. I worked on the existing customer and vendor apps at Zencloud.",
     image: "",
     accent: "from-purple-400 to-indigo-500",
     stats: [
@@ -616,13 +639,13 @@ export const moreProjects = [
     category: "React Native · AWS",
     filter: "Mobile",
     description:
-      "Technical control app for roller-shutter installation — motor calibration, compliance docs and search.",
+      "Field app for roller-shutter installers: motor calibration, compliance documents and search.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780682841099-7f50fzfk6sy.png",
     accent: "from-blue-500 to-indigo-500",
     stats: [
-      { k: "Efficiency", v: "+20%" },
-      { k: "Compliance", v: "Enhanced" },
+      { k: "Platform", v: "Android" },
+      { k: "Users", v: "Installers" },
     ],
     tags: ["React Native", "NestJS", "AWS"],
     android: "https://play.google.com/store/apps/details?id=com.cedmat_app",
@@ -646,7 +669,7 @@ export const moreProjects = [
     category: "MERN · Machine Learning",
     filter: "AI",
     description:
-      "Real-time analytics dashboard visualizing large datasets with ML models for market prediction.",
+      "Analytics dashboard visualizing large datasets, with ML models for market prediction.",
     image: "",
     accent: "from-emerald-400 to-cyan-400",
     stats: [
@@ -724,6 +747,31 @@ export const slugify = (s = "") =>
 
 // Single ordered list backing the /work/:slug detail pages + prev/next nav.
 export const allProjects = [...featuredProjects, ...moreProjects];
+
+// Apps in the portfolio with a live App Store or Google Play listing.
+// Counted from the data, so the headline number can't drift from the cards.
+export const storeAppCount = allProjects.filter((p) => p.ios || p.android).length;
+
+// Trust chips shown in the hero. Each one is checkable: the Fiverr profile
+// for the first two, the store badges on the project cards for the third.
+// (Replaced 2.4M users / 120k orders / 99.9% uptime on 2026-10-08: the
+// store listings contradicted them.)
+export const heroStats = [
+  { value: "5.0", label: "Fiverr rating" },
+  { value: "50+", label: "Fiverr projects" },
+  { value: String(storeAppCount), label: "apps live on the stores" },
+];
+
+// Animated counters in the impact bar
+export const impactStats = [
+  { value: 50, decimals: 0, suffix: "+", label: "Fiverr projects" },
+  { value: storeAppCount, decimals: 0, suffix: "", label: "Apps live on the stores" },
+  { value: 4, decimals: 0, suffix: "+", label: "Years shipping (since 2022)" },
+  // Countries the Fiverr clients are in: US, UK, Canada, Hong Kong.
+  { value: 4, decimals: 0, suffix: "", label: "Client countries" },
+  { value: 21, decimals: 0, suffix: "", label: "Client reviews, verbatim" },
+  { value: 5, decimals: 1, suffix: "", label: "Fiverr rating", isRating: true },
+];
 
 // Base project merged with its rich case-study content (if any).
 export const getProjectBySlug = (slug) => {
@@ -1085,9 +1133,9 @@ export const experiences = [
     summary:
       "The studio I run. Client products end to end — scoping, architecture, build and launch — with specialists brought in as scope demands.",
     bullets: [
-      "Lead the design, engineering and launch of web, mobile and AI products for clients across four continents.",
+      "Lead the design, engineering and launch of web, mobile and AI products for clients in the US, UK, Canada and Hong Kong.",
       "Own architecture and the hard parts personally; every build ships with CI/CD, monitoring and 35 days of maintenance.",
-      "24+ products shipped, 2.4M+ users reached, 99.9% peak uptime across the portfolio.",
+      "A two-person studio: me and Usman (CTO). Client work so far has come through Fiverr, at a 5.0 rating across 50+ projects since 2022.",
     ],
     tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],
   },

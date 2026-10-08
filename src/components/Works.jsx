@@ -23,9 +23,9 @@ const Works = () => (
     <SectionHeading
       index="02"
       eyebrow="selected work"
-      title="Products people"
-      accent="actually use."
-      description="Platforms I've led at DevoraX — live in production, on the App Store, Google Play and the web. Real clients, real scale, real revenue."
+      title="Products I've"
+      accent="engineered."
+      description="Apps I've built as a freelancer, at DevoraX and as an engineer at other studios, most of them live on the App Store, Google Play or the web. Each card says whose project it was."
       right={
         <Link
           to="/work"

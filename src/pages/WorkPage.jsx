@@ -11,7 +11,7 @@ const WorkPage = () => (
         eyebrow={`~/work · ${featuredProjects.length} case studies`}
         title="Selected"
         accent="work."
-        lede="Every project below shipped to production for a real client — web, mobile and AI platforms I led end to end."
+        lede="Web, mobile and AI products I have engineered, as a freelancer, at DevoraX and as an employee at other studios. Each card says which, and links the live app where there is one."
         right={
           <Link
             to="/builds"

@@ -250,7 +250,7 @@ const Hero = () => {
           {/* floating credentials */}
           <Badge
             icon="star"
-            title="5.0 · Top Rated"
+            title="5.0 · Level 2"
             sub="Fiverr seller"
             href={links.fiverr}
             delay={0.95}
@@ -258,8 +258,8 @@ const Hero = () => {
           />
           <Badge
             icon="check"
-            title="24+ products shipped"
-            sub="2.4M+ users reached"
+            title="50+ projects"
+            sub="on Fiverr since 2022"
             delay={1.1}
             className="-bottom-6 right-2 sm:-right-4"
           />

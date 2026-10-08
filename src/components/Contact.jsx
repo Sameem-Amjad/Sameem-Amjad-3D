@@ -11,7 +11,7 @@ const methods = [
   { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.booking },
   { icon: "whatsapp", label: "WhatsApp", value: profile.phone, href: whatsappHref("/#contact"), track: "contact", wide: true },
   { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
-  { icon: "star", label: "Fiverr", value: "5.0 · top rated", href: links.fiverr },
+  { icon: "star", label: "Fiverr", value: "5.0 · Level 2 seller", href: links.fiverr },
   { icon: "globe", label: "DevoraX", value: "thedevorax.tech", href: links.devorax },
 ];
 

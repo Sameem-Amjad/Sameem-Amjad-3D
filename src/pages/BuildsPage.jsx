@@ -11,7 +11,7 @@ const BuildsPage = () => (
         eyebrow={`~/builds · the lab`}
         title="More"
         accent="builds."
-        lede="A wider cut of production work across web, mobile, AI and cloud. Filter by discipline to explore the range."
+        lede="A wider cut of builds across web, mobile, AI and cloud, from live apps to demos. Filter by discipline to explore the range."
         right={
           <Link
             to="/work"

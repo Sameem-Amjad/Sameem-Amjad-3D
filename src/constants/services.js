@@ -111,7 +111,10 @@ export const servicePages = [
         detail: "I fix it in your codebase, deploy it, and hand over notes on everything that changed.",
       },
     ],
-    projects: ["Afriva", "Waitmate", "Digital Power of Attorney"],
+    // No project cards here: none of the portfolio builds was a rescue job,
+    // so showing them under "proof" implied otherwise. The rescue-tagged
+    // Fiverr reviews below are the real evidence.
+    projects: [],
     reviewTags: ["rescue"],
     tech: ["Lovable", "Bolt.new", "Replit", "Cursor", "v0", "Next.js", "React", "Supabase", "Stripe", "Vercel", "AWS"],
     faqs: [

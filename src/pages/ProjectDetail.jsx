@@ -210,7 +210,10 @@ const ProjectDetail = () => {
                 spec.config
               </p>
               <dl className="flex flex-col gap-3 font-mono text-sm">
-                <SpecRow label="role" value={profile.role} />
+                {/* The project's own role, not the founder title: most of these
+                    were built as an employee elsewhere, and "Founder & Lead
+                    Engineer" beside them claimed otherwise. */}
+                <SpecRow label="role" value={project.role || "Full-stack engineer"} />
                 <SpecRow label="category" value={project.category} />
                 {platforms.length > 0 && <SpecRow label="platforms" value={platforms.join(" · ")} />}
                 {project.year && <SpecRow label="year" value={project.year} />}

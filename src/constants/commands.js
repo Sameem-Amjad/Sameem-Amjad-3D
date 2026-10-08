@@ -66,7 +66,7 @@ export const buildCommands = () => {
     { id: "act-whatsapp", label: "WhatsApp", sub: profile.phone, href: whatsappHref("/"), icon: "whatsapp", keywords: ["chat", "message", "phone", "call", "contact", "hire"] },
     { id: "act-email", label: "Email me", sub: profile.email, href: links.email, icon: "mail", keywords: ["mail", "contact", "write"] },
     { id: "act-copy-email", label: "Copy email address", sub: profile.email, action: "copy-email", icon: "copy", keywords: ["clipboard", "mail"] },
-    { id: "act-fiverr", label: "Fiverr", sub: "5.0 · top rated seller", href: links.fiverr, icon: "star", keywords: ["freelance", "reviews", "hire"] },
+    { id: "act-fiverr", label: "Fiverr", sub: "5.0 · Level 2 seller", href: links.fiverr, icon: "star", keywords: ["freelance", "reviews", "hire"] },
     { id: "act-devorax", label: "DevoraX", sub: "The studio I founded and lead", href: links.devorax, icon: "globe", keywords: ["studio", "agency", "company"] },
   ].map((c) => ({ ...c, group: "connect" }));
 

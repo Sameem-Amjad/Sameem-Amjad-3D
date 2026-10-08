@@ -1,9 +1,14 @@
 // ─────────────────────────────────────────────────────────────
 //  Rich case-study content, keyed by project slug (slugify(title)).
 //  Merged over the base project object in getProjectBySlug().
-//  DRAFT copy — grounded in each project's description/stats/tags.
-//  Refine the wording freely; every field here is optional and the
-//  detail page degrades gracefully when a field is missing.
+//  Every field here is optional and the detail page degrades gracefully
+//  when a field is missing.
+//
+//  Honesty rules (2026-10-08): `results` states only what a buyer can
+//  check, such as a store listing, a live site or a quote the client
+//  published. It does not repeat usage figures nobody can see, and it says
+//  plainly when a project was built as an employee elsewhere rather than
+//  for a DevoraX client.
 //
 //  Shape per entry:
 //    overview  – 1–2 sentence lead shown under the hero title
@@ -18,207 +23,205 @@
 export const caseStudies = {
   loopedin: {
     overview:
-      "A next-generation social platform that fuses short-form video with live, local event discovery — engineered to stay real-time at the scale of millions.",
+      "A social app that fuses short-form video with live, local event discovery. I built its backend while working at Zencloud.",
     problem:
-      "Social feeds and event discovery usually live in two separate apps, and neither is built to carry millions of people sharing video and messaging at the same instant. Loopedin had to be both — a short-form video feed and a live local-events layer — under one roof, without the latency or cloud bill exploding as the audience grew.",
+      "Social feeds and event discovery usually live in two separate apps. Loopedin had to be both, a short-form video feed and a live local-events layer, under one roof, and it had to stay real-time without the cloud bill growing faster than the audience.",
     approach:
-      "I architected Loopedin as a set of independent Node.js microservices on AWS so each concern — video, messaging, events, scoring — could scale on its own. A serverless pipeline on AWS MediaConvert handles video transcoding, Socket.io backed by Redis powers real-time messaging and presence, and a gamified LoopScore engine keeps engagement compounding.",
+      "I architected the backend as independent Node.js microservices on AWS so video, messaging, events and scoring can each scale on their own. A serverless pipeline on AWS MediaConvert transcodes uploads into adaptive HLS streams, Socket.io backed by Redis handles messaging and presence, and a gamified LoopScore engine rewards activity.",
     features: [
       { title: "Serverless video pipeline", detail: "Upload-to-playback transcoding on AWS MediaConvert, so video scales without dedicated media servers." },
-      { title: "Real-time messaging", detail: "Socket.io + Redis deliver low-latency chat, presence and notifications across millions of sessions." },
-      { title: "Live event discovery", detail: "A location-aware events layer surfaces what's happening nearby, blended straight into the feed." },
-      { title: "LoopScore engine", detail: "A gamified scoring system that rewards activity and keeps retention high." },
+      { title: "Real-time messaging", detail: "Socket.io + Redis for low-latency chat, presence and notifications." },
+      { title: "Live event discovery", detail: "A location-aware events layer surfaces what's happening nearby, blended into the feed." },
+      { title: "LoopScore engine", detail: "A gamified scoring system that rewards activity." },
     ],
     results:
-      "Loopedin now reaches 2.4M+ users and has carried 96.3M+ messages and 4.8M+ shared videos — all on infrastructure that holds 99.9% uptime under real load.",
+      "Loopedin launched on Google Play and the App Store in September 2026, so it is early: the store listings are linked above. This was Zencloud's client project, built while I was employed there.",
     quote:
-      "The hard part was never a single feature — it was keeping everything real-time while the numbers kept climbing. That's an architecture problem, and it's the part I love.",
+      "The hard part was never a single feature. It was keeping video, chat and events real-time on one backend without the costs running away. That's an architecture problem, and it's the part I love.",
   },
 
   "dooz-inspected-cars": {
     overview:
-      "An all-in-one marketplace to search, buy, finance and insure inspected used cars — one verified experience across web, iOS and Android.",
+      "A marketplace to search, buy, finance and insure inspected used cars in Jordan, one experience across web, iOS and Android.",
     problem:
-      "Buying a used car online means trusting a stranger's word about the car's condition. Dooz set out to remove that risk entirely: every vehicle inspected, every report transparent, and the whole journey — financing and insurance included — handled in one place instead of five.",
+      "Buying a used car online means trusting a stranger's word about its condition. Dooz set out to remove that risk: every vehicle inspected, every report visible, and financing and insurance handled in the same place instead of five.",
     approach:
-      "I led delivery across three clients from a single shared NestJS backend: an Angular web app plus React Native iOS and Android apps over one PostgreSQL-backed API. That let 150-point inspection reports, financing calculators and AI-assisted valuation ship consistently everywhere at once.",
+      "One shared NestJS backend over PostgreSQL serves three clients: an Angular web app and React Native iOS and Android apps. That let inspection reports and financing calculators ship consistently everywhere at once.",
     features: [
-      { title: "150-point inspections", detail: "Every listing carries a standardized, transparent inspection report buyers can trust." },
-      { title: "Financing & insurance", detail: "Built-in calculators let buyers finance and insure a car without leaving the platform." },
-      { title: "AI valuation", detail: "Data-driven pricing gives buyers and sellers a fair-market value instantly." },
+      { title: "150-point inspections", detail: "Every listing carries a standardized inspection report buyers can read before they visit." },
+      { title: "Financing & insurance", detail: "Built-in calculators let buyers price finance and insurance without leaving the platform." },
       { title: "One backend, three apps", detail: "Angular web plus React Native iOS/Android over a shared NestJS + PostgreSQL API." },
     ],
     results:
-      "The platform lists 20,000+ verified vehicles, has processed 1.2B+ JD in transactions and holds a 98% satisfaction rate.",
+      "Dooz is live on the web, the App Store and Google Play, where it shows 100K+ installs. The store links above show its current ratings.",
     quote:
-      "Trust is a product feature. Once buyers believed the inspection, everything else — financing, insurance, repeat visits — followed.",
+      "Trust is a product feature. Once buyers believe the inspection, everything else, from financing to repeat visits, follows.",
   },
 
   "koor-food-delivery": {
     overview:
-      "A cloud-native marketplace connecting hungry customers with local home chefs — real-time from order to doorstep.",
+      "A marketplace connecting customers with local home chefs, real-time from order to doorstep.",
     problem:
-      "Home cooks make incredible food but have no easy way to sell it, and existing delivery apps are built for restaurants, not individuals. Koor needed a marketplace that could onboard home chefs, handle live order tracking and stay fast as the catalog of dishes grew.",
+      "Home cooks make great food but have no easy way to sell it, and delivery apps are built for restaurants, not individuals. Koor needed a marketplace that could onboard home chefs, track orders live and stay fast as the menu grew.",
     approach:
-      "I built Koor on a NestJS backend with an Elasticsearch-powered discovery layer so search and recommendations stay instant, Firebase for real-time delivery tracking, and AWS (EC2, S3, CloudFront) for reliability at scale. A React Native app puts the whole experience in customers' pockets.",
+      "I built Koor on a NestJS backend with Elasticsearch-powered discovery so search stays instant, Firebase for real-time delivery tracking, and AWS (EC2, S3, CloudFront) underneath. A React Native app puts the whole experience on customers' phones.",
     features: [
-      { title: "Home-chef marketplace", detail: "Onboarding, menus and payouts purpose-built for individual cooks, not restaurants." },
+      { title: "Home-chef marketplace", detail: "Onboarding, menus and payouts designed for individual cooks, not restaurants." },
       { title: "Real-time tracking", detail: "Firebase powers live order and delivery status from kitchen to door." },
       { title: "Instant discovery", detail: "Elasticsearch keeps search and dish recommendations fast as the catalog grows." },
-      { title: "Scalable cloud", detail: "AWS EC2 / S3 / CloudFront for reliability under real load." },
+      { title: "Cloud setup", detail: "AWS EC2 / S3 / CloudFront behind the API and media." },
     ],
     results:
-      "Koor has completed 120,000+ orders at a 4.8/5 user rating, with real-time delivery throughout.",
-    quote:
-      "Marketplaces live or die on trust and speed. We optimized relentlessly for both.",
+      "Version one went live on Google Play in October 2025. It is a young app, so there are no usage numbers worth quoting yet.",
   },
 
   afriva: {
     overview:
-      "A modern multi-vendor marketplace with role-based dashboards for admins, managers, sellers and buyers — fast, SEO-friendly and real-time.",
+      "A multi-vendor marketplace with separate dashboards for admins, managers, sellers and buyers. Built at Webrange Solutions.",
     problem:
-      "Multi-vendor commerce means four different users — admin, manager, seller, buyer — each needing a different view of the same system, all while staying fast and discoverable on the open web. Afriva needed enterprise structure without enterprise sluggishness.",
+      "Multi-vendor commerce means four kinds of user, admin, manager, seller and buyer, each needing a different view of the same system, while the storefront stays fast and findable on Google.",
     approach:
-      "Built on Next.js 15 with server-side rendering for performance and SEO, and Supabase for auth, data and real-time. Role-based dashboards give each user exactly the surface they need, and delivery tracking updates live across 120+ cities.",
+      "Next.js 15 with server-side rendering for speed and SEO, and Supabase for auth, data and real-time updates. Each role gets its own permission-scoped dashboard, and order status updates live.",
     features: [
       { title: "Role-based dashboards", detail: "Distinct, permission-scoped surfaces for admins, managers, sellers and buyers." },
-      { title: "SSR performance & SEO", detail: "Next.js 15 server rendering keeps pages fast and discoverable." },
-      { title: "Real-time delivery tracking", detail: "Live order status across 120+ cities via Supabase realtime." },
-      { title: "Type-safe state", detail: "Redux Toolkit keeps a complex multi-role app predictable." },
+      { title: "SSR performance & SEO", detail: "Next.js 15 server rendering keeps pages fast and indexable." },
+      { title: "Real-time order tracking", detail: "Live order status through Supabase realtime." },
+      { title: "Predictable state", detail: "Redux Toolkit keeps a complex multi-role app manageable." },
     ],
     results:
-      "$1.2M in revenue, 1,245 active vendors and coverage across 120+ cities.",
+      "Built while I was a full-stack developer at Webrange Solutions. The link above is the buyer-side demo build, so it shows the product rather than live sales.",
   },
 
   "pastel-marketplace": {
     overview:
-      "An elegant marketplace for antiques and vintage treasures — curated, provenance-backed and shipped insured worldwide.",
+      "A marketplace for antiques and vintage pieces with provenance, on web, iOS and Android. I work on its iOS app as a software engineer at Pastel.",
     problem:
-      "High-value antiques demand what generic marketplaces can't offer: verifiable provenance, secure high-ticket payments and insured, careful global logistics. Pastel had to feel as trustworthy and refined as the objects it sells.",
+      "High-value antiques need what generic marketplaces don't offer: visible provenance, safe high-ticket payments and careful shipping. Pastel has to feel as trustworthy as the objects it sells.",
     approach:
-      "A Next.js storefront over Firebase, with Sharetribe handling secure marketplace transactions and Shippo managing insured global logistics. Curation and provenance are first-class, so every listing carries its story.",
+      "Pastel runs on Sharetribe for marketplace transactions, with a Next.js and Firebase layer and Shippo for shipping. Sharetribe has no native mobile app of its own, so the iOS and Android apps are custom builds on top of it, and that is the part I work on.",
     features: [
-      { title: "Provenance-first listings", detail: "Every item carries verifiable history and curation." },
-      { title: "Secure high-ticket payments", detail: "Sharetribe handles escrow-grade marketplace transactions." },
-      { title: "Insured global logistics", detail: "Shippo powers insured, tracked shipping worldwide." },
+      { title: "Provenance-first listings", detail: "Each item carries its history and curation." },
+      { title: "Marketplace payments", detail: "Sharetribe handles the transaction flow between buyers and sellers." },
+      { title: "Native apps on Sharetribe", detail: "iOS and Android apps built on Sharetribe's APIs, which ship no mobile app themselves." },
     ],
     results:
-      "12k+ curated items, 48k+ collectors and a 98% positive-review rate.",
+      "Pastel is live on the web, the App Store and Google Play. I joined in 2026 as a software engineer, after the first iOS release, and this is my employer's product, not a DevoraX client project.",
     quote:
-      "Luxury is really just trust made tangible — provenance, secure payment, safe delivery. Get those right and the rest is design.",
+      "Luxury is really just trust made tangible: provenance, secure payment, safe delivery. Get those right and the rest is design.",
   },
 
   "tal-workforce": {
     overview:
-      "A welfare platform connecting mobile workers with safe venues for rest and facilities — funded by their employers.",
+      "A welfare app connecting UK mobile workers with safe venues for rest and facilities, paid for by their employers.",
     problem:
-      "Mobile and field workers often have nowhere safe to rest or access basic facilities during long shifts. TAL needed to connect them to vetted venues in real time, with employers footing the bill — across web, iOS and Android.",
+      "Mobile and field workers often have nowhere safe to rest or use basic facilities during long shifts. TAL connects them to vetted venues nearby, with employers paying, across web, iOS and Android.",
     approach:
-      "A Flutter mobile app and React web dashboard over a Node.js backend on AWS. Real-time location services match workers to nearby partner venues, and an employer-funded access model handles who pays for what.",
+      "A Flutter mobile app and React web dashboard over a Node.js backend on AWS. Location services match workers to nearby partner venues, and an employer-funded access model handles who pays.",
     features: [
-      { title: "Real-time venue matching", detail: "Location services surface safe, vetted venues nearby, instantly." },
+      { title: "Nearby venue search", detail: "Location services surface vetted venues close to the worker." },
       { title: "Employer-funded access", detail: "Employers fund and manage welfare access for their workforce." },
-      { title: "Cross-platform", detail: "Flutter iOS/Android apps plus a React web dashboard, one backend." },
+      { title: "Cross-platform", detail: "Flutter iOS/Android apps plus a React web dashboard on one backend." },
     ],
     results:
-      "5,000+ workers supported across 2,500+ partner venues, at 98% satisfaction.",
+      "TAL is live on talservices.co.uk, the App Store and Google Play. I built it as an employee of the agency that delivered it, not as a DevoraX client project.",
   },
 
   "wod-pro-league": {
     overview:
-      "A global functional-fitness competition platform with real-time leaderboards and live score submission across 120+ countries.",
+      "An online functional-fitness league with real-time leaderboards and live score submission. Built by the Zencloud team I was part of.",
     problem:
-      "Competitive fitness is global and simultaneous — thousands of athletes submitting scores at once while everyone watches the leaderboard move. That's a low-latency, high-concurrency problem that has to feel instant no matter where you are.",
+      "Competitive fitness online is simultaneous: athletes everywhere submit scores while everyone watches the leaderboard move. That's a low-latency, high-concurrency problem that has to feel instant.",
     approach:
-      "A serverless AWS Lambda + S3 backend keeps cost proportional to load, while Redis and Socket.io drive low-latency live leaderboard updates. Flutter mobile apps and a React web app give athletes and organizers a shared, real-time view.",
+      "A serverless AWS Lambda + S3 backend keeps cost proportional to load, while Redis and Socket.io push live leaderboard updates. Flutter mobile apps and a React web app give athletes and organizers the same real-time view.",
     features: [
       { title: "Real-time leaderboards", detail: "Redis + Socket.io push score changes live to every athlete." },
-      { title: "Serverless backend", detail: "AWS Lambda + S3 scale with demand, not against a fixed server bill." },
-      { title: "Global score submission", detail: "Athletes across 120+ countries submit and verify scores in real time." },
+      { title: "Serverless backend", detail: "AWS Lambda + S3 scale with demand instead of a fixed server bill." },
+      { title: "Score submission", detail: "Athletes submit and verify scores in real time from the app." },
     ],
     results:
-      "12,778 athletes, 8,567 scores submitted, live in 120+ countries.",
+      "In the client's own words, published on Zencloud's website: \"In our very first season, more than 600 athletes joined.\" This was Zencloud's client project, built while I was employed there.",
   },
 
   "juju-streaming": {
     overview:
-      "A secure, scalable streaming platform supporting 9+ content types — with its own media pipeline and built-in subscription billing.",
+      "The backend for a streaming app serving several media types, with its own processing pipeline and subscription billing.",
     problem:
-      "Streaming means moving large media reliably, protecting it from unauthorized access, and billing for it — all at once. JUJU needed a pipeline that could ingest and serve many content types securely while monetizing through subscriptions.",
+      "Streaming means moving large media reliably, keeping it away from people who haven't paid, and billing for it, all at once. JUJU needed a pipeline that could ingest and serve many content types securely.",
     approach:
-      "I built a Fluent-FFmpeg + BullMQ media pipeline on AWS S3/EC2 for transcoding and delivery, with signed URLs and role-based access control protecting content, and subscription billing wired in from day one.",
+      "I built a Fluent-FFmpeg + BullMQ media pipeline on AWS S3/EC2 so heavy transcoding runs as background jobs, with signed URLs and role-based access protecting content and subscription billing wired in from the start.",
     features: [
-      { title: "Media pipeline", detail: "Fluent-FFmpeg + BullMQ handle transcoding and processing as background jobs." },
-      { title: "Secure delivery", detail: "Signed URLs and RBAC ensure only entitled users reach content." },
+      { title: "Media pipeline", detail: "Fluent-FFmpeg + BullMQ run transcoding as background jobs, off the request path." },
+      { title: "Secure delivery", detail: "Signed S3 URLs and role-based access so only entitled users reach content." },
       { title: "Subscription billing", detail: "Monetization built in, not bolted on afterwards." },
     ],
     results:
-      "1.2M+ watch-hours, 128,540 users and $48,760 in revenue.",
+      "Built as an employee for my employer's client. There is no public link, so this page describes the engineering only.",
   },
 
   pathana: {
     overview:
-      "An EdTech platform that guides students from high school to career readiness with personalized roadmaps and counselor collaboration.",
+      "An EdTech platform that guides students from high school towards a career with personalized roadmaps and counselor collaboration.",
     problem:
-      "Students rarely get a clear, personalized path from where they are to the career they want — and counselors lack the tooling to guide many students at once. Pathana had to make that journey structured, trackable and collaborative.",
+      "Students rarely get a clear, personal path from where they are to the career they want, and counselors lack tools to guide many students at once. Pathana makes that journey structured, trackable and shared.",
     approach:
-      "A Next.js frontend over a Node.js/Firebase backend delivers personalized roadmaps, milestone tracking and real-time counselor collaboration, backed by data insights that show what's actually working.",
+      "A Next.js frontend over a Node.js/Firebase backend delivers personalized roadmaps, milestone tracking and counselor collaboration.",
     features: [
       { title: "Personalized roadmaps", detail: "Each student gets a tailored path with clear milestones." },
-      { title: "Counselor collaboration", detail: "Counselors track and guide students in real time." },
-      { title: "Data insights", detail: "Real-time analytics surface progress and outcomes." },
+      { title: "Counselor collaboration", detail: "Counselors follow and guide their students' progress." },
+      { title: "Progress tracking", detail: "Milestones show where each student is and what comes next." },
     ],
     results:
-      "10k+ students reached across 500+ partner schools, with an 85% success rate.",
+      "Pathana is live at pathana.net, where schools can request a pilot.",
   },
 
   three28: {
     overview:
-      "A creator platform to upload, distribute and monetize video — with pricing, merch and analytics fully in the creator's hands.",
+      "A creator app to upload, distribute and sell video, with pricing, merch and analytics in the creator's hands.",
     problem:
-      "Creators want to own how they monetize, but most platforms take control (and a cut) of pricing and distribution. Three28 set out to hand that control back — pricing, merch, payments and data all creator-owned.",
+      "Creators want to decide how they make money, but most platforms control pricing and distribution. Three28 hands that back: pricing, merch, payments and data all belong to the creator.",
     approach:
-      "A React Native app over a NestJS/AWS backend gives creators user-controlled pricing, merch integration, secure payments and a data-driven analytics dashboard — a complete monetization toolkit in one app.",
+      "A React Native app over a NestJS/AWS backend gives creators their own pricing, merch, secure payments and an analytics dashboard in one app.",
     features: [
-      { title: "Creator-set pricing", detail: "Creators control exactly how their content is priced." },
-      { title: "Merch & payments", detail: "Integrated merchandise and secure payment flows." },
-      { title: "Analytics dashboard", detail: "Data-driven insights into audience and revenue." },
+      { title: "Creator-set pricing", detail: "Creators decide exactly how their content is priced." },
+      { title: "Merch & payments", detail: "Merchandise and payment flows inside the app." },
+      { title: "Analytics dashboard", detail: "Insight into audience and revenue." },
     ],
     results:
-      "100% revenue retention with 10k+ monthly growth and consistently high engagement.",
+      "Three28 has been on the App Store since July 2024; the listing is linked above.",
   },
 
   "digital-power-of-attorney": {
     overview:
-      "A compliance-grade platform for managing digital authorizations across government and private portals — GDPR and ISO 27001 aligned.",
+      "e-fuldmagt, a Danish service for managing digital powers of attorney. I built its backend while working at Zencloud.",
     problem:
-      "Power-of-attorney and delegation are high-stakes: they demand legally sound digital signatures, encrypted storage and precise, revocable control over who can act on whose behalf — all under strict regulatory compliance.",
+      "Power of attorney is high-stakes: it needs verified identity, documents that hold up legally, careful storage and precise, revocable control over who can act for whom, under Danish and EU data rules.",
     approach:
-      "A Node.js/Express backend with React web and Flutter mobile clients on AWS. Digital signatures, encrypted S3 storage and granular delegation controls are built to GDPR and ISO 27001 standards from the ground up.",
+      "A Node.js/Express backend with React web and Flutter mobile clients on AWS. Sign-in uses Denmark's MitID through Criipto (OIDC), legal PDF documents are generated from the user's input, storage is encrypted on S3, and the REST APIs were built to GDPR requirements. The interface is fully localized in Danish and English.",
     features: [
-      { title: "Digital signatures", detail: "Legally sound signing baked into every authorization." },
+      { title: "MitID identity", detail: "Digital identity verification through Criipto, using Denmark's MitID." },
+      { title: "Generated legal documents", detail: "Power-of-attorney PDFs generated from what the user enters." },
       { title: "Granular delegation", detail: "Precise, revocable control over who can act on whose behalf." },
-      { title: "Encrypted storage", detail: "Encrypted S3 storage with bank-grade security." },
+      { title: "Encrypted storage", detail: "Documents held in encrypted S3 storage." },
     ],
     results:
-      "Bank-grade security, GDPR + ISO 27001 compliance, and encrypted storage throughout.",
+      "e-fuldmagt is live at e-fuldmagt.dk. It was Zencloud's client project, built while I was employed there. Neither I nor DevoraX hold security certifications, so none are claimed here.",
     quote:
-      "In compliance work, the invisible parts — encryption, delegation, audit trails — are the product. Users should feel nothing but confidence.",
+      "In this kind of work the invisible parts, identity, delegation and audit trails, are the product. Users should feel nothing but confidence.",
   },
 
   waitmate: {
     overview:
-      "A unified hospitality suite — reservations, tables, staff and CRM — for restaurants and hotels, with a React Native companion app.",
+      "A hospitality suite that puts reservations, tables, staff and guest CRM for restaurants and hotels in one place, with a React Native companion app.",
     problem:
-      "Hospitality venues juggle reservations, tables, staff and guest relationships across disconnected tools, often per location. Waitmate needed to unify all of it into one real-time system that works across multiple sites.",
+      "Hospitality venues juggle reservations, tables, staff and guest relationships across disconnected tools, often per location. Waitmate brings all of it into one real-time system across multiple sites.",
     approach:
-      "A React web app and React Native companion over Supabase deliver smart bookings, real-time analytics and multi-location support — one platform for the whole operation.",
+      "A React web app and React Native companion over Supabase, with bookings, live dashboards and multi-location support.",
     features: [
       { title: "Unified operations", detail: "Reservations, tables, staff and CRM in a single system." },
-      { title: "Multi-location", detail: "Manage many venues from one real-time dashboard." },
-      { title: "Companion app", detail: "A React Native app keeps staff in sync on the floor." },
+      { title: "Multi-location", detail: "Manage several venues from one dashboard." },
+      { title: "Companion app", detail: "A React Native app keeps floor staff in sync." },
     ],
     results:
-      "$24,680 revenue, 87% occupancy and a 4.8/5 satisfaction rating.",
+      "The linked dashboard is a demo build with sample data, so the figures on it are not real bookings.",
   },
 };
