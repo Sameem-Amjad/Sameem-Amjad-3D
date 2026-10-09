@@ -184,7 +184,7 @@ const Services = () => {
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {[
           { icon: "zap", title: "Senior-led, always", sub: "You get me on the hard parts, not a junior" },
-          { icon: "shield", title: "35 days free support", sub: "Every build ships with maintenance included" },
+          { icon: "shield", title: "35 days of free fixes", sub: "For any real problem in what we built" },
           { icon: "compass", title: "Fixed scope, fixed price", sub: "Quoted per project, not per hour" },
         ].map((g) => (
           <div key={g.title} className="panel panel-hover flex items-center gap-4 p-5">

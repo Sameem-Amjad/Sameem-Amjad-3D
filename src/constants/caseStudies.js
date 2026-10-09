@@ -53,7 +53,7 @@ export const caseStudies = {
       { title: "One backend, three apps", detail: "Angular web plus React Native iOS/Android over a shared NestJS + PostgreSQL API." },
     ],
     results:
-      "Dooz is live on the web, the App Store and Google Play, where it shows 100K+ installs. The store links above show its current ratings.",
+      "Dooz hired me directly. It is live on the web, the App Store and Google Play, where it shows 100K+ installs, and the store links above show its current ratings.",
     quote:
       "Trust is a product feature. Once buyers believe the inspection, everything else, from financing to repeat visits, follows.",
   },
@@ -123,7 +123,7 @@ export const caseStudies = {
       { title: "Cross-platform", detail: "Flutter iOS/Android apps plus a React web dashboard on one backend." },
     ],
     results:
-      "TAL is live on talservices.co.uk, the App Store and Google Play. I built it as an employee of the agency that delivered it, not as a DevoraX client project.",
+      "TAL is live on talservices.co.uk, the App Store and Google Play. I built it while I was a full-stack developer at Webrange Solutions, for Webrange's client.",
   },
 
   "wod-pro-league": {
@@ -155,7 +155,7 @@ export const caseStudies = {
       { title: "Subscription billing", detail: "Monetization built in, not bolted on afterwards." },
     ],
     results:
-      "Built as an employee for my employer's client. There is no public link, so this page describes the engineering only.",
+      "A direct client project. There is no public link, so this page describes the engineering only.",
   },
 
   pathana: {
@@ -171,7 +171,7 @@ export const caseStudies = {
       { title: "Progress tracking", detail: "Milestones show where each student is and what comes next." },
     ],
     results:
-      "Pathana is live at pathana.net, where schools can request a pilot.",
+      "Pathana is live at pathana.net, where schools can request a pilot. I built it at ivector, where I work as a software engineer.",
   },
 
   three28: {
@@ -187,7 +187,7 @@ export const caseStudies = {
       { title: "Analytics dashboard", detail: "Insight into audience and revenue." },
     ],
     results:
-      "Three28 has been on the App Store since July 2024; the listing is linked above.",
+      "Three28 was a direct client. It has been on the App Store since July 2024; the listing is linked above.",
   },
 
   "digital-power-of-attorney": {

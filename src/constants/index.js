@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-//  Real portfolio data for Sameem Amjad — Founder & Lead Engineer, DevoraX
+//  Real portfolio data for Sameem Amjad — Founder & Lead Architect Engineer, DevoraX
 //  Projects sourced from the DevoraX case-study (Supabase `projects` table).
 //  NOTE: `links.booking` is the DevoraX scheduler, not a third-party one.
 // ─────────────────────────────────────────────────────────────
@@ -8,7 +8,7 @@ import { caseStudies } from "./caseStudies";
 
 export const profile = {
   name: "Sameem Amjad",
-  role: "Founder & Lead Engineer",
+  role: "Founder & Lead Architect Engineer",
   company: "DevoraX",
   // Hero headline is the name — a portfolio is a personal brand, not a job ad.
   // `kicker` is the role line that sits under it in acid.
@@ -206,7 +206,7 @@ export const team = [
   {
     name: "Sameem Amjad",
     badge: "Founder",
-    role: "Founder & Lead Engineer",
+    role: "Founder & Lead Architect Engineer",
     title: "Full-Stack Engineer · Web · Mobile · AI",
     image: "/myimage/profile-960.webp",
     bio: "I turn ideas and half-finished apps into products people can use, from first MVPs to apps live on both stores. Clean architecture, honest communication, and software that solves real business problems.",
@@ -229,7 +229,8 @@ export const team = [
 // is a "client-reported" figure nobody can see. `role` says whose project it
 // was: employer work is labelled as employer work, because these were
 // built while Sameem was employed elsewhere, not delivered by DevoraX.
-// Where the employer is unconfirmed the role says "previous employer".
+// Context confirmed by Sameem on 2026-10-09: direct clients are labelled
+// "direct client", employer work names the employer.
 export const featuredProjects = [
   {
     title: "Loopedin",
@@ -255,11 +256,11 @@ export const featuredProjects = [
   {
     title: "Dooz Inspected Cars",
     tagline: "Used-car marketplace in Jordan · 100K+ Google Play downloads",
-    role: "Full-stack engineer",
+    role: "Full-stack engineer · direct client",
     category: "Angular · NestJS · React Native",
     filter: "Mobile",
     description:
-      "Platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators across web, iOS and Android, all served by one NestJS backend.",
+      "A direct client project: a platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators across web, iOS and Android, all served by one NestJS backend.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780687463421-x75fdi95mk8.png",
     accent: "from-cyan-400 to-blue-500",
@@ -334,18 +335,18 @@ export const featuredProjects = [
   {
     title: "TAL Workforce",
     tagline: "UK welfare app for mobile workers · live on iOS and Android",
-    role: "Full-stack engineer · previous employer",
+    role: "Full-stack engineer · Webrange Solutions",
     category: "Flutter · React · Node.js",
     filter: "Mobile",
     description:
-      "Connects mobile workers with venues offering rest and welfare facilities, paid for by their employers. Location-based venue search across a Flutter app, a React web dashboard and a Node.js backend on AWS. Built as an employee, not as a DevoraX client project.",
+      "Connects mobile workers with venues offering rest and welfare facilities, paid for by their employers. Location-based venue search across a Flutter app, a React web dashboard and a Node.js backend on AWS. Built while I was at Webrange Solutions.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689110015-zywscjbzpj.png",
     accent: "from-teal-400 to-emerald-400",
     stats: [
       { k: "Market", v: "UK" },
       { k: "Platforms", v: "Web · iOS · Android" },
-      { k: "Context", v: "Employer project" },
+      { k: "Built at", v: "Webrange" },
     ],
     tags: ["Flutter", "React", "Node.js", "AWS"],
     web: "https://talservices.co.uk/",
@@ -377,29 +378,29 @@ export const featuredProjects = [
   {
     title: "JUJU Streaming",
     tagline: "Media-streaming backend · FFmpeg + BullMQ pipeline",
-    role: "Backend engineer · previous employer",
+    role: "Backend engineer · direct client",
     category: "Node.js · AWS · Media",
     filter: "Platforms",
     description:
-      "Backend for a streaming app serving video, audio and other media types: a Fluent-FFmpeg + BullMQ processing pipeline on AWS S3/EC2, signed URLs, role-based access and subscription billing. Built as an employee; there is no public link.",
+      "Backend for a streaming app serving video, audio and other media types: a Fluent-FFmpeg + BullMQ processing pipeline on AWS S3/EC2, signed URLs, role-based access and subscription billing. A direct client project with no public link.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780689640497-3073j1xez4v.png",
     accent: "from-purple-400 to-indigo-500",
     stats: [
       { k: "Pipeline", v: "FFmpeg + BullMQ" },
       { k: "Access", v: "Signed URLs" },
-      { k: "Context", v: "Employer project" },
+      { k: "Client", v: "Direct" },
     ],
     tags: ["Node.js", "AWS", "FFmpeg", "BullMQ"],
   },
   {
     title: "Pathana",
-    tagline: "Career-planning platform for students and counselors",
-    role: "Full-stack engineer",
+    tagline: "Career-planning platform for students and counselors · built at ivector",
+    role: "Full-stack engineer · ivector",
     category: "Next.js · Node.js · Firebase",
     filter: "Web",
     description:
-      "Guides students from high school towards a career with personalized roadmaps, milestone tracking and counselor collaboration.",
+      "Guides students from high school towards a career with personalized roadmaps, milestone tracking and counselor collaboration. Built at ivector, where I work as a software engineer.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686955522-g97v6wiz2bm.png",
     accent: "from-cyan-400 to-blue-500",
@@ -414,11 +415,11 @@ export const featuredProjects = [
   {
     title: "Three28",
     tagline: "Creator video-monetization app · live on the App Store",
-    role: "Full-stack engineer",
+    role: "Full-stack engineer · direct client",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
     description:
-      "Lets creators upload, distribute and sell their video with their own pricing, merch and payments, plus an analytics dashboard. React Native app on a NestJS/AWS backend, on the App Store since July 2024.",
+      "A direct client project: creators upload, distribute and sell their video with their own pricing, merch and payments, plus an analytics dashboard. React Native app on a NestJS/AWS backend, on the App Store since July 2024.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780683222648-emwgaqd7yf.png",
     accent: "from-purple-400 to-indigo-500",
@@ -474,11 +475,11 @@ export const featuredProjects = [
 export const moreProjects = [
   {
     title: "Hear With You",
-    role: "Full-stack engineer · previous employer",
+    role: "Full-stack engineer · direct client",
     category: "Flutter · NestJS · Next.js",
     filter: "AI",
     description:
-      "AI storytelling app that reads personalized stories in the listener's own cloned voice. I built the Flutter app, the NestJS backend, the Next.js admin and landing page, and the deploy pipeline. Live on the App Store since June 2026.",
+      "AI storytelling app that reads personalized stories in the listener's own cloned voice. For a direct client, I built the Flutter app, the NestJS backend, the Next.js admin and landing page, and the deploy pipeline. Live on the App Store since June 2026.",
     image: "",
     accent: "from-fuchsia-400 to-purple-500",
     stats: [
@@ -537,16 +538,17 @@ export const moreProjects = [
   },
   {
     title: "Coffee Shop Web App",
+    role: "Full-stack engineer · Fleact Tech",
     category: "Next.js · Firebase",
     filter: "Web",
     description:
-      "Café website demo with server rendering, an interactive menu and ordering. Scores 95 on Lighthouse.",
+      "Café website with server rendering, an interactive menu and ordering, built while I was at Fleact Tech. Scores 95 on Lighthouse.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780685783771-wjgtujionwd.png",
     accent: "from-orange-400 to-red-500",
     stats: [
       { k: "Lighthouse", v: "95" },
-      { k: "Type", v: "Demo build" },
+      { k: "Built at", v: "Fleact Tech" },
     ],
     tags: ["Next.js", "React", "Firebase"],
     web: "https://coffee-shop-original.vercel.app/",
@@ -865,7 +867,7 @@ export const stackGroups = [
 export const faqs = [
   {
     q: "What exactly do you do?",
-    a: "I'm the founder and lead engineer at DevoraX. I take products from an idea to something live that real people use — web platforms, mobile apps on both stores, and AI features on top of them. On most projects I'm doing the architecture and the hard parts myself, not handing it off.",
+    a: "I'm the founder and lead architect engineer at DevoraX. I take products from an idea to something live that real people use — web platforms, mobile apps on both stores, and AI features on top of them. On most projects I'm doing the architecture and the hard parts myself, not handing it off.",
   },
   {
     q: "Do I hire you, or an agency?",
@@ -882,7 +884,7 @@ export const faqs = [
   },
   {
     q: "What happens after launch?",
-    a: "Launch is where most builds get abandoned. Every DevoraX project ships with monitoring, CI/CD and 35 days of free maintenance. After that, ongoing support is an option rather than an obligation — the code is yours, documented, and handed over properly.",
+    a: "Launch is where most builds get abandoned. Every DevoraX project ships with monitoring, CI/CD and 35 days of free fixes for any real problem in what we built; new features are quoted separately. After that, ongoing support is an option rather than an obligation — the code is yours, documented, and handed over properly.",
   },
   {
     q: "Which stack do you work in?",
@@ -1123,10 +1125,10 @@ export const testimonialStats = {
 // ── Experience ──────────────────────────────────────────────────
 // `current: true` roles render as concurrent branches off HEAD; the rest fall
 // into the merged history below, newest first.
-// ⚠️ DevoraX `from` is a placeholder — set it to the real founding year.
+// DevoraX was founded in 2022 (confirmed by Sameem, 2026-10-09).
 export const experiences = [
   {
-    role: "Founder & Lead Engineer",
+    role: "Founder & Lead Architect Engineer",
     org: "DevoraX",
     logo: "/logos/devorax.png",
     kind: "Founder",
@@ -1138,7 +1140,7 @@ export const experiences = [
       "The studio I run. Client products end to end — scoping, architecture, build and launch — with specialists brought in as scope demands.",
     bullets: [
       "Lead the design, engineering and launch of web, mobile and AI products for clients in the US, UK, Canada and Hong Kong.",
-      "Own architecture and the hard parts personally; every build ships with CI/CD, monitoring and 35 days of maintenance.",
+      "Own architecture and the hard parts personally; every build ships with CI/CD, monitoring and 35 days of free fixes for real problems.",
       "A two-person studio: me and Usman (CTO). Client work so far has come through Fiverr, at a 5.0 rating across 50+ projects since 2022.",
     ],
     tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],
