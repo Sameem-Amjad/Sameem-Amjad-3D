@@ -18,7 +18,7 @@ import { guides } from "./src/constants/guides.js";
 // lastmod against the page's real modification history and, once a site is
 // caught restamping every URL on every deploy, it stops trusting the field
 // site-wide. A CSS tweak must not tell Google all 28 pages were rewritten.
-const CONTENT_REVISED = "2026-09-29";
+const CONTENT_REVISED = "2026-10-09";
 
 // sitemaps.org 0.9. <loc> and <lastmod> only: Google ignores <changefreq> and
 // <priority>, and Bing confirmed in 2025 that it does too, so emitting them

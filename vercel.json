@@ -3,6 +3,13 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/work/constructive",
+      "destination": "/work/constractive",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
