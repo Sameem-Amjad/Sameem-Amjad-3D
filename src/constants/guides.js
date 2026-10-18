@@ -5,7 +5,8 @@
 //  but it can rank for a specific error message, and a specific, correct
 //  answer is what AI assistants cite. Each guide solves one problem
 //  completely and then points at the service that fixes the rest
-//  (`service` is a slug from constants/services.js).
+//  (`service` is a slug from constants/services.js). `short` is the anchor
+//  text wherever a guide is linked from a list (footer, related guides).
 //
 //  Every command and config here must be something that works as written.
 //  Text blocks support `inline code` in backticks; nothing else is parsed.
@@ -16,6 +17,7 @@
 export const guides = [
   {
     slug: "supabase-rls-disabled-in-public",
+    short: "Supabase “RLS disabled in public”",
     title: "Supabase says “RLS disabled in public”: what it means and how to fix it",
     seoTitle: "Supabase “RLS Disabled in Public”: How to Fix It · Sameem Amjad",
     seoDescription:
@@ -152,6 +154,7 @@ select * from public.orders;`,
 
   {
     slug: "fix-404-on-refresh-single-page-app",
+    short: "404 when you refresh the page",
     title: "Your app shows a 404 when you refresh the page: the fix for Vercel, Netlify, AWS and Nginx",
     seoTitle: "Fix the 404 on Refresh in a React or Lovable App · Sameem Amjad",
     seoDescription:
@@ -254,6 +257,7 @@ select * from public.orders;`,
 
   {
     slug: "app-store-guideline-4-2-minimum-functionality",
+    short: "App Store Guideline 4.2 rejection",
     title: "Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved",
     seoTitle: "Guideline 4.2 Minimum Functionality: How to Fix It · Sameem Amjad",
     seoDescription:
@@ -450,6 +454,7 @@ feature are attached.`,
 
   {
     slug: "stripe-webhook-no-signatures-found-matching-expected-signature",
+    short: "Stripe webhook signature error",
     title: "Stripe webhook error “No signatures found matching the expected signature for payload”: causes and fixes",
     seoTitle: "Fix Stripe's “No Signatures Found” Webhook Error · Sameem Amjad",
     seoDescription:
@@ -770,6 +775,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
 
   {
     slug: "sharetribe-mobile-app",
+    short: "Sharetribe mobile app options",
     title: "Does Sharetribe have a mobile app? Your options for iOS and Android",
     seoTitle: "Sharetribe Mobile App: Options for iOS and Android · Sameem Amjad",
     seoDescription:
@@ -908,3 +914,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
 ];
 
 export const getGuideBySlug = (slug) => guides.find((g) => g.slug === slug) || null;
+
+// The guides that sit under any of the given service slugs, so a case study
+// can link the reading that goes with the work it proves.
+export const guidesForServices = (slugs) => guides.filter((g) => slugs.includes(g.service));

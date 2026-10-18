@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import { links, profile, whatsappHref } from "../constants";
-import { getGuideBySlug } from "../constants/guides";
+import { guides, getGuideBySlug } from "../constants/guides";
 import { getServiceBySlug } from "../constants/services";
 import { PageTransition } from "../components/fx";
 import { Icon, PrimaryButton, GhostButton, Eyebrow } from "../components/shared";
@@ -68,6 +68,7 @@ const GuidePage = () => {
   const guide = getGuideBySlug(slug);
   if (!guide) return <Navigate to="/guides" replace />;
   const service = getServiceBySlug(guide.service);
+  const others = guides.filter((g) => g.slug !== guide.slug);
 
   return (
     <PageTransition>
@@ -145,6 +146,28 @@ const GuidePage = () => {
               </a>
             </div>
           </aside>
+        )}
+
+        {others.length > 0 && (
+          <nav aria-labelledby="more-guides" className="mt-16 border-t border-line pt-10">
+            <h2 id="more-guides" className="mono-label text-faint">
+              More guides
+            </h2>
+            <ul className="mt-6 flex flex-col gap-4">
+              {others.map((g) => (
+                <li key={g.slug}>
+                  <Link
+                    to={`/guides/${g.slug}`}
+                    data-cursor="button"
+                    className="group inline-flex items-start gap-2 text-[16px] leading-snug text-muted transition-colors hover:text-acid"
+                  >
+                    <Icon name="arrowRight" className="mt-1 h-4 w-4 shrink-0 text-acid transition-transform group-hover:translate-x-0.5" />
+                    {g.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         )}
       </article>
     </PageTransition>

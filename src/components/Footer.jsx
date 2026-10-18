@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { links, profile, whatsappHref } from "../constants";
 import { servicePages } from "../constants/services";
+import { guides } from "../constants/guides";
 import { analyticsEnabled, openPrivacyChoices, track } from "../utils/analytics";
 import { Icon, Magnetic } from "./shared";
 
@@ -66,23 +67,47 @@ const Footer = () => (
         </div>
 
         <div className="flex flex-wrap gap-12 sm:gap-16">
-          <nav aria-label="Services">
-            <p className="mono-label text-faint">Services</p>
-            <ul className="mt-5 flex flex-col gap-3.5">
-              {servicePages.map((sv) => (
-                <li key={sv.slug}>
-                  <Link
-                    to={`/services/${sv.slug}`}
-                    data-cursor="button"
-                    className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-acid"
-                  >
-                    <span className="h-px w-0 bg-acid transition-all duration-300 group-hover:w-4" />
-                    {sv.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {/* Guides stack under Services: a fourth column doesn't fit beside
+              the CTA at lg and wraps Connect onto a row of its own. */}
+          <div className="flex flex-col gap-12">
+            <nav aria-label="Services">
+              <p className="mono-label text-faint">Services</p>
+              <ul className="mt-5 flex flex-col gap-3.5">
+                {servicePages.map((sv) => (
+                  <li key={sv.slug}>
+                    <Link
+                      to={`/services/${sv.slug}`}
+                      data-cursor="button"
+                      className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-acid"
+                    >
+                      <span className="h-px w-0 bg-acid transition-all duration-300 group-hover:w-4" />
+                      {sv.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            {/* Every guide on every page, like the services: on a young domain
+                a guide linked only from /guides waited weeks for a first crawl
+                ("Discovered – currently not indexed", Oct 2026). */}
+            <nav aria-label="Guides">
+              <p className="mono-label text-faint">Guides</p>
+              <ul className="mt-5 flex flex-col gap-3.5">
+                {guides.map((g) => (
+                  <li key={g.slug}>
+                    <Link
+                      to={`/guides/${g.slug}`}
+                      data-cursor="button"
+                      className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-acid"
+                    >
+                      <span className="h-px w-0 bg-acid transition-all duration-300 group-hover:w-4" />
+                      {g.short}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
           <nav aria-label="Footer">
             <p className="mono-label text-faint">Explore</p>
             <ul className="mt-5 flex flex-col gap-3.5">
