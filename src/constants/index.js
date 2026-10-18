@@ -220,6 +220,8 @@ export const team = [
     image: "/myimage/usman_cto-960.webp",
     bio: "Expert Full-Stack AI Architect with 5+ years building scalable Generative-AI systems, custom web apps and SaaS platforms. I turn slow, outdated systems into fast, scalable, user-friendly products — architecting cross-platform mobile (React Native, Flutter) and high-concurrency web on Kubernetes & AWS.",
     tags: ["Generative AI", "React Native", "Flutter", "Kubernetes", "AWS", "SaaS"],
+    // Usman asked (2026-10-19) for his whole card to open his own portfolio.
+    website: "https://muhammadusman.sameemamjad.com/",
   },
 ];
 

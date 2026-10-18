@@ -11,6 +11,17 @@ const TeamCard = ({ m, i }) => (
     data-cursor="card"
     className="panel panel-hover group relative flex flex-col overflow-hidden"
   >
+    {/* stretched link — the whole card opens the member's own site */}
+    {m.website && (
+      <a
+        href={m.website}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="card"
+        aria-label={`Visit ${m.name}'s portfolio website`}
+        className="absolute inset-0 z-10"
+      />
+    )}
     {/* 5:4, anchored to the top so the box trims the chest, never the hair.
         Wider than this (3:2) can only show a face from hairline to chin. */}
     <div className="relative aspect-[5/4] w-full overflow-hidden">
@@ -27,6 +38,12 @@ const TeamCard = ({ m, i }) => (
         <span className="h-1.5 w-1.5 rounded-full bg-acid" />
         {m.badge}
       </span>
+      {m.website && (
+        <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full border border-line bg-base/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink backdrop-blur transition-colors group-hover:border-acid/50 group-hover:text-acid">
+          Portfolio
+          <Icon name="arrowUpRight" className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        </span>
+      )}
     </div>
     <div className="flex flex-1 flex-col gap-3 p-6">
       <div>
