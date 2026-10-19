@@ -99,7 +99,7 @@ const ProjectDetail = () => {
   const lead = project.overview || project.tagline || project.description;
   // Only show a separate "problem" block when it won't duplicate the lead.
   const problemText = project.problem || (project.tagline ? project.description : null);
-  const hasLinks = project.web || project.android || project.ios;
+  const hasLinks = Boolean(project.web || project.android || project.ios || project.demos?.length);
   /* No fabricated fallback. This fell back to `devorax.tech/${slug}` — not a
      domain that exists (the real one is thedevorax.tech, which addresses
      projects as /projects/N, not by slug), so eight case studies printed a
@@ -162,7 +162,7 @@ const ProjectDetail = () => {
           </p>
           {hasLinks && (
             <div className="anim-rise mt-7" style={{ animationDelay: "0.26s" }}>
-              <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} size="lg" />
+              <LiveLinks web={project.web} android={project.android} ios={project.ios} demos={project.demos} name={project.title} size="lg" />
             </div>
           )}
         </div>
@@ -240,7 +240,7 @@ const ProjectDetail = () => {
 
               {hasLinks && (
                 <div className="mt-6 border-t border-line pt-5">
-                  <LiveLinks web={project.web} android={project.android} ios={project.ios} name={project.title} />
+                  <LiveLinks web={project.web} android={project.android} ios={project.ios} demos={project.demos} name={project.title} />
                 </div>
               )}
             </div>

@@ -306,9 +306,12 @@ const isValid = (u) => u && u !== "null" && u !== '""' && u !== '"\\""';
    reads as a run of identical "Live" links to different sites, which
    Lighthouse flags and a screen-reader user can't tell apart. The label
    keeps the visible word in it, so voice control ("click Live") still works. */
-export const LiveLinks = ({ web, android, ios, name, size = "sm" }) => {
+/* `demos`: [{ label, url }] for a demo build with sample data, kept apart
+   from `web` so "Live" only ever means the real product. */
+export const LiveLinks = ({ web, android, ios, demos = [], name, size = "sm" }) => {
   const items = [
     { url: web, icon: "globe", label: "Live", aria: "Live site" },
+    ...demos.map((d) => ({ url: d.url, icon: "zap", label: d.label, aria: `${d.label} with sample data` })),
     { url: android, icon: "android", label: "Android", aria: "Android app" },
     { url: ios, icon: "apple", label: "iOS", aria: "iOS app" },
   ].filter((i) => isValid(i.url));

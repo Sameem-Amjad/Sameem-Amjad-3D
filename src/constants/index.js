@@ -450,7 +450,14 @@ export const featuredProjects = [
       { k: "Built at", v: "Zencloud" },
     ],
     tags: ["Node.js", "Express", "React", "Flutter", "AWS"],
-    web: "https://www.e-fuldmagt.dk/en",
+    // www.e-fuldmagt.dk fails TLS (2026-10-19); the bare domain is the live site.
+    web: "https://e-fuldmagt.dk/en",
+    // Sameem's own deploy of the code with sample data, so a visitor can try
+    // both sides. "Live" above stays the client's real product.
+    demos: [
+      { label: "Demo", url: "https://efuldmagt-demo.vercel.app" },
+      { label: "Admin demo", url: "https://efuldmagt-admin-demo.vercel.app/login" },
+    ],
   },
   {
     title: "Waitmate",

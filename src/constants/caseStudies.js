@@ -204,7 +204,7 @@ export const caseStudies = {
       { title: "Encrypted storage", detail: "Documents held in encrypted S3 storage." },
     ],
     results:
-      "e-fuldmagt is live at e-fuldmagt.dk. It was Zencloud's client project, built while I was employed there. Neither I nor DevoraX hold security certifications, so none are claimed here.",
+      "e-fuldmagt is live at e-fuldmagt.dk. It was Zencloud's client project, built while I was employed there. The two demo links run a separate copy with sample data, so you can try the user app and the admin panel without touching the real service. Neither I nor DevoraX hold security certifications, so none are claimed here.",
     quote:
       "In this kind of work the invisible parts, identity, delegation and audit trails, are the product. Users should feel nothing but confidence.",
   },
