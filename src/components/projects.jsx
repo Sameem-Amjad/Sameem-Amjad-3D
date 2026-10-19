@@ -22,6 +22,21 @@ const ProjectImage = ({ image, title, tagline, accent, className, width = 700, e
   />
 );
 
+/* Marks a card whose case study has a recorded walkthrough. Bottom-left,
+   because the other three corners already carry the category, the index
+   and the hover arrow. */
+const VideoBadge = ({ className }) => (
+  <span
+    className={cn(
+      "absolute inline-flex items-center gap-1.5 rounded-full border border-acid/40 bg-base/80 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-acid backdrop-blur",
+      className
+    )}
+  >
+    <Icon name="play" className="h-2.5 w-2.5" />
+    Video
+  </span>
+);
+
 const StatRow = ({ stats }) => (
   <div className="flex flex-wrap gap-x-6 gap-y-2">
     {stats.map((s) => (
@@ -74,6 +89,7 @@ export const FeaturedCard = ({ p, i }) => (
       <span className="absolute right-4 top-4 font-mono text-xs text-acid">
         {String(i + 1).padStart(2, "0")}
       </span>
+      {p.video && <VideoBadge className="bottom-4 left-4" />}
       <span className="absolute bottom-4 right-4 grid h-9 w-9 translate-y-1 place-items-center rounded-full border border-line bg-base/70 text-acid opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         <Icon name="arrowUpRight" className="h-4 w-4" />
       </span>
@@ -117,6 +133,7 @@ export const GridCard = ({ p, eager = false }) => (
       <ProjectImage image={p.image} title={p.title} tagline={p.tagline} accent={p.accent} width={520} eager={eager}
         className="grayscale-[0.4] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
+      {p.video && <VideoBadge className="bottom-3 left-3" />}
       <span className="absolute bottom-3 right-3 grid h-8 w-8 translate-y-1 place-items-center rounded-full border border-line bg-base/70 text-acid opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         <Icon name="arrowUpRight" className="h-3.5 w-3.5" />
       </span>

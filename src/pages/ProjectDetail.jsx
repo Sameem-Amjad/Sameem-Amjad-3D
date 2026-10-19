@@ -11,6 +11,7 @@ import {
 import { servicesForProject } from "../constants/services";
 import { guidesForServices } from "../constants/guides";
 import { PageTransition } from "../components/fx";
+import ProjectMedia from "../components/ProjectMedia";
 import {
   Icon,
   PrimaryButton,
@@ -28,8 +29,8 @@ import {
    below it are h3s — as a p the page stepped h1 -> h3 and the case-study
    structure was invisible to crawlers on the pages most meant to rank.
    `mono-label` carries the sizing, so nothing moves. */
-const SectionLabel = ({ n, children }) => (
-  <h2 className="mono-label mb-5 flex items-center gap-2 text-acid">
+const SectionLabel = ({ n, id, children }) => (
+  <h2 id={id} className="mono-label mb-5 flex items-center gap-2 text-acid">
     <span className="text-faint">{n}</span>
     <span className="text-faint">//</span>
     {children}
@@ -80,6 +81,10 @@ const ProjectDetail = () => {
   });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
   const imgScale = useTransform(scrollYProgress, [0, 1], [1.14, 1.24]);
+  // Gentler drift for the designed overview renders (see `composite`).
+  // The scale always exceeds 1 + 2·|y| so the frame never shows an edge.
+  const softY = useTransform(scrollYProgress, [0, 1], ["-1.5%", "1.5%"]);
+  const softScale = useTransform(scrollYProgress, [0, 1], [1.03, 1.06]);
 
   const project = getProjectBySlug(slug);
   if (!project) return <Navigate to="/work" replace />;
@@ -106,6 +111,13 @@ const ProjectDetail = () => {
      dead address in the browser-chrome mock, on the very pages meant to prove
      the work shipped. Undefined renders nothing and the bar stays empty. */
   const previewUrl = project.web || project.android || project.ios || undefined;
+  const gallery = project.gallery || [];
+  const hasMedia = Boolean(project.video || gallery.length);
+  /* Projects whose hero is their gallery's 1-overview render (a designed
+     card with its own title and frame right up to the edges). The screenshot crop
+     and 1.14x zoom the other heroes use clipped that lettering, so these keep
+     the render's own 1280x769 shape and barely zoom. */
+  const composite = gallery.some((g) => g.src === project.image);
 
   return (
     <PageTransition>
@@ -177,8 +189,11 @@ const ProjectDetail = () => {
               <span className="h-3 w-3 rounded-full bg-muted/40" />
               <span className="ml-3 min-w-0 truncate font-mono text-[11px] text-faint">{previewUrl}</span>
             </div>
-            <div className="relative aspect-[16/10] overflow-hidden sm:aspect-[16/9]">
-              <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0">
+            <div className={cn("relative overflow-hidden", composite ? "aspect-[1280/769]" : "aspect-[16/10] sm:aspect-[16/9]")}>
+              <motion.div
+                style={composite ? { y: softY, scale: softScale } : { y: imgY, scale: imgScale }}
+                className="absolute inset-0"
+              >
                 <SmartImage
                   src={project.image}
                   alt={project.title}
@@ -200,6 +215,20 @@ const ProjectDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* ── walkthrough video + screens ──
+          Straight after the hero, because "show me it working" is the first
+          thing a buyer wants. Rendered in place (no Reveal), so it is in the
+          prerendered HTML at full opacity like the hero above it. Projects
+          without media skip the section entirely. */}
+      {hasMedia && (
+        <section aria-labelledby="walkthrough" className="mx-auto max-w-7xl px-6 pt-12 sm:px-10 lg:pt-16">
+          <SectionLabel n="00" id="walkthrough">
+            {project.video ? "the walkthrough" : "the screens"}
+          </SectionLabel>
+          <ProjectMedia video={project.video} gallery={gallery} title={project.title} />
+        </section>
+      )}
 
       {/* ── spec rail + narrative ── */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:py-24">

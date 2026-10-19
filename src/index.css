@@ -130,6 +130,13 @@ h1, h2, h3, h4, .font-display {
   background: #c6ff3d;
   color: #0a0a0b;
 }
+
+/* ---------- Case-study lightbox (native <dialog>) ----------
+   The page behind a modal dialog still scrolls by default, which on a
+   phone drags the case study around under the image. */
+html:has(dialog.lightbox[open]) { overflow: hidden; }
+dialog.lightbox[open] { animation: fade-in 0.2s ease-out; }
+dialog.lightbox[open]::backdrop { animation: fade-in 0.2s ease-out; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #0a0a0b; }
 ::-webkit-scrollbar-thumb {

@@ -18,6 +18,9 @@
 //    results   – impact-band closing paragraph
 //    quote     – first-person pull-quote (Sameem's voice)
 //    year      – optional; shown in spec.config when present
+//
+//  `video` and `gallery` live on the base project in index.js, not here:
+//  the cards need them too (the "Video" badge), and they only see the base.
 // ─────────────────────────────────────────────────────────────
 
 export const caseStudies = {
@@ -56,6 +59,65 @@ export const caseStudies = {
       "Dooz hired me directly. It is live on the web, the App Store and Google Play, where it shows 100K+ installs, and the store links above show its current ratings.",
     quote:
       "Trust is a product feature. Once buyers believe the inspection, everything else, from financing to repeat visits, follows.",
+  },
+
+  // Formerly "ConstrActive": the same Fiverr client. Lead with the contract
+  // generator that is live at constraction.ca; the earlier CRM work for the
+  // business gets one sentence, in `results`.
+  constraction: {
+    overview:
+      "A bilingual contract generator for Quebec contractors, built for a Fiverr client and live at constraction.ca. A contractor builds a contract in English or French, downloads it as a PDF ready to sign, and tracks it until the job is paid.",
+    problem:
+      "Small contractors in Quebec still write contracts by hand or from outdated templates. Missing RBQ licence details and required clauses lead to disputes and unpaid work, and clients often need the contract in French and English.",
+    approach:
+      "I built it on Next.js 15 with next-intl, so every page exists in English and French, and Supabase for accounts, contracts and Edge Functions. A guided builder walks the contractor through each part of the agreement, React-PDF turns the answers into a PDF in either language, and Stripe takes payment per contract or as an unlimited monthly plan.",
+    features: [
+      { title: "Guided contract builder", detail: "Step-by-step builder for client–contractor and general contractor–subcontractor agreements." },
+      { title: "PDFs in English or French", detail: "A ready-to-sign PDF in either language, with RBQ licence numbers checked against the valid formats." },
+      { title: "Contract lifecycle", detail: "Every contract moves from draft to generated, signed, paid and completed, so none get lost." },
+      { title: "Stripe billing", detail: "Pay per contract, or subscribe to an unlimited monthly plan." },
+      { title: "Admin panel", detail: "Users, contracts, revenue and MRR in one place, plus erasing a user's data on request (GDPR erasure)." },
+    ],
+    results:
+      "ConstrAction is live at constraction.ca. The live demo is a separate copy with sample data, where you can sign in as an admin or a contractor and build a contract yourself; payments there run in Stripe's test mode. The walkthrough video above shows the landing page, the builder and the admin panel. Before this, I built the same business's lead capture, CRM and subscription payments on GoHighLevel, Supabase and Stripe.",
+  },
+
+  voicedesk: {
+    overview:
+      "A white-label AI receptionist that answers calls, books and qualifies leads, which agencies sell to their own clients under their own brand. I built it for a Fiverr client.",
+    problem:
+      "Hotels, clinics, restaurants and trades miss calls after hours and at peak times, and every missed call is a lost booking. Agencies want to sell an AI receptionist to these clients, but off-the-shelf tools can't be rebranded and charge a platform fee on every minute.",
+    approach:
+      "A Node.js server streams the call audio over WebSockets: Deepgram turns speech into text and text back into speech, and an LLM (Gemini or Claude) decides what to say, so a caller can interrupt the agent mid-sentence the way they would a person. Calls come in through Twilio or straight from the browser. One engine and one Supabase Postgres database serve every agency and every business, and each agency sees only its own clients.",
+    features: [
+      { title: "Live voice calls", detail: "In the browser or by phone, and the caller can interrupt the agent mid-sentence." },
+      { title: "Its own knowledge base", detail: "Each business has its own knowledge base, and the agent answers only from it." },
+      { title: "Booking and lead tools", detail: "Availability, booking with SMS confirmation, lookup and cancel, lead capture, messages and warm transfer to a person." },
+      { title: "One engine, many industries", detail: "Hotel stays, restaurant tables, clinic appointments and service visits, each set up from a template." },
+      { title: "White-label agencies", detail: "Each agency gets its own brand and domain, and sees only its own clients." },
+      { title: "Calls you can review", detail: "A live call feed, transcripts, AI call summaries with outcome and sentiment, and analytics." },
+    ],
+    results:
+      "Built for a Fiverr client. The live demo runs on sample businesses and needs no login: open a business, press Test and talk to its agent. The 3-minute video above includes a real voice call. The demo runs on free-tier AI quotas, so if the agent says it is having trouble, try again a minute later.",
+  },
+
+  "pianissimo-online": {
+    overview:
+      "An online piano academy that keeps students practising between lessons: courses, XP and badges for practice, teacher feedback and a community, in English and Spanish. I built it for a Fiverr client.",
+    problem:
+      "Online piano students lose motivation between lessons, teachers can't see who is actually practising, and lessons, feedback and community end up spread across different tools.",
+    approach:
+      "A Next.js 14 app with next-intl for English and Spanish, installable to the home screen as a PWA. Supabase holds the courses, practice logs and messages, Supabase Realtime pushes notifications as they happen, and Cloudinary handles media. Every practice entry feeds the XP system, so levels, badges, streaks and the leaderboard all come from the same log the teacher sees.",
+    features: [
+      { title: "Courses and progress", detail: "Courses and lessons, with progress tracked for each student." },
+      { title: "Practice that earns XP", detail: "Logging practice earns XP, levels, badges and streaks, and feeds a leaderboard." },
+      { title: "Teacher grading", detail: "Teachers grade challenges and keep class notes for each student." },
+      { title: "Community", detail: "A feed with posts, polls and reactions, plus direct messages." },
+      { title: "Real-time and installable", detail: "Live notifications, and the app installs to the home screen as a PWA." },
+      { title: "Admin area", detail: "Students, analytics, moderation and invites." },
+    ],
+    results:
+      "Built for a Fiverr client. The live demo has sample students, a teacher and an admin account, so you can log practice, check the leaderboard and grade a challenge yourself, in English or Spanish. The 2-minute video above covers the same ground.",
   },
 
   "koor-food-delivery": {
@@ -204,7 +266,7 @@ export const caseStudies = {
       { title: "Encrypted storage", detail: "Documents held in encrypted S3 storage." },
     ],
     results:
-      "e-fuldmagt is live at e-fuldmagt.dk. It was Zencloud's client project, built while I was employed there. The two demo links run a separate copy with sample data, so you can try the user app and the admin panel without touching the real service. Neither I nor DevoraX hold security certifications, so none are claimed here.",
+      "e-fuldmagt is live at e-fuldmagt.dk. It was Zencloud's client project, built while I was employed there. The live demo runs a separate copy with sample data, so you can try the user app and the admin panel without touching the real service, and the 2-minute video above walks through both. Neither I nor DevoraX hold security certifications, so none are claimed here.",
     quote:
       "In this kind of work the invisible parts, identity, delegation and audit trails, are the product. Users should feel nothing but confidence.",
   },
@@ -223,5 +285,77 @@ export const caseStudies = {
     ],
     results:
       "The linked dashboard is a demo build with sample data, so the figures on it are not real bookings.",
+  },
+
+  idecorwala: {
+    overview:
+      "A corporate website for iDecorwala, a company that supplies wall, floor and ceiling finishes and modular spaces. It presents the product ranges, is built to rank in search, and turns visitors into project enquiries.",
+    problem:
+      "The business needed a credible B2B website that presents its product ranges, ranks in search, and turns visitors into project enquiries, with content the team can update without a developer.",
+    approach:
+      "Next.js 16 renders every page on the server, so pages load fast and search engines see the whole page. Product categories, product pages and articles come from Supabase, so the team can change them without a developer, and every page has its own metadata, with a sitemap.",
+    features: [
+      { title: "Product catalogue", detail: "Product categories and product pages driven from the database." },
+      { title: "Content pages", detail: "Thought-leadership articles, projects and services pages." },
+      { title: "Enquiries", detail: "A contact and request-for-proposal flow for project enquiries." },
+      { title: "SEO foundations", detail: "Per-page metadata, a sitemap and fast server-rendered pages." },
+    ],
+    results:
+      "iDecorwala hired me directly, and the website is live at idecorwala.com. The 75-second video above walks through it, and the live demo page links a public preview with nothing to sign in to.",
+  },
+
+  firstpass: {
+    overview:
+      "A subscription study platform for the Multistate Pharmacy Jurisprudence Examination (MPJE), with state-specific practice questions, readiness tracking and tools for schools that prepare whole cohorts. A demo build with sample data.",
+    problem:
+      "Pharmacy law differs in every US state, so MPJE candidates struggle to find practice material for their own state and have no reliable way to tell when they are ready to sit the exam.",
+    approach:
+      "Next.js 16 with Supabase for accounts, the question bank and quiz history, and Stripe for subscriptions. Questions are organised by state and law category, so a candidate practises the law of the state they are sitting for, and every quiz result feeds a readiness score across the categories.",
+    features: [
+      { title: "State-by-state question bank", detail: "Organised by state and law category, with an explanation for every answer." },
+      { title: "Practice tools", detail: "Timed quizzes, bookmarks, daily goals and study streaks." },
+      { title: "Readiness score", detail: "Calculated from performance across categories, so a candidate can see when they are ready." },
+      { title: "Four plans", detail: "Free, Basic, Pro and School, billed through Stripe." },
+      { title: "Schools and admin", detail: "Schools and cohorts with instructors, plus an admin console for content, users and analytics." },
+    ],
+    results:
+      "This is a demo build with sample data, not a client product. From the live demo page you can sign in as a student, an instructor or an admin, and payments run in Stripe's test mode. The 2-minute video above shows the student dashboard, a practice quiz and the admin console.",
+  },
+
+  sitewrite: {
+    overview:
+      "Two apps for chartered surveying firms: a surveyor app that works on site without signal, and an admin portal where the firm controls wording, templates and the team. A demo build with sample data.",
+    problem:
+      "Surveyors often have no connection on site and rewrite their notes into RICS Home Survey reports afterwards. Firms struggle to keep wording consistent and branded across every surveyor.",
+    approach:
+      "Both apps are React and TypeScript on Vite, over Supabase. The surveyor app is an offline PWA: Workbox caches the app, IndexedDB keeps each survey on the tablet, and it syncs on its own once there is a connection again. jsPDF builds the branded report from the finished survey, and each firm's data is kept apart from every other firm's.",
+    features: [
+      { title: "Every RICS element", detail: "Captures elements D–J with condition ratings, photos and signatures." },
+      { title: "Works offline", detail: "Works fully offline on site and syncs automatically when back online." },
+      { title: "Approved phrase library", detail: "783 approved phrases for descriptions, construction, condition and advice." },
+      { title: "One-click report", detail: "A branded PDF report from the finished survey." },
+      { title: "Firm admin portal", detail: "Phrase library editor, report templates and team management." },
+      { title: "Multi-tenant", detail: "Each firm's data is isolated from every other firm's." },
+    ],
+    results:
+      "This is a demo build with sample data, not a client product. The live demo page opens both apps, with a surveyor who has surveys in progress, complete and issued, and a firm admin; the AI writing assistant is switched off there. The 2-minute video above shows the surveyor app, the branded report and the admin app.",
+  },
+
+  "ar-lip-filler-preview": {
+    overview:
+      "A proof of concept for aesthetic clinics: the phone camera tracks the face and reshapes the lips live, so a patient can preview filler styles before treatment.",
+    problem:
+      "Patients find it hard to picture what lip filler will look like on their own face, and consultations rely on before-and-after photos of other people.",
+    approach:
+      "MediaPipe tracks the face live, entirely in the browser. Anatomy-aware warping reshapes the lips and a WebGL2 renderer draws the result in real time, with style presets and a volume control. A FastAPI and PostgreSQL backend stores the before-and-after pairs a user saves.",
+    features: [
+      { title: "Live face tracking", detail: "MediaPipe face tracking, running entirely in the browser." },
+      { title: "Realistic warping", detail: "Anatomy-aware warping and a WebGL2 renderer." },
+      { title: "Style presets", detail: "Natural, Russian, French and clinic presets, with adjustable volume." },
+      { title: "Before and after", detail: "A side-by-side comparison of the face before and after." },
+      { title: "Training data", detail: "Saved before-and-after pairs feed a dataset for training future models." },
+    ],
+    results:
+      "This is a proof of concept, not a clinic's product. The live demo needs no login and works best on a phone, once you allow camera access. The 90-second video above was recorded with an AI-generated face of a person who does not exist.",
   },
 };

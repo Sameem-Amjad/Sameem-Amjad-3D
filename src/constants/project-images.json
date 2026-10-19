@@ -351,28 +351,6 @@
       ]
     ]
   },
-  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780796858509-2ivbajvu5mm.png": {
-    "width": 1672,
-    "height": 941,
-    "srcset": [
-      [
-        480,
-        "/img/work/1780796858509-2ivbajvu5mm-480.2c1ca887.webp"
-      ],
-      [
-        800,
-        "/img/work/1780796858509-2ivbajvu5mm-800.ed979880.webp"
-      ],
-      [
-        1200,
-        "/img/work/1780796858509-2ivbajvu5mm-1200.09c629d8.webp"
-      ],
-      [
-        1600,
-        "/img/work/1780796858509-2ivbajvu5mm-1600.0131191d.webp"
-      ]
-    ]
-  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/ai_ecommerce_ecosystem/card_image.png": {
     "width": 2464,
     "height": 1448,
@@ -414,6 +392,534 @@
       [
         1572,
         "/img/work/bondly-1572.f20e31f7.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/ar-lip-filler-1-overview-480.210e18d0.webp"
+      ],
+      [
+        800,
+        "/img/work/ar-lip-filler-1-overview-800.55a6f326.webp"
+      ],
+      [
+        1200,
+        "/img/work/ar-lip-filler-1-overview-1200.36b7677c.webp"
+      ],
+      [
+        1600,
+        "/img/work/ar-lip-filler-1-overview-1600.df2f5d41.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/ar-lip-filler-2-spotlight-480.8acab1de.webp"
+      ],
+      [
+        800,
+        "/img/work/ar-lip-filler-2-spotlight-800.dfe6af3f.webp"
+      ],
+      [
+        1200,
+        "/img/work/ar-lip-filler-2-spotlight-1200.d9025633.webp"
+      ],
+      [
+        1600,
+        "/img/work/ar-lip-filler-2-spotlight-1600.f1ac3450.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/ar-lip-filler-3-screens-480.2f2d2709.webp"
+      ],
+      [
+        800,
+        "/img/work/ar-lip-filler-3-screens-800.dcc162ff.webp"
+      ],
+      [
+        1200,
+        "/img/work/ar-lip-filler-3-screens-1200.861ed8be.webp"
+      ],
+      [
+        1600,
+        "/img/work/ar-lip-filler-3-screens-1600.146272de.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/constraction-1-overview-480.3b1c2055.webp"
+      ],
+      [
+        800,
+        "/img/work/constraction-1-overview-800.f114efb2.webp"
+      ],
+      [
+        1200,
+        "/img/work/constraction-1-overview-1200.f360bf9b.webp"
+      ],
+      [
+        1600,
+        "/img/work/constraction-1-overview-1600.f00f1379.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/constraction-2-spotlight-480.0f801e69.webp"
+      ],
+      [
+        800,
+        "/img/work/constraction-2-spotlight-800.dc880fb4.webp"
+      ],
+      [
+        1200,
+        "/img/work/constraction-2-spotlight-1200.3bb88520.webp"
+      ],
+      [
+        1600,
+        "/img/work/constraction-2-spotlight-1600.51fa7714.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/constraction-3-screens-480.3f8216af.webp"
+      ],
+      [
+        800,
+        "/img/work/constraction-3-screens-800.32776cd9.webp"
+      ],
+      [
+        1200,
+        "/img/work/constraction-3-screens-1200.1dce899e.webp"
+      ],
+      [
+        1600,
+        "/img/work/constraction-3-screens-1600.9e50366c.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/efuldmagt-1-overview-480.acc0052a.webp"
+      ],
+      [
+        800,
+        "/img/work/efuldmagt-1-overview-800.f396fc9c.webp"
+      ],
+      [
+        1200,
+        "/img/work/efuldmagt-1-overview-1200.b3c6f6c4.webp"
+      ],
+      [
+        1600,
+        "/img/work/efuldmagt-1-overview-1600.873e0a3e.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/efuldmagt-2-spotlight-480.65df3e3d.webp"
+      ],
+      [
+        800,
+        "/img/work/efuldmagt-2-spotlight-800.d7ea3651.webp"
+      ],
+      [
+        1200,
+        "/img/work/efuldmagt-2-spotlight-1200.e7b6069a.webp"
+      ],
+      [
+        1600,
+        "/img/work/efuldmagt-2-spotlight-1600.d595c0d7.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/efuldmagt-3-screens-480.98ad42dd.webp"
+      ],
+      [
+        800,
+        "/img/work/efuldmagt-3-screens-800.89c3b63a.webp"
+      ],
+      [
+        1200,
+        "/img/work/efuldmagt-3-screens-1200.5408873d.webp"
+      ],
+      [
+        1600,
+        "/img/work/efuldmagt-3-screens-1600.2778c275.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/firstpass-1-overview-480.7e757c21.webp"
+      ],
+      [
+        800,
+        "/img/work/firstpass-1-overview-800.0e710073.webp"
+      ],
+      [
+        1200,
+        "/img/work/firstpass-1-overview-1200.368e38bb.webp"
+      ],
+      [
+        1600,
+        "/img/work/firstpass-1-overview-1600.4b629565.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/firstpass-2-spotlight-480.fdaa5335.webp"
+      ],
+      [
+        800,
+        "/img/work/firstpass-2-spotlight-800.656d2108.webp"
+      ],
+      [
+        1200,
+        "/img/work/firstpass-2-spotlight-1200.2c8dcb0c.webp"
+      ],
+      [
+        1600,
+        "/img/work/firstpass-2-spotlight-1600.2ef00e08.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/firstpass-3-screens-480.b26f1162.webp"
+      ],
+      [
+        800,
+        "/img/work/firstpass-3-screens-800.c883b5e9.webp"
+      ],
+      [
+        1200,
+        "/img/work/firstpass-3-screens-1200.cfc7ebb6.webp"
+      ],
+      [
+        1600,
+        "/img/work/firstpass-3-screens-1600.e3b81abb.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/idecorwala-1-overview-480.d828ce69.webp"
+      ],
+      [
+        800,
+        "/img/work/idecorwala-1-overview-800.b719fdfa.webp"
+      ],
+      [
+        1200,
+        "/img/work/idecorwala-1-overview-1200.19443869.webp"
+      ],
+      [
+        1600,
+        "/img/work/idecorwala-1-overview-1600.24f634af.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/idecorwala-2-spotlight-480.58fd7abc.webp"
+      ],
+      [
+        800,
+        "/img/work/idecorwala-2-spotlight-800.bd5b7b16.webp"
+      ],
+      [
+        1200,
+        "/img/work/idecorwala-2-spotlight-1200.a7e5face.webp"
+      ],
+      [
+        1600,
+        "/img/work/idecorwala-2-spotlight-1600.62535c29.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/idecorwala-3-screens-480.dce50e91.webp"
+      ],
+      [
+        800,
+        "/img/work/idecorwala-3-screens-800.d39399c4.webp"
+      ],
+      [
+        1200,
+        "/img/work/idecorwala-3-screens-1200.8394ecc6.webp"
+      ],
+      [
+        1600,
+        "/img/work/idecorwala-3-screens-1600.3982e2b8.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/pianissimo-1-overview-480.b1c82113.webp"
+      ],
+      [
+        800,
+        "/img/work/pianissimo-1-overview-800.c5517e1c.webp"
+      ],
+      [
+        1200,
+        "/img/work/pianissimo-1-overview-1200.4bee0706.webp"
+      ],
+      [
+        1600,
+        "/img/work/pianissimo-1-overview-1600.051bb409.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/pianissimo-2-spotlight-480.19dda5ea.webp"
+      ],
+      [
+        800,
+        "/img/work/pianissimo-2-spotlight-800.959ab928.webp"
+      ],
+      [
+        1200,
+        "/img/work/pianissimo-2-spotlight-1200.77be2535.webp"
+      ],
+      [
+        1600,
+        "/img/work/pianissimo-2-spotlight-1600.8ab95377.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/pianissimo-3-screens-480.37ad66ca.webp"
+      ],
+      [
+        800,
+        "/img/work/pianissimo-3-screens-800.fa871b67.webp"
+      ],
+      [
+        1200,
+        "/img/work/pianissimo-3-screens-1200.f4f39c67.webp"
+      ],
+      [
+        1600,
+        "/img/work/pianissimo-3-screens-1600.8c349a50.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/sitewrite-1-overview-480.19d4de91.webp"
+      ],
+      [
+        800,
+        "/img/work/sitewrite-1-overview-800.10a5c08f.webp"
+      ],
+      [
+        1200,
+        "/img/work/sitewrite-1-overview-1200.fdca3942.webp"
+      ],
+      [
+        1600,
+        "/img/work/sitewrite-1-overview-1600.a7ca518f.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/sitewrite-2-spotlight-480.ac46a552.webp"
+      ],
+      [
+        800,
+        "/img/work/sitewrite-2-spotlight-800.26af579a.webp"
+      ],
+      [
+        1200,
+        "/img/work/sitewrite-2-spotlight-1200.ba9d735d.webp"
+      ],
+      [
+        1600,
+        "/img/work/sitewrite-2-spotlight-1600.d6fce01f.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/sitewrite-3-screens-480.1e8bef9b.webp"
+      ],
+      [
+        800,
+        "/img/work/sitewrite-3-screens-800.cca95477.webp"
+      ],
+      [
+        1200,
+        "/img/work/sitewrite-3-screens-1200.23dd33e5.webp"
+      ],
+      [
+        1600,
+        "/img/work/sitewrite-3-screens-1600.b4c51c61.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/voicedesk-1-overview-480.f55ca350.webp"
+      ],
+      [
+        800,
+        "/img/work/voicedesk-1-overview-800.2fb5c8f2.webp"
+      ],
+      [
+        1200,
+        "/img/work/voicedesk-1-overview-1200.b1c8c3fc.webp"
+      ],
+      [
+        1600,
+        "/img/work/voicedesk-1-overview-1600.1121b7d8.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/voicedesk-2-spotlight-480.f2216185.webp"
+      ],
+      [
+        800,
+        "/img/work/voicedesk-2-spotlight-800.c5763846.webp"
+      ],
+      [
+        1200,
+        "/img/work/voicedesk-2-spotlight-1200.fb46ae57.webp"
+      ],
+      [
+        1600,
+        "/img/work/voicedesk-2-spotlight-1600.e3583feb.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/voicedesk-3-screens-480.f8efc373.webp"
+      ],
+      [
+        800,
+        "/img/work/voicedesk-3-screens-800.5f2c8255.webp"
+      ],
+      [
+        1200,
+        "/img/work/voicedesk-3-screens-1200.77397971.webp"
+      ],
+      [
+        1600,
+        "/img/work/voicedesk-3-screens-1600.8a76c3fb.webp"
       ]
     ]
   },

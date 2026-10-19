@@ -34,6 +34,8 @@ const PATHS = {
   compass: (<><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>),
   search: (<><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.3-4.3" /></>),
   copy: (<><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" /></>),
+  play: <path d="M8 5.2v13.6a.7.7 0 0 0 1.06.6l10.9-6.8a.7.7 0 0 0 0-1.2L9.06 4.6A.7.7 0 0 0 8 5.2Z" fill="currentColor" stroke="none" />,
+  expand: <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />,
 };
 
 export const Icon = ({ name, className = "w-5 h-5", strokeWidth = 1.6 }) => (

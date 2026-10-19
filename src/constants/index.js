@@ -233,6 +233,28 @@ export const team = [
 // built while Sameem was employed elsewhere, not delivered by DevoraX.
 // Context confirmed by Sameem on 2026-10-09: direct clients are labelled
 // "direct client", employer work names the employer.
+//
+// Demo media (2026-10-19, attribution confirmed by Sameem that day):
+//   video   – { src, poster, caption, duration, uploadDate }. Self-hosted in
+//             public/video under a versioned name (<slug>-v1.mp4) so it can
+//             be cached immutably; bump the version if a recording changes.
+//             duration is ISO 8601, uploadDate is the recording date. The
+//             captions are the demo hub's, verbatim.
+//   gallery – [{ src, alt }], three 2560×1538 renders on the DevoraX bucket.
+//             The URLs are written out in full, not built from a template:
+//             scripts/project-images.mjs finds images by scanning src for
+//             literal Supabase URLs, and a built string would be skipped.
+// "Live demo" links go to the project's page on the demo hub (noindexed;
+// that page holds the demo logins), written out in full so
+// `npm run check:links` tests each one. Never put a demo login, password,
+// passcode or a VoiceDesk ?key= URL on this site.
+const GALLERY_ALTS = [
+  "overview with desktop and mobile screens, tech stack and live domain",
+  "product screen and key features",
+  "three mobile screens",
+];
+const gallery = (name, ...srcs) => srcs.map((src, i) => ({ src, alt: `${name}: ${GALLERY_ALTS[i]}` }));
+
 export const featuredProjects = [
   {
     title: "Loopedin",
@@ -277,6 +299,130 @@ export const featuredProjects = [
     ios: "https://apps.apple.com/us/app/dooz-cars/id1627030530",
   },
   {
+    // Was "ConstrActive" (/work/constractive, which vercel.json redirects
+    // here): the same Fiverr client. The earlier GoHighLevel CRM work for that
+    // business is one sentence in its case study; constraction.ca is now this
+    // contract generator.
+    title: "ConstrAction",
+    tagline: "Bilingual contract generator for Quebec contractors · live at constraction.ca",
+    role: "Full-stack engineer · Fiverr client",
+    category: "Next.js 15 · Supabase · Stripe",
+    filter: "Platforms",
+    description:
+      "Contract generator for Quebec contractors: ready-to-sign PDFs in English or French, paid per contract or monthly. Fiverr client, live at constraction.ca.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-1-overview.jpg",
+    accent: "from-orange-400 to-red-500",
+    stats: [
+      { k: "Languages", v: "EN · FR" },
+      { k: "Contracts", v: "PDF" },
+      { k: "Billing", v: "Stripe" },
+    ],
+    tags: ["Next.js", "Supabase", "Stripe", "next-intl", "React-PDF"],
+    web: "https://constraction.ca",
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/constraction" }],
+    video: {
+      src: "/video/constraction-v1.mp4",
+      poster: "/video/constraction-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough recorded on the live demo: the bilingual landing page, the guided contract builder and the admin panel.",
+      duration: "PT2M6S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "ConstrAction",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-3-screens.jpg"
+    ),
+  },
+  {
+    title: "VoiceDesk",
+    tagline: "White-label AI voice receptionist · built for a Fiverr client",
+    role: "Full-stack engineer · Fiverr client",
+    category: "Node.js · Deepgram · Twilio",
+    filter: "AI",
+    description:
+      "White-label AI receptionist: voice agents that answer calls in real time from each business's own knowledge base, book and capture leads. For a Fiverr client.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-1-overview.jpg",
+    accent: "from-indigo-400 to-violet-500",
+    stats: [
+      { k: "Voice", v: "Real-time" },
+      { k: "Brand", v: "White-label" },
+      { k: "Phone", v: "Twilio" },
+    ],
+    tags: ["Node.js", "WebSockets", "Deepgram", "Gemini / Claude", "Twilio", "Supabase"],
+    // No public product link; the hub page links the demo dashboard.
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/voicedesk" }],
+    video: {
+      src: "/video/voicedesk-v1.mp4",
+      poster: "/video/voicedesk-v1-poster.jpg",
+      caption: "3-minute walkthrough recorded on the live demo, including a real voice call.",
+      duration: "PT3M11S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "VoiceDesk",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-3-screens.jpg"
+    ),
+  },
+  {
+    title: "Pianissimo Online",
+    tagline: "Gamified online piano academy in English and Spanish · Fiverr client",
+    role: "Full-stack engineer · Fiverr client",
+    category: "Next.js 14 · Supabase · PWA",
+    filter: "Web",
+    description:
+      "Installable app for an online piano school: courses, practice XP and badges, teacher feedback and a community, in English and Spanish. For a Fiverr client.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-1-overview.jpg",
+    accent: "from-fuchsia-400 to-purple-500",
+    stats: [
+      { k: "Languages", v: "EN · ES" },
+      { k: "Installs as", v: "PWA" },
+      { k: "Realtime", v: "Supabase" },
+    ],
+    tags: ["Next.js", "Supabase Realtime", "Cloudinary", "PWA", "next-intl"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/pianissimo" }],
+    video: {
+      src: "/video/pianissimo-v1.mp4",
+      poster: "/video/pianissimo-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough recorded on the live demo: the bilingual site, the student dashboard, courses, the leaderboard and teacher grading.",
+      duration: "PT1M55S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "Pianissimo Online",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-3-screens.jpg"
+    ),
+  },
+  {
+    title: "Pastel Marketplace",
+    tagline: "Antiques marketplace on Sharetribe · I work on its iOS app",
+    role: "Software engineer · Pastel",
+    category: "Next.js · Firebase · Sharetribe",
+    filter: "E-Commerce",
+    description:
+      "Marketplace for antiques and vintage pieces with provenance, running on Sharetribe with Shippo for shipping, on web, iOS and Android. I joined Pastel as a software engineer in 2026 and work on its iOS marketplace app.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686446029-4r69nforunv.png",
+    accent: "from-orange-400 to-red-500",
+    stats: [
+      { k: "Platform", v: "Sharetribe" },
+      { k: "Apps", v: "Web · iOS · Android" },
+      { k: "My part", v: "iOS app" },
+    ],
+    tags: ["Next.js", "Firebase", "Sharetribe", "Shippo"],
+    web: "https://mypastel.com/",
+    ios: "https://apps.apple.com/us/app/pastel-antique-marketplace/id6753628917",
+  },
+  {
     title: "Koor Food Delivery",
     tagline: "Homemade-food marketplace · v1 live on Google Play",
     role: "Full-stack engineer",
@@ -313,26 +459,6 @@ export const featuredProjects = [
     ],
     tags: ["Next.js", "Supabase", "Redux Toolkit"],
     web: "https://afriva-buyer.vercel.app/",
-  },
-  {
-    title: "Pastel Marketplace",
-    tagline: "Antiques marketplace on Sharetribe · I work on its iOS app",
-    role: "Software engineer · Pastel",
-    category: "Next.js · Firebase · Sharetribe",
-    filter: "E-Commerce",
-    description:
-      "Marketplace for antiques and vintage pieces with provenance, running on Sharetribe with Shippo for shipping, on web, iOS and Android. I joined Pastel as a software engineer in 2026 and work on its iOS marketplace app.",
-    image:
-      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780686446029-4r69nforunv.png",
-    accent: "from-orange-400 to-red-500",
-    stats: [
-      { k: "Platform", v: "Sharetribe" },
-      { k: "Apps", v: "Web · iOS · Android" },
-      { k: "My part", v: "iOS app" },
-    ],
-    tags: ["Next.js", "Firebase", "Sharetribe", "Shippo"],
-    web: "https://mypastel.com/",
-    ios: "https://apps.apple.com/us/app/pastel-antique-marketplace/id6753628917",
   },
   {
     title: "TAL Workforce",
@@ -453,11 +579,22 @@ export const featuredProjects = [
     // www.e-fuldmagt.dk fails TLS (2026-10-19); the bare domain is the live site.
     web: "https://e-fuldmagt.dk/en",
     // Sameem's own deploy of the code with sample data, so a visitor can try
-    // both sides. "Live" above stays the client's real product.
-    demos: [
-      { label: "Demo", url: "https://efuldmagt-demo.vercel.app" },
-      { label: "Admin demo", url: "https://efuldmagt-admin-demo.vercel.app/login" },
-    ],
+    // both sides. The hub page links the user app and the admin console and
+    // holds the demo logins. "Live" above stays the client's real product.
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/efuldmagt" }],
+    video: {
+      src: "/video/efuldmagt-v1.mp4",
+      poster: "/video/efuldmagt-v1-poster.jpg",
+      caption: "2-minute walkthrough of the website and the admin console, recorded on the demo data.",
+      duration: "PT2M8S",
+      uploadDate: "2026-10-19",
+    },
+    gallery: gallery(
+      "e-fuldmagt",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/efuldmagt-3-screens.jpg"
+    ),
   },
   {
     title: "Waitmate",
@@ -478,6 +615,39 @@ export const featuredProjects = [
     tags: ["React", "Supabase", "React Native"],
     web: "https://waitmate.vercel.app/dashboard",
   },
+  {
+    title: "iDecorwala",
+    tagline: "Corporate website for an interior surfaces and fit-out company · direct client",
+    role: "Full-stack engineer · direct client",
+    category: "Next.js 16 · Supabase",
+    filter: "Web",
+    description:
+      "Search-optimised corporate site for an interior surfaces and fit-out company, with products and articles managed as content. Direct client; idecorwala.com.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-1-overview.jpg",
+    accent: "from-yellow-400 to-amber-600",
+    stats: [
+      { k: "Framework", v: "Next.js 16" },
+      { k: "Content", v: "Supabase" },
+      { k: "Client", v: "Direct" },
+    ],
+    tags: ["Next.js", "Supabase", "Tailwind CSS", "SEO"],
+    web: "https://www.idecorwala.com/",
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/idecorwala" }],
+    video: {
+      src: "/video/idecorwala-v1.mp4",
+      poster: "/video/idecorwala-v1-poster.jpg",
+      caption: "75-second walkthrough of the live website.",
+      duration: "PT1M17S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "iDecorwala",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────
@@ -497,6 +667,107 @@ export const moreProjects = [
     ],
     tags: ["Flutter", "NestJS", "Next.js", "AI"],
     ios: "https://apps.apple.com/us/app/hear-with-you/id6766187555",
+  },
+  // Demo builds and a proof of concept: no client, sample data only, and
+  // each says so on its card and case study.
+  {
+    title: "FirstPass",
+    tagline: "MPJE exam preparation for pharmacy graduates · demo build",
+    role: "Full-stack engineer · demo build",
+    category: "Next.js 16 · Supabase · Stripe",
+    filter: "Web",
+    description:
+      "Demo build with sample data: a subscription study platform for the MPJE pharmacy law exam, with state-by-state practice questions and readiness tracking.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-1-overview.jpg",
+    accent: "from-blue-400 to-indigo-500",
+    stats: [
+      { k: "Exam", v: "MPJE" },
+      { k: "Billing", v: "Stripe" },
+      { k: "Status", v: "Demo" },
+    ],
+    tags: ["Next.js", "Supabase", "Stripe", "Tailwind CSS"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/firstpass" }],
+    video: {
+      src: "/video/firstpass-v1.mp4",
+      poster: "/video/firstpass-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough recorded on the live demo: the student dashboard, a practice quiz and the admin console.",
+      duration: "PT2M1S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "FirstPass",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-3-screens.jpg"
+    ),
+  },
+  {
+    title: "SiteWrite",
+    tagline: "Offline-first RICS home survey platform for surveying firms · demo build",
+    role: "Full-stack engineer · demo build",
+    category: "React · Supabase · Offline PWA",
+    filter: "Platforms",
+    description:
+      "Demo build with sample data: an offline-first surveyor app for RICS home surveys, plus an admin portal where the firm controls wording, templates and team.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-1-overview.jpg",
+    accent: "from-teal-400 to-cyan-500",
+    stats: [
+      { k: "Approved phrases", v: "783" },
+      { k: "On site", v: "Offline" },
+      { k: "Status", v: "Demo" },
+    ],
+    tags: ["React", "TypeScript", "Supabase", "Workbox", "IndexedDB", "jsPDF"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/sitewrite" }],
+    video: {
+      src: "/video/sitewrite-v1.mp4",
+      poster: "/video/sitewrite-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough recorded on the live demo: the surveyor app, the branded report and the firm admin app.",
+      duration: "PT2M7S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "SiteWrite",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-3-screens.jpg"
+    ),
+  },
+  {
+    title: "AR Lip Filler Preview",
+    tagline: "Real-time AR preview of lip filler results in the browser · proof of concept",
+    role: "Full-stack engineer · proof of concept",
+    category: "React · MediaPipe · WebGL2",
+    filter: "AI",
+    description:
+      "Proof of concept for aesthetic clinics: the phone camera tracks the face and reshapes the lips live, so a patient can preview filler styles before treatment.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-1-overview.jpg",
+    accent: "from-pink-400 to-rose-500",
+    stats: [
+      { k: "Face tracking", v: "MediaPipe" },
+      { k: "Runs in", v: "Browser" },
+      { k: "Stage", v: "Proof of concept" },
+    ],
+    tags: ["React", "MediaPipe", "WebGL2", "FastAPI", "PostgreSQL"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/ar-lip-filler" }],
+    video: {
+      src: "/video/ar-lip-filler-v1.mp4",
+      poster: "/video/ar-lip-filler-v1-poster.jpg",
+      caption:
+        "90-second walkthrough recorded on the live demo, using an AI-generated face of a person who does not exist.",
+      duration: "PT1M30S",
+      uploadDate: "2026-10-07",
+    },
+    gallery: gallery(
+      "AR Lip Filler Preview",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-3-screens.jpg"
+    ),
   },
   {
     title: "FinTech Mobile App",
@@ -577,23 +848,6 @@ export const moreProjects = [
     ],
     tags: ["React", "TypeScript", "Supabase"],
     // The Vercel demo now serves a blank page (2026-10-08), so no link.
-  },
-  {
-    title: "ConstrActive",
-    category: "GoHighLevel · Supabase · Stripe",
-    filter: "Platforms",
-    description:
-      "Construction CRM automating lead capture, subscriptions and recurring payments.",
-    image:
-      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780796858509-2ivbajvu5mm.png",
-    accent: "from-cyan-400 to-blue-500",
-    stats: [
-      { k: "CRM", v: "GoHighLevel" },
-      { k: "Payments", v: "Stripe" },
-    ],
-    tags: ["Supabase", "Stripe", "CRM"],
-    // constraction.ca now hosts a different product (a contract generator),
-    // so linking it would show a buyer something that is not this build.
   },
   {
     title: "Bondly Pet Care",

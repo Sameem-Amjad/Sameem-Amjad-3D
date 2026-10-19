@@ -171,6 +171,41 @@ const profilePage = {
 
 const SHARED_NODES = [person, organization, website];
 
+/* ── Walkthrough videos ──────────────────────────────────────
+   Shared by the VideoObject below and the video sitemap in vite.config.js,
+   so the title, date and length Google reads in one can't disagree with
+   the other. */
+
+// "PT2M6S" -> 126. Throws on anything else: a malformed duration would
+// otherwise reach the sitemap as NaN.
+export const isoDurationSeconds = (iso = "") => {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
+  if (!m || iso === "PT") throw new Error(`Bad ISO 8601 duration: "${iso}"`);
+  return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0);
+};
+
+// Recording dates are local (Pakistan, UTC+5). Google wants a timezone on
+// uploadDate, and a bare date reads as midnight UTC, the evening before.
+export const videoUploadIso = (date) => `${date}T00:00:00+05:00`;
+
+export const videoTitle = (project) => `${project.title}: walkthrough video`;
+
+const videoObject = (project, url) => ({
+  "@type": "VideoObject",
+  "@id": `${url}#video`,
+  name: videoTitle(project),
+  description: project.video.caption,
+  thumbnailUrl: `${ORIGIN}${project.video.poster}`,
+  uploadDate: videoUploadIso(project.video.uploadDate),
+  duration: project.video.duration,
+  contentUrl: `${ORIGIN}${project.video.src}`,
+  inLanguage: "en",
+  // Sameem recorded every walkthrough, and the site is his: the WebSite
+  // node names the Person as publisher too.
+  creator: { "@id": `${ORIGIN}/#person` },
+  publisher: { "@id": `${ORIGIN}/#person` },
+});
+
 /* Google truncates on rendered width (~600px), not a character count; 65 is
    the closer proxy and 60 was throwing away usable characters. Drop the brand
    suffix before letting the subtitle be cut, and cut the subtitle before the
@@ -266,13 +301,15 @@ const STATIC = {
     ],
   },
   "/builds": {
-    title: `Builds — more shipped production work · ${profile.name}`,
+    title: `Builds — more work, from live apps to demos · ${profile.name}`,
     description: clamp(
       // Described these as "experiments and side projects" while the page
       // itself lists seven Live-badged client products with revenue figures.
       // The title tag is the highest-weight on-page relevance signal and it
       // was undervaluing its own page, and contradicting /work.
-      "A wider cut of production work across web, mobile, AI and cloud — client products shipped and live, beyond the featured case studies."
+      // 2026-10-19: the page now also holds demo builds and a proof of
+      // concept, so "shipped production work" alone would overstate it.
+      "A wider cut of work across web, mobile, AI and cloud: client products, apps built at other studios, and demo builds with sample data, each one labelled."
     ),
     type: "website",
     image: DEFAULT_OG_IMAGE,
@@ -479,12 +516,16 @@ export const seoForPath = (pathname = "/") => {
 
   if (project) {
     const slug = slugify(project.title);
+    const url = `${ORIGIN}/work/${slug}`;
     // Only about half the projects carry a tagline; the rest have `category`
     // (the stack line). Without this the title read "AgroBridge — undefined".
     const subtitle = project.tagline || project.category;
+    // The card image first (it is the OG image), then the gallery screens.
+    // The first screen is usually the card image itself, so skip that one.
+    const screens = (project.gallery || []).map((g) => g.src).filter((src) => src !== project.image);
     return {
       path,
-      canonical: `${ORIGIN}/work/${slug}`,
+      canonical: url,
       title: composeTitle(project.title, subtitle, profile.name),
       description: clamp(project.description || subtitle || project.title),
       image: ogFor(project),
@@ -493,16 +534,18 @@ export const seoForPath = (pathname = "/") => {
       graph: [
         {
           "@type": "CreativeWork",
-          "@id": `${ORIGIN}/work/${slug}#project`,
+          "@id": `${url}#project`,
           name: project.title,
           headline: subtitle || project.title,
           description: project.description,
-          url: `${ORIGIN}/work/${slug}`,
-          image: ogFor(project),
+          url,
+          image: screens.length ? [ogFor(project), ...screens] : ogFor(project),
+          ...(project.video ? { video: { "@id": `${url}#video` } } : {}),
           creator: { "@id": `${ORIGIN}/#person` },
           keywords: (project.tags || []).join(", "),
           isPartOf: { "@id": `${ORIGIN}/#website` },
         },
+        ...(project.video ? [videoObject(project, url)] : []),
         breadcrumb([
           { name: "Home", path: "/" },
           { name: "Work", path: "/work" },

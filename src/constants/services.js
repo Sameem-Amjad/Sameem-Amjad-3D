@@ -254,7 +254,7 @@ export const servicePages = [
         detail: "Deployed to production, with notes on what was built and how to change it.",
       },
     ],
-    projects: ["Afriva", "Pathana", "Pastel Marketplace"],
+    projects: ["Afriva", "Pathana", "Pastel Marketplace", "ConstrAction", "Pianissimo Online", "iDecorwala"],
     reviewTags: ["nextjs"],
     tech: ["Next.js 15", "React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe", "Vercel", "AWS"],
     faqs: [
