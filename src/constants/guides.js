@@ -25,7 +25,7 @@ export const guides = [
     summary:
       "What the warning means, what's exposed until you fix it, and the SQL to turn row-level security on and write policies that hold.",
     published: "2026-09-29",
-    updated: "2026-09-29",
+    updated: "2026-10-30",
     service: "fix-vibe-coded-app",
     sections: [
       {
@@ -101,11 +101,12 @@ using ( true );`,
             lang: "sql",
           },
           {
-            p: "Policies filter rows; they don't grant access to the table itself. On Supabase projects created since 30 May 2026, and on all projects from 30 October 2026, new tables in `public` no longer get default privileges for `anon` and `authenticated`. If a request fails with `permission denied` (error 42501) instead of returning rows, grant the table the access your policies describe:",
+            p: "Policies filter rows; they don't grant access to the table itself. On Supabase projects created since 30 May 2026, and on existing projects from 30 October 2026, new tables in `public` no longer get default privileges for `anon`, `authenticated` or `service_role`; existing tables keep theirs. If a request fails with `permission denied` (error 42501) instead of returning rows, grant the table the access your policies describe. My guide to Supabase's “permission denied for table” error covers the sequence, function and view variants:",
           },
           {
             code: `grant select on public.products to anon, authenticated;
-grant select, insert, update on public.profiles to authenticated;`,
+grant select, insert, update on public.profiles to authenticated;
+grant select, insert, update, delete on public.profiles to service_role;`,
             lang: "sql",
           },
           {
@@ -911,6 +912,426 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
       },
     ],
   },
+  {
+    slug: "supabase-permission-denied-for-table-42501",
+    short: "Supabase “permission denied for table”",
+    title: "Supabase says “permission denied for table” (error 42501): why it started, and the grants that fix it",
+    seoTitle: "Supabase “Permission Denied for Table” 42501: Fix · Sameem Amjad",
+    seoDescription:
+      "Supabase returns “permission denied for table” (error 42501) on a new table? Why the role has no grant, the SQL that fixes it, and a two-minute test.",
+    summary:
+      "What the error means, why new tables now need an explicit grant, the SQL for tables, sequences, functions and views, and the curl test as a visitor and as a signed-in user.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    service: "fix-vibe-coded-app",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "The error means the Postgres role your request ran as, `anon` for a visitor or `authenticated` for a signed-in user, holds no privilege on that table. Postgres checks privileges before it reads any row-level security (RLS) policy, so no policy will fix it. Supabase stopped granting those roles access to new tables in `public` automatically: for projects created since 30 May 2026, and for existing projects from 30 October 2026. A table created this week therefore needs an explicit `grant` while last year's tables keep working, so run `grant select on public.profiles to authenticated;` plus the writes your policies allow, keep RLS on, and the request succeeds.",
+          },
+        ],
+      },
+      {
+        h2: "Test it in 10 seconds",
+        blocks: [
+          {
+            p: "Call the table through the Data API with your publishable key and no user. A legacy anon key goes in the same header:",
+          },
+          {
+            code: `curl -i 'https://YOUR-PROJECT.supabase.co/rest/v1/profiles?select=*' \\
+  -H "apikey: YOUR_PUBLISHABLE_KEY"`,
+            lang: "bash",
+          },
+          {
+            p: "Red is a `401` or `403` with the error from the title as the body. Supabase's docs print it like this, with your table's name in place of `profiles`:",
+          },
+          {
+            code: `{
+  "code": "42501",
+  "message": "permission denied for table profiles",
+  "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO anon;"
+}`,
+            lang: "json",
+          },
+          {
+            p: "Green is `[]`: the grant exists and RLS is withholding rows from a visitor, which is right for private data. Rows are green only for a table that is meant to be public. Rows from a table of user data are the problem my guide to Supabase's “RLS disabled in public” warning covers. The hint suggests a grant for the role that made the request, so a visitor's request gets `TO anon`. Read the section on roles before you paste it; `anon` is the wrong role for user data.",
+          },
+        ],
+      },
+      {
+        h2: "Why it started on 30 May, or on 30 October",
+        blocks: [
+          {
+            p: "Postgres runs two checks before a request touches a table. The grant decides whether the role may run the operation at all; the policy decides which rows that operation applies to. A missing grant fails with code 42501 before any policy runs. That is why the policy you wrote changed nothing, and why Supabase's own advice is to check the grants before you change a policy.",
+          },
+          {
+            p: "Until this year, every table created in `public` was granted `select`, `insert`, `update` and `delete` to `anon`, `authenticated` and `service_role` the moment it existed. Each new table was reachable through the Data API on creation, and RLS was the only thing between a visitor and your rows. On 28 April 2026 Supabase announced it was reversing that default. Projects created from that day could untick “Automatically expose new tables”. From 30 May 2026 that became the default for new projects, rolled out over a few weeks. From 30 October 2026 Supabase is applying it to existing projects. Existing tables keep their grants and stay reachable, and RLS behaviour is unchanged. Code that talks to Postgres over a direct connection (`psql`, an ORM, a server with the connection string) is unaffected. supabase-js, the REST endpoint and the GraphQL endpoint go through the Data API and are affected.",
+          },
+          {
+            p: "The apps that hit the error have tables created by something that never learned to grant: a migration written by Lovable, Bolt or Cursor, a CLI script, a call to the Management API. Supabase's advice for AI tools is to update the tool's system prompt or install its agent skill, which includes the grants step. It also notes that an agent can correct itself from the hint in the error. Until then every new table fails on its first request while the old ones carry on, which makes the symptom look like a bug in your latest change rather than a change in the platform.",
+          },
+        ],
+      },
+      {
+        h2: "Which privileges your project grants on new objects",
+        blocks: [
+          {
+            p: "Defaults differ by project, by its creation date and by its Data API settings. This query, from Supabase's docs, lists what new tables, sequences and functions created by the `postgres` role in `public` grant to the three API roles. Run it in the SQL editor:",
+          },
+          {
+            code: `select
+  case d.defaclobjtype
+    when 'r' then 'tables'
+    when 'S' then 'sequences'
+    when 'f' then 'functions'
+  end as object_type,
+  a.grantee::regrole as role,
+  string_agg(a.privilege_type, ', ' order by a.privilege_type) as privileges
+from pg_default_acl d
+cross join lateral aclexplode(d.defaclacl) a
+where d.defaclrole = 'postgres'::regrole
+  and d.defaclnamespace = 'public'::regnamespace
+  and a.grantee in ('anon'::regrole, 'authenticated'::regrole, 'service_role'::regrole)
+group by 1, 2
+order by 1, 2;`,
+            lang: "sql",
+          },
+          {
+            p: "No rows means new objects grant nothing to `anon`, `authenticated` or `service_role` until you grant it: the new default. A project still on the old default prints a row per role and object type, for example:",
+          },
+          {
+            code: ` object_type |     role      |           privileges
+-------------+---------------+--------------------------------
+ tables      | anon          | DELETE, INSERT, SELECT, UPDATE
+ tables      | authenticated | DELETE, INSERT, SELECT, UPDATE`,
+            lang: "text",
+          },
+          {
+            p: "The query leaves out `execute`, which every new function receives through `PUBLIC` whatever your defaults say. The dashboard has a switch for the same thing, “Automatically expose new tables”, in the Data API settings. Turning it off revokes the privileges the Data API uses but leaves `truncate`, `references`, `trigger` and `maintain` on new tables and `update` on new sequences, so the SQL route is cleaner. I can't see your project from here, and the rollout to existing projects is gradual. The day yours switched is the one in Supabase's emails to the project's owners and admins, not the date above. The query is the only thing that tells you for certain.",
+          },
+        ],
+      },
+      {
+        h2: "The fix: grant each role what its policies describe",
+        blocks: [
+          {
+            p: "Three roles, one rule each. Every visitor with your publishable key runs as `anon`, which means everyone who opens the site: `select` on public data, nothing on data that belongs to a user. Signed-in users run as `authenticated`, which gets the operations your app offers them, and RLS decides which rows. Your secret key runs as `service_role`. It bypasses RLS but not grants, so an Edge Function or a webhook writing to a new table with the secret key gets the same 42501 until you grant it.",
+          },
+          {
+            p: "Put the grants in the same migration as the table's RLS and policies, so the table ships with both or with neither, and `supabase db reset` replays them. A grant clicked in the dashboard is not replayed. For a table where each user owns one row:",
+          },
+          {
+            code: `-- supabase/migrations/20261030120000_profiles_access.sql
+
+-- 1. Grants: which roles may touch the table at all
+grant select, insert, update on public.profiles to authenticated;
+grant select, insert, update, delete on public.profiles to service_role;
+
+-- 2. RLS: which rows each role may see or change
+alter table public.profiles enable row level security;
+
+create policy "Users can read their own profile"
+on public.profiles for select
+to authenticated
+using ( (select auth.uid()) = user_id );
+
+create policy "Users can create their own profile"
+on public.profiles for insert
+to authenticated
+with check ( (select auth.uid()) = user_id );
+
+create policy "Users can update their own profile"
+on public.profiles for update
+to authenticated
+using ( (select auth.uid()) = user_id )
+with check ( (select auth.uid()) = user_id );`,
+            lang: "sql",
+          },
+          {
+            p: "A table everyone may read, such as a product list, gets `select` for both client roles and a policy that says so. No write grant, so only your server can change it:",
+          },
+          {
+            code: `grant select on public.products to anon, authenticated;
+
+create policy "Products are readable by everyone"
+on public.products for select
+to anon, authenticated
+using ( true );`,
+            lang: "sql",
+          },
+          {
+            p: "If Lovable, Bolt or Cursor writes your migrations, paste the grant lines into the chat with the table name, and ask for grants in the same migration as the policies from now on. Otherwise the next table fails the same way. Lovable's built-in backend, which the product calls Cloud, is a Supabase project that Lovable provisions and manages. It does not appear in your Supabase dashboard and has no SQL editor, so the grants go in as a migration through Lovable. The backend tools under the project's More menu show the tables and the logs. Supabase's dates apply to that project like any other unless Lovable created it with the expose setting on, which I cannot see from outside; the symptom and the fix are the same.",
+          },
+        ],
+      },
+      {
+        h2: "The second 42501: the sequence behind a serial column",
+        blocks: [
+          {
+            p: "Grant `insert` and the insert can fail again with a new noun: `permission denied for sequence profiles_id_seq`. A column declared `serial` or `bigserial` takes its next value from a sequence, and the inserting role needs `usage` on that sequence too. Under the old defaults, sequences in `public` got `usage`, `select` and `update` automatically; under the new default they get nothing. Columns declared `generated by default as identity` do not need the grant. On Postgres 18, an identity column accepts inserts with only the table grant, while a `serial` column next to it fails until the sequence is granted.",
+          },
+          {
+            code: `grant usage, select on sequence public.profiles_id_seq to authenticated;`,
+            lang: "sql",
+          },
+          {
+            p: "One more trap in the same family. supabase-js `.insert(...).select()` reads the new row back, which Postgres treats as a `returning` clause. The role then needs `select` on the table as well as `insert`, plus a `select` policy that matches the new row. Without the grant the insert fails with `permission denied for table profiles`. With the grant and no matching policy it fails with `new row violates row-level security policy for table \"profiles\"`, which carries the same code 42501 but comes from RLS, not from the grant. An `.insert()` without `.select()` needs the `insert` grant alone.",
+          },
+        ],
+      },
+      {
+        h2: "Schemas, functions and views",
+        blocks: [
+          {
+            p: "The same code arrives with other nouns, and each one names the object that lacks the privilege.",
+          },
+          {
+            list: [
+              "`permission denied for schema myschema`: the role has no `usage` on the schema, which Postgres checks before the table. A custom schema needs `grant usage on schema myschema to anon, authenticated, service_role;` and an entry under “Exposed schemas” in the project's API settings. `auth` and `vault` are off limits to the API roles by design. Read them through a `security definer` function in a schema that is not exposed, or not at all.",
+              "`permission denied for function profile_count`: the role has no `execute`. Postgres grants `execute` to `PUBLIC` on every new function, so this appears after someone revoked it, as Supabase's hardening steps do. Grant it per function to the roles that call it, including the helper functions your policies call: `grant execute on function public.profile_count() to authenticated;`.",
+              "`permission denied for table profiles` when you queried a view: the view has `security_invoker = true`, the right setting on Postgres 15 and later, so the caller's grants and policies apply to the tables underneath. The caller needs `select` on the view and on each table. A view without that option runs with its owner's privileges and hands out every row the table would withhold, so do not fix this one by dropping the option.",
+              "`permission denied for table customers` on `select *` when single columns were granted: `*` expands to the columns the role may not read. Name the columns, or grant the table.",
+            ],
+          },
+          {
+            code: `create view public.profile_names
+with (security_invoker = true) as
+select id, full_name from public.profiles;
+
+grant select on public.profile_names to authenticated;`,
+            lang: "sql",
+          },
+        ],
+      },
+      {
+        h2: "What else changes once the grant is in",
+        blocks: [
+          {
+            list: [
+              "A grant without RLS is an open table: any role with the grant can read and write every row. Enable RLS and write the policies in the same change; the grant is the door, the policy decides who gets through it.",
+              "Old tables keep working, which hides the problem until someone adds a table. Supabase's Security Advisor and the Data API exposure badge in the Table Editor list the tables to review; before the rollout the advisor also showed the remediation SQL.",
+              "The GraphQL endpoint follows the same grants as REST, since both are the Data API.",
+              "If you develop with `supabase start`, the CLI's `auto_expose_new_tables` setting was a temporary aid that Supabase's maintainers scheduled for removal on 30 October 2026. Explicit grants in migrations are the durable path.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "Test it as a visitor, then as a user",
+        blocks: [
+          {
+            p: "Three requests prove the grant held and the policies do their job. Use a test account you created for this, never a customer's:",
+          },
+          {
+            code: `# 1. As a visitor: a private table answers [] or the 42501 body, never rows
+curl -s 'https://YOUR-PROJECT.supabase.co/rest/v1/profiles?select=id,full_name' \\
+  -H "apikey: YOUR_PUBLISHABLE_KEY"
+
+# 2. Sign the test user in and read access_token from the reply
+curl -s 'https://YOUR-PROJECT.supabase.co/auth/v1/token?grant_type=password' \\
+  -H "apikey: YOUR_PUBLISHABLE_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"test@example.com","password":"YOUR_TEST_PASSWORD"}'
+
+# 3. As that user: only their own row comes back
+curl -s 'https://YOUR-PROJECT.supabase.co/rest/v1/profiles?select=id,full_name' \\
+  -H "apikey: YOUR_PUBLISHABLE_KEY" \\
+  -H "Authorization: Bearer USER_ACCESS_TOKEN"`,
+            lang: "bash",
+          },
+          {
+            p: "Step 1 returns `[]` or the 42501 body for a private table; rows mean the table is open to visitors. Step 2 returns JSON with an `access_token`, the user's JWT. The token endpoint accepts a password grant and is rate limited to 150 requests per five minutes by default, so do not loop it. Step 3 returns the user's own row, such as `[{\"id\":1,\"full_name\":\"Test User\"}]`. An empty `[]` there means the grant is in but no policy matches the row, nearly always a `user_id` that is not the signed-in user's `auth.uid()`; the 42501 body means the grant is still missing for `authenticated`. If you'd rather not call the token endpoint, sign in to your app and copy the `Authorization` header from any request to `/rest/v1/` in the browser's Network tab; it carries the same token.",
+          },
+          {
+            p: "To keep the check, Supabase's RLS guide shows a pgTAP file per table under `supabase/tests/` that sets `local role anon`, expects `42501` on the writes a visitor must not make, and runs with `supabase test db`. A test that fails the day someone forgets a grant beats a customer finding out.",
+          },
+        ],
+      },
+      {
+        h2: "When the grant isn't the only problem",
+        blocks: [
+          {
+            p: "An app that hit this error has usually spent its life on the old default: every earlier table granted to `anon` on creation and protected by whatever policies the builder happened to write. Often there is a Stripe webhook or an Edge Function that trusts the browser as well. Fixing one grant gets this week's table working; it says nothing about what the other tables let a visitor do. If you'd rather have the whole app checked before real users find out, that's what my launch-readiness audit covers, the first step of my Finish & ship service.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "supabase-email-rate-limit-exceeded",
+    short: "Supabase “email rate limit exceeded”",
+    title: "Supabase says “email rate limit exceeded”: what it means and how to fix it",
+    seoTitle: "Supabase “Email Rate Limit Exceeded”: The Fix · Sameem Amjad",
+    seoDescription:
+      "Supabase returns “email rate limit exceeded” on sign-up or reset? The 2-an-hour built-in cap, the Resend SMTP settings that lift it, and the limits to keep.",
+    summary:
+      "What the 429 means, the built-in sender’s cap and team-only rule, the Resend SMTP settings, and the limits and CAPTCHA to keep afterwards.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    service: "fix-vibe-coded-app",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Supabase Auth returns “email rate limit exceeded” (HTTP 429, error code `over_email_send_rate_limit`) when your project has asked its email sender for more confirmation, magic-link or password-reset emails in the last hour than the sender allows. On the built-in sender that cap is 2 emails per hour for the whole project, as of 30 October 2026. Since 26 September 2024 that sender also delivers only to members of your Supabase organisation. The fix is custom SMTP: connect a provider such as Resend on the dashboard's SMTP settings page, then raise the email limit on the Rate Limits page to match your real sign-up rate.",
+          },
+        ],
+      },
+      {
+        h2: "Test it in 10 seconds",
+        blocks: [
+          {
+            p: "In the Supabase dashboard open Authentication, then the SMTP settings page; its URL ends in `/auth/smtp`. Custom SMTP switched off is red: every auth email still goes through the built-in sender, with its 2-an-hour cap and its team-only delivery. The Management API gives the same answer from the terminal. Create a personal access token at supabase.com/dashboard/account/tokens and run:",
+          },
+          {
+            code: `export SUPABASE_ACCESS_TOKEN="YOUR_ACCESS_TOKEN"
+export PROJECT_REF="YOUR_PROJECT_REF"
+
+curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" \\
+  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \\
+  | jq '{external_email_enabled, smtp_host, rate_limit_email_sent}'`,
+            lang: "bash",
+          },
+          {
+            p: "`external_email_enabled: false` is the same red. `true`, with your provider's host in `smtp_host`, is green, and `rate_limit_email_sent` is then the hourly limit your project enforces in place of the built-in cap.",
+          },
+        ],
+      },
+      {
+        h2: "Why it happens",
+        blocks: [
+          {
+            p: "Supabase gives every project a built-in email sender so you can try Auth and design your templates. Its own docs call that sender best-effort, not for production, with limits that “can change without notice”. Two of those limits produce this error in a live app, and a third gets mistaken for it.",
+          },
+          {
+            p: "The first is the hourly cap. The built-in sender sends 2 emails per hour across the whole project while Confirm email is on, and Confirm email is on by default for hosted projects. Supabase has moved that number more than once: it cut the cap to 4 per hour in July 2023, and its rate-limits page gives 2 on 30 October 2026. Every confirmation, magic link, invite, reset and email-change notice counts, so a sign-up form with Confirm email on fails for the third new user of the hour. Testing your own form burns the two before a customer arrives.",
+          },
+          {
+            p: "The second is who the sender delivers to. Since 26 September 2024, a project without custom SMTP delivers auth emails only to members of the Supabase organisation that owns it. Everyone else gets “Email address not authorized” (code `email_address_not_authorized`). Your real users were never going to receive mail from the built-in sender, whatever the cap said.",
+          },
+          {
+            p: "The third is the per-address cooldown. Supabase makes the same address wait 60 seconds between confirmation, magic-link or reset emails. That check returns the same 429 and the same `over_email_send_rate_limit` code, but its message reads “For security purposes, you can only request this after N seconds.” It is per user, it is there on purpose, and custom SMTP does not remove it.",
+          },
+          {
+            p: "A plain request without an API version header, which is what curl sends, gets the error in this shape:",
+          },
+          {
+            code: `{
+  "code": 429,
+  "error_code": "over_email_send_rate_limit",
+  "msg": "email rate limit exceeded"
+}`,
+            lang: "json",
+          },
+          {
+            p: "A client that sends `X-Supabase-Api-Version: 2024-01-01` gets `code` as the error string and the text under `message` instead. supabase-js wraps either as an `AuthApiError` with `status` 429 and `code` set to the string, so branch on `error.code` and never on the message text.",
+          },
+        ],
+      },
+      {
+        h2: "The fix: custom SMTP through Resend",
+        blocks: [
+          {
+            p: "Supabase Auth works with any service that speaks SMTP; its docs list Resend, AWS SES, Postmark, Twilio SendGrid, ZeptoMail and Brevo. The steps below use Resend because its Supabase settings are four fields and it is the first name on that list. Postmark works the same way with its own host and credentials.",
+          },
+          {
+            p: "In Resend, add your domain and verify it. Resend sends only from a verified domain and recommends a subdomain over the root, so verify something like `auth.yourdomain.com` and keep the root for people. Verification is three DNS records that Resend lists for you: an MX record and a TXT record for SPF, both on the host Resend names, and a TXT record at `resend._domainkey` for DKIM. Resend says this can take up to 72 hours and is often much faster. Then create an API key in Resend.",
+          },
+          {
+            p: "In the Supabase dashboard open Authentication, go to the SMTP settings page (the URL ends in `/auth/smtp`), switch custom SMTP on and enter:",
+          },
+          {
+            code: `Sender email:  no-reply@auth.yourdomain.com
+Sender name:   Your App
+Host:          smtp.resend.com
+Port:          465
+Username:      resend
+Password:      YOUR_RESEND_API_KEY`,
+            lang: "text",
+          },
+          {
+            p: "The sender address must sit on the domain you verified. Save, and from that moment Supabase sends auth emails to any address through Resend, with an hourly limit of 30 messages. Supabase sets that figure low on purpose to protect the reputation of a sending domain that has no history yet. The same seven fields can be set through the Management API (`external_email_enabled`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `smtp_admin_email`, `smtp_sender_name`) if you manage projects from scripts.",
+          },
+        ],
+      },
+      {
+        h2: "Raise the hourly limit, keep the cooldown",
+        blocks: [
+          {
+            p: "30 an hour is more than the built-in sender gave you and less than a launch needs. If custom SMTP was already on when the error appeared, you are above that figure or inside the 60-second cooldown, and this page is where to look. Open Authentication, then Rate Limits (the URL ends in `/auth/rate-limits`) and set the email limit from your busiest hour of sign-ups and resets, with room for a launch day. Do not set it to a number you will never reach. A limit far above your traffic lets a bot turn your password-reset form into a machine that sends thousands of emails from your domain. The bounces then wreck a reputation your domain has not had time to earn.",
+          },
+          {
+            p: "Leave the 60-second per-address window alone; a real user does not need two reset emails in one minute. Keep Confirm email on as well. Switching it off makes this error disappear because Supabase stops sending confirmations, and it also lets anyone sign up with an address they do not own and have Supabase mark it confirmed. The toggle lives under Authentication, Sign In / Providers, and it is the first thing to check if a previous developer “fixed” this error in an afternoon.",
+          },
+          {
+            p: "Supabase's Send Email hook is the alternative: it hands each message to a function you write instead of an SMTP server. Use it if your provider has no SMTP endpoint, or you want React email templates, a queue or a fallback provider. For an app that needs its sign-up emails working this week, SMTP is the shorter road.",
+          },
+        ],
+      },
+      {
+        h2: "Two side effects to handle",
+        blocks: [
+          {
+            p: "Bots come first. Supabase's SMTP guide describes the pattern. Someone signs up lists of known addresses with preset passwords, in a trickle over months or in one burst. The aim is to burn your sending reputation, to block real sign-ups and resets, or to pressure you into switching email confirmation off. A working sender and a higher limit make your forms worth attacking. Supabase's answer, and mine, is CAPTCHA on the sign-up, sign-in and reset forms. Supabase supports hCaptcha and Cloudflare Turnstile. Switch it on under Authentication, Bot and Abuse Protection (the URL ends in `/auth/protection`), paste the provider's secret key, then pass the widget's token with each call:",
+          },
+          {
+            code: `await supabase.auth.signUp({
+  email,
+  password,
+  options: { captchaToken },
+})`,
+            lang: "javascript",
+          },
+          {
+            p: "Deliverability comes second. Resend's verification gave you SPF and DKIM; add a DMARC record for the sending domain as well, which Supabase lists alongside the other two. Keep auth mail off the domain and the From address you use for marketing, and keep promotional lines out of the templates. Leave the templates alone once they work: Supabase's guide warns that marketing-shaped auth mail is what spam filters catch. The links in auth emails point at your project's Auth server. Supabase says a custom domain for the project reduces the chance of spam filters punishing your messages for another project's bad reputation.",
+          },
+          {
+            p: "One more thing bites during development: every test sign-up on the hosted project spends real quota. The Supabase CLI runs Auth on your machine and routes every email to Mailpit, with no hourly limit and no team restriction:",
+          },
+          {
+            code: `supabase start
+supabase status`,
+            lang: "bash",
+          },
+          {
+            p: "`supabase status` prints the local API URL (`http://127.0.0.1:54321` by default) and the Mailpit URL (`http://127.0.0.1:54324`). Point your app's Supabase URL and publishable key at the local values and read the emails in Mailpit.",
+          },
+        ],
+      },
+      {
+        h2: "Which layer rejected the mail",
+        blocks: [
+          {
+            p: "Two failures look alike from the browser. The 429 is Supabase refusing to send. A 500 with the message “Error sending confirmation email” (or “Error sending recovery email”, or “Error sending magic link email”) and the code `unexpected_failure` is your SMTP provider refusing the mail after Supabase handed it over. The usual reasons are a wrong API key, a sender address on a domain Resend has not verified, or a port your host blocks. Supabase keeps the provider's reason out of the response and writes it to the request's log entry instead.",
+          },
+          {
+            p: "Open Logs in the dashboard (the URL ends in `/logs`) and set Log Type to Auth. Filter Status to 429 or 500, or type `over_email_send_rate_limit` into the search box; plain text matches anywhere in the event message. Each entry carries the status, the request path and the message under `metadata`, and the 500 entries carry the provider's error text as well, which the browser never sees. A 429 on the sign-up or recover path with the rate-limit code is the cap described above. A 500 whose error names the SMTP server is the provider, and the fix is in Resend's dashboard, not in Supabase.",
+          },
+        ],
+      },
+      {
+        h2: "Test it before a customer does",
+        blocks: [
+          {
+            p: "Sign up with an address outside your Supabase organisation; a personal Gmail address will do. Before the fix the request fails with `email_address_not_authorized`. After it the mail arrives from your sender name and address, and the raw headers (Gmail's “Show original”) show SPF and DKIM passing for the domain you verified. Then request a password reset for the same address twice inside a minute: the second attempt should fail with the “For security purposes” message, which proves the cooldown survived your rate-limit changes. Run the 10-second test again and read `true` for `external_email_enabled`. For the first week after launch, look at the Auth logs for 429s. A steady run of them on the recover path with no matching real users is a bot at your reset form, and CAPTCHA is the answer.",
+          },
+        ],
+      },
+      {
+        h2: "When the email limit isn't the only problem",
+        blocks: [
+          {
+            p: "An app that reached paying users on the built-in sender has often left other defaults in place too. The usual ones are Confirm email switched off during testing, the Site URL still on localhost so reset links land nowhere, and tables without row-level security (RLS). The guide on Supabase's “RLS disabled in public” warning covers the tables. If your app was built with Lovable, Bolt, Replit or Cursor and has paying users waiting on these emails, that is what my launch-readiness audit covers. You get a fixed list of what will fail in production, in the order it will fail, and the work to close it.",
+          },
+        ],
+      },
+    ],
+  },
+
 ];
 
 export const getGuideBySlug = (slug) => guides.find((g) => g.slug === slug) || null;
