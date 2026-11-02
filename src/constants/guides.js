@@ -266,7 +266,7 @@ select * from public.orders;`,
     summary:
       "Why apps that wrap a website get this rejection, the native features and fixes that give a reviewer something a website can't do, and how to reply in App Store Connect.",
     published: "2026-10-09",
-    updated: "2026-10-09",
+    updated: "2026-11-02",
     service: "app-store-launch",
     sections: [
       {
@@ -346,7 +346,7 @@ export default config;`,
           {
             list: [
               "Native navigation. A bottom tab bar for the main sections, a back gesture that works, and no website header, footer or cookie banner. Remove links that lead out to your marketing site.",
-              "Push notifications people would want: an order shipped, a booking confirmed, a reply to their message. Apple says they won't carry the app alone, but as part of a real workflow they count. `@capacitor/push-notifications` or OneSignal handle the native side.",
+              "Push notifications people would want: an order shipped, a booking confirmed, a reply to their message. Apple says they won't carry the app alone, but as part of a real workflow they count. `@capacitor/push-notifications` or OneSignal handle the native side. If OneSignal shows “Missing Push Capability” for every iPhone, the signed build has no push entitlement; my guide on that status has the one-command check.",
               "Offline behaviour. Show the last data the user loaded and a clear offline message, instead of a blank WebView or the browser's error page.",
               "Device features tied to the core job: the camera for photos and documents, local notifications for reminders, the native share sheet.",
               "Things that make it personal: saved items, history, settings. Apple's guidelines say that if your app doesn't include significant account-based features, people should be able to use it without a login, so don't add a login wall just to look substantial.",
@@ -1326,6 +1326,195 @@ supabase status`,
         blocks: [
           {
             p: "An app that reached paying users on the built-in sender has often left other defaults in place too. The usual ones are Confirm email switched off during testing, the Site URL still on localhost so reset links land nowhere, and tables without row-level security (RLS). The guide on Supabase's “RLS disabled in public” warning covers the tables. If your app was built with Lovable, Bolt, Replit or Cursor and has paying users waiting on these emails, that is what my launch-readiness audit covers. You get a fixed list of what will fail in production, in the order it will fail, and the work to close it.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "onesignal-missing-push-capability-ios",
+    short: "OneSignal “Missing Push Capability”",
+    title: "OneSignal says “Missing Push Capability” for every iPhone: the push entitlement that never reached the signed build, and how to put it back",
+    seoTitle: "OneSignal “Missing Push Capability” on iOS: Fix · Sameem Amjad",
+    seoDescription:
+      "OneSignal shows “Missing Push Capability” on iPhone? Why the signed build has no push entitlement, the EAS and Xcode fixes, and the one-command check.",
+    summary:
+      "What the status means, the one-command check on the signed build, the Xcode and EAS fixes for the missing aps-environment entitlement, and how to prove it before TestFlight.",
+    published: "2026-11-02",
+    updated: "2026-11-02",
+    service: "app-store-launch",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "“Missing Push Capability” is the status OneSignal gives an iPhone whose installed app was signed without the `aps-environment` entitlement. iOS refused that app's push registration with error 3000, the OneSignal SDK recorded subscription status -13 (`missing_push_capability` in the API), and no device token exists for OneSignal to send to. The capability you ticked in Xcode, or set in `app.json`, is not what iOS checks; it checks the signature of the build on the phone. Put the key back where that build gets signed, in Xcode the Push Notifications capability on the app target, on EAS the OneSignal plugin first in `plugins` with its `mode` set, and install the new build.",
+          },
+        ],
+      },
+      {
+        h2: "Test it in 10 seconds",
+        blocks: [
+          {
+            p: "Test the build, not the project. Get the IPA that went to the phone (EAS: the download link on the build page; Xcode: the file the Organizer exports) and read the entitlements out of its signature:",
+          },
+          {
+            code: `unzip -q YourApp.ipa -d ipa
+codesign -d --entitlements - --xml ipa/Payload/YourApp.app | plutil -p - | grep aps-environment`,
+            lang: "bash",
+          },
+          {
+            p: "Green is one line: `\"aps-environment\" => \"production\"` for a TestFlight or App Store build, `\"development\"` for a development build. Red is no line at all. Checked on 30 October 2026 on macOS 27 against a device-signed build: the older `--entitlements :-` form now prints a deprecation warning, and without `--xml` codesign prints a text dump that `plutil` cannot read.",
+          },
+          {
+            p: "Expo also has a check before the build, printing what the config plugins will write without compiling:",
+          },
+          {
+            code: `npx expo config --type introspect --json | jq '.ios.entitlements'`,
+            lang: "bash",
+          },
+          {
+            p: "Green:",
+          },
+          {
+            code: `{
+  "com.apple.security.application-groups": [
+    "group.com.example.yourapp.onesignal"
+  ],
+  "aps-environment": "production"
+}`,
+            lang: "json",
+          },
+          {
+            p: "Red is `{}` or an object without `aps-environment`. Both halves must be green: the config, then the build.",
+          },
+          {
+            p: "The dashboard shows the status under Audience, then Users & subscriptions, then Subscriptions. The API gives it as a number: the View User endpoint (`GET https://api.onesignal.com/apps/YOUR_APP_ID/users/by/external_id/THE_USER_ID`, header `Authorization: Key YOUR_APP_API_KEY`) returns the `iOSPush` subscription with `\"notification_types\": -13`, listed on OneSignal's subscriptions page as `iOS missing_push_capability`.",
+          },
+        ],
+      },
+      {
+        h2: "Why it happens",
+        blocks: [
+          {
+            p: "Entitlements are written when an app is signed, not when you tick a box. Apple's documentation for `aps-environment` says Xcode sets the value from the current provisioning profile: `development` for a development profile, `production` for a production profile, TestFlight and the App Store. You add the entitlement by enabling the Push Notifications capability in Xcode. Two files have to carry the key: the project's entitlements file, which `codesign` embeds in the signature, and the provisioning profile, which says Apple allows it. Apple's upload warning spells out the half people miss: “Xcode does not automatically copy the aps-environment entitlement from provisioning profiles at build time. This behavior is intentional.” Ticking Push Notifications on the App ID in the developer portal changes the profile only.",
+          },
+          {
+            p: "With the key absent, iOS answers the app's registration call with error 3000. The OneSignal iOS SDK (5.8.0, `OSNotificationsManager.m`) turns that into status -13 and this line in the Xcode console:",
+          },
+          {
+            code: `ERROR! 'Push Notifications' capability missing! Add the capability in Xcode under 'Target' -> '<MyAppName(MainTarget)>' -> 'Signing & Capabilities' then click the '+ Capability' button.`,
+            lang: "text",
+          },
+          {
+            p: "iOS's own text for the same failure is “no valid aps-environment entitlement string found for application”. The simulator fails with a different code (3010), which the SDK records as -15, so a -13 came from a real device.",
+          },
+          {
+            p: "Two signings can disagree. A development build on your phone and the TestFlight build of the same commit were signed separately, from whatever entitlements file and profile each pipeline had. In OneSignal's React Native repository a developer reported in February 2023 that ad hoc builds worked and every TestFlight build showed “Missing Push Capability”. On Apple's forums in July 2023 another found the key missing from an Xcode archive with the capability enabled, and reported that resetting Code Signing Identity to its default on both targets fixed it. Neither thread names a cause; the check above does not need one.",
+          },
+          {
+            p: "Apple sees the same gap at upload. The App Store Connect email “ITMS-90078: Missing Push Notification Entitlement” says the app “appears to register with the Apple Push Notification service, but the app signature's entitlements do not include the 'aps-environment' entitlement”. Since Xcode 16.3 (April 2025) the wording is “Missing potentially required entitlement”, and apps that never call push get it too when a library they link does. The email is a reason to run the check, not a diagnosis.",
+          },
+        ],
+      },
+      {
+        h2: "Xcode: native, React Native CLI, Capacitor, Flutter and Cordova",
+        blocks: [
+          {
+            p: "Open the `.xcworkspace`, select the app target, open Signing & Capabilities, click + Capability and add Push Notifications. OneSignal's setup pages for iOS, Flutter, Capacitor and Cordova all start with that step and follow it with Background Modes and the Remote notifications box, which writes `remote-notification` into `UIBackgroundModes` in `Info.plist` for background delivery. Only Push Notifications writes `aps-environment` into the target's `.entitlements` file.",
+          },
+          {
+            p: "Then sign with a profile that includes it. A profile generated before the capability was enabled on the App ID does not, and Xcode refuses to sign with a profile that lacks an entitlement the project declares, until you regenerate it. Apple's Developer Technical Support put the rule in one sentence in July 2025: “The provisioning profile and your project entitlements must match.” The same engineer told a developer whose project declared `com.apple.developer.push-notifications` that the key “is not a valid entitlement - it does not exist”.",
+          },
+          {
+            p: "Leave the Notification Service Extension alone. `OneSignalNotificationServiceExtension` needs the App Groups capability and nothing else. OneSignal's own EAS credentials guide says not to add Push Notifications to the extension's identifier; in Xcode that gives the extension an entitlement its profile does not carry.",
+          },
+          {
+            p: "A builder that produced the Xcode project for you changes nothing. OneSignal's FlutterFlow guide exports the project, runs `flutter build ios` and `pod install`, opens the `.xcworkspace` and says “If you do not see Push Notifications enabled, click + Capability and add Push Notifications.” The capability lives in that exported project, so it has to be in the one that built the IPA you uploaded.",
+          },
+          {
+            p: "I set OneSignal up on iOS and Android for a repeat Fiverr client (push, in-app and email notifications), and nine apps I built or finished have been through store review. On iOS that setup has always lived in the two places above: the capability on the target, and a profile that matches it.",
+          },
+        ],
+      },
+      {
+        h2: "Expo and EAS Build: the chain, and the five places it breaks",
+        blocks: [
+          {
+            p: "This section comes from the plugin's source and setup guide, Expo's build documentation and the plugin's issue threads, not from a client build. The checks below were run on 30 October 2026 in a throwaway Expo SDK 58 project with `onesignal-expo-plugin` 2.8.0.",
+          },
+          {
+            p: "The chain, as the plugin's source and Expo's docs describe it:",
+          },
+          {
+            list: [
+              "`app.json` lists `onesignal-expo-plugin` with a `mode`. The plugin sets `aps-environment` to that `mode`, adds the App Group and `remote-notification`, and registers the extension with EAS with the App Group as its only entitlement. Without `mode` it throws `Missing required \"mode\" key`.",
+              "`npx expo prebuild` writes those values into `ios/YourApp/YourApp.entitlements` and the extension's `.entitlements` file. In that test project the first held `aps-environment` and the App Group, the second the App Group alone.",
+              "EAS Build runs prebuild only when there is no `ios/` directory; when one exists, “EAS Build will not run Prebuild to avoid overwriting any changes you've made to the native directories.”",
+              "Before signing, EAS syncs capabilities to the Apple Developer portal from the entitlements file: it enables what the file declares and disables a capability that is “enabled for your app remotely, but not present in the native entitlements file”. `EXPO_NO_CAPABILITY_SYNC=1` turns the sync off.",
+              "`fastlane gym` signs the app with the profile EAS stored, embedding the entitlements file.",
+            ],
+          },
+          {
+            p: "A working `app.json` has the plugin first and a `mode`:",
+          },
+          {
+            code: `{
+  "expo": {
+    "ios": { "bundleIdentifier": "com.example.yourapp" },
+    "plugins": [
+      ["onesignal-expo-plugin", { "mode": "production" }],
+      "expo-router"
+    ]
+  }
+}`,
+            lang: "json",
+          },
+          {
+            p: "Break 1: the plugin is not first, and another plugin overwrites the entitlements. Config plugins evaluate in array order, but the entitlements mods they register nest, so the first plugin's write lands last. A plugin that adds keys to `config.modResults` is harmless anywhere; one that assigns a new object to it erases everything written before it. In the test project such a plugin wiped `aps-environment` when listed before OneSignal and left it alone when listed after, which is why OneSignal's docs say first. Move it, re-run the introspect check, and if the key still disappears find the plugin that assigns instead of extending. Issue #154 on this ordering ran from December 2022 to 26 May 2026 and closed without a named fix.",
+          },
+          {
+            p: "Break 2: a committed `ios/` folder. With `ios/` in the repository EAS does not run prebuild, so the `.entitlements` file in that folder is what gets signed, whatever `app.json` says now. New Expo projects list `/ios` in `.gitignore` for this reason. Delete the folder and keep it ignored, or run `npx expo prebuild --clean` after every plugin change, commit the result, and read `ios/YourApp/YourApp.entitlements` before you build.",
+          },
+          {
+            p: "Break 3: the wrong key. `com.apple.developer.push-notifications` in `ios.entitlements` is not an entitlement, as Apple's engineer said above. Remove it; the plugin writes the right key for you.",
+          },
+          {
+            p: "Break 4: the `mode`. OneSignal's docs say `development` for testing and `production` for TestFlight and App Store builds, matching Apple's rule that TestFlight uses the production environment. Set `production` before the build you upload. A wrong value does not produce this status: the key exists, iOS issues a token, and whatever goes wrong after that belongs to the delivery diagnosis.",
+          },
+          {
+            p: "Break 5: capability sync off, and a stale profile. `EXPO_NO_CAPABILITY_SYNC=1` was a 2022 workaround and may still be in your build script. With the sync off nothing enables Push Notifications on the App ID for you, and a profile EAS generated before you enabled it does not carry the key. Enable the capability in the developer portal, run `eas credentials`, remove the iOS build credentials for that build profile, and build again so EAS generates a profile with it. A developer on issue #154 reported in August 2024 that deleting the build credentials and rebuilding was the fix for them.",
+          },
+          {
+            p: "The 2022 flakiness is history. Before eas-cli 0.52.0 (26 April 2022) EAS applied one entitlements file to every target, so an app could be signed from the extension's file, which has no `aps-environment`; that release's note is “Support target specific entitlements”. Plugin 1.3.2 (18 April 2023) changed how the Xcode project is written, and a developer on issue #160 reported that month that over 20 apps built after it had no missing-capability problem. With a current eas-cli and plugin, “Missing Push Capability” is configuration: one of the five breaks above, and the two checks show which.",
+          },
+        ],
+      },
+      {
+        h2: "Two side effects to handle",
+        blocks: [
+          {
+            p: "Capability sync runs the other way too. A build signed from a file without the key makes EAS disable Push Notifications on the App ID. Your next EAS build turns it on again; an Xcode build with the same bundle identifier in between needs the capability re-enabled and a fresh profile.",
+          },
+          {
+            p: "Existing testers get the fix on their next launch. OneSignal's subscriptions page says the SDK checks the token and the permission when the user opens the app and “then updates the Subscription status immediately”, so a tester who updates and opens the app moves to Subscribed. Anyone on the old build stays at -13 until they update; a delete-and-reinstall creates a new subscription that must accept the prompt again.",
+          },
+        ],
+      },
+      {
+        h2: "Test it before TestFlight does",
+        blocks: [
+          {
+            p: "Run the IPA check on the artefact you are about to upload, not on last week's. Install it, open the app, accept the prompt, then open Audience, Users & subscriptions, Subscriptions in the dashboard: the device should move from Never Subscribed to Subscribed, as OneSignal's setup pages describe. A cleared status proves the entitlement is in the signed build and iOS issued a token. It does not prove a notification will arrive; that needs the APNs key for the right bundle identifier and the right environment for the build.",
+          },
+        ],
+      },
+      {
+        h2: "When the entitlement is the least of it",
+        blocks: [
+          {
+            p: "An app that reached TestFlight without its push entitlement usually has more in the same state: an APNs key for the wrong bundle identifier, store accounts in a developer's name, no extension. In a wrapped app, Apple's reviewer is next, asking what it does beyond a website; my guide on the “Guideline 4.2 - Design - Minimum Functionality” rejection covers that. Push, in-app and email notifications, with the certificate and account setup that usually eats a week, is one line of my App Store and Google Play launch service for that reason. And if your device now shows Subscribed and nothing arrives, the next page to read is “OneSignal push notifications work on Android but never arrive on iOS: a 10-step diagnosis”.",
           },
         ],
       },
