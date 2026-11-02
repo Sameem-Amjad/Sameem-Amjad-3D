@@ -446,7 +446,7 @@ feature are attached.`,
         h2: "If you'd rather hand it over",
         blocks: [
           {
-            p: "Getting a web-built app through review is mostly judgment: which native features earn their place, what to take out, and how to explain it to App Review. If you'd like that handled, from the native build to submission and the back-and-forth with review, that's what my App Store and Google Play launch service covers.",
+            p: "Getting a web-built app through review is mostly judgment: which native features earn their place, what to take out, and how to explain it to App Review. On the Google Play side a new personal account has to run a closed test with 12 testers for 14 days before it can publish; my guide on Google Play's “12 testers for 14 days” rule has the timeline. If you'd like that handled, from the native build to submission and the back-and-forth with review, that's what my App Store and Google Play launch service covers.",
           },
         ],
       },
@@ -1768,6 +1768,207 @@ OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
         blocks: [
           {
             p: "An app that reaches step ten usually has the rest of its iOS setup in the same state: profiles made in a hurry, a developer account in the builder's name, no Sign in with Apple, a review submission still ahead. Push is also one of the native features Apple's reviewer looks for; the guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers that side. Getting all of it done, notifications included, is what my App Store and Google Play launch service is for.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "google-play-closed-testing-12-testers-14-days",
+    short: "Google Play’s 12 testers rule",
+    title: "Google Play's “12 testers for 14 days” rule, and what to do when it says more testing is needed",
+    seoTitle: "Google Play 12 Testers for 14 Days: Pass It · Sameem Amjad",
+    seoDescription:
+      "Personal Play Console account stuck in closed testing? What the 12-tester rule requires, how the questionnaire is judged, and why bought testers fail it.",
+    summary:
+      "Who the rule applies to, what “opted in continuously” means, the questionnaire with example answers, why bought testers end in more testing, and a timeline to plan a launch date around.",
+    published: "2026-11-02",
+    updated: "2026-11-02",
+    service: "app-store-launch",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Google Play applies this rule to one group: personal developer accounts created after 13 November 2023. Before the account can publish to production, the app needs a closed test with at least 12 testers opted in for 14 unbroken days, then an application for production access about that test. The status “More testing required” means Google's reviewer turned the application down, and the help page names two reasons: fewer than 12 opted-in testers, or “insufficient tester engagement during the testing period”. The way through is 12 people who will use the app for two weeks, a record of what they said, and answers that describe both.",
+          },
+        ],
+      },
+      {
+        h2: "Does it apply to you: a 10-second check",
+        blocks: [
+          {
+            p: "Open Play Console, select the app, and go to Test and release, then Production. Green: the page lets you create a production release, and the rule is behind you, because the account predates 13 November 2023, because it is an organisation account, or because this app already passed. Red: Production is disabled. Google's page says Production and Pre-registration stay disabled until the requirement is met, and that the Apply for production button appears on the Dashboard once a qualifying test exists.",
+          },
+          {
+            p: "The organisation route is the one tester-selling pages push as a loophole. Google's Get started page lists the testing requirement as a step for personal accounts only, so an organisation account does skip it. Google also says to choose that type when the account is for a business, and it needs a D-U-N-S number from Dun & Bradstreet, which is free and can take up to 30 days to issue. For a registered company that is a fair route. For a solo developer it is a slower path than the 14 days it avoids, and the account has to represent a real organisation.",
+          },
+        ],
+      },
+      {
+        h2: "What “opted in continuously” means, and what resets the clock",
+        blocks: [
+          {
+            p: "A tester opts in by opening your closed-test link, reading Google's note on tester responsibilities, and accepting it. Google's page says each tester needs to opt in through that link. The link only appears once the app's status is Published, which happens after your first closed-testing release has been reviewed and published. Being on your email list is not opting in. If you manage testers through a Google Group, they have to join the group before the link works for them.",
+          },
+          {
+            p: "The 14 days are counted per tester. At the moment you apply, at least 12 testers must each have been opted in for the preceding 14 days. Google's FAQ states the resets: testers who opt in, test for fewer than 14 days and then opt out do not count. A tester who opts out and opts back in later starts again, because the 14 days must be consecutive. Your clock starts the day your twelfth tester opts in, and a tester who leaves on day 10 moves your earliest application date to the day your next tester reaches 14. Recruit 15 to 18 so that one dropout does not cost you a fortnight.",
+          },
+          {
+            p: "One trap catches founders who started on the internal track, which is the sensible place to start. A user opted in to your internal test is not eligible for the closed test until they opt out of the internal one and into the closed one. You and your co-founder on the internal track are not two of the twelve.",
+          },
+          {
+            p: "Send every tester the same short brief, with the link, the date they must stay in until, and where feedback goes. A message like this, sent the day the closed-test link goes live, with your own link, date and address in place of the placeholders:",
+          },
+          {
+            code: `Subject: Testing the app for the next two weeks
+
+Thanks for helping. Three things, and the second one matters most:
+
+1. Open this link on your Android phone, accept the tester terms,
+   then install the app from Google Play: YOUR-OPT-IN-LINK
+2. Stay opted in and keep the app installed until at least 28 November.
+   If you leave the test before then, Google stops counting you.
+3. Use it the way you would use it for real: sign up, book something,
+   change a setting, wait for a notification. Send anything odd to
+   YOUR-FEEDBACK-ADDRESS, or reply to this email, with a screenshot.
+
+I will ship at least one update during the test. Please install it
+when Google Play offers it.`,
+            lang: "text",
+          },
+        ],
+      },
+      {
+        h2: "Internal testing, closed testing, internal app sharing and Firebase App Distribution",
+        blocks: [
+          {
+            p: "Four things in and around Play Console will put a build on a tester's phone, and only one of them counts toward the rule:",
+          },
+          {
+            list: [
+              "Internal testing: up to 100 testers per app, builds available within minutes, no completed app setup needed first, and Google says internal tests might not go through its standard policy or security reviews. It is the right place for your first upload, and it counts for nothing toward the 12.",
+              "Closed testing: the track the rule is about. It needs the app setup completed, your first closed release goes through review before the link works, and Google says a new test link can take several hours to reach testers after publishing. Testers come from email lists of up to 2,000 addresses each, or from a Google Group.",
+              "Internal app sharing: a download link for a bundle or APK, up to 100 downloads per link, re-signed by Google with a test key. Google's page says those uploads cannot be included in releases on testing or production tracks, so nobody who installs from one is a closed tester.",
+              "Firebase App Distribution: Firebase's tool for sending pre-release builds to trusted testers by email invitation, installed through Firebase rather than from the Play Store; its Android integration with Google Play is through internal app sharing. Useful for QA, invisible to the closed-testing count.",
+            ],
+          },
+          {
+            p: "Open testing is the other Play track, and it is not an option yet: Google's page says it becomes available after you gain production access.",
+          },
+        ],
+      },
+      {
+        h2: "The production access questionnaire, and what good answers look like",
+        blocks: [
+          {
+            p: "Once the twelfth tester passes 14 days, the Dashboard shows Apply for production. The form has three parts, and Google's page lists what each asks:",
+          },
+          {
+            list: [
+              "About your closed test: how easy recruiting was (a pick-list), whether testers used all the app's features, and whether their usage matched what you expect from production users. It also asks for a summary of the feedback and how you collected it.",
+              "About your app/game: the target audience, the value proposition, and an estimated install range for the first year. Google says these answers are not shown publicly and do not affect visibility or Console access.",
+              "About your production readiness: what you changed because of the test, and how you decided the app was ready.",
+            ],
+          },
+          {
+            p: "Google's page says the first part exists to verify that apps have been tested before publication. It also warns that review is not a troubleshooting step, so policy problems are yours to find before you apply. Write the answers from your feedback log, with the names of features, dates and counts. An example for a salon booking app, with figures of the kind you would take from your own log:",
+          },
+          {
+            code: `About your closed test
+Recruiting: moderately easy. 16 testers: 9 clients of the salons,
+4 friends, 3 from a local business group. 14 stayed opted in for the
+full period; two left in week one and were replaced on day 3.
+Engagement: all 14 created an account and made at least one booking.
+11 used rescheduling, 9 received the reminder notification, 6 paid a
+deposit through the live card flow. Production users will book less
+often (about one visit a month) and use the Urdu option more; the two
+testers who did found a cut-off label on the confirmation screen.
+Feedback: 23 items collected through a WhatsApp group and the Play
+Console Testing feedback page between 3 and 17 November: 9 bugs,
+8 wording changes, 6 feature requests logged for later.
+
+About your app
+Audience: customers of three salons in Lahore, ages 20 to 45, on
+Android phones from Infinix, Samsung and Xiaomi.
+Value: book, reschedule and pay a deposit in under a minute without
+phoning; reminders cut no-shows.
+First-year installs: 1,000 to 5,000.
+
+About your production readiness
+Changes after the test: fixed the double booking on slow connections
+(1.0.3), moved the deposit step before confirmation, fixed the Urdu
+label, added an offline message in place of a blank screen.
+Ready because: no crashes in the last 7 days of the test across
+14 devices, every reported bug fixed and confirmed by the tester who
+raised it, and the salon staff used the owner side for a week.`,
+            lang: "text",
+          },
+          {
+            p: "Vague answers are the ones that come back. “Testers liked the app and found no problems” reads as a test nobody ran, and a test nobody ran is the second reason on Google's list. Google does not publish how it scores the answers, so nothing here guarantees approval; what you control is whether the test happened and whether the answers show it.",
+          },
+        ],
+      },
+      {
+        h2: "Why bought testers end in more testing",
+        blocks: [
+          {
+            p: "Fiverr gigs, tester-exchange groups and “tester community” sites sell 12 or 20 opted-in installs. Google's testing page does not forbid that, and it does not say how it measures engagement. It does say what sends an application back: “fewer than 12 opted-in testers or insufficient tester engagement during the testing period”. Developers who get that outcome report the Play Console status “More testing required to access Google Play production”, with Google pointing at the same two reasons. The help page says you may need to continue running the closed test, and does not say for how long. Developers who report the status also report a fresh 14-day run before they could apply again.",
+          },
+          {
+            p: "A bought tester installs the app, opens it once at most, and holds it for 14 days. That produces exactly the two things on Google's list: a count that holds until the seller's accounts drop, and no engagement. It also leaves you with nothing to write in part one of the questionnaire, which asks whether testers used every feature and how their use compared with production users. Google's own recruiting advice is the unglamorous one: friends, family, colleagues, and the communities where your users already are. Twelve real users also give you a product test, which is the reason Google gave for the rule when it announced it in November 2023.",
+          },
+        ],
+      },
+      {
+        h2: "The timeline to plan a launch date around",
+        blocks: [
+          {
+            p: "Every number here is from Google's own help pages, read on 2 November 2026, at the longest value Google states. Your run will usually be shorter; a launch date should not depend on that.",
+          },
+          {
+            code: `Step                                              Google's stated time
+--------------------------------------------------------------------------
+Developer account: US$25, identity verification,  the device check under a minute;
+device verification on any non-rooted phone       verifying a payment method, if
+running Android 10 or newer                       you will sell, up to 5 days
+D-U-N-S number (organisation accounts only)       up to 30 days
+Complete app setup, then the first release        reviewed before publishing, even on
+(Google reviews it even on the internal track)    the internal track: a few hours to
+                                                  7 days, longer in exceptional cases
+Closed-test link reaches testers                  several hours after publishing
+12 testers opted in for 14 days                   14 days from the 12th opt-in
+Apply for production; Google reviews the form     usually 7 days or less
+First production release                          reviewed; up to 7 days or longer
+                                                  for certain accounts`,
+            lang: "text",
+          },
+          {
+            p: "Add it up at the long end: 7 days for the first review, 14 for the test, 7 for the application and 7 for the production review. That is 35 days from the first closed-testing upload, with no rerun and no recruiting delay. Plan the launch for six weeks after the closed-test link goes live and treat anything sooner as a bonus. If you still have to find testers, or need a D-U-N-S number, add that in front.",
+          },
+        ],
+      },
+      {
+        h2: "Check these the day before you apply",
+        blocks: [
+          {
+            list: [
+              "At least 12 testers, each opted in for 14 full days by your own dated list, with two or three spare.",
+              "A feedback log with dates and the channel each item came through. Play Console's Testing feedback page (Monitor and improve, then Ratings and reviews, then Testing feedback) holds the ones sent through Google Play, and Google's page says you must summarise the feedback when you apply.",
+              "At least one update shipped to the closed track during the test. Google's page recommends updating in closed testing before production, and it gives you a true sentence for part three.",
+              "If the app has a login, working test credentials entered in Play Console. Google's page lists test credentials among the things to double-check before applying.",
+              "Content rating, target audience and the Data safety form completed. Google's page names target audience and content rating among the things to double-check, and says apps on internal testing tracks are exempt from the Data safety section, so that track never checked the form.",
+              "The Play Console account in the founder's name, with the developer invited as a user, so the account that passes the test is the one you own.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "When the 14 days aren't the only problem",
+        blocks: [
+          {
+            p: "An app stuck at closed testing is usually stuck elsewhere too: the Play account is in a freelancer's name, push notifications work on one platform only, and the iOS build has not started. Apple's gate is a human reviewer rather than a tester count, and for a wrapped web app it is the one my guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers. Nine of the apps on my work page are live on the App Store or Google Play. Koor's first version went live on Google Play in October 2025, and Dooz Inspected Cars, a direct client, shows 100K+ installs. TAL Workforce was built while I was at Webrange Solutions, and Loopedin, whose backend I built at Zencloud, launched on both stores in September 2026. Running the closed test with real users, writing the application, and shipping both stores under accounts in your name is what my App Store and Google Play launch service covers.",
           },
         ],
       },
