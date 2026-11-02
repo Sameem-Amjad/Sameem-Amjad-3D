@@ -463,7 +463,7 @@ feature are attached.`,
     summary:
       "Why Stripe's signature check fails, the three things that cause it, working code for Next.js and Supabase Edge Functions, and how to make sure a paying customer always gets what they paid for.",
     published: "2026-10-09",
-    updated: "2026-10-09",
+    updated: "2026-11-02",
     service: "fix-vibe-coded-app",
     sections: [
       {
@@ -767,7 +767,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
         h2: "When the webhook isn't the only payment problem",
         blocks: [
           {
-            p: "The webhook is the part of AI-built payment code that usually goes wrong, but rarely the only part: prices taken from the browser, subscriptions that never cancel, refunds nobody handles. If you'd like the payment flow checked end to end and fixed, that's part of my app rescue service.",
+            p: "The webhook is the part of AI-built payment code that usually goes wrong, but rarely the only part: prices taken from the browser, subscriptions that never cancel, refunds nobody handles. If you'd like the payment flow checked end to end and fixed, that's part of my app rescue service. If the signature now verifies and the customer is still locked out, my guide “Stripe says the payment succeeded, but your app still shows the user as unpaid: the events, the mapping and the entitlement check” covers the three causes that remain.",
           },
         ],
       },
@@ -1969,6 +1969,576 @@ First production release                          reviewed; up to 7 days or long
         blocks: [
           {
             p: "An app stuck at closed testing is usually stuck elsewhere too: the Play account is in a freelancer's name, push notifications work on one platform only, and the iOS build has not started. Apple's gate is a human reviewer rather than a tester count, and for a wrapped web app it is the one my guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers. Nine of the apps on my work page are live on the App Store or Google Play. Koor's first version went live on Google Play in October 2025, and Dooz Inspected Cars, a direct client, shows 100K+ installs. TAL Workforce was built while I was at Webrange Solutions, and Loopedin, whose backend I built at Zencloud, launched on both stores in September 2026. Running the closed test with real users, writing the application, and shipping both stores under accounts in your name is what my App Store and Google Play launch service covers.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "stripe-payment-succeeded-but-no-access",
+    short: "Paid on Stripe, still locked out",
+    title: "Stripe says the payment succeeded, but your app still shows the user as unpaid: the events, the mapping and the entitlement check",
+    seoTitle: "Stripe Paid but User Still Locked Out: The Fix · Sameem Amjad",
+    seoDescription:
+      "Stripe Checkout succeeded and the subscription is still inactive? Which webhook event to trust, how to map it to the user, and the server-side check.",
+    summary:
+      "Why a successful Stripe payment can leave a user locked out, which events to handle, how to tie the customer to your user, and the server-side check, with a Next.js and an Edge Function handler.",
+    published: "2026-11-02",
+    updated: "2026-11-02",
+    service: "fix-vibe-coded-app",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Stripe took the payment, so the fault sits in the step after it. The webhook that should grant access listens to the wrong event, cannot tell which of your users paid, or writes to a table and changes nothing. For subscriptions, handle `checkout.session.completed` to tie the Stripe customer to your user, `invoice.paid` for the first payment and every renewal, and `customer.subscription.updated` and `customer.subscription.deleted` for status changes; `payment_intent.succeeded` is only for one-off payments. Put your user ID on the Checkout Session and on the subscription it creates, write the result from the server with the secret key, and decide access from that row on the server.",
+          },
+        ],
+      },
+      {
+        h2: "Test it in 10 seconds",
+        blocks: [
+          {
+            p: "In the Stripe Dashboard open Workbench, Webhooks, your endpoint, then the Event deliveries tab, and find the `checkout.session.completed` event for the payment.",
+          },
+          {
+            list: [
+              "Green: the event is there with a 200, and the user's row changed within seconds of it.",
+              "Red, the event type is missing: the endpoint is not subscribed to it, so Stripe never sent it. Cause 1.",
+              "Red, a 200 and the row did not change: the handler acknowledged the event and did nothing, and Stripe will not send it again. Cause 2 or 3, the costliest.",
+              "Red, a 400 or 500: Stripe retries for up to three days in live mode. A 400 with “No signatures found matching the expected signature for payload” belongs to my guide “Stripe webhook error “No signatures found matching the expected signature for payload”: causes and fixes”.",
+            ],
+          },
+          {
+            p: "From the terminal:",
+          },
+          {
+            code: `stripe events list --delivery-success false --limit 10`,
+            lang: "bash",
+          },
+          {
+            p: "A Lovable app on the default Stripe integration has no endpoint at all; Lovable's documentation says it asks Stripe directly whether the signed-in user is subscribed. See Cause 2.",
+          },
+        ],
+      },
+      {
+        h2: "Why it happens",
+        blocks: [
+          {
+            p: "A finished Checkout produces a burst of events, and Stripe does not guarantee delivery in the order they are generated. It also stops caring about an event the moment your endpoint answers with a 2xx. The success page is no backstop either; Stripe's fulfilment guide says customers do not always reach it.",
+          },
+          {
+            p: "Three things have to line up. The endpoint receives an event that carries the payment, the handler turns it into one of your user IDs, and the write it makes is allowed to change the row. Apps built with Lovable, Bolt or Cursor tend to get one of the three wrong, and nothing in Stripe shows red when they do.",
+          },
+          {
+            p: "On ConstrAction, a Fiverr client's contract generator for Quebec contractors, Stripe takes payment per contract or as an unlimited monthly plan, so one handler has to tell a one-off payment from a subscription invoice.",
+          },
+        ],
+      },
+      {
+        h2: "Cause 1: the code listens to the wrong event",
+        blocks: [
+          {
+            p: "Generated code tends to pick the event with the best name. As of 2 November 2026, Stripe's reference says:",
+          },
+          {
+            list: [
+              "`payment_intent.succeeded` fires for one-off payments and for every subscription invoice, but it carries a PaymentIntent with no `client_reference_id`. Use it only for `mode: 'payment'`, if at all.",
+              "`checkout.session.completed` fires once per Checkout and carries `client_reference_id`, `metadata`, `customer`, `subscription` and `payment_status`. With a bank debit, `payment_status` is `unpaid` and `checkout.session.async_payment_succeeded` follows when the money clears; handle both and skip the unpaid one.",
+              "`invoice.paid` fires for the first payment and every renewal; Stripe says to provision access on it when the subscription's status is `active`, retrieving the subscription to confirm. `invoice.payment_succeeded` is a near-twin; handle one of them.",
+              "`customer.subscription.updated` fires when the subscription starts or changes, renewals and `past_due` included; `customer.subscription.deleted` fires when it ends. Stripe says to revoke access at `canceled` or `unpaid`.",
+            ],
+          },
+          {
+            p: "Make sure no branch assumes an order: `invoice.paid` can land before `checkout.session.completed`, so each branch has to find the user by itself.",
+          },
+        ],
+      },
+      {
+        h2: "Cause 2: nothing ties the Stripe customer to your user",
+        blocks: [
+          {
+            p: "Every event names a Stripe customer (`cus_...`) and a subscription (`sub_...`); your database knows a user ID. Generated code bridges that gap by email or by `client_reference_id`, and both break. Lovable's default integration matches by email: its documentation says a subscription is recognised when the sign-in email matches the Stripe customer's email. A customer who typed a different address at Checkout pays and stays unpaid. `client_reference_id` on the session alone works for `checkout.session.completed` and nothing else: renewal invoices and subscription events never see the session.",
+          },
+          {
+            p: "The fix is to put the user ID on the subscription too. Stripe copies `subscription_data.metadata` onto the subscription, so every `customer.subscription.*` event carries `metadata.user_id`, and every invoice it generates carries a snapshot at `parent.subscription_details.metadata`. For a returning user pass the saved `customer` rather than `customer_email`, or Checkout creates a second customer. In `lib/stripe/checkout.ts`:",
+          },
+          {
+            code: `// lib/stripe/checkout.ts
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+export async function createCheckoutSession(opts: {
+  userId: string;
+  email: string;
+  priceId: string;
+  customerId?: string | null; // the stripe_customer_id already on the user's entitlement row
+  siteUrl: string;
+}) {
+  const params: Stripe.Checkout.SessionCreateParams = {
+    mode: 'subscription',
+    line_items: [{ price: opts.priceId, quantity: 1 }],
+    // Your user ID on the session, and on the subscription that Checkout creates
+    client_reference_id: opts.userId,
+    metadata: { user_id: opts.userId },
+    subscription_data: { metadata: { user_id: opts.userId } },
+    // {CHECKOUT_SESSION_ID} is a literal that Stripe replaces when it redirects
+    success_url: \`\${opts.siteUrl}/billing/success?session_id={CHECKOUT_SESSION_ID}\`,
+    cancel_url: \`\${opts.siteUrl}/pricing\`,
+  };
+  // Reuse the Stripe customer when there is one, so a second purchase does not create a second customer
+  if (opts.customerId) params.customer = opts.customerId;
+  else params.customer_email = opts.email;
+
+  return stripe.checkout.sessions.create(params);
+}`,
+            lang: "ts",
+          },
+          {
+            p: "Checked on 2 November 2026 with stripe 23.1.0: the call sends all three IDs, and `success_url` goes out with the literal `{CHECKOUT_SESSION_ID}` for Stripe to replace.",
+          },
+        ],
+      },
+      {
+        h2: "Cause 3: the write that changed nothing",
+        blocks: [
+          {
+            p: "The handler runs, returns 200, and the row is as it was. Postgres row-level security (RLS) hides rows rather than raising errors. The PostgreSQL manual says a table with no policy gets a default-deny policy, so no rows are visible or can be modified. Its example shows an update on a hidden row answering `UPDATE 0`. Through supabase-js that arrives as no error and no rows, and Stripe marks the event delivered.",
+          },
+          {
+            p: "The publishable (anon) key runs as `anon`, a user's token as `authenticated`, and the secret key as `service_role`, which Supabase says has the `bypassrls` attribute. A webhook whose Supabase client was created with the anon key therefore updates nothing. A secret key also bypasses RLS only when the request carries no user access token, so a function that forwards the browser's `Authorization` header is back under the policies.",
+          },
+          {
+            p: "Checked on 2 November 2026 on PostgreSQL 18.3, with roles set up like Supabase's and an `entitlements` table that has RLS on and a select policy for the owner:",
+          },
+          {
+            code: `set role anon;
+update public.entitlements set status = 'active' where stripe_customer_id = 'cus_TEST123';
+-- UPDATE 0
+
+set role authenticated;   -- the owner's own JWT: the select policy shows the row, no policy allows the update
+update public.entitlements set status = 'active' where stripe_customer_id = 'cus_TEST123';
+-- UPDATE 0
+
+set role service_role;    -- bypassrls, which the secret key uses
+update public.entitlements set status = 'active' where stripe_customer_id = 'cus_TEST123';
+-- UPDATE 1`,
+            lang: "sql",
+          },
+          {
+            p: "On a project with Supabase's newer default, where a new table gets no grants until you add them, the secret key fails loudly instead with `permission denied for table` (error 42501). My guide “Supabase says “permission denied for table” (error 42501): why it started, and the grants that fix it” covers that; my guide “Supabase says “RLS disabled in public”: what it means and how to fix it” covers the policies.",
+          },
+          {
+            p: "The fix has three parts: a server client with the secret key and no user token; a read-back after every write that treats zero rows as a failure; and tables only the server can write. The tables, in `supabase/migrations/20261110120000_entitlements.sql`:",
+          },
+          {
+            code: `-- supabase/migrations/20261110120000_entitlements.sql
+create table public.entitlements (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  stripe_customer_id text unique,
+  stripe_subscription_id text unique,
+  status text not null default 'inactive',
+  plan text,
+  current_period_end timestamptz,
+  updated_at timestamptz not null default now()
+);
+
+create table public.stripe_events (
+  id text primary key,
+  type text not null,
+  received_at timestamptz not null default now()
+);
+
+alter table public.entitlements enable row level security;
+alter table public.stripe_events enable row level security;
+
+-- A signed-in user may read their own row. Nothing writes these tables from the browser.
+create policy "users read their own entitlement"
+  on public.entitlements for select to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- Supabase's newer projects grant nothing on a new table until you do
+grant select on public.entitlements to authenticated;
+grant select, insert, update, delete on public.entitlements to service_role;
+grant select, insert, update, delete on public.stripe_events to service_role;`,
+            lang: "sql",
+          },
+          {
+            p: "Run on 2 November 2026 on the same PostgreSQL 18.3: the owner's token reads only its own row and cannot update it, `anon` gets `permission denied`, and `service_role` writes.",
+          },
+        ],
+      },
+      {
+        h2: "The handler, in Next.js 15",
+        blocks: [
+          {
+            p: "I have built Stripe payments and the user dashboard around them for a Fiverr client's Next.js 15 app, delivered a day early in their words.",
+          },
+          {
+            p: "The route verifies the signature, claims the event ID so a second delivery does nothing, applies the event, and on failure answers 500 and releases the claim so Stripe's retry runs it again. Stripe wants a 2xx quickly: with hosted Checkout it waits up to 10 seconds for that answer before redirecting the customer. In `app/api/webhooks/stripe/route.ts`, with four server-only variables (no `NEXT_PUBLIC_` prefix):",
+          },
+          {
+            code: `// app/api/webhooks/stripe/route.ts
+import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+// A server-only client with the secret (service role) key. It bypasses RLS,
+// which is what a webhook needs; it must never reach the browser.
+const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, {
+  auth: { persistSession: false },
+});
+
+const id = (ref: string | { id: string } | null | undefined) =>
+  typeof ref === 'string' ? ref : ref?.id ?? null;
+
+// Mirror a Stripe subscription onto the user's entitlement row
+async function applySubscription(sub: Stripe.Subscription) {
+  const customerId = id(sub.customer);
+  let userId = sub.metadata.user_id;
+  if (!userId && customerId) {
+    const { data } = await db
+      .from('entitlements')
+      .select('user_id')
+      .eq('stripe_customer_id', customerId)
+      .maybeSingle();
+    userId = data?.user_id;
+  }
+  if (!userId) throw new Error(\`No user for subscription \${sub.id} (customer \${customerId})\`);
+
+  const item = sub.items.data[0];
+  const { data, error } = await db
+    .from('entitlements')
+    .upsert(
+      {
+        user_id: userId,
+        stripe_customer_id: customerId,
+        stripe_subscription_id: sub.id,
+        status: sub.status,
+        plan: item.price.id,
+        current_period_end: new Date(item.current_period_end * 1000).toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id' },
+    )
+    .select('user_id, status');
+  if (error) throw error;
+  if (!data.length) throw new Error('Entitlement write changed no rows');
+  console.log(\`entitlement \${data[0].user_id} -> \${data[0].status}\`);
+}
+
+export async function POST(req: Request) {
+  const body = await req.text();
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      body,
+      req.headers.get('stripe-signature')!,
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
+  } catch (err) {
+    return new Response(\`Signature check failed: \${(err as Error).message}\`, { status: 400 });
+  }
+
+  // Claim the event ID first. A second delivery of the same event gets a 200 and does nothing.
+  const claim = await db
+    .from('stripe_events')
+    .upsert({ id: event.id, type: event.type }, { onConflict: 'id', ignoreDuplicates: true })
+    .select('id');
+  if (claim.error) return new Response(claim.error.message, { status: 500 });
+  if (!claim.data.length) return Response.json({ received: true, duplicate: true });
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+      case 'checkout.session.async_payment_succeeded': {
+        const session = event.data.object;
+        // A bank debit is still clearing; checkout.session.async_payment_succeeded follows
+        if (session.payment_status === 'unpaid') break;
+        const userId = session.client_reference_id ?? session.metadata?.user_id;
+        if (!userId) throw new Error(\`Session \${session.id} has no user: set client_reference_id when creating it\`);
+        const row: Record<string, unknown> = {
+          user_id: userId,
+          stripe_customer_id: id(session.customer),
+          updated_at: new Date().toISOString(),
+        };
+        if (session.mode === 'payment') {
+          Object.assign(row, { status: 'active', plan: session.metadata?.plan ?? 'one_off', current_period_end: null });
+        }
+        if (session.mode === 'subscription') row.stripe_subscription_id = id(session.subscription);
+        const { data, error } = await db.from('entitlements').upsert(row, { onConflict: 'user_id' }).select('user_id');
+        if (error) throw error;
+        if (!data.length) throw new Error('Entitlement write changed no rows');
+        break;
+      }
+      case 'invoice.paid': {
+        const invoice = event.data.object;
+        // API version 2025-03-31.basil and later put the subscription under parent;
+        // older versions have invoice.subscription at the top level
+        const ref =
+          invoice.parent?.type === 'subscription_details'
+            ? id(invoice.parent.subscription_details?.subscription)
+            : id((invoice as unknown as { subscription?: string }).subscription);
+        if (!ref) break; // a one-off invoice: nothing to unlock here
+        // Stripe's advice: confirm the subscription's status before extending access
+        await applySubscription(await stripe.subscriptions.retrieve(ref));
+        break;
+      }
+      case 'customer.subscription.created':
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted':
+        await applySubscription(event.data.object);
+        break;
+    }
+  } catch (err) {
+    // Release the claim so that Stripe's retry runs this handler again
+    await db.from('stripe_events').delete().eq('id', event.id);
+    console.error(event.type, (err as Error).message);
+    return new Response((err as Error).message, { status: 500 });
+  }
+
+  return Response.json({ received: true });
+}`,
+            lang: "ts",
+          },
+          {
+            p: "Checked on 2 November 2026 with stripe 23.1.0 and supabase-js 2.118.0, with locally signed events and a stand-in for Supabase's REST endpoint. A session with `client_reference_id` wrote the customer and subscription IDs, and the same event again returned a 200 marked duplicate. A subscription event with `metadata.user_id` set the row to `active`; an `unpaid` session wrote nothing. A subscription with no user ID and an unknown customer returned 500 and released its claim; a wrong secret returned 400.",
+          },
+        ],
+      },
+      {
+        h2: "The same handler as a Supabase Edge Function",
+        blocks: [
+          {
+            p: "Edge Functions run on Deno, so the signature check is `constructEventAsync` with the Web Crypto provider, as in Supabase's own Stripe example, which carries the comment “Stripe verifies the request via its signature, so deploy with verify_jwt = false”. Supabase injects the project URL and its keys into every function: `SUPABASE_SECRET_KEYS`, a JSON dictionary whose `default` entry is the secret key, and the legacy `SUPABASE_SERVICE_ROLE_KEY`. They bypass RLS, so use them in Edge Functions and never in a browser; Supabase is deprecating the `anon` and `service_role` keys by the end of 2026. In `supabase/functions/stripe-webhook/index.ts`:",
+          },
+          {
+            code: `// supabase/functions/stripe-webhook/index.ts
+import Stripe from 'npm:stripe@^22';
+import { createClient } from 'npm:@supabase/supabase-js@2';
+
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!, {
+  httpClient: Stripe.createFetchHttpClient(),
+});
+// Needed to use the Web Crypto API in Deno
+const cryptoProvider = Stripe.createSubtleCryptoProvider();
+
+// Supabase injects the project URL and its secret keys into every function.
+// The secret key bypasses RLS; the publishable (anon) key would not.
+const secretKey =
+  JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') ?? '{}').default ??
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const db = createClient(Deno.env.get('SUPABASE_URL')!, secretKey, {
+  auth: { persistSession: false },
+});
+
+const id = (ref: string | { id: string } | null | undefined) =>
+  typeof ref === 'string' ? ref : ref?.id ?? null;
+
+async function applySubscription(sub: Stripe.Subscription) {
+  const customerId = id(sub.customer);
+  let userId = sub.metadata.user_id;
+  if (!userId && customerId) {
+    const { data } = await db
+      .from('entitlements')
+      .select('user_id')
+      .eq('stripe_customer_id', customerId)
+      .maybeSingle();
+    userId = data?.user_id;
+  }
+  if (!userId) throw new Error(\`No user for subscription \${sub.id} (customer \${customerId})\`);
+
+  const item = sub.items.data[0];
+  const { data, error } = await db
+    .from('entitlements')
+    .upsert(
+      {
+        user_id: userId,
+        stripe_customer_id: customerId,
+        stripe_subscription_id: sub.id,
+        status: sub.status,
+        plan: item.price.id,
+        current_period_end: new Date(item.current_period_end * 1000).toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id' },
+    )
+    .select('user_id, status');
+  if (error) throw error;
+  if (!data.length) throw new Error('Entitlement write changed no rows');
+  console.log(\`entitlement \${data[0].user_id} -> \${data[0].status}\`);
+}
+
+Deno.serve(async (req) => {
+  const body = await req.text(); // never req.json() before verifying
+  let event: Stripe.Event;
+  try {
+    event = await stripe.webhooks.constructEventAsync(
+      body,
+      req.headers.get('Stripe-Signature')!,
+      Deno.env.get('STRIPE_WEBHOOK_SECRET')!,
+      undefined,
+      cryptoProvider,
+    );
+  } catch (err) {
+    return new Response(\`Signature check failed: \${(err as Error).message}\`, { status: 400 });
+  }
+
+  const claim = await db
+    .from('stripe_events')
+    .upsert({ id: event.id, type: event.type }, { onConflict: 'id', ignoreDuplicates: true })
+    .select('id');
+  if (claim.error) return new Response(claim.error.message, { status: 500 });
+  if (!claim.data.length) return Response.json({ received: true, duplicate: true });
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+      case 'checkout.session.async_payment_succeeded': {
+        const session = event.data.object;
+        if (session.payment_status === 'unpaid') break;
+        const userId = session.client_reference_id ?? session.metadata?.user_id;
+        if (!userId) throw new Error(\`Session \${session.id} has no user: set client_reference_id when creating it\`);
+        const row: Record<string, unknown> = {
+          user_id: userId,
+          stripe_customer_id: id(session.customer),
+          updated_at: new Date().toISOString(),
+        };
+        if (session.mode === 'payment') {
+          Object.assign(row, { status: 'active', plan: session.metadata?.plan ?? 'one_off', current_period_end: null });
+        }
+        if (session.mode === 'subscription') row.stripe_subscription_id = id(session.subscription);
+        const { data, error } = await db.from('entitlements').upsert(row, { onConflict: 'user_id' }).select('user_id');
+        if (error) throw error;
+        if (!data.length) throw new Error('Entitlement write changed no rows');
+        break;
+      }
+      case 'invoice.paid': {
+        const invoice = event.data.object;
+        const ref =
+          invoice.parent?.type === 'subscription_details'
+            ? id(invoice.parent.subscription_details?.subscription)
+            : id((invoice as unknown as { subscription?: string }).subscription);
+        if (!ref) break;
+        await applySubscription(await stripe.subscriptions.retrieve(ref));
+        break;
+      }
+      case 'customer.subscription.created':
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted':
+        await applySubscription(event.data.object);
+        break;
+    }
+  } catch (err) {
+    await db.from('stripe_events').delete().eq('id', event.id);
+    console.error(event.type, (err as Error).message);
+    return new Response((err as Error).message, { status: 500 });
+  }
+
+  return Response.json({ received: true });
+});`,
+            lang: "ts",
+          },
+          {
+            p: "Turn off the JWT check for this function in `supabase/config.toml`; the signature is its security:",
+          },
+          {
+            code: `[functions.stripe-webhook]
+verify_jwt = false`,
+            lang: "toml",
+          },
+          {
+            p: "Set the secrets, deploy, and register `https://YOUR-PROJECT.supabase.co/functions/v1/stripe-webhook` in Workbench with that endpoint's own `whsec_` secret:",
+          },
+          {
+            code: `supabase secrets set STRIPE_SECRET_KEY=sk_live_YOUR_KEY STRIPE_WEBHOOK_SECRET=whsec_YOUR_SECRET
+supabase functions deploy stripe-webhook`,
+            lang: "bash",
+          },
+          {
+            p: "Checked on 2 November 2026 under Deno 2.9.6 (stripe 22.6.2, supabase-js 2.118.0): the function gave the same answers as the route.",
+          },
+        ],
+      },
+      {
+        h2: "Decide access on the server",
+        blocks: [
+          {
+            p: "The entitlement row is the only truth; anything the browser holds can be edited in the developer tools. Read it on the server with the user's own session, which the select policy above allows. Supabase's Next.js guide says to protect pages with `getClaims()`, which verifies the token's signature on every call, and never to trust `getSession()` on the server, because it reads the cookie without revalidating it. With that guide's server client in `lib/supabase/server.ts`, in `lib/access.ts`:",
+          },
+          {
+            code: `// lib/access.ts: runs on the server only (a server component, a route handler or proxy)
+import { createClient } from '@/lib/supabase/server';
+
+export async function hasAccess(): Promise<boolean> {
+  const supabase = await createClient();
+  // getClaims verifies the JWT's signature; getSession only reads the cookie
+  const { data: auth } = await supabase.auth.getClaims();
+  if (!auth) return false;
+
+  const { data: row } = await supabase
+    .from('entitlements')
+    .select('status, current_period_end')
+    .eq('user_id', auth.claims.sub)
+    .maybeSingle();
+  if (!row) return false;
+
+  const open = row.status === 'active' || row.status === 'trialing';
+  const inPeriod = !row.current_period_end || new Date(row.current_period_end) > new Date();
+  return open && inPeriod;
+}`,
+            lang: "ts",
+          },
+          {
+            p: "`active` and `trialing` unlock. `past_due` is your call: Stripe may still be retrying the card, says to notify the customer, and says to revoke at `canceled` or `unpaid`. A subscription cancelled at period end stays `active` until then, then arrives as `customer.subscription.deleted`, so the row turns itself off on time.",
+          },
+          {
+            p: "One limit, stated plainly: this handles one subscription per user, created through your own Checkout with the metadata set. A subscription made by hand in the Dashboard, or through a Payment Link without `client_reference_id`, arrives with no user ID. The handler answers 500 until you write `stripe_customer_id` on the user's row yourself and resend the event.",
+          },
+        ],
+      },
+      {
+        h2: "Replay the event, and test it before a customer does",
+        blocks: [
+          {
+            p: "For the customer locked out right now, fix the handler and resend the event rather than editing the row by hand. In Workbench, open the event and click Resend, which Stripe says works for 15 days after the event was created; `stripe events resend evt_ID --webhook-endpoint=we_ID` works for 30. A resend of an event the handler already claimed is a duplicate, so delete its row from `stripe_events` first.",
+          },
+          {
+            p: "Before the next real customer, run the handler against the CLI (syntax from Stripe's CLI reference, resource names from its fixture files):",
+          },
+          {
+            code: `stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+# in a second terminal
+stripe trigger checkout.session.completed --add checkout_session:client_reference_id=YOUR_USER_ID
+stripe trigger customer.subscription.created --add subscription:metadata.user_id=YOUR_USER_ID
+stripe trigger invoice.paid`,
+            lang: "bash",
+          },
+          {
+            p: "The first trigger is a `mode: 'payment'` session, so the one-off branch sets the row to `active`; the second creates a subscription carrying your user ID. The third is the honest negative: the CLI's `invoice.paid` fixture builds a one-off invoice with no subscription, so the handler returns 200 and changes nothing. For an Edge Function served locally, forward to `localhost:54321/functions/v1/stripe-webhook`. Then pay once in test mode with card `4242 4242 4242 4242` and watch the row change.",
+          },
+        ],
+      },
+      {
+        h2: "Two side effects to handle",
+        blocks: [
+          {
+            list: [
+              "Retries need a good answer. A 500 makes Stripe retry for up to three days in live mode, three times over a few hours in a sandbox. Do the slow work after the 200 or in a queue, or the customer waits on Checkout while it runs.",
+              "Access ends with the webhooks. `current_period_end` only moves when a renewal's events arrive, so an endpoint that stays down past Stripe's retry window locks paying users out at period end. Stripe emails you when an endpoint keeps failing; the `events list` command above shows the backlog and Resend clears it. If that is worse for you than a few free days, add a grace period.",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "When the unlock is the least of it",
+        blocks: [
+          {
+            p: "An app that lost a payment this way rarely has only one fault. The usual company is prices taken from the browser, no handling for a failed renewal, the secret key in a public repo, and the same tables still open to the anon key elsewhere. Finding all of that before more customers do is what my launch-readiness audit covers, and the payments work that follows is part of my Finish & ship service.",
           },
         ],
       },
