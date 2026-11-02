@@ -1521,6 +1521,259 @@ codesign -d --entitlements - --xml ipa/Payload/YourApp.app | plutil -p - | grep 
     ],
   },
 
+  {
+    slug: "onesignal-push-not-working-ios",
+    short: "OneSignal push not arriving on iOS",
+    title: "OneSignal push notifications work on Android but never arrive on iOS: a 10-step diagnosis",
+    seoTitle: "OneSignal Push Not Working on iOS: 10-Step Fix · Sameem Amjad",
+    seoDescription:
+      "OneSignal push arrives on Android but not on iPhone? Ten checks in order, from the APNs key and environment to the delivery log, for a subscribed device.",
+    summary:
+      "Ten checks in order for an iPhone that shows as subscribed but gets nothing: the key, the environment, the bundle ID, the profiles, the build, the phone's own settings and the delivery report.",
+    published: "2026-11-02",
+    updated: "2026-11-02",
+    service: "app-store-launch",
+    sections: [
+      {
+        h2: "The short answer",
+        blocks: [
+          {
+            p: "Android gets its token from Firebase and keeps working while the project's Firebase file is in place. iOS registers with Apple's push service (APNs). A push only arrives when three things in OneSignal match the build on the phone: the APNs key or certificate, the environment the build registered in, and the bundle ID. If the iPhone shows as subscribed, the token arrived, so the fault is in one of those three, in the build, or in what the phone does with the notification. Work through the ten checks in order with one test push after each; the delivery report names the APNs error when the key or bundle ID is wrong, and stays quiet when the phone is.",
+          },
+        ],
+      },
+      {
+        h2: "Step 1: the 10-second status check",
+        blocks: [
+          {
+            p: "In the OneSignal dashboard open Audience, then Users & subscriptions, then Subscriptions, and find the iPhone by its External ID or Subscription ID. The status column is the whole test. “Subscribed” is green for this guide: the device registered with Apple and handed OneSignal a token, so go to step 2. “Missing Push Capability” (`notification_types: -13` in the API) is a different problem: the signed build has no push entitlement and Apple refused the registration, so no key or environment work will help. Stop here and follow the guide titled “OneSignal says “Missing Push Capability” for every iPhone: the push entitlement that never reached the signed build, and how to put it back”. “Never Subscribed” and “Unsubscribed” are permission states on the phone, and OneSignal will not send to either.",
+          },
+          {
+            p: "The same record from the terminal, with the App ID and App API key from Settings, then Keys & IDs:",
+          },
+          {
+            code: `export ONESIGNAL_APP_ID="YOUR_APP_ID"
+export ONESIGNAL_API_KEY="YOUR_APP_API_KEY"
+
+curl -s "https://api.onesignal.com/apps/$ONESIGNAL_APP_ID/users/by/external_id/YOUR_EXTERNAL_ID" \\
+  -H "Authorization: Key $ONESIGNAL_API_KEY" \\
+  | jq '.subscriptions[] | {type, enabled, notification_types, test_type, app_version, device_os, token}'`,
+            lang: "bash",
+          },
+          {
+            p: "A healthy iPhone record, in the shape OneSignal's API reference documents; the token is 64 hexadecimal characters:",
+          },
+          {
+            code: `{
+  "type": "iOSPush",
+  "enabled": true,
+  "notification_types": 1,
+  "test_type": 0,
+  "app_version": "42",
+  "device_os": "18.6",
+  "token": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
+}`,
+            lang: "json",
+          },
+          {
+            p: "`enabled: true` with `notification_types: 1` is “Subscribed”. Steps 3, 6 and 10 read from this command.",
+          },
+        ],
+      },
+      {
+        h2: "Step 2: the key or certificate OneSignal holds",
+        blocks: [
+          {
+            p: "Open the Apple iOS (APNs) configuration in your OneSignal app's settings. OneSignal recommends the token-based `.p8` key: it does not expire, one key covers every app in the Apple Developer team, and OneSignal checks it against APNs when you save it. A `.p12` certificate is tied to one App ID and expires after one year; an expired one shows in the delivery report as “Expired Certificate”.",
+          },
+          {
+            p: "Three mistakes survive the save. The Key ID and Team ID are both 10-character strings and easy to swap; Apple answers the swap with `InvalidProviderToken`, which OneSignal's docs call the most common cause of that error. A key created minutes ago can fail for 10 to 15 minutes while Apple propagates it. And the key must cover both APNs environments: OneSignal rejects a sandbox-only or production-only key on save, and as of 31 October 2026 Apple's key page steers you towards single-environment keys, so pick Sandbox & Production.",
+          },
+          {
+            p: "The test: re-enter the key, Key ID, Team ID and bundle ID, and save. A red error on save is the key. A clean save moves the question to the environment.",
+          },
+        ],
+      },
+      {
+        h2: "Step 3: the environment the build registered in",
+        blocks: [
+          {
+            p: "Apple runs two push environments, development (also called sandbox) and production, and a device token belongs to one of them. The `aps-environment` entitlement decides which one the app registers in. Apple says Xcode sets it from the provisioning profile: a development profile gives `development`; a production profile, and TestFlight, give `production`. A push sent to the wrong environment for the token comes back as `BadDeviceToken`, whose definition ends with “the token matches the environment”. A certificate covering one environment only comes back as `BadCertificateEnvironment`.",
+          },
+          {
+            p: "OneSignal records the environment on the subscription as `test_type`: `0` or empty for a production token, which is what App Store and TestFlight builds carry, `1` for development, `2` for ad hoc. That field is the test. Read it from the step 1 command and set it against how the build reached the phone. A TestFlight install carrying `test_type: 1` was signed with a development entitlement, so the build is wrong rather than the key: fix the signing, or on Expo the plugin's `mode`, and reinstall. A debug install from Xcode carrying `test_type: 1` is correct.",
+          },
+        ],
+      },
+      {
+        h2: "Step 4: the bundle ID on the key, the app and the build",
+        blocks: [
+          {
+            p: "Apple expects your bundle ID as the topic of every push, and OneSignal takes it from the App Bundle ID field next to the key. The field must match the main app target's bundle identifier exactly, including case, and must not be the Notification Service Extension's identifier, which ends in `.OneSignalNotificationServiceExtension`. A mismatch against the Apple team shows on save as `TopicDisallowed` or `MissingTopic`. A mismatch against the token shows later, per device, as `DeviceTokenNotForTopic`, which OneSignal's report explains as “Token's Bundle ID does not match your APNs key or certificate”.",
+          },
+          {
+            p: "The test is a comparison. In Xcode the main target's General tab shows the Bundle Identifier; in an Expo project it is `ios.bundleIdentifier` in `app.json`. Put it beside the OneSignal field and the App ID on the Apple Developer site; three identical strings is green. A staging build with a suffixed bundle ID, or an App ID a builder registered under another name, fails here while everything else is right.",
+          },
+        ],
+      },
+      {
+        h2: "Step 5: the capability on the App ID, and profiles made after it",
+        blocks: [
+          {
+            p: "Apple's registration guide has two requirements: push enabled on the App ID in your developer account, and the Push Notifications capability on in the Xcode target, which adds the `aps-environment` entitlement from the provisioning profile. A profile generated before the capability was added signs a build with no push entitlement, however correct the project looks. OneSignal's certificate troubleshooting lists “Incorrect App ID, or Provisioning Profile missing capabilities” as a reason push stops after an upload.",
+          },
+          {
+            p: "A subscribed record may have come from an earlier build, while today's build carries a profile stored months ago by EAS, a CI runner or a colleague's Mac. Expo's docs say a new capability means regenerating existing profiles. The test: on the Apple Developer site, confirm Push Notifications is ticked on the App ID under Identifiers. Then check under Profiles that each profile used to sign the failing build is newer than that tick. Regenerate any that is not: Xcode's automatic signing does it on the next build; on EAS, `eas credentials` removes the stale profile and the next `eas build` makes a new one. Install, open once, and re-read step 1. A device that drops to “Missing Push Capability” belongs to the other guide.",
+          },
+        ],
+      },
+      {
+        h2: "Step 6: why an ad hoc build works while TestFlight fails",
+        blocks: [
+          {
+            p: "Both routes sign with a distribution profile (Apple's term is an ad hoc provisioning profile for distribution) and both register in the production environment, so the environment is not the difference. The build is. The builds came from different pipelines (an Xcode export with automatic signing against an EAS or CI upload with stored credentials), so one carried a fresh profile and the other a stale one. The TestFlight build was given a different OneSignal App ID or bundle ID through a scheme or an environment variable. Or, on Expo, the plugin's `mode` came from a variable that resolved differently on the build server.",
+          },
+          {
+            p: "The React Native SDK's GitHub issue 1413 has this shape: a July 2022 `eas build` on TestFlight with Android working and iOS silent, `mode` computed from `process.env.NODE_ENV`, later replies with ad hoc builds fine and TestFlight builds showing “Missing Push Capability”, and a close as stale in February 2024 with no named fix.",
+          },
+          {
+            p: "The test: install the TestFlight build, open it once, and run the step 1 command. `test_type` should be `0`, `app_version` the TestFlight build number, and the App ID in the URL the one that build initialises with. Whichever differs from the ad hoc build's record is the answer.",
+          },
+        ],
+      },
+      {
+        h2: "Step 7: the same settings in Expo, Capacitor and Flutter",
+        blocks: [
+          {
+            p: "Expo apps use `onesignal-expo-plugin`, and OneSignal's Expo setup page carries three rules that map onto steps 3 to 5. The plugin goes first in the `plugins` array of `app.json`. Its `mode` prop writes the `aps-environment` entitlement: `\"development\"` for a build you run from Xcode, `\"production\"` for TestFlight and App Store builds. And `ios.bundleIdentifier` must match the key or certificate in OneSignal. EAS writes those entitlements into the signed app and syncs the capabilities at Apple on `eas build`.",
+          },
+          {
+            code: `{
+  "expo": {
+    "ios": { "bundleIdentifier": "com.yourcompany.yourapp" },
+    "plugins": [
+      ["onesignal-expo-plugin", { "mode": "production" }]
+    ]
+  }
+}`,
+            lang: "json",
+          },
+          {
+            p: "Capacitor apps use `@onesignal/capacitor-plugin` (Capacitor 7 or later) with the same Xcode steps as a native app. Two rules are Capacitor's own. In `capacitor.config.ts`, `ios.handleApplicationNotifications` must be `false`; without it, OneSignal's docs say, Capacitor's notification router takes over iOS notification handling. And do not run `@capacitor/push-notifications` alongside OneSignal: OneSignal wants one SDK managing the push token, and lists a second push dependency among the causes of “APNs Delegate Never Fired”.",
+          },
+          {
+            code: `import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.yourcompany.yourapp',
+  appName: 'Your App',
+  webDir: 'dist',
+  ios: {
+    handleApplicationNotifications: false,
+  },
+};
+
+export default config;`,
+            lang: "ts",
+          },
+          {
+            p: "Flutter apps use `onesignal_flutter` (5.7.2 or later), initialised in `main.dart` with three lines; the iOS steps are the Xcode ones, and OneSignal says to test with a release build on a physical device.",
+          },
+          {
+            code: `OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+OneSignal.initialize("YOUR_APP_ID");
+OneSignal.Notifications.requestPermission(false);`,
+            lang: "dart",
+          },
+          {
+            p: "The test for each: Expo, plugin first and `mode` set to `\"production\"` before you build (the Missing Push Capability guide has the pre-build check); Capacitor, the flag and one push plugin in `package.json`; Flutter, `flutter run --release` on a device, then step 1.",
+          },
+        ],
+      },
+      {
+        h2: "Step 8: foreground against background",
+        blocks: [
+          {
+            p: "By default the OneSignal SDK displays a notification that arrives while the app is open. Your own code can change that: a `UNUserNotificationCenter` delegate written for another push library, or a foreground listener that calls `event.preventDefault()`. After `preventDefault()` the SDK waits 25 seconds on iOS for `event.notification.display()`, then discards the notification silently. OneSignal's advice while testing: keep the app in the background or fully closed.",
+          },
+          {
+            code: `import { OneSignal } from 'react-native-onesignal';
+
+OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
+  // The SDK shows it unless event.preventDefault() is called here.
+  console.log('push arrived in the foreground', event);
+});`,
+            lang: "js",
+          },
+          {
+            p: "The phone has its own gates. Notification permission lives under Settings, then Notifications. A Focus mode or Do Not Disturb can suppress or hide notifications until the mode is cleared. Low Power Mode is one OneSignal says to switch off before testing. APNs also keeps one message per app while a device is offline, so a phone that sat in a drawer gets the last push you sent.",
+          },
+          {
+            p: "The test: background the app with the home gesture, not a force-quit, send, wait, then open the app and send again. Arrives in the background but not the foreground means your own foreground code. Arrives in neither, and step 9 says whether Apple accepted it.",
+          },
+        ],
+      },
+      {
+        h2: "Step 9: the delivery report, and what each outcome means",
+        blocks: [
+          {
+            p: "Open the message's report in the OneSignal dashboard. Delivered means Apple's push service accepted the notification for that token; it is not proof the phone showed anything. Confirmed Receipt means the SDK on the device reported it arrived. On iOS that needs the Notification Service Extension and a shared App Group, and as of 31 October 2026 it is on paid plans only. Failed means an error, and the Audience activity view lists each subscription with a Failure message column for 30 days.",
+          },
+          {
+            p: "Read the outcomes like this. `DeviceTokenNotForTopic` or `TopicDisallowed` is step 4. “Expired Certificate” is step 2. “Invalid token” is Apple rejecting the token itself: the wrong environment (step 3) or a device that deleted the app. Apple delays its unsubscribe reporting by 14 days or more, so a record can read Subscribed for two weeks after the app is gone. Delivered with nothing on the phone and no Confirmed Receipt is step 8, or a phone that is offline, force-closed or on a build without the SDK.",
+          },
+          {
+            p: "The same report from the terminal, with the message `id` from step 10. In the API, `successful` is the count handed to the push services, `errored` the errors, `failed` the subscriptions reported unsubscribed and `received` the confirmed receipts, split by platform in `platform_delivery_stats`:",
+          },
+          {
+            code: `curl -s "https://api.onesignal.com/notifications/MESSAGE_ID?app_id=$ONESIGNAL_APP_ID" \\
+  -H "Authorization: Key $ONESIGNAL_API_KEY" \\
+  | jq '{successful, failed, errored, remaining, received, platform_delivery_stats}'`,
+            lang: "bash",
+          },
+        ],
+      },
+      {
+        h2: "Step 10: one test per step, and one from outside OneSignal",
+        blocks: [
+          {
+            p: "Every step ends in the same send, so make it cheap. Mark the iPhone as a test user (Options next to its record under Subscriptions, then Add as test user); in the composer, Test & Preview then Send Test Push sends to the test users you tick. From the terminal the same send is one request, and the `id` in the response is what step 9 reads:",
+          },
+          {
+            code: `curl -s -X POST "https://api.onesignal.com/notifications?c=push" \\
+  -H "Authorization: Key $ONESIGNAL_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "app_id": "'"$ONESIGNAL_APP_ID"'",
+    "include_aliases": { "external_id": ["YOUR_EXTERNAL_ID"] },
+    "target_channel": "push",
+    "headings": { "en": "Test from the terminal" },
+    "contents": { "en": "If you can read this, the chain works." }
+  }'`,
+            lang: "bash",
+          },
+          {
+            p: "A UUID in `id` means OneSignal created the message. An empty `id` means nothing was sent and `errors` says why; the common value is “All included players are not subscribed”, which sends you back to step 1.",
+          },
+          {
+            p: "The one test that bypasses OneSignal is Apple's Push Notification Console at icloud.developer.apple.com. It sends a test notification straight to a device token and validates the token from step 1 against a bundle ID; sending to the production environment needs the admin role on the team. If Apple's console reaches the phone and OneSignal does not, the fault is in OneSignal's iOS settings, steps 2 to 4. If neither reaches it, it is the build or the phone, steps 5 to 8.",
+          },
+          {
+            p: "Nothing in this chain proves the last metre. Apple reports that it accepted a notification, not that the phone displayed it. Confirmed receipt needs the extension, the App Group and a paid plan. The phone in your hand is the final test. The order above runs from the settings that fail loudly (the key, the environment, the bundle ID) to the ones that fail silently (the build, the phone). The experience behind it is setting up OneSignal push, in-app and email notifications on iOS and Android for a Fiverr client who came back for a second order, and taking nine apps through store review.",
+          },
+        ],
+      },
+      {
+        h2: "If push is the least of it",
+        blocks: [
+          {
+            p: "An app that reaches step ten usually has the rest of its iOS setup in the same state: profiles made in a hurry, a developer account in the builder's name, no Sign in with Apple, a review submission still ahead. Push is also one of the native features Apple's reviewer looks for; the guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers that side. Getting all of it done, notifications included, is what my App Store and Google Play launch service is for.",
+          },
+        ],
+      },
+    ],
+  },
+
 ];
 
 export const getGuideBySlug = (slug) => guides.find((g) => g.slug === slug) || null;
