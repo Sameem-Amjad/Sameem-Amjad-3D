@@ -262,6 +262,7 @@ export const featuredProjects = [
     role: "Backend engineer · Zencloud",
     category: "Node.js · Microservices · AWS",
     filter: "Platforms",
+    industry: "media",
     description:
       "Social app blending short-form video with local event discovery. I built the backend at Zencloud: a serverless video pipeline on AWS MediaConvert, real-time messaging on Socket.io + Redis, and a gamified LoopScore engine. It launched on the App Store and Google Play in September 2026.",
     image:
@@ -283,6 +284,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · direct client",
     category: "Angular · NestJS · React Native",
     filter: "Mobile",
+    industry: "marketplaces",
     description:
       "A direct client project: a platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators across web, iOS and Android, all served by one NestJS backend.",
     image:
@@ -308,6 +310,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Fiverr client",
     category: "Next.js 15 · Supabase · Stripe",
     filter: "Platforms",
+    industry: "real-estate",
     description:
       "Contract generator for Quebec contractors: ready-to-sign PDFs in English or French, paid per contract or monthly. Fiverr client, live at constraction.ca.",
     image:
@@ -342,6 +345,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Fiverr client",
     category: "Node.js · Deepgram · Twilio",
     filter: "AI",
+    industry: "food-hospitality",
     description:
       "White-label AI receptionist: voice agents that answer calls in real time from each business's own knowledge base, book and capture leads. For a Fiverr client.",
     image:
@@ -375,6 +379,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Fiverr client",
     category: "Next.js 14 · Supabase · PWA",
     filter: "Web",
+    industry: "education",
     description:
       "Installable app for an online piano school: courses, practice XP and badges, teacher feedback and a community, in English and Spanish. For a Fiverr client.",
     image:
@@ -408,6 +413,7 @@ export const featuredProjects = [
     role: "Software engineer · Pastel",
     category: "Next.js · Firebase · Sharetribe",
     filter: "E-Commerce",
+    industry: "marketplaces",
     description:
       "Marketplace for antiques and vintage pieces with provenance, running on Sharetribe with Shippo for shipping, on web, iOS and Android. I joined Pastel as a software engineer in 2026 and work on its iOS marketplace app.",
     image:
@@ -428,6 +434,7 @@ export const featuredProjects = [
     role: "Full-stack engineer",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
+    industry: "food-hospitality",
     description:
       "Marketplace connecting customers with home chefs. NestJS backend, Elasticsearch-powered discovery, Firebase for live order tracking and AWS (EC2, S3, CloudFront) underneath. Version one went live on Google Play in October 2025.",
     image:
@@ -447,6 +454,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Webrange Solutions",
     category: "Next.js 15 · Supabase",
     filter: "E-Commerce",
+    industry: "marketplaces",
     description:
       "Multi-vendor marketplace with separate dashboards for admins, managers, sellers and buyers. Server-rendered Next.js 15 for speed and SEO, Supabase for auth and data, and real-time order tracking. Built while I was at Webrange Solutions; the link is the demo build.",
     image:
@@ -466,6 +474,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Webrange Solutions",
     category: "Flutter · React · Node.js",
     filter: "Mobile",
+    industry: "workforce",
     description:
       "Connects mobile workers with venues offering rest and welfare facilities, paid for by their employers. Location-based venue search across a Flutter app, a React web dashboard and a Node.js backend on AWS. Built while I was at Webrange Solutions.",
     image:
@@ -487,6 +496,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · Node.js · AWS",
     filter: "Mobile",
+    industry: "fitness",
     description:
       "Competition platform with real-time leaderboards and score submission, built by the Zencloud team I was part of: Flutter apps, an AWS Lambda + S3 backend, and Redis + Socket.io for live updates. The client's own words, on Zencloud's site: more than 600 athletes joined in the first season.",
     image:
@@ -509,6 +519,7 @@ export const featuredProjects = [
     role: "Backend engineer · direct client",
     category: "Node.js · AWS · Media",
     filter: "Platforms",
+    industry: "media",
     description:
       "Backend for a streaming app serving video, audio and other media types: a Fluent-FFmpeg + BullMQ processing pipeline on AWS S3/EC2, signed URLs, role-based access and subscription billing. A direct client project with no public link.",
     image:
@@ -527,6 +538,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · ivector",
     category: "Next.js · Node.js · Firebase",
     filter: "Web",
+    industry: "education",
     description:
       "Guides students from high school towards a career with personalized roadmaps, milestone tracking and counselor collaboration. Built at ivector, where I work as a software engineer.",
     image:
@@ -546,6 +558,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · direct client",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
+    industry: "media",
     description:
       "A direct client project: creators upload, distribute and sell their video with their own pricing, merch and payments, plus an analytics dashboard. React Native app on a NestJS/AWS backend, on the App Store since July 2024.",
     image:
@@ -565,6 +578,7 @@ export const featuredProjects = [
     role: "Backend engineer · Zencloud",
     category: "Node.js · React · Flutter · AWS",
     filter: "Platforms",
+    industry: "legal-finance",
     description:
       "e-fuldmagt manages digital powers of attorney for the Danish market. At Zencloud I built secure sign-in with MitID through Criipto, generated PDF documents, document management and REST APIs built to GDPR requirements, behind a Danish/English interface.",
     image:
@@ -602,6 +616,7 @@ export const featuredProjects = [
     role: "Full-stack engineer",
     category: "React · Supabase · React Native",
     filter: "Web",
+    industry: "food-hospitality",
     description:
       "Reservations, tables, staff and guest CRM for restaurants and hotels in one system, with multi-location support and a React Native companion app. The link is a demo build with sample data.",
     image:
@@ -621,6 +636,7 @@ export const featuredProjects = [
     role: "Full-stack engineer · direct client",
     category: "Next.js 16 · Supabase",
     filter: "Web",
+    industry: "real-estate",
     description:
       "Search-optimised corporate site for an interior surfaces and fit-out company, with products and articles managed as content. Direct client; idecorwala.com.",
     image:
@@ -648,6 +664,246 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/idecorwala-3-screens.jpg"
     ),
   },
+  // Client projects added 2026-11-02, credited "client project" as Sameem
+  // confirmed that day: no platform is named, and each links only its demo.
+  {
+    title: "Bevy Irie",
+    tagline: "Trust-first website for a Lagos property manager serving landlords abroad · client project",
+    role: "Full-stack engineer · client project",
+    category: "Next.js 16 · Upstash Redis",
+    filter: "Web",
+    industry: "real-estate",
+    description:
+      "A client project: a website for a Lagos property manager whose clients are landlords living abroad, with enquiries and a private owner dashboard of visitor analytics that stores no IP addresses.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-1-overview.jpg",
+    accent: "from-amber-400 to-yellow-600",
+    stats: [
+      { k: "Audience", v: "Landlords abroad" },
+      { k: "Analytics", v: "Private" },
+      { k: "Framework", v: "Next.js 16" },
+    ],
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Upstash Redis", "Zod"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/bevyirie" }],
+    video: {
+      src: "/video/bevyirie-v1.mp4",
+      poster: "/video/bevyirie-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough of the website and the owner dashboard, recorded on the demo.",
+      duration: "PT1M59S",
+      uploadDate: "2026-11-02",
+    },
+    gallery: gallery(
+      "Bevy Irie",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-3-screens.jpg"
+    ),
+  },
+  {
+    title: "SteamBlast Arena",
+    tagline: "Multiplayer maths and literacy game for primary school children · client project",
+    role: "Full-stack engineer · client project",
+    category: "Phaser 3 · Socket.IO · Node.js",
+    filter: "Platforms",
+    industry: "education",
+    description:
+      "A client project: a real-time multiplayer game for children aged 5 to 12, where a steamed player answers a maths or literacy question to get back in. Bots, teacher classes and a parent portal.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-1-overview.jpg",
+    accent: "from-sky-400 to-blue-600",
+    stats: [
+      { k: "Players", v: "2–8" },
+      { k: "Ages", v: "5–12" },
+      { k: "Questions", v: "Maths · literacy" },
+    ],
+    tags: ["Phaser 3", "React", "Socket.IO", "Node.js", "Sequelize", "PWA"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/steamblast" }],
+    video: {
+      src: "/video/steamblast-v1.mp4",
+      poster: "/video/steamblast-v1-poster.jpg",
+      caption:
+        "2½-minute walkthrough: a round against bots, the Chamber, the shop, the parent portal, the teacher dashboard and the admin panel.",
+      duration: "PT2M23S",
+      uploadDate: "2026-10-29",
+    },
+    gallery: gallery(
+      "SteamBlast Arena",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-3-screens.jpg"
+    ),
+  },
+  {
+    title: "ExpertProfile.AI",
+    tagline: "Expert-recognition website with a no-code CMS · client project",
+    role: "Full-stack engineer · client project",
+    category: "Next.js 16 · Supabase",
+    filter: "Platforms",
+    industry: "media",
+    description:
+      "A client project: an editorial website that publishes lists of verified experts, each with their role, why they were included and public links, run from a no-code CMS.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-1-overview.jpg",
+    accent: "from-emerald-500 to-teal-700",
+    stats: [
+      { k: "Experts per list", v: "8–15" },
+      { k: "CMS", v: "No-code" },
+      { k: "Data", v: "Supabase" },
+    ],
+    tags: ["Next.js", "TypeScript", "Supabase", "Row-level security", "JSON-LD"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/expertprofile" }],
+    video: {
+      src: "/video/expertprofile-v1.mp4",
+      poster: "/video/expertprofile-v1-poster.jpg",
+      caption:
+        "2½-minute walkthrough of the website and the CMS, recorded on the demo data.",
+      duration: "PT2M29S",
+      uploadDate: "2026-10-23",
+    },
+    gallery: gallery(
+      "ExpertProfile.AI",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-3-screens.jpg"
+    ),
+  },
+  {
+    title: "SolNotary",
+    tagline: "On-chain notarization on Solana with a paid reveal · client project",
+    role: "Full-stack engineer · client project",
+    category: "Next.js 16 · Solana · Supabase",
+    filter: "Platforms",
+    industry: "legal-finance",
+    description:
+      "A client project: it seals a text on Solana by writing only its hash, then publishes the text for an exact crypto payment, on a public page anyone can verify in their browser.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-1-overview.jpg",
+    accent: "from-violet-400 to-purple-600",
+    stats: [
+      { k: "Chain", v: "Solana" },
+      { k: "Hash", v: "SHA-256" },
+      { k: "Sign-in", v: "Wallet" },
+    ],
+    tags: ["Next.js", "TypeScript", "Solana web3.js", "Supabase"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/solnotary" }],
+    video: {
+      src: "/video/solnotary-v1.mp4",
+      poster: "/video/solnotary-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: a verified record, a new notarization paid with test SOL, and the admin overview.",
+      duration: "PT1M53S",
+      uploadDate: "2026-11-02",
+    },
+    gallery: gallery(
+      "SolNotary",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-3-screens.jpg"
+    ),
+  },
+  {
+    title: "GentleR",
+    tagline: "Calm lessons and a private journal that saves itself · client project",
+    role: "Full-stack engineer · client project",
+    category: "Next.js 16 · Supabase",
+    filter: "Web",
+    industry: "health",
+    description:
+      "A client project: three short lessons anyone can read, and a private journal that saves as you type and that only its writer can read. No streaks, reminders or tracking.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-1-overview.jpg",
+    accent: "from-green-600 to-emerald-800",
+    stats: [
+      { k: "Lessons", v: "3" },
+      { k: "Entries", v: "Owner-only" },
+      { k: "Export", v: ".txt" },
+    ],
+    tags: ["Next.js", "React 19", "TypeScript", "Supabase", "Tailwind CSS"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/gentler" }],
+    video: {
+      src: "/video/gentler-v1.mp4",
+      poster: "/video/gentler-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: a lesson, writing with autosave, the journal, display settings and the account page.",
+      duration: "PT2M12S",
+      uploadDate: "2026-10-22",
+    },
+    gallery: gallery(
+      "GentleR",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-3-screens.jpg"
+    ),
+  },
+  {
+    title: "Royal Malt",
+    tagline: "Cinematic launch site for an alcohol-free malt drink · client project",
+    role: "Front-end engineer · client project",
+    category: "TanStack Start · React 19",
+    filter: "Web",
+    industry: "food-hospitality",
+    description:
+      "A client project: a one-page launch site for an alcohol-free vanilla malt drink, with a product film, the brand story, trade specs and a distributor enquiry form, prerendered for shared hosting.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-1-overview.jpg",
+    accent: "from-yellow-500 to-amber-700",
+    stats: [
+      { k: "Output", v: "Static HTML" },
+      { k: "Audience", v: "Buyers + trade" },
+      { k: "Styling", v: "Tailwind v4" },
+    ],
+    tags: ["TanStack Start", "React", "TypeScript", "Tailwind CSS", "Vite"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/royalmalt" }],
+    video: {
+      src: "/video/royalmalt-v1.mp4",
+      poster: "/video/royalmalt-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: the film intro and launch hero, the product story and ingredients, trade specs and gallery, a partnership enquiry and the FAQ.",
+      duration: "PT1M29S",
+      uploadDate: "2026-11-02",
+    },
+    gallery: gallery(
+      "Royal Malt",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-3-screens.jpg"
+    ),
+  },
+  {
+    title: "Mint Choc Media",
+    tagline: "Landing page for a London social-first creative studio · client project",
+    role: "Front-end engineer · client project",
+    category: "React 18 · Vite · Motion",
+    filter: "Web",
+    industry: "media",
+    description:
+      "A client project: a one-page site for a London creative studio, with four services served as flavours, a campaign reel and a brief form at the end, set in the brand's own typefaces.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-1-overview.jpg",
+    accent: "from-green-400 to-emerald-700",
+    stats: [
+      { k: "Services", v: "4" },
+      { k: "Goal", v: "A brief" },
+      { k: "Fonts", v: "Self-hosted" },
+    ],
+    tags: ["React", "Vite", "Tailwind CSS", "Motion", "TypeScript"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/mintchoc" }],
+    video: {
+      src: "/video/mintchoc-v1.mp4",
+      poster: "/video/mintchoc-v1-poster.jpg",
+      caption:
+        "1¼-minute walkthrough: the hero, the four services, the founder, the campaign reel, results, client quotes and a campaign brief.",
+      duration: "PT1M17S",
+      uploadDate: "2026-11-02",
+    },
+    gallery: gallery(
+      "Mint Choc Media",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────
@@ -657,6 +913,7 @@ export const moreProjects = [
     role: "Full-stack engineer · direct client",
     category: "Flutter · NestJS · Next.js",
     filter: "AI",
+    industry: "media",
     description:
       "AI storytelling app that reads personalized stories in the listener's own cloned voice. For a direct client, I built the Flutter app, the NestJS backend, the Next.js admin and landing page, and the deploy pipeline. Live on the App Store since June 2026.",
     image: "",
@@ -676,6 +933,7 @@ export const moreProjects = [
     role: "Full-stack engineer · demo build",
     category: "Next.js 16 · Supabase · Stripe",
     filter: "Web",
+    industry: "education",
     description:
       "Demo build with sample data: a subscription study platform for the MPJE pharmacy law exam, with state-by-state practice questions and readiness tracking.",
     image:
@@ -709,6 +967,7 @@ export const moreProjects = [
     role: "Full-stack engineer · demo build",
     category: "React · Supabase · Offline PWA",
     filter: "Platforms",
+    industry: "real-estate",
     description:
       "Demo build with sample data: an offline-first surveyor app for RICS home surveys, plus an admin portal where the firm controls wording, templates and team.",
     image:
@@ -742,6 +1001,7 @@ export const moreProjects = [
     role: "Full-stack engineer · proof of concept",
     category: "React · MediaPipe · WebGL2",
     filter: "AI",
+    industry: "health",
     description:
       "Proof of concept for aesthetic clinics: the phone camera tracks the face and reshapes the lips live, so a patient can preview filler styles before treatment.",
     image:
@@ -769,10 +1029,46 @@ export const moreProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/ar-lip-filler-3-screens.jpg"
     ),
   },
+  // A proof of concept built for a client (confirmed 2026-11-02).
+  {
+    title: "CAD Interior Studio",
+    tagline: "A CAD/BIM file becomes a walkable 3D home, furnished from a real catalog · proof of concept for a client",
+    role: "Full-stack engineer · proof of concept for a client",
+    category: "Next.js 15 · React Three Fiber · web-ifc",
+    filter: "Web",
+    industry: "real-estate",
+    description:
+      "Proof of concept for a client: an architect's IFC or GLB file becomes a walkable 3D home in the browser, furnished from a real product catalog. Nothing is uploaded.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-1-overview.jpg",
+    accent: "from-blue-400 to-sky-600",
+    stats: [
+      { k: "Files", v: "IFC · GLB" },
+      { k: "Runs in", v: "Browser" },
+      { k: "Stage", v: "Proof of concept" },
+    ],
+    tags: ["Next.js", "React Three Fiber", "three.js", "web-ifc", "Zustand"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/studio" }],
+    video: {
+      src: "/video/studio-v1.mp4",
+      poster: "/video/studio-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: the sample apartment, furnishing from the catalog, AI concepts, auto-style, a walkthrough and a real IFC file.",
+      duration: "PT1M37S",
+      uploadDate: "2026-11-02",
+    },
+    gallery: gallery(
+      "CAD Interior Studio",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-3-screens.jpg"
+    ),
+  },
   {
     title: "FinTech Mobile App",
     category: "React Native · Node.js",
     filter: "Mobile",
+    industry: "legal-finance",
     description:
       "Cross-platform banking app: secure APIs and real-time transaction handling on a Node.js backend. No public link.",
     image:
@@ -788,6 +1084,7 @@ export const moreProjects = [
     title: "AI E-Commerce Ecosystem",
     category: "Next.js · Microservices",
     filter: "AI",
+    industry: "marketplaces",
     description:
       "Multi-vendor marketplace with AI-driven recommendations on Docker/K8s microservices.",
     image:
@@ -804,6 +1101,7 @@ export const moreProjects = [
     role: "Backend engineer · Zencloud",
     category: "Node.js · AI",
     filter: "AI",
+    industry: "travel",
     description:
       "Flight-transfer risk check built at Zencloud: Duffel API flight data plus heuristics that flag risky connections before booking. Live in got2.travel.",
     image:
@@ -821,6 +1119,7 @@ export const moreProjects = [
     role: "Full-stack engineer · Fleact Tech",
     category: "Next.js · Firebase",
     filter: "Web",
+    industry: "food-hospitality",
     description:
       "Café website with server rendering, an interactive menu and ordering, built while I was at Fleact Tech. Scores 95 on Lighthouse.",
     image:
@@ -837,6 +1136,7 @@ export const moreProjects = [
     title: "Augment Fit",
     category: "React · TypeScript · Supabase",
     filter: "Web",
+    industry: "fitness",
     description:
       "Fitness-management admin panel connecting trainers and users, with BMI tracking and workout plans.",
     image:
@@ -854,6 +1154,7 @@ export const moreProjects = [
     role: "Backend lead · Webrange Solutions",
     category: "Node.js · Firebase · Stripe",
     filter: "Mobile",
+    industry: "marketplaces",
     description:
       "Backend for a subscription pet-care marketplace behind a Flutter app, built at Webrange: credit management, Stripe subscriptions, push notifications and AWS deployment.",
     image:
@@ -871,6 +1172,7 @@ export const moreProjects = [
     role: "Frontend engineer · Webrange Solutions",
     category: "React.js Frontend",
     filter: "E-Commerce",
+    industry: "marketplaces",
     description:
       "React e-commerce storefront and admin, built at Webrange with modular components and React Hook Form + Zod for product management.",
     image:
@@ -889,6 +1191,7 @@ export const moreProjects = [
     role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · AWS Lambda",
     filter: "Mobile",
+    industry: "food-hospitality",
     description:
       "Food-truck discovery with live location tracking, vendor profiles and a React admin dashboard. I worked on the existing customer and vendor apps at Zencloud.",
     image: "",
@@ -907,6 +1210,7 @@ export const moreProjects = [
     title: "CEDMAT Roller Shutter",
     category: "React Native · AWS",
     filter: "Mobile",
+    industry: "workforce",
     description:
       "Field app for roller-shutter installers: motor calibration, compliance documents and search.",
     image:
@@ -923,6 +1227,7 @@ export const moreProjects = [
     title: "AI Art Stylization",
     category: "FastAPI · Stable Diffusion",
     filter: "AI",
+    industry: "media",
     description:
       "AI image-stylization system using Stable Diffusion and SAM with real-time segmentation.",
     image: "",
@@ -937,6 +1242,7 @@ export const moreProjects = [
     title: "Predictive Analytics",
     category: "MERN · Machine Learning",
     filter: "AI",
+    industry: "legal-finance",
     description:
       "Analytics dashboard visualizing large datasets, with ML models for market prediction.",
     image: "",
@@ -951,6 +1257,7 @@ export const moreProjects = [
     title: "AgroBridge",
     category: "React Native · Firebase",
     filter: "Mobile",
+    industry: "marketplaces",
     description:
       "Agricultural marketplace with real-time data sync, file uploads and swipe-based interactions.",
     image: "",
@@ -962,6 +1269,24 @@ export const moreProjects = [
     tags: ["React Native", "Firebase"],
   },
 ];
+
+// Industries, so a visitor can find work in their own field. Every project
+// carries one as `industry` (a slug below); the cards, the /work filter and
+// the case study's spec panel show its label. Same list as thedevorax.tech.
+export const industries = [
+  { slug: "real-estate", label: "Real Estate & Construction" },
+  { slug: "marketplaces", label: "Marketplaces & E-Commerce" },
+  { slug: "food-hospitality", label: "Food & Hospitality" },
+  { slug: "education", label: "Education" },
+  { slug: "media", label: "Media, Marketing & Creators" },
+  { slug: "legal-finance", label: "Legal, Finance & Web3" },
+  { slug: "health", label: "Health & Wellbeing" },
+  { slug: "fitness", label: "Fitness & Sport" },
+  { slug: "workforce", label: "Field & Workforce" },
+  { slug: "travel", label: "Travel" },
+];
+
+export const industryLabel = (slug) => industries.find((i) => i.slug === slug)?.label;
 
 export const projectFilters = [
   "All",

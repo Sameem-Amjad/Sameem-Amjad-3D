@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { projectFilters, slugify } from "../constants";
+import { projectFilters, slugify, industries, industryLabel } from "../constants";
 import { LiveLinks, Icon, SmartImage, cn } from "./shared";
 
 /* image with shimmer skeleton while loading + graceful gradient fallback */
@@ -97,6 +97,9 @@ export const FeaturedCard = ({ p, i }) => (
 
     <div className="flex flex-1 flex-col gap-4 p-6">
       <div>
+        {p.industry && (
+          <p className="mb-1 font-mono text-[10px] uppercase tracking-wide text-acid">{industryLabel(p.industry)}</p>
+        )}
         <h3 className="font-display text-2xl font-bold text-ink transition-colors group-hover:text-acid">
           {p.title}
         </h3>
@@ -142,6 +145,9 @@ export const GridCard = ({ p, eager = false }) => (
       <div>
         <h3 className="font-display text-lg font-bold text-ink transition-colors group-hover:text-acid">{p.title}</h3>
         <p className="font-mono text-[11px] text-faint">{p.category}</p>
+        {p.industry && (
+          <p className="mt-0.5 font-mono text-[10px] uppercase tracking-wide text-acid">{industryLabel(p.industry)}</p>
+        )}
       </div>
       <p className="text-sm leading-relaxed text-muted line-clamp-2">{p.description}</p>
       <StatRow stats={p.stats} />
@@ -160,6 +166,76 @@ export const FeaturedGrid = ({ items }) => (
     ))}
   </div>
 );
+
+/* ── Featured grid with industry chips (/work) ──
+   A visitor looks for work in their own field first. The chips list only the
+   industries that have a case study here; with one chosen, the builds from
+   /builds in that industry are linked under the grid, so nothing in it is
+   hidden. Every card is in the prerendered HTML, and the choice is kept in
+   ?industry= so a filtered view can be linked to; a case study's industry
+   row links here. Changing only the query neither remounts the route nor
+   scrolls (App keys both on the pathname). */
+export const IndustryGrid = ({ items, builds = [] }) => {
+  const [params, setParams] = useSearchParams();
+  const wanted = params.get("industry");
+  const active = industries.some((i) => i.slug === wanted) ? wanted : "all";
+
+  const choose = (slug) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (slug === "all") next.delete("industry");
+        else next.set("industry", slug);
+        return next;
+      },
+      { replace: true }
+    );
+
+  const count = (slug) => items.filter((p) => p.industry === slug).length;
+  const chips = [
+    { slug: "all", label: "All", n: items.length },
+    ...industries.filter((i) => count(i.slug) > 0).map((i) => ({ ...i, n: count(i.slug) })),
+  ];
+  const shown = active === "all" ? items : items.filter((p) => p.industry === active);
+  const related = active === "all" ? [] : builds.filter((p) => p.industry === active);
+
+  return (
+    <div>
+      <div role="group" aria-label="Filter case studies by industry" className="mb-8 flex flex-wrap gap-2">
+        {chips.map((c) => (
+          <button key={c.slug} type="button" onClick={() => choose(c.slug)} aria-pressed={active === c.slug} data-cursor="button"
+            className={cn(
+              "inline-flex min-h-[40px] items-center gap-2 rounded-full border px-4 py-2 font-mono text-xs uppercase tracking-wide transition-all",
+              active === c.slug
+                ? "border-acid bg-acid text-night"
+                : "border-line text-muted hover:border-acid hover:text-acid"
+            )}>
+            {c.label}
+            <span className={active === c.slug ? "text-night/60" : "text-faint"}>{c.n}</span>
+          </button>
+        ))}
+      </div>
+      {shown.length > 0 ? (
+        <FeaturedGrid items={shown} />
+      ) : (
+        <p className="font-mono text-sm text-muted">No case studies in {industryLabel(active)} yet.</p>
+      )}
+      {related.length > 0 && (
+        <p className="mt-8 font-mono text-xs uppercase tracking-wide text-muted">
+          Also in {industryLabel(active)}:{" "}
+          {related.map((p, i) => (
+            <span key={p.title}>
+              {i > 0 && " · "}
+              <Link to={`/work/${slugify(p.title)}`} data-cursor="button" className="text-acid underline-offset-4 hover:underline">
+                {p.title}
+              </Link>
+            </span>
+          ))}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export const BuildsGrid = ({ items }) => {
   const [active, setActive] = useState("All");

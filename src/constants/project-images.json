@@ -461,6 +461,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/bevyirie-1-overview-480.a4969a66.webp"
+      ],
+      [
+        800,
+        "/img/work/bevyirie-1-overview-800.716a83b2.webp"
+      ],
+      [
+        1200,
+        "/img/work/bevyirie-1-overview-1200.b0cb6922.webp"
+      ],
+      [
+        1600,
+        "/img/work/bevyirie-1-overview-1600.c5f05905.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/bevyirie-2-spotlight-480.53777040.webp"
+      ],
+      [
+        800,
+        "/img/work/bevyirie-2-spotlight-800.8292a6de.webp"
+      ],
+      [
+        1200,
+        "/img/work/bevyirie-2-spotlight-1200.83e793eb.webp"
+      ],
+      [
+        1600,
+        "/img/work/bevyirie-2-spotlight-1600.75ea11bd.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/bevyirie-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/bevyirie-3-screens-480.860ecd7f.webp"
+      ],
+      [
+        800,
+        "/img/work/bevyirie-3-screens-800.37e45d49.webp"
+      ],
+      [
+        1200,
+        "/img/work/bevyirie-3-screens-1200.a85c0b57.webp"
+      ],
+      [
+        1600,
+        "/img/work/bevyirie-3-screens-1600.61fa4453.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
@@ -593,6 +659,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/expertprofile-1-overview-480.783cd0b9.webp"
+      ],
+      [
+        800,
+        "/img/work/expertprofile-1-overview-800.1ca954ba.webp"
+      ],
+      [
+        1200,
+        "/img/work/expertprofile-1-overview-1200.64fec4af.webp"
+      ],
+      [
+        1600,
+        "/img/work/expertprofile-1-overview-1600.e07ebefa.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/expertprofile-2-spotlight-480.5dae24d5.webp"
+      ],
+      [
+        800,
+        "/img/work/expertprofile-2-spotlight-800.a2b0cf4e.webp"
+      ],
+      [
+        1200,
+        "/img/work/expertprofile-2-spotlight-1200.2ca8e43b.webp"
+      ],
+      [
+        1600,
+        "/img/work/expertprofile-2-spotlight-1600.1548b926.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/expertprofile-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/expertprofile-3-screens-480.836b23e6.webp"
+      ],
+      [
+        800,
+        "/img/work/expertprofile-3-screens-800.55642107.webp"
+      ],
+      [
+        1200,
+        "/img/work/expertprofile-3-screens-1200.553633ce.webp"
+      ],
+      [
+        1600,
+        "/img/work/expertprofile-3-screens-1600.d8b70dec.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/firstpass-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
@@ -656,6 +788,72 @@
       [
         1600,
         "/img/work/firstpass-3-screens-1600.e3b81abb.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/gentler-1-overview-480.95416682.webp"
+      ],
+      [
+        800,
+        "/img/work/gentler-1-overview-800.cbff3dc7.webp"
+      ],
+      [
+        1200,
+        "/img/work/gentler-1-overview-1200.cf70ae6a.webp"
+      ],
+      [
+        1600,
+        "/img/work/gentler-1-overview-1600.ab002971.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/gentler-2-spotlight-480.3eeefc61.webp"
+      ],
+      [
+        800,
+        "/img/work/gentler-2-spotlight-800.93b9f29d.webp"
+      ],
+      [
+        1200,
+        "/img/work/gentler-2-spotlight-1200.c0a26835.webp"
+      ],
+      [
+        1600,
+        "/img/work/gentler-2-spotlight-1600.ad0160d3.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/gentler-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/gentler-3-screens-480.560b88f2.webp"
+      ],
+      [
+        800,
+        "/img/work/gentler-3-screens-800.75d601f5.webp"
+      ],
+      [
+        1200,
+        "/img/work/gentler-3-screens-1200.f77c9001.webp"
+      ],
+      [
+        1600,
+        "/img/work/gentler-3-screens-1600.c2730f12.webp"
       ]
     ]
   },
@@ -725,6 +923,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/mintchoc-1-overview-480.c02655b9.webp"
+      ],
+      [
+        800,
+        "/img/work/mintchoc-1-overview-800.08aeadc1.webp"
+      ],
+      [
+        1200,
+        "/img/work/mintchoc-1-overview-1200.36816bd2.webp"
+      ],
+      [
+        1600,
+        "/img/work/mintchoc-1-overview-1600.e581ddcf.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/mintchoc-2-spotlight-480.c8f92bd7.webp"
+      ],
+      [
+        800,
+        "/img/work/mintchoc-2-spotlight-800.ad738ab3.webp"
+      ],
+      [
+        1200,
+        "/img/work/mintchoc-2-spotlight-1200.b2704913.webp"
+      ],
+      [
+        1600,
+        "/img/work/mintchoc-2-spotlight-1600.4f2d5fbc.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/mintchoc-3-screens-480.432caa3c.webp"
+      ],
+      [
+        800,
+        "/img/work/mintchoc-3-screens-800.996a34d9.webp"
+      ],
+      [
+        1200,
+        "/img/work/mintchoc-3-screens-1200.509098a0.webp"
+      ],
+      [
+        1600,
+        "/img/work/mintchoc-3-screens-1600.72972038.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/pianissimo-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
@@ -791,6 +1055,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/royalmalt-1-overview-480.e79cdeef.webp"
+      ],
+      [
+        800,
+        "/img/work/royalmalt-1-overview-800.7a9f6bd5.webp"
+      ],
+      [
+        1200,
+        "/img/work/royalmalt-1-overview-1200.e8a8508b.webp"
+      ],
+      [
+        1600,
+        "/img/work/royalmalt-1-overview-1600.3f5c5674.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/royalmalt-2-spotlight-480.7a87afd4.webp"
+      ],
+      [
+        800,
+        "/img/work/royalmalt-2-spotlight-800.d601ef06.webp"
+      ],
+      [
+        1200,
+        "/img/work/royalmalt-2-spotlight-1200.9e021c21.webp"
+      ],
+      [
+        1600,
+        "/img/work/royalmalt-2-spotlight-1600.7ddd1df9.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/royalmalt-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/royalmalt-3-screens-480.f966fd59.webp"
+      ],
+      [
+        800,
+        "/img/work/royalmalt-3-screens-800.3f7d07e7.webp"
+      ],
+      [
+        1200,
+        "/img/work/royalmalt-3-screens-1200.a137101c.webp"
+      ],
+      [
+        1600,
+        "/img/work/royalmalt-3-screens-1600.b065eb04.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/sitewrite-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
@@ -854,6 +1184,204 @@
       [
         1600,
         "/img/work/sitewrite-3-screens-1600.b4c51c61.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/solnotary-1-overview-480.77a37506.webp"
+      ],
+      [
+        800,
+        "/img/work/solnotary-1-overview-800.bdb0ca4c.webp"
+      ],
+      [
+        1200,
+        "/img/work/solnotary-1-overview-1200.85f4c6a1.webp"
+      ],
+      [
+        1600,
+        "/img/work/solnotary-1-overview-1600.623ed823.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/solnotary-2-spotlight-480.584ba230.webp"
+      ],
+      [
+        800,
+        "/img/work/solnotary-2-spotlight-800.2f5213ad.webp"
+      ],
+      [
+        1200,
+        "/img/work/solnotary-2-spotlight-1200.2f497516.webp"
+      ],
+      [
+        1600,
+        "/img/work/solnotary-2-spotlight-1600.8cb4dddf.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/solnotary-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/solnotary-3-screens-480.d31ff035.webp"
+      ],
+      [
+        800,
+        "/img/work/solnotary-3-screens-800.9822b4ec.webp"
+      ],
+      [
+        1200,
+        "/img/work/solnotary-3-screens-1200.2867a180.webp"
+      ],
+      [
+        1600,
+        "/img/work/solnotary-3-screens-1600.89d77980.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/steamblast-1-overview-480.7f291f8a.webp"
+      ],
+      [
+        800,
+        "/img/work/steamblast-1-overview-800.637c6627.webp"
+      ],
+      [
+        1200,
+        "/img/work/steamblast-1-overview-1200.634afb20.webp"
+      ],
+      [
+        1600,
+        "/img/work/steamblast-1-overview-1600.cbc723ca.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/steamblast-2-spotlight-480.dc80e8bd.webp"
+      ],
+      [
+        800,
+        "/img/work/steamblast-2-spotlight-800.07087959.webp"
+      ],
+      [
+        1200,
+        "/img/work/steamblast-2-spotlight-1200.54856356.webp"
+      ],
+      [
+        1600,
+        "/img/work/steamblast-2-spotlight-1600.5a3e7eb6.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/steamblast-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/steamblast-3-screens-480.eb87995a.webp"
+      ],
+      [
+        800,
+        "/img/work/steamblast-3-screens-800.93a1e89e.webp"
+      ],
+      [
+        1200,
+        "/img/work/steamblast-3-screens-1200.faf2efef.webp"
+      ],
+      [
+        1600,
+        "/img/work/steamblast-3-screens-1600.9a8c43ee.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/studio-1-overview-480.9be1de3d.webp"
+      ],
+      [
+        800,
+        "/img/work/studio-1-overview-800.5865d71a.webp"
+      ],
+      [
+        1200,
+        "/img/work/studio-1-overview-1200.5ab9c8c2.webp"
+      ],
+      [
+        1600,
+        "/img/work/studio-1-overview-1600.4228c9ce.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/studio-2-spotlight-480.b1d9bbda.webp"
+      ],
+      [
+        800,
+        "/img/work/studio-2-spotlight-800.4657e71b.webp"
+      ],
+      [
+        1200,
+        "/img/work/studio-2-spotlight-1200.e569f476.webp"
+      ],
+      [
+        1600,
+        "/img/work/studio-2-spotlight-1600.4bfaf06d.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/studio-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/studio-3-screens-480.4da35fe5.webp"
+      ],
+      [
+        800,
+        "/img/work/studio-3-screens-800.16d28909.webp"
+      ],
+      [
+        1200,
+        "/img/work/studio-3-screens-1200.3e813e1d.webp"
+      ],
+      [
+        1600,
+        "/img/work/studio-3-screens-1600.93c00ca8.webp"
       ]
     ]
   },

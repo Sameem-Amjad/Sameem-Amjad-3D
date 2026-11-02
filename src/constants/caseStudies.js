@@ -358,4 +358,146 @@ export const caseStudies = {
     results:
       "This is a proof of concept, not a clinic's product. The live demo needs no login and works best on a phone, once you allow camera access. The 90-second video above was recorded with an AI-generated face of a person who does not exist.",
   },
+
+  // Added 2026-11-02 from each demo's own description (the demo hub). Client
+  // projects say so; none names a platform, a person or a figure the demo
+  // does not show.
+  "bevy-irie": {
+    overview:
+      "A website for Bevy Irie, a Lagos property-management company whose clients are landlords living abroad. It explains the services, shows how the company works and turns visits into enquiries, and a private dashboard shows the owner where visitors come from.",
+    problem:
+      "Landlords abroad hand their property, rent and tenants to a company they may never meet, so the website has to earn that trust on its own: clear services, a visible process, proof from other landlords and an easy way to reach a person. The owner also wanted to see where visitors come from, without an analytics subscription and without collecting personal data.",
+    approach:
+      "Next.js 16 and React 19 render every page on the server, with structured data and a sitemap for search. The contact form is checked with Zod in the browser and again on the server. Page views go to Upstash Redis through a small tracking route that stores no IP addresses, and the owner reads them on a dashboard behind a passcode.",
+    features: [
+      { title: "Services and process", detail: "Ten services, each with what's included and a way to enquire, plus a five-step onboarding process, compliance standards and an FAQ." },
+      { title: "Guides for landlords abroad", detail: "Six in-depth guides, with structured data, a sitemap and social images." },
+      { title: "Enquiries", detail: "A contact form checked in the browser and on the server, with an automatic reply, and WhatsApp and phone on every page." },
+      { title: "Private analytics", detail: "An owner dashboard of views, visitors, countries, pages, devices and sources, with no IP addresses stored." },
+      { title: "Consent", detail: "A cookie choice that stops page-view tracking entirely when declined, and support for reduced motion." },
+    ],
+    results:
+      "Bevy Irie is a client project. The live demo runs a separate copy: the website and the owner dashboard, which starts with two weeks of sample visits, and a contact form that checks every field but sends nothing. The 2-minute video above walks through both.",
+  },
+  "steamblast-arena": {
+    overview:
+      "A multiplayer web game for children aged 5 to 12. Players move through a maze and spray water to turn each other into steam, and a steamed player answers a maths or literacy question to get back in.",
+    problem:
+      "Revision drills feel like homework, and most learning games are single-player quizzes with a game skin. The client wanted a multiplayer game children want to play, where answering questions is the way back into the action, with premium extras for families and class tools for schools in Hong Kong.",
+    approach:
+      "The game runs in Phaser 3 inside a React 18 shell and installs as a PWA. Each match runs on a Node.js server over Socket.IO, ten times a second, so every screen sees the same game and the browser only sends inputs. Sequelize keeps accounts, classes, questions and results, and an admin panel manages the question banks.",
+    features: [
+      { title: "Real-time matches", detail: "2–8 players per match, run on the server so every screen agrees." },
+      { title: "The Chamber", detail: "A steamed player answers a question at their level to respawn, with a shield, a speed bonus for quick answers and streaks." },
+      { title: "Bots", detail: "Bots fill the match when nobody else is online: they dodge water, chase power-ups and line up their shots." },
+      { title: "Question banks", detail: "Maths and literacy for ages 5–7, 7–9 and 9–12, managed in the admin panel." },
+      { title: "Teachers and parents", detail: "Classes with join codes and per-student accuracy, and a parent portal with recent games and a daily time limit the server enforces." },
+      { title: "Premium", detail: "Extra water, a custom avatar and a weekly cosmetics shop paid for with coins earned in play." },
+    ],
+    results:
+      "SteamBlast Arena is a client project. The live demo runs a separate copy where anyone can press Play and battle bots straight away, with payments and email switched off. The 2½-minute video above shows a round, the Chamber, the shop, the parent portal, the teacher dashboard and the admin panel.",
+  },
+  "expertprofile-ai": {
+    overview:
+      "An editorial website that publishes lists of verified experts in fintech, crypto, technology and AI visibility, run entirely from a no-code CMS.",
+    problem:
+      "When people ask an AI assistant or a search engine who the experts are on a topic, the answer depends on what public sources say, and those are often thin, outdated or wrong. Experts have no trustworthy, well-structured page that vouches for them, and the editorial team needs to publish and maintain one without a developer.",
+    approach:
+      "Next.js 16 generates the pages ahead of time and refreshes each one the moment an editor publishes, so readers get static pages and editors see their change within seconds. Supabase holds the content, sign-in and images, with row-level security on every table, and each article carries JSON-LD and a sitemap entry.",
+    features: [
+      { title: "Recognition articles", detail: "One template: topic, date, geography, introduction, 8–15 expert cards and the methodology." },
+      { title: "Expert cards", detail: "Role, organisation, reason for inclusion, public links and the date the information was checked." },
+      { title: "Expert Hub", detail: "Category tabs with counts, featured people and search." },
+      { title: "Requests", detail: "AI Profile Audit requests, nominations and corrections land in the editors' inbox." },
+      { title: "No-code CMS", detail: "Articles, experts, categories, events, pages, the inbox, newsletter subscribers and team roles." },
+    ],
+    results:
+      "ExpertProfile.AI is a client project. The live demo runs a separate copy with sample experts and articles: publish the draft list in the CMS and it appears on the site within seconds. The 2½-minute video above walks through the website and the CMS.",
+  },
+  solnotary: {
+    overview:
+      "A web app that proves what someone knew, and when. It seals a text by writing only its hash to Solana, then publishes the text for an exact crypto payment, on a page anyone can verify.",
+    problem:
+      "Predictions, sealed bids and ideas are only worth something if you can prove later that they came first, without giving them away early. Screenshots and emails can be faked, and posting the text publicly reveals it. The client wanted a commitment that a public blockchain can vouch for, fast and cheap, with publishing as the paid step.",
+    approach:
+      "Next.js 16 with Solana web3.js. Sign-in is a wallet signature checked on the server. The server hashes the text, a live BTC, ETH and SOL price snapshot and a secret salt with SHA-256 and writes only the hash to Solana as a memo transaction. Supabase keeps the records behind row-level security, so a sealed text can't be read with the public key.",
+    features: [
+      { title: "Wallet sign-in", detail: "A one-time challenge signed by the wallet and checked with ed25519; no passwords or email." },
+      { title: "Sealed on-chain", detail: "Only the hash goes on Solana, as a memo transaction confirmed in seconds." },
+      { title: "Paid reveal", detail: "An exact payment in SOL, USDC or USDT with a reference memo publishes the text." },
+      { title: "Verify in the browser", detail: "Public pages reveal the text and salt and recompute the hash in the visitor's own browser." },
+      { title: "Admin overview", detail: "Every record and payment, read-only, without ever showing sealed text." },
+    ],
+    results:
+      "SolNotary is a client project. The live demo runs on Solana devnet: every transaction is real and opens in Solana Explorer, but it uses test SOL with no value. A hash on a blockchain shows a text existed at a time; it is not a legal notarization. The 2-minute video above shows a verified record, a new notarization and the admin overview.",
+  },
+  gentler: {
+    overview:
+      "A small, calm web app for adults: three short lessons anyone can read, and a private journal that saves itself as you type.",
+    problem:
+      "Most wellbeing apps push streaks, reminders and progress bars, and many quietly track what people write. Someone who just wants a quiet place to read a little and write privately ends up with another app that nags them and doesn't feel private.",
+    approach:
+      "Next.js 16 and React 19 over Supabase Auth and Postgres. Row-level security means each entry can only ever be read by the person who wrote it, and every save carries a revision number, so an entry changed in another tab is flagged instead of overwritten. There is no admin console, by design.",
+    features: [
+      { title: "Open lessons", detail: "Three short lessons, each with a teaching, one small optional action, its sources and reflection prompts." },
+      { title: "Honest autosave", detail: "The journal saves as you type and only says Saved once the server has confirmed it." },
+      { title: "No lost edits", detail: "Revision numbers flag an entry changed in another tab instead of overwriting it." },
+      { title: "Yours to keep or delete", detail: "Export everything as one .txt file, or delete the account with every entry." },
+      { title: "Calm by design", detail: "No timers, streaks, reminders or tracking; larger text, reduced motion and an evening theme." },
+    ],
+    results:
+      "GentleR is a client project, and not a medical or therapy product. The live demo runs a separate copy: the lessons are open to anyone, and the live demo page lists shared journal accounts. The 2-minute video above shows a lesson, autosave, the journal, display settings and the account page.",
+  },
+  "royal-malt": {
+    overview:
+      "A one-page launch site for Royal Malt Vanilla, an alcohol-free malt drink, written for customers and for the trade buyers who might distribute it.",
+    problem:
+      "A new drink brand needed a launch site that felt as premium as its packaging, spoke to consumers and trade buyers alike, and could run on the client's existing cPanel shared hosting, which has no Node.js.",
+    approach:
+      "Built with TanStack Start and React 19, then prerendered to plain HTML with a sitemap, a social preview image and cache rules, so it runs on any shared host with no server runtime. Tailwind CSS v4 handles the layouts from phones to wide screens.",
+    features: [
+      { title: "Film-first opening", detail: "A video intro, a launch hero with the campaign poster and a short brand film." },
+      { title: "Quick-scan story", detail: "The brand story, its benefits, six ingredients and lifestyle moments." },
+      { title: "For the trade", detail: "Trade specifications and a gallery of the can, shrink pack and retail carton." },
+      { title: "Enquiries", detail: "A partnership enquiry form and a newsletter signup that validate and confirm on the page." },
+      { title: "Runs anywhere", detail: "Prerendered to static files, so it needs nothing but a web host." },
+    ],
+    results:
+      "Royal Malt is a client project. The live demo runs a separate copy where the forms validate and confirm but send nothing. The 1½-minute video above walks through the film intro, the product story, the trade specs and a partnership enquiry.",
+  },
+  "mint-choc-media": {
+    overview:
+      "A one-page site for Mint Choc Media, a London social-first creative studio that pairs creative (the mint) with strategy (the choc), built so every section leads towards a campaign brief.",
+    problem:
+      "The studio needed a site as bold as its brand: playful but credible, quick to read on a phone, and set in its own typefaces. Every section had to lead a visitor towards sending a brief.",
+    approach:
+      "React 18 on Vite, with Tailwind CSS v4 and Motion for the animation. The brand's Aileron and Dunbar typefaces are self-hosted, so the headings render in the brand's own type on every device, and the layouts hold from phones to wide screens with no sideways scroll.",
+    features: [
+      { title: "Hero", detail: "Floating campaign cards and a scroll progress bar in the brand green." },
+      { title: "Services as flavours", detail: "Four services, each with what's included." },
+      { title: "Proof", detail: "The founder, a rolling campaign reel and results that count up as they come into view." },
+      { title: "Client quotes", detail: "Rotating quotes with dot controls." },
+      { title: "Brief form", detail: "Validates, confirms on the page and clears itself for the next one." },
+    ],
+    results:
+      "Mint Choc Media is a client project. The live demo runs a separate copy where the brief form validates and confirms but sends nothing; the results and quotes on it are the studio's own content. The 1¼-minute video above walks through the page.",
+  },
+  "cad-interior-studio": {
+    overview:
+      "A proof of concept for an interior-design and quotation platform: an architect's IFC or GLB file becomes a 3D building in the browser, room by room, that customers walk through and furnish from a real product catalog.",
+    problem:
+      "Home buyers struggle to picture a space from drawings, and design firms lose time turning ideas into quotes. The client wanted customers to design their own interiors in 3D from the real building files, with every item a catalog product a quotation can be built from, and AI used for inspiration without ever passing a picture off as something you can buy.",
+    approach:
+      "Next.js 15 and React 19 with React Three Fiber on three.js. web-ifc, compiled to WebAssembly, parses the building file in the browser and splits it into rooms, so the file is never uploaded. Zustand holds the design, and zundo gives it undo and redo.",
+    features: [
+      { title: "From CAD to rooms", detail: "IFC and GLB files parsed in the browser and split into rooms." },
+      { title: "Walk through it", detail: "An orbit view and an eye-height walkthrough with the keyboard." },
+      { title: "Furnish from the catalog", detail: "Click-and-place catalog furniture with collision checks, drag, rotate, floor and wall finishes, undo and redo." },
+      { title: "AI kept apart", detail: "Style concepts sit apart from the buildable design and are labelled as inspiration." },
+      { title: "Auto-style", detail: "Refurnishes a room using only catalog products, as a single undo step." },
+      { title: "Before and after", detail: "A before-and-after result with a 2× export, and designs saved in the browser." },
+    ],
+    results:
+      "This is a proof of concept built for a client, not a live product: it has no database and no logins. The live demo opens on a sample apartment and can load a real IFC file; it has no AI keys, so its concept images are labelled demo renders. The 1½-minute video above shows furnishing, concepts, auto-style and a walkthrough.",
+  },
 };

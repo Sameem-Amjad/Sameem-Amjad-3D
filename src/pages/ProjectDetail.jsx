@@ -7,6 +7,7 @@ import {
   slugify,
   profile,
   links,
+  industryLabel,
 } from "../constants";
 import { servicesForProject } from "../constants/services";
 import { guidesForServices } from "../constants/guides";
@@ -246,6 +247,16 @@ const ProjectDetail = () => {
                     Engineer" beside them claimed otherwise. */}
                 <SpecRow label="role" value={project.role || "Full-stack engineer"} />
                 <SpecRow label="category" value={project.category} />
+                {project.industry && (
+                  <SpecRow
+                    label="industry"
+                    value={
+                      <Link to={`/work?industry=${project.industry}`} data-cursor="button" className="underline-offset-4 hover:text-acid hover:underline">
+                        {industryLabel(project.industry)}
+                      </Link>
+                    }
+                  />
+                )}
                 {platforms.length > 0 && <SpecRow label="platforms" value={platforms.join(" · ")} />}
                 {project.year && <SpecRow label="year" value={project.year} />}
                 <SpecRow label="discipline" value={project.filter} />

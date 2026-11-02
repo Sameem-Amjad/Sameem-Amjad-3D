@@ -3,7 +3,7 @@
    featuredProjects or moreProjects shows up here with no further work,
    the same way it lands in sitemap.xml and llms.txt. */
 
-import { allProjects, featuredProjects, slugify, links, profile, whatsappHref } from "./index";
+import { allProjects, featuredProjects, slugify, links, profile, whatsappHref, industryLabel } from "./index";
 import { servicePages } from "./services";
 import { guides } from "./guides";
 
@@ -57,7 +57,7 @@ export const buildCommands = () => {
       label: p.title,
       sub: p.tagline,
       to: `/work/${slugify(p.title)}`,
-      keywords: [p.category, p.filter, ...(p.tags || [])].filter(Boolean),
+      keywords: [p.category, p.filter, industryLabel(p.industry), ...(p.tags || [])].filter(Boolean),
     };
   });
 

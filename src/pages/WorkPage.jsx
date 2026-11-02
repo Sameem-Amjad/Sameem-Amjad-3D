@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { featuredProjects, moreProjects, links } from "../constants";
 import { PageTransition } from "../components/fx";
-import { FeaturedGrid } from "../components/projects";
+import { IndustryGrid } from "../components/projects";
 import { Icon, PrimaryButton, PageHeader, Reveal } from "../components/shared";
 
 const WorkPage = () => (
@@ -11,7 +11,7 @@ const WorkPage = () => (
         eyebrow={`~/work · ${featuredProjects.length} case studies`}
         title="Selected"
         accent="work."
-        lede="Web, mobile and AI products I have engineered, as a freelancer, at DevoraX and as an employee at other studios. Each card says which, and links the live app where there is one."
+        lede="Web, mobile and AI products I have engineered, as a freelancer, at DevoraX and as an employee at other studios. Each card says which, and links the live app or demo where there is one. Pick your industry to see the work closest to yours."
         right={
           <Link
             to="/builds"
@@ -28,7 +28,7 @@ const WorkPage = () => (
         {/* Cards inside the grid are h3s; without this the page steps h1 -> h3.
             sr-only because PageHeader above already carries the label visually. */}
         <h2 className="sr-only">Featured case studies</h2>
-        <FeaturedGrid items={featuredProjects} />
+        <IndustryGrid items={featuredProjects} builds={moreProjects} />
       </div>
 
       <Reveal delay={0.1}>
