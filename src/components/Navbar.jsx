@@ -116,7 +116,7 @@ const Navbar = () => {
           />
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-[15px] font-bold text-ink">{profile.name}</span>
-            <span className="font-mono text-[10px] text-faint">
+            <span className="font-medium text-[8px] text-faint">
               {profile.role} · {profile.company}
             </span>
           </span>
@@ -166,13 +166,13 @@ const Navbar = () => {
             <span className="hidden xl:inline">Search</span>
             <kbd className="kbd min-w-[2.9rem]">{mac ? "⌘K" : "Ctrl K"}</kbd>
           </button>
-          <span className="hidden items-center gap-1.5 border-r border-line pr-4 font-mono text-[10px] uppercase tracking-wider text-faint lg:flex">
+          {/* <span className="hidden items-center gap-1.5 border-r border-line pr-4 font-mono text-[10px] uppercase tracking-wider text-faint lg:flex">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-acid" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-acid" />
             </span>
             Available
-          </span>
+          </span> */}
           <PrimaryButton href={links.booking} icon="calendar" className="px-5 py-2.5">
             Book a call
           </PrimaryButton>
