@@ -904,6 +904,41 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-3-screens.jpg"
     ),
   },
+  // DevoraX client work (the owner's answer, 11 Nov 2026): no client named.
+  {
+    title: "Triagely",
+    tagline: "AI support triage and wholesale lead scoring for an online store · DevoraX client",
+    role: "AI engineer · DevoraX client",
+    category: "Python · Google Gemini",
+    filter: "AI",
+    industry: "marketplaces",
+    description:
+      "A DevoraX client project: a tool that sorts a store's customer messages, drafts replies from its own policy and tone, and scores wholesale leads hot, warm or cold. Nothing is ever sent.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-1-overview.jpg",
+    accent: "from-blue-500 to-indigo-600",
+    stats: [
+      { k: "Categories", v: "6" },
+      { k: "Leads", v: "Hot · warm · cold" },
+      { k: "Sending", v: "Never automatic" },
+    ],
+    tags: ["Python", "Google Gemini", "CSV", "Rules in code"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/triagely" }],
+    video: {
+      src: "/video/triagely-v1.mp4",
+      poster: "/video/triagely-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: the safety rules, the review page with its flagged drafts, the wholesale view and live scoring, how it works and the sample output.",
+      duration: "PT1M53S",
+      uploadDate: "2026-11-11",
+    },
+    gallery: gallery(
+      "Triagely",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────

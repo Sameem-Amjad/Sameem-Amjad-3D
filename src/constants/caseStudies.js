@@ -500,4 +500,22 @@ export const caseStudies = {
     results:
       "This is a proof of concept built for a client, not a live product: it has no database and no logins. The live demo opens on a sample apartment and can load a real IFC file; it has no AI keys, so its concept images are labelled demo renders. The 1½-minute video above shows furnishing, concepts, auto-style and a walkthrough.",
   },
+  // DevoraX client work (the owner's answer, 11 Nov 2026).
+  triagely: {
+    overview:
+      "A tool for a small online store: it reads an export of customer messages, sorts each one, drafts a reply in the store's own voice and scores the wholesale enquiries. Nothing is ever sent.",
+    problem:
+      "A small store's inbox mixes order questions, returns, complaints and the occasional bulk buyer, and the owner answers every one by hand. The valuable wholesale enquiries get buried, and an AI that replies on its own can promise a refund or claim an order has shipped when it hasn't.",
+    approach:
+      "A Python script sends each message to Google Gemini with the store's policy and sample replies, and gets back a category, a priority, the customer's mood, any quantity and company, and a draft. The script then decides: it checks the quantity and company are really in the message, scores leads by the owner's thresholds and tests every draft against the policy, before writing a review page and a CSV.",
+    features: [
+      { title: "Six categories, one priority", detail: "Order status, returns, product question, wholesale, complaint or other, each with a high, normal or low priority." },
+      { title: "Drafts in the store's voice", detail: "Written from a one-page policy and a few of the owner's own replies." },
+      { title: "Wholesale lead scoring", detail: "Hot, warm or cold by the owner's thresholds; a quantity or company the message doesn't contain is ignored." },
+      { title: "Rules that run in code", detail: "Refunds, angry customers, claimed order statuses, promises and quoted prices are flagged “check before sending”." },
+      { title: "Review page and CSV", detail: "A wholesale-only view and a copy button on every draft, with everything also saved to a CSV." },
+    ],
+    results:
+      "Triagely is DevoraX client work. The live demo shows the review page from one real run on 30 fictional messages, with a demo-only panel for trying the scoring rules; it makes no AI calls. The 2-minute video above walks through the safety rules, the review page, the wholesale view and the sample output.",
+  },
 };

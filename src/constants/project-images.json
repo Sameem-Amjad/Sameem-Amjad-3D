@@ -1385,6 +1385,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/triagely-1-overview-480.3548f5f9.webp"
+      ],
+      [
+        800,
+        "/img/work/triagely-1-overview-800.d285b8f6.webp"
+      ],
+      [
+        1200,
+        "/img/work/triagely-1-overview-1200.5820b246.webp"
+      ],
+      [
+        1600,
+        "/img/work/triagely-1-overview-1600.cbe7ec34.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/triagely-2-spotlight-480.0e085cc9.webp"
+      ],
+      [
+        800,
+        "/img/work/triagely-2-spotlight-800.171dcbef.webp"
+      ],
+      [
+        1200,
+        "/img/work/triagely-2-spotlight-1200.becde510.webp"
+      ],
+      [
+        1600,
+        "/img/work/triagely-2-spotlight-1600.67e9418a.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/triagely-3-screens-480.76a36799.webp"
+      ],
+      [
+        800,
+        "/img/work/triagely-3-screens-800.c6586c5e.webp"
+      ],
+      [
+        1200,
+        "/img/work/triagely-3-screens-1200.78a74914.webp"
+      ],
+      [
+        1600,
+        "/img/work/triagely-3-screens-1600.a887b351.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/voicedesk-1-overview.jpg": {
     "width": 2560,
     "height": 1538,

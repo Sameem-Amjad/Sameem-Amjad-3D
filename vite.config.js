@@ -27,7 +27,7 @@ import { guides } from "./src/constants/guides.js";
 // lastmod against the page's real modification history and, once a site is
 // caught restamping every URL on every deploy, it stops trusting the field
 // site-wide. A CSS tweak must not tell Google all 28 pages were rewritten.
-const CONTENT_REVISED = "2026-11-02";
+const CONTENT_REVISED = "2026-11-11";
 
 // The case study behind a /work/<slug> route, when it has a walkthrough.
 const videoProjectFor = (route) => {
