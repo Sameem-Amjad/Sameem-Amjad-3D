@@ -536,4 +536,22 @@ export const caseStudies = {
     results:
       "Tallyfile is DevoraX client work. The live demo is a real run on seven fictional invoices, four that pass, two that need review and a skipped scan, with the same checks running in the browser; it makes no AI calls. The 2-minute video above shows Pioneer Concrete's total that doesn't add up, and the fix the checker refuses.",
   },
+  // DevoraX client work, credited under the owner's standing instruction of 11 Nov 2026.
+  biscuit: {
+    overview:
+      "A chat assistant for a dog-grooming salon's website. Biscuit answers customers' questions from the salon's own FAQ, and points to the salon's email when it doesn't know.",
+    problem:
+      "A small salon gets the same questions all day, about prices, vaccines and walk-ins, and misses them in the evening. A general chatbot would happily invent a price or a policy, which is worse than no answer at all.",
+    approach:
+      "The widget calls a Vercel function, which sends the whole FAQ to Google Gemini with strict instructions: repeat the salon's details exactly, and reply with a fixed marker when the FAQ has no answer. The function turns that marker into a polite note with the salon's email, so an unknown question never becomes a guess.",
+    features: [
+      { title: "Answers from the FAQ", detail: "Gemini is told to repeat the salon's prices and policies exactly as the FAQ states them." },
+      { title: "A polite “not sure”", detail: "When the FAQ doesn't cover a question, the code swaps in a short note with the salon's email." },
+      { title: "Key on the server", detail: "A Vercel function holds the AI key, limits each visitor's rate and falls back to a second model when Gemini is busy." },
+      { title: "Owner-editable FAQ", detail: "The FAQ and settings live in a Supabase table, and the site's FAQ page reads the same data." },
+      { title: "One-line embed", detail: "A script tag for Wix, as a floating bubble or inline, with a full-screen chat on phones." },
+    ],
+    results:
+      "Biscuit is DevoraX client work, built for a salon's Wix website. The live demo runs it on Sudsy Paws, a fictional salon; every answer there is a real Gemini call. The 1½-minute video above shows a price answer, a polite refusal and the FAQ page handing a question to Biscuit.",
+  },
 };

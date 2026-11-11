@@ -973,6 +973,40 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-3-screens.jpg"
     ),
   },
+  {
+    title: "Biscuit",
+    tagline: "AI chat assistant for a dog-grooming salon's website, answering from its FAQ · DevoraX client",
+    role: "AI engineer · DevoraX client",
+    category: "Gemini · Vercel functions · Supabase",
+    filter: "AI",
+    industry: "local-services",
+    description:
+      "A DevoraX client project: a chat widget for a grooming salon's Wix site. It answers from the salon's own FAQ, and anything the FAQ doesn't cover gets the salon's email instead of a guess.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-1-overview.jpg",
+    accent: "from-teal-400 to-cyan-600",
+    stats: [
+      { k: "Answers from", v: "Salon FAQ" },
+      { k: "Embed", v: "One script tag" },
+      { k: "AI key", v: "Server-side" },
+    ],
+    tags: ["Google Gemini", "Vercel", "Supabase", "JavaScript"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/biscuit" }],
+    video: {
+      src: "/video/biscuit-v1.mp4",
+      poster: "/video/biscuit-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: the salon site, a price answer and a polite refusal, suggested questions, the FAQ page handing a question to Biscuit, and the demo booking page.",
+      duration: "PT1M30S",
+      uploadDate: "2026-11-11",
+    },
+    gallery: gallery(
+      "Biscuit",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────
@@ -1351,6 +1385,7 @@ export const industries = [
   { slug: "legal-finance", label: "Legal, Finance & Web3" },
   { slug: "health", label: "Health & Wellbeing" },
   { slug: "fitness", label: "Fitness & Sport" },
+  { slug: "local-services", label: "Local & Pet Services" },
   { slug: "workforce", label: "Field & Workforce" },
   { slug: "travel", label: "Travel" },
 ];

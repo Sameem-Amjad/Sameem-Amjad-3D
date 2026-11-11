@@ -527,6 +527,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/biscuit-1-overview-480.220ca019.webp"
+      ],
+      [
+        800,
+        "/img/work/biscuit-1-overview-800.590cd034.webp"
+      ],
+      [
+        1200,
+        "/img/work/biscuit-1-overview-1200.da72019a.webp"
+      ],
+      [
+        1600,
+        "/img/work/biscuit-1-overview-1600.4bd08184.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/biscuit-2-spotlight-480.d4bcedd0.webp"
+      ],
+      [
+        800,
+        "/img/work/biscuit-2-spotlight-800.ff1aea85.webp"
+      ],
+      [
+        1200,
+        "/img/work/biscuit-2-spotlight-1200.2bdafddb.webp"
+      ],
+      [
+        1600,
+        "/img/work/biscuit-2-spotlight-1600.b24d96c7.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/biscuit-3-screens-480.dc732973.webp"
+      ],
+      [
+        800,
+        "/img/work/biscuit-3-screens-800.88b91ec9.webp"
+      ],
+      [
+        1200,
+        "/img/work/biscuit-3-screens-1200.6f5891d8.webp"
+      ],
+      [
+        1600,
+        "/img/work/biscuit-3-screens-1600.fc1eb26e.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/constraction-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
