@@ -1007,6 +1007,40 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/biscuit-3-screens.jpg"
     ),
   },
+  {
+    title: "LinguaBridge",
+    tagline: "Marketing website for a translation agency, built to turn a visit into a quote request",
+    role: "Front-end engineer",
+    category: "Next.js 16 · React 19 · Framer Motion",
+    filter: "Web",
+    industry: "media",
+    description:
+      "A one-page marketing site for a translation agency under the LinguaBridge brand: six services, per-word pricing in plain view, and a quote form that already knows which service the visitor picked.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-1-overview.jpg",
+    accent: "from-teal-400 to-cyan-600",
+    stats: [
+      { k: "Services", v: "6" },
+      { k: "Pricing", v: "Per word" },
+      { k: "Goal", v: "A quote" },
+    ],
+    tags: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/linguabridge" }],
+    video: {
+      src: "/video/linguabridge-v1.mp4",
+      poster: "/video/linguabridge-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: the typed hero, the six services, how it works, per-word pricing, testimonials and counters, the language marquee, and a quote request with the service pre-selected and a file attached.",
+      duration: "PT1M30S",
+      uploadDate: "2026-11-11",
+    },
+    gallery: gallery(
+      "LinguaBridge",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────

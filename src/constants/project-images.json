@@ -989,6 +989,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/linguabridge-1-overview-480.67155b2d.webp"
+      ],
+      [
+        800,
+        "/img/work/linguabridge-1-overview-800.c72beb47.webp"
+      ],
+      [
+        1200,
+        "/img/work/linguabridge-1-overview-1200.8c07aa9b.webp"
+      ],
+      [
+        1600,
+        "/img/work/linguabridge-1-overview-1600.90548504.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/linguabridge-2-spotlight-480.3cf4c942.webp"
+      ],
+      [
+        800,
+        "/img/work/linguabridge-2-spotlight-800.d752ddf6.webp"
+      ],
+      [
+        1200,
+        "/img/work/linguabridge-2-spotlight-1200.99d10f9a.webp"
+      ],
+      [
+        1600,
+        "/img/work/linguabridge-2-spotlight-1600.2ea2446a.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/linguabridge-3-screens-480.1a27a46f.webp"
+      ],
+      [
+        800,
+        "/img/work/linguabridge-3-screens-800.dff55782.webp"
+      ],
+      [
+        1200,
+        "/img/work/linguabridge-3-screens-1200.a0794e58.webp"
+      ],
+      [
+        1600,
+        "/img/work/linguabridge-3-screens-1600.fd1b376c.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/mintchoc-1-overview.jpg": {
     "width": 2560,
     "height": 1538,

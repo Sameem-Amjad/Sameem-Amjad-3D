@@ -537,6 +537,23 @@ export const caseStudies = {
       "Tallyfile is DevoraX client work. The live demo is a real run on seven fictional invoices, four that pass, two that need review and a skipped scan, with the same checks running in the browser; it makes no AI calls. The 2-minute video above shows Pioneer Concrete's total that doesn't add up, and the fix the checker refuses.",
   },
   // DevoraX client work, credited under the owner's standing instruction of 11 Nov 2026.
+  linguabridge: {
+    overview:
+      "A one-page marketing website for a translation agency under the LinguaBridge brand, built so every path through the page ends at a quote request.",
+    problem:
+      "People buying translation compare agencies quickly and leave when the price or the next step is unclear. The page had to show the services, the process and the price up front, and make asking for a quote the obvious next move.",
+    approach:
+      "Next.js 16 and React 19 in TypeScript, with Tailwind CSS and Framer Motion for the animation, served as static pages. The service cards talk to the quote form through a browser event, so choosing a service anywhere on the page fills it in on the form.",
+    features: [
+      { title: "Hero", detail: "A typed promise line and greetings in eight languages orbiting a globe." },
+      { title: "Services", detail: "Six service cards; each Learn More opens the quote form with that service selected." },
+      { title: "Process and pricing", detail: "Four steps on one line and per-word pricing, with the popular plan lifted forward." },
+      { title: "Proof", detail: "A testimonials marquee, counters that climb into view and a drifting language list." },
+      { title: "Quote form", detail: "Language pair, service, details and file attachments, checked before it confirms." },
+    ],
+    results:
+      "The live demo runs the whole site; its quote form and newsletter send nothing, and the confirmation says so. The 1½-minute video above walks through the page.",
+  },
   biscuit: {
     overview:
       "A chat assistant for a dog-grooming salon's website. Biscuit answers customers' questions from the salon's own FAQ, and points to the salon's email when it doesn't know.",
