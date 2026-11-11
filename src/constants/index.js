@@ -939,6 +939,40 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-3-screens.jpg"
     ),
   },
+  {
+    title: "Tallyfile",
+    tagline: "Invoice PDFs to one CSV for Excel, checked by code · DevoraX client",
+    role: "AI engineer · DevoraX client",
+    category: "Python · Google Gemini",
+    filter: "AI",
+    industry: "legal-finance",
+    description:
+      "A DevoraX client project: invoice PDFs to one CSV for Excel. The AI reads each invoice, and plain code checks every number; any row that fails says needs review and why.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-1-overview.jpg",
+    accent: "from-green-500 to-emerald-700",
+    stats: [
+      { k: "Fields", v: "8" },
+      { k: "Checks", v: "In code" },
+      { k: "Output", v: "CSV for Excel" },
+    ],
+    tags: ["Python", "Google Gemini", "pypdf", "CSV"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/tallyfile" }],
+    video: {
+      src: "/video/tallyfile-v1.mp4",
+      poster: "/video/tallyfile-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: the five checks, the seven sample invoices, the text the AI reads, a total that doesn't add up and the fix the checker refuses, and the sample output.",
+      duration: "PT1M54S",
+      uploadDate: "2026-11-11",
+    },
+    gallery: gallery(
+      "Tallyfile",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────

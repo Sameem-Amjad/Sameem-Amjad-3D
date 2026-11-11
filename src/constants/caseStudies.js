@@ -518,4 +518,22 @@ export const caseStudies = {
     results:
       "Triagely is DevoraX client work. The live demo shows the review page from one real run on 30 fictional messages, with a demo-only panel for trying the scoring rules; it makes no AI calls. The 2-minute video above walks through the safety rules, the review page, the wholesale view and the sample output.",
   },
+  // DevoraX client work (the owner's answer, 11 Nov 2026).
+  tallyfile: {
+    overview:
+      "A tool for a bookkeeper: it reads a folder of PDF invoices and writes one CSV for Excel. The AI reads each invoice, and plain code checks every number before it reaches the books.",
+    problem:
+      "Typing invoices into a spreadsheet is slow, and every vendor lays its invoices out differently, so template tools keep breaking. An AI can read any layout, but a bookkeeper can't let it guess, round or quietly correct a number that ends up in the books.",
+    approach:
+      "A Python script pulls the text out of each PDF with pypdf and asks Google Gemini for eight fields as structured data, with the AI told to leave a field empty rather than guess. Five checks then run in plain code, and every invoice comes out as one CSV row, ok or needs review with the reason, plus a log of every file.",
+    features: [
+      { title: "Any layout, no templates", detail: "The AI reads the text of each PDF, so a new vendor needs no setup." },
+      { title: "The code does the maths", detail: "Subtotal plus tax must equal the total, calculated by the script and never by the AI." },
+      { title: "Nothing invented", detail: "Every amount and date must be printed on the invoice; tax may be the sum of up to three printed tax lines, such as GST and PST." },
+      { title: "Nothing missing", detail: "All eight fields, real dates, a three-letter currency, and a due date that isn't before the invoice date." },
+      { title: "Scans skipped, never guessed", detail: "PDFs with no text are logged for manual entry, and an AI outage is logged so the run can be repeated." },
+    ],
+    results:
+      "Tallyfile is DevoraX client work. The live demo is a real run on seven fictional invoices, four that pass, two that need review and a skipped scan, with the same checks running in the browser; it makes no AI calls. The 2-minute video above shows Pioneer Concrete's total that doesn't add up, and the fix the checker refuses.",
+  },
 };

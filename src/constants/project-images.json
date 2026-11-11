@@ -1385,6 +1385,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/tallyfile-1-overview-480.15d1b9f3.webp"
+      ],
+      [
+        800,
+        "/img/work/tallyfile-1-overview-800.a4cfdfbd.webp"
+      ],
+      [
+        1200,
+        "/img/work/tallyfile-1-overview-1200.75571dc4.webp"
+      ],
+      [
+        1600,
+        "/img/work/tallyfile-1-overview-1600.d1b9fbfb.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/tallyfile-2-spotlight-480.e084e9a3.webp"
+      ],
+      [
+        800,
+        "/img/work/tallyfile-2-spotlight-800.71ef1aaf.webp"
+      ],
+      [
+        1200,
+        "/img/work/tallyfile-2-spotlight-1200.66d93dfa.webp"
+      ],
+      [
+        1600,
+        "/img/work/tallyfile-2-spotlight-1600.9b9a3c4f.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/tallyfile-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/tallyfile-3-screens-480.58227934.webp"
+      ],
+      [
+        800,
+        "/img/work/tallyfile-3-screens-800.a2f7cf76.webp"
+      ],
+      [
+        1200,
+        "/img/work/tallyfile-3-screens-1200.fbd6db52.webp"
+      ],
+      [
+        1600,
+        "/img/work/tallyfile-3-screens-1600.c537e096.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/triagely-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
