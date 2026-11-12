@@ -537,6 +537,23 @@ export const caseStudies = {
       "Tallyfile is DevoraX client work. The live demo is a real run on seven fictional invoices, four that pass, two that need review and a skipped scan, with the same checks running in the browser; it makes no AI calls. The 2-minute video above shows Pioneer Concrete's total that doesn't add up, and the fix the checker refuses.",
   },
   // DevoraX client work, credited under the owner's standing instruction of 11 Nov 2026.
+  learnhub: {
+    overview:
+      "A subscription learning platform where three paid tiers unlock video courses and a library of handbooks, audio sessions and e-books, with an admin console to run it.",
+    problem:
+      "Selling courses by tier means every lesson, video and file has to check the learner's plan, and the checks must hold even if someone calls the API or the storage directly. Learners expect to resume mid-video, and the business needs to manage plans without a developer.",
+    approach:
+      "Next.js 16 on Supabase: Postgres with row-level security on every table, Supabase Auth, and a private Storage bucket. The server checks the plan before it signs a short-lived link to any video or file. Stripe checkout and webhooks are built in; the demo runs with Stripe switched off.",
+    features: [
+      { title: "Tiers and previews", detail: "Each tier includes the one below; preview lessons are open to anyone signed in." },
+      { title: "Private media", detail: "Videos and files served through signed links only after the plan check." },
+      { title: "Lesson player", detail: "Resumes where you stopped, saves progress, completes at 90% and keeps timestamped notes." },
+      { title: "Admin console", detail: "Learner and plan counts, filters, single and bulk plan grants, roles and publishing." },
+      { title: "Audit log", detail: "Every admin change, who made it, for whom and when." },
+    ],
+    results:
+      "The live demo runs on sample courses and learners with one-click logins for a Pro learner and a demo admin. The 2-minute video above walks through both sides.",
+  },
   linguabridge: {
     overview:
       "A one-page marketing website for a translation agency under the LinguaBridge brand, built so every path through the page ends at a quote request.",

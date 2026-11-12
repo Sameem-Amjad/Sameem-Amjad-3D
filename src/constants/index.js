@@ -1041,6 +1041,40 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-3-screens.jpg"
     ),
   },
+  {
+    title: "LearnHub",
+    tagline: "Members' course platform: paid tiers unlock video courses, a library and progress tracking",
+    role: "Full-stack engineer",
+    category: "Next.js 16 · Supabase · Stripe",
+    filter: "Platforms",
+    industry: "education",
+    description:
+      "A subscription learning platform: tiers gate video courses and a media library served from private storage, the player resumes where you stopped, and admins manage plans and roles with every change logged.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-1-overview.jpg",
+    accent: "from-amber-400 to-orange-600",
+    stats: [
+      { k: "Tiers", v: "3" },
+      { k: "Media", v: "Signed links" },
+      { k: "Security", v: "Postgres RLS" },
+    ],
+    tags: ["Next.js", "Supabase", "Stripe", "TypeScript"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/learnhub" }],
+    video: {
+      src: "/video/learnhub-v1.mp4",
+      poster: "/video/learnhub-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: pricing built from the catalogue, a Pro learner resuming a video lesson with a timestamped note, the library, then the demo admin granting a plan and finding it in the audit log.",
+      duration: "PT2M10S",
+      uploadDate: "2026-11-12",
+    },
+    gallery: gallery(
+      "LearnHub",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-3-screens.jpg"
+    ),
+  },
 ];
 
 // ── More work (compact, filterable grid) ────────────────────────

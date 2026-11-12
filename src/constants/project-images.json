@@ -989,6 +989,72 @@
       ]
     ]
   },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/learnhub-1-overview-480.a03d4fce.webp"
+      ],
+      [
+        800,
+        "/img/work/learnhub-1-overview-800.db83c4df.webp"
+      ],
+      [
+        1200,
+        "/img/work/learnhub-1-overview-1200.090c10c3.webp"
+      ],
+      [
+        1600,
+        "/img/work/learnhub-1-overview-1600.286ba881.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/learnhub-2-spotlight-480.892d1578.webp"
+      ],
+      [
+        800,
+        "/img/work/learnhub-2-spotlight-800.925c9c8a.webp"
+      ],
+      [
+        1200,
+        "/img/work/learnhub-2-spotlight-1200.002e1955.webp"
+      ],
+      [
+        1600,
+        "/img/work/learnhub-2-spotlight-1600.d5abe3e4.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/learnhub-3-screens-480.5b71bfc0.webp"
+      ],
+      [
+        800,
+        "/img/work/learnhub-3-screens-800.c415c22c.webp"
+      ],
+      [
+        1200,
+        "/img/work/learnhub-3-screens-1200.12b8610c.webp"
+      ],
+      [
+        1600,
+        "/img/work/learnhub-3-screens-1600.7cd80eef.webp"
+      ]
+    ]
+  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/linguabridge-1-overview.jpg": {
     "width": 2560,
     "height": 1538,
