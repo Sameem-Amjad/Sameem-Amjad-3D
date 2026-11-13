@@ -329,28 +329,6 @@
       ]
     ]
   },
-  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780690136428-ugskg9kw1yo.png": {
-    "width": 1672,
-    "height": 941,
-    "srcset": [
-      [
-        480,
-        "/img/work/1780690136428-ugskg9kw1yo-480.2383e770.webp"
-      ],
-      [
-        800,
-        "/img/work/1780690136428-ugskg9kw1yo-800.ef8b44b4.webp"
-      ],
-      [
-        1200,
-        "/img/work/1780690136428-ugskg9kw1yo-1200.c4f8505c.webp"
-      ],
-      [
-        1600,
-        "/img/work/1780690136428-ugskg9kw1yo-1600.472bcb22.webp"
-      ]
-    ]
-  },
   "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/ai_ecommerce_ecosystem/card_image.png": {
     "width": 2464,
     "height": 1448,
@@ -392,6 +370,72 @@
       [
         1572,
         "/img/work/bondly-1572.f20e31f7.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/afriva-1-overview-480.f4810e96.webp"
+      ],
+      [
+        800,
+        "/img/work/afriva-1-overview-800.d2d15347.webp"
+      ],
+      [
+        1200,
+        "/img/work/afriva-1-overview-1200.1f9193a7.webp"
+      ],
+      [
+        1600,
+        "/img/work/afriva-1-overview-1600.37897024.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/afriva-2-spotlight-480.69930a2c.webp"
+      ],
+      [
+        800,
+        "/img/work/afriva-2-spotlight-800.383ed514.webp"
+      ],
+      [
+        1200,
+        "/img/work/afriva-2-spotlight-1200.6636872e.webp"
+      ],
+      [
+        1600,
+        "/img/work/afriva-2-spotlight-1600.e822e952.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/afriva-3-screens-480.1ee3f864.webp"
+      ],
+      [
+        800,
+        "/img/work/afriva-3-screens-800.27c0db3c.webp"
+      ],
+      [
+        1200,
+        "/img/work/afriva-3-screens-1200.86245734.webp"
+      ],
+      [
+        1600,
+        "/img/work/afriva-3-screens-1600.1fec084c.webp"
       ]
     ]
   },
@@ -590,6 +634,72 @@
       [
         1600,
         "/img/work/biscuit-3-screens-1600.fc1eb26e.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/careerseal-1-overview-480.677fc581.webp"
+      ],
+      [
+        800,
+        "/img/work/careerseal-1-overview-800.a4a15eed.webp"
+      ],
+      [
+        1200,
+        "/img/work/careerseal-1-overview-1200.9d0ad2b7.webp"
+      ],
+      [
+        1600,
+        "/img/work/careerseal-1-overview-1600.74ae8751.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/careerseal-2-spotlight-480.c714397f.webp"
+      ],
+      [
+        800,
+        "/img/work/careerseal-2-spotlight-800.b5b0e77d.webp"
+      ],
+      [
+        1200,
+        "/img/work/careerseal-2-spotlight-1200.f0a85ec1.webp"
+      ],
+      [
+        1600,
+        "/img/work/careerseal-2-spotlight-1600.5eb17752.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/careerseal-3-screens-480.797f54d1.webp"
+      ],
+      [
+        800,
+        "/img/work/careerseal-3-screens-800.d9a10702.webp"
+      ],
+      [
+        1200,
+        "/img/work/careerseal-3-screens-1200.3d693796.webp"
+      ],
+      [
+        1600,
+        "/img/work/careerseal-3-screens-1600.0e289653.webp"
       ]
     ]
   },
@@ -920,6 +1030,72 @@
       [
         1600,
         "/img/work/gentler-3-screens-1600.c2730f12.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-1-overview.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/glorious-1-overview-480.4d3473ac.webp"
+      ],
+      [
+        800,
+        "/img/work/glorious-1-overview-800.60465e63.webp"
+      ],
+      [
+        1200,
+        "/img/work/glorious-1-overview-1200.9214b92e.webp"
+      ],
+      [
+        1600,
+        "/img/work/glorious-1-overview-1600.ad91b385.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-2-spotlight.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/glorious-2-spotlight-480.ce79928d.webp"
+      ],
+      [
+        800,
+        "/img/work/glorious-2-spotlight-800.2fd0a4ba.webp"
+      ],
+      [
+        1200,
+        "/img/work/glorious-2-spotlight-1200.2175e608.webp"
+      ],
+      [
+        1600,
+        "/img/work/glorious-2-spotlight-1600.0674fe00.webp"
+      ]
+    ]
+  },
+  "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-3-screens.jpg": {
+    "width": 2560,
+    "height": 1538,
+    "srcset": [
+      [
+        480,
+        "/img/work/glorious-3-screens-480.89e1521a.webp"
+      ],
+      [
+        800,
+        "/img/work/glorious-3-screens-800.88e9d03b.webp"
+      ],
+      [
+        1200,
+        "/img/work/glorious-3-screens-1200.074c96c8.webp"
+      ],
+      [
+        1600,
+        "/img/work/glorious-3-screens-1600.215db9c5.webp"
       ]
     ]
   },

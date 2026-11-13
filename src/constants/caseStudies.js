@@ -137,21 +137,23 @@ export const caseStudies = {
       "Version one went live on Google Play in October 2025. It is a young app, so there are no usage numbers worth quoting yet.",
   },
 
+  // DevoraX client work (the owner's instruction, 12 Nov 2026).
   afriva: {
     overview:
-      "A multi-vendor marketplace with separate dashboards for admins, managers, sellers and buyers. Built at Webrange Solutions.",
+      "Two connected apps for an African-fashion marketplace: a storefront where shoppers browse, buy and track their orders, and a separate dashboard where each seller runs its own orders, products and returns. Both share one Supabase database.",
     problem:
-      "Multi-vendor commerce means four kinds of user, admin, manager, seller and buyer, each needing a different view of the same system, while the storefront stays fast and findable on Google.",
+      "A marketplace has two kinds of user writing to the same data. Shoppers must not be able to set their own prices or mark an order delivered, sellers must see only the orders for their own products, and both apps talk to the database straight from the browser, so the rules have to live in the database rather than the screens.",
     approach:
-      "Next.js 15 with server-side rendering for speed and SEO, and Supabase for auth, data and real-time updates. Each role gets its own permission-scoped dashboard, and order status updates live.",
+      "Two Next.js 15 apps on one Supabase project: Auth, Postgres and Storage. Row-level security and guard triggers hold the rules, so at checkout the database sets each price, discount and delivery fee and takes the stock, and every line becomes its own order. Uploads are limited by bucket and owner, and new sellers join by invitation.",
     features: [
-      { title: "Role-based dashboards", detail: "Distinct, permission-scoped surfaces for admins, managers, sellers and buyers." },
-      { title: "SSR performance & SEO", detail: "Next.js 15 server rendering keeps pages fast and indexable." },
-      { title: "Real-time order tracking", detail: "Live order status through Supabase realtime." },
-      { title: "Predictable state", detail: "Redux Toolkit keeps a complex multi-role app manageable." },
+      { title: "Storefront", detail: "New arrivals, best sellers, category filters, price sorting, search and a wishlist." },
+      { title: "Product pages", detail: "The seller's brand, the colours and sizes in stock, and shopper reviews." },
+      { title: "Prices from the database", detail: "Each price, discount and delivery fee is set at checkout by the database, which also takes the stock." },
+      { title: "Seller dashboard", detail: "Order counts, monthly sales, fulfilment steps (packed, shipped, delivered) stamped with the date and time, and returns with the reason, pickup address and photos." },
+      { title: "Rules in the database", detail: "Shoppers see only their own orders and can only turn a delivered order into a return; sellers see only orders for their products and can't change sales counts or ratings." },
     ],
     results:
-      "Built while I was a full-stack developer at Webrange Solutions. The link above is the buyer-side demo build, so it shows the product rather than live sales.",
+      "Afriva is DevoraX client work. The live demo runs both apps on sample shops, products, shoppers and orders, with original product illustrations made for the demo; card payments use a test card and nothing is charged. The 2-minute video above follows a demo shopper paying for two shirts, then the seller packing that order and confirming a return.",
   },
 
   "pastel-marketplace": {
@@ -587,5 +589,41 @@ export const caseStudies = {
     ],
     results:
       "Biscuit is DevoraX client work, built for a salon's Wix website. The live demo runs it on Sudsy Paws, a fictional salon; every answer there is a real Gemini call. The 1½-minute video above shows a price answer, a polite refusal and the FAQ page handing a question to Biscuit.",
+  },
+  // DevoraX client work (the owner's instruction, 12 Nov 2026).
+  "career-seal": {
+    overview:
+      "A job search for skilled workers who need a visa to work abroad. Members upload a resume, see sponsored roles in the UK, the US and the UAE, save and apply to them, and follow each application.",
+    problem:
+      "Most job boards don't say whether a role sponsors a visa, so candidates spend applications finding out. Matching a resume to the right job titles needs AI, without sending the whole file anywhere and without the cost running away.",
+    approach:
+      "A Next.js 15 site in TypeScript on Vercel, and an Express and Mongoose API on Render with MongoDB Atlas. The resume is read in the browser and only its text goes to the API, where Google Gemini suggests matching job titles, with keyword matching as the fallback and a daily cap on AI calls.",
+    features: [
+      { title: "Resume matching", detail: "PDF or Word resumes are read in the browser; Gemini on the server suggests job titles, with keyword matching as the fallback." },
+      { title: "Sponsored listings", detail: "Roles by job and region (UK, US, UAE) with the visa route, salary, housing support and applicant count." },
+      { title: "Saved jobs and applications", detail: "One-click applications and a history showing each employer's latest status." },
+      { title: "A locked-down API", detail: "Sign-up with a verification code, token sessions, rate limits on sign-in and AI calls, and the API open only to the site." },
+      { title: "Plans", detail: "A free trial and paid plans; checkout is simulated in the demo." },
+    ],
+    results:
+      "Career Seal is DevoraX client work. The live demo runs on 54 sample listings in place of the paid job-data feed the product was built on; applications are recorded, but no employer is contacted and checkout charges nothing. The 1½-minute video above shows a nurse's resume matched by Gemini, a search in the US, saving and applying, and the application history.",
+  },
+  // DevoraX client work (the owner's instruction, 12 Nov 2026).
+  "glorious-publications": {
+    overview:
+      "An online bookshop for a small publisher, selling printed and e-book editions, with an admin where the publisher manages titles, stock and orders.",
+    problem:
+      "A small publisher needs to sell printed and digital editions without a large platform. Stock for printed copies has to stay accurate, prices can't come from the browser, and someone without technical skills has to be able to add books and work through orders.",
+    approach:
+      "Next.js 14 with MongoDB Atlas through Mongoose. The server prices every line of the cart and takes printed stock, refusing an order larger than the stock, so no price comes from the browser. The admin sits behind a passcode in a signed cookie, checked on every admin request.",
+    features: [
+      { title: "Catalogue", detail: "Search by title or author, categories, price sorting and a filter for titles in print." },
+      { title: "Book pages", detail: "E-book and hard-copy prices, copies left, related titles and a page-flip preview of the opening pages." },
+      { title: "Checkout priced on the server", detail: "Every line is priced by the server, and printed orders larger than the stock are refused." },
+      { title: "Admin dashboard", detail: "Sales and stock figures, low-stock alerts and best sellers." },
+      { title: "Books and orders", detail: "Add, edit and delete books, and work through orders by status; cancelling a printed order puts its copies back." },
+    ],
+    results:
+      "Glorious Publications is DevoraX client work. The live demo's catalogue is 13 public-domain classics with covers designed for it, in place of the publisher's own titles; checkout takes no payment and the orders are sample data. The 1½-minute video above walks through the catalogue, the page-flip preview, an order for two titles and the admin.",
   },
 };

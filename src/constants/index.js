@@ -448,25 +448,40 @@ export const featuredProjects = [
     tags: ["React Native", "NestJS", "Firebase", "Elasticsearch", "AWS"],
     android: "https://play.google.com/store/apps/details?id=com.koor_user",
   },
+  // DevoraX client work (the owner's instruction, 12 Nov 2026): no client named.
   {
     title: "Afriva",
-    tagline: "Four-role multi-vendor marketplace · built at Webrange",
-    role: "Full-stack engineer · Webrange Solutions",
+    tagline: "African-fashion marketplace: a storefront for shoppers and a dashboard for each seller · DevoraX client",
+    role: "Full-stack engineer · DevoraX client",
     category: "Next.js 15 · Supabase",
     filter: "E-Commerce",
     industry: "marketplaces",
     description:
-      "Multi-vendor marketplace with separate dashboards for admins, managers, sellers and buyers. Server-rendered Next.js 15 for speed and SEO, Supabase for auth and data, and real-time order tracking. Built while I was at Webrange Solutions; the link is the demo build.",
+      "A DevoraX client project: two connected apps on one Supabase database. Shoppers browse, buy, track their orders and ask for returns in the storefront; each seller handles its own orders, products and returns from a separate dashboard.",
     image:
-      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780690136428-ugskg9kw1yo.png",
-    accent: "from-cyan-400 to-blue-500",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-1-overview.jpg",
+    accent: "from-lime-400 to-green-500",
     stats: [
-      { k: "Dashboards", v: "4 roles" },
+      { k: "Apps", v: "Store · seller" },
       { k: "Framework", v: "Next.js 15" },
-      { k: "Built at", v: "Webrange" },
+      { k: "Security", v: "Postgres RLS" },
     ],
-    tags: ["Next.js", "Supabase", "Redux Toolkit"],
-    web: "https://afriva-buyer.vercel.app/",
+    tags: ["Next.js", "Supabase", "Redux Toolkit", "Tailwind CSS"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/afriva" }],
+    video: {
+      src: "/video/afriva-v1.mp4",
+      poster: "/video/afriva-v1-poster.jpg",
+      caption:
+        "2-minute walkthrough: the storefront, a category sorted by price, a product page, a demo shopper paying for two shirts with a test card, then the seller packing that order and confirming a return.",
+      duration: "PT1M50S",
+      uploadDate: "2026-11-13",
+    },
+    gallery: gallery(
+      "Afriva",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/afriva-3-screens.jpg"
+    ),
   },
   {
     title: "TAL Workforce",
@@ -1073,6 +1088,77 @@ export const featuredProjects = [
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-1-overview.jpg",
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-2-spotlight.jpg",
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/learnhub-3-screens.jpg"
+    ),
+  },
+  // DevoraX client work (the owner's instruction, 12 Nov 2026): no client named.
+  {
+    title: "Career Seal",
+    tagline: "Visa-sponsored job search for skilled workers, with resumes matched to roles by AI · DevoraX client",
+    role: "Full-stack engineer · DevoraX client",
+    category: "Next.js 15 · Express · MongoDB",
+    filter: "Platforms",
+    industry: "workforce",
+    description:
+      "A DevoraX client project: a job search for people who need a visa to work abroad. Members upload a resume, Gemini suggests matching job titles, and they save and apply to sponsored roles in the UK, the US and the UAE.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-1-overview.jpg",
+    accent: "from-sky-400 to-blue-600",
+    stats: [
+      { k: "Regions", v: "UK · US · UAE" },
+      { k: "Resume match", v: "Google Gemini" },
+      { k: "AI calls", v: "Daily cap" },
+    ],
+    tags: ["Next.js", "TypeScript", "Express", "MongoDB", "Google Gemini"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/careerseal" }],
+    video: {
+      src: "/video/careerseal-v1.mp4",
+      poster: "/video/careerseal-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: plans, the one-click demo login, sponsored listings, a nurse's resume matched by Gemini, a search in the US, saving and applying, and the application history.",
+      duration: "PT1M34S",
+      uploadDate: "2026-11-13",
+    },
+    gallery: gallery(
+      "Career Seal",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/careerseal-3-screens.jpg"
+    ),
+  },
+  // DevoraX client work (the owner's instruction, 12 Nov 2026). The demo
+  // catalogue is public-domain classics, not the publisher's own titles.
+  {
+    title: "Glorious Publications",
+    tagline: "Online bookshop for a small publisher, with print and e-book editions and a page-flip preview · DevoraX client",
+    role: "Full-stack engineer · DevoraX client",
+    category: "Next.js 14 · MongoDB",
+    filter: "E-Commerce",
+    industry: "media",
+    description:
+      "A DevoraX client project: an online shop for a small publisher's books. Readers preview the opening pages and order a hard copy or an e-book; the publisher manages titles, stock and orders from an admin.",
+    image:
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-1-overview.jpg",
+    accent: "from-yellow-500 to-amber-700",
+    stats: [
+      { k: "Editions", v: "Print · e-book" },
+      { k: "Prices", v: "Set on the server" },
+      { k: "Preview", v: "Page flip" },
+    ],
+    tags: ["Next.js", "MongoDB", "Mongoose", "Tailwind CSS"],
+    demos: [{ label: "Live demo", url: "https://demoprojectsforclients.sameemamjad.com/projects/glorious" }],
+    video: {
+      src: "/video/glorious-v1.mp4",
+      poster: "/video/glorious-v1-poster.jpg",
+      caption:
+        "1½-minute walkthrough: the catalogue, search and filters, a book page, the page-flip preview, an order for two titles, then the admin dashboard and an order moved to processing.",
+      duration: "PT1M38S",
+      uploadDate: "2026-11-13",
+    },
+    gallery: gallery(
+      "Glorious Publications",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-1-overview.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-2-spotlight.jpg",
+      "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/demos/glorious-3-screens.jpg"
     ),
   },
 ];
@@ -2000,7 +2086,6 @@ export const experiences = [
     summary: "E-commerce and subscription platforms.",
     bullets: [
       "Led backend for Bondly, a Node.js + Firebase pet-care ecosystem behind a Flutter app: subscription billing, credit logic, real-time notifications and Stripe.",
-      "Built Afriva, a four-role e-commerce platform on Next.js and Supabase — admin, manager, seller and buyer, with real-time order tracking.",
       "Worked on Ginger, a React e-commerce app, focused on component architecture and state management.",
     ],
     tags: ["Next.js", "React", "Supabase", "Firebase", "Stripe", "AWS"],
