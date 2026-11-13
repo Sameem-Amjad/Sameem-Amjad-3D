@@ -538,7 +538,7 @@ export const caseStudies = {
     results:
       "Tallyfile is DevoraX client work. The live demo is a real run on seven fictional invoices, four that pass, two that need review and a skipped scan, with the same checks running in the browser; it makes no AI calls. The 2-minute video above shows Pioneer Concrete's total that doesn't add up, and the fix the checker refuses.",
   },
-  // DevoraX client work, credited under the owner's standing instruction of 11 Nov 2026.
+  // No client claim: who commissioned LearnHub isn't recorded, so it names none (12 Nov 2026).
   learnhub: {
     overview:
       "A subscription learning platform where three paid tiers unlock video courses and a library of handbooks, audio sessions and e-books, with an admin console to run it.",
