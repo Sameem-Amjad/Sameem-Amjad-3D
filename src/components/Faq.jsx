@@ -5,6 +5,7 @@ import { SectionHeading, Section, Icon, Reveal, cn } from "./shared";
 
 const Item = ({ q, a, link, open, onToggle, index }) => {
   const id = useId();
+  const FaqTag = link?.href ? "a" : Link;
   return (
     <div
       className={cn(
@@ -53,15 +54,16 @@ const Item = ({ q, a, link, open, onToggle, index }) => {
       <div id={id} hidden={!open} className={cn(open && "anim-rise-sm")}>
         <p className="max-w-3xl px-2 pb-7 pl-[3.1rem] text-[15px] leading-relaxed text-muted sm:px-4 sm:pl-[3.6rem]">
           {a}
+          {/* `to` is a route on this site; `href` is a page on thedevorax.tech. */}
           {link && (
-            <Link
-              to={link.to}
+            <FaqTag
+              {...(link.href ? { href: link.href } : { to: link.to })}
               data-cursor="button"
               className="mt-3 flex w-fit items-center gap-1.5 font-mono text-[12px] uppercase tracking-wide text-acid"
             >
               {link.label}
-              <Icon name="arrowRight" className="h-3.5 w-3.5" />
-            </Link>
+              <Icon name={link.href ? "arrowUpRight" : "arrowRight"} className="h-3.5 w-3.5" />
+            </FaqTag>
           )}
         </p>
       </div>
@@ -106,8 +108,8 @@ const Faq = () => {
             <div>
               <h3 className="font-display text-xl font-bold text-ink">Still deciding?</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Send the messy version of your idea. I'll tell you honestly whether it's a
-                four-week build or a four-month one — before you commit to anything.
+                Send the messy version of your idea, and I'll tell you honestly what I think
+                of it before you commit to anything.
               </p>
             </div>
             <a

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { guides } from "../constants/guides";
+import { doors, checklist } from "../constants/doors";
 import { PageTransition } from "../components/fx";
-import { Icon, Eyebrow } from "../components/shared";
+import { Icon, Eyebrow, InlineLink } from "../components/shared";
 import { formatDate } from "../utils/date";
 
 /* The guides index. Plain and static on purpose — see GuidePage. */
@@ -17,6 +18,18 @@ const GuidesPage = () => (
       <p className="anim-rise mt-6 max-w-2xl text-lg leading-relaxed text-muted" style={{ animationDelay: "0.08s" }}>
         Short, complete fixes for problems that apps built with Lovable, Bolt, Replit and Cursor
         commonly hit in production, with the exact code or config for each.
+      </p>
+
+      {/* Body-text links to the pages thedevorax.tech owns for the bigger jobs
+          these fixes belong to, and to the checklist's investor section. */}
+      <p className="anim-rise mt-5 max-w-2xl text-[15px] leading-relaxed text-muted" style={{ animationDelay: "0.14s" }}>
+        When a fix turns out to be part of a bigger job, DevoraX has a page on its own site for each:{" "}
+        <InlineLink href={doors.audit.url}>{doors.audit.phrase}</InlineLink>,{" "}
+        <InlineLink href={doors.lovable.url}>{doors.lovable.phrase}</InlineLink>,{" "}
+        <InlineLink href={doors.sharetribe.url}>{doors.sharetribe.phrase}</InlineLink> and{" "}
+        <InlineLink href={doors.marketplace.url}>{doors.marketplace.phrase}</InlineLink>. For an
+        investor's technical due diligence, see{" "}
+        <InlineLink href={checklist.investor.url}>{checklist.investor.phrase}</InlineLink>.
       </p>
 
       <h2 className="sr-only">All guides</h2>

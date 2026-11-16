@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { profile, heroStats, links } from "../constants";
+import { doors } from "../constants/doors";
 import { PrimaryButton, GhostButton, Icon, cn } from "./shared";
 
 /* Staggered fade-up for everything below the headline.
@@ -139,8 +140,9 @@ const Hero = () => {
             </PrimaryButton>
             {/* The lead offer gets the second button. "View work" is one
                 scroll away and in the nav; a founder whose app is broken
-                should not have to hunt for the page that says we fix that. */}
-            <GhostButton to="/services/fix-vibe-coded-app" icon="arrowRight">
+                should not have to hunt for the page that covers that. It
+                links straight at thedevorax.tech, which owns the offer. */}
+            <GhostButton href={doors.audit.url} icon="arrowUpRight">
               Fix a stuck app
             </GhostButton>
             <a

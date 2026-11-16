@@ -1,70 +1,102 @@
-import { Link, useLocation } from "react-router-dom";
-import { links, whatsappHref } from "../constants";
-import { servicePages } from "../constants/services";
+import { useLocation } from "react-router-dom";
+import { links, whatsappHref, profile, devoraxStatement } from "../constants";
+import { doors, devoraxPages } from "../constants/doors";
 import { PageTransition } from "../components/fx";
-import { Icon, PrimaryButton, GhostButton, Eyebrow, Reveal } from "../components/shared";
+import { PrimaryButton, GhostButton, Eyebrow, InlineLink } from "../components/shared";
 import { track } from "../utils/analytics";
 
-/* The services hub: one card per service page, so every one of them is a
-   click from the nav and linked from a page that isn't the homepage. */
+/* A short personal page. thedevorax.tech owns every offer and landing page,
+   so this page says who Sameem is, then links to the page there for each kind
+   of job. No offer ladder, no prices, no packages: the links carry those.
+
+   Plain text and CSS entrances only, like /guides: every word is in the
+   prerendered HTML at full opacity. */
+
+const jobs = [
+  {
+    lead: "An AI-built app that works in a demo and breaks with real users:",
+    link: { href: doors.audit.url, text: doors.audit.phrase },
+    after: ".",
+  },
+  {
+    lead: "An AI-built app that should be in the App Store and Google Play:",
+    link: { href: doors.lovable.url, text: doors.lovable.phrase },
+    after: ". The stores decide approval.",
+  },
+  {
+    lead: "A marketplace already running on Sharetribe:",
+    link: { href: doors.sharetribe.url, text: doors.sharetribe.phrase },
+    after: ".",
+  },
+  {
+    lead: "A new marketplace to build:",
+    link: { href: doors.marketplace.url, text: doors.marketplace.phrase },
+    after: ".",
+  },
+  {
+    lead: "Everything else, with the prices:",
+    link: { href: devoraxPages.services, text: "services and prices on thedevorax.tech" },
+    after: ".",
+  },
+];
+
 const ServicesPage = () => {
   const { pathname } = useLocation();
 
   return (
     <PageTransition>
-      <section className="mx-auto max-w-7xl px-6 pb-24 pt-32 sm:px-10 sm:pt-36">
-        <div className="max-w-3xl">
-          <div className="anim-rise-sm">
-            <Eyebrow>~/services · {servicePages.length} ways to work together</Eyebrow>
-          </div>
-          <h1 className="anim-rise mt-5 text-balance font-display text-5xl font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
-            What I can build <span className="text-tail">or fix for you.</span>
-          </h1>
-          <p className="anim-rise mt-6 max-w-2xl text-lg leading-relaxed text-muted" style={{ animationDelay: "0.08s" }}>
-            Full-stack and AI engineering, senior-led from the first call to the launch. Pick the
-            one that sounds like your problem, or book a call and I'll tell you which it actually is.
+      <section className="mx-auto max-w-3xl px-6 pb-24 pt-32 sm:px-10 sm:pt-36">
+        <div className="anim-rise-sm">
+          <Eyebrow>~/services</Eyebrow>
+        </div>
+        <h1 className="anim-rise mt-5 text-balance font-display text-5xl font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl">
+          Services, <span className="text-tail">and where to find them.</span>
+        </h1>
+
+        <div className="anim-rise mt-8 flex flex-col gap-5" style={{ animationDelay: "0.08s" }}>
+          <p className="text-lg leading-relaxed text-muted">
+            I'm {profile.name}, a freelance full-stack developer based in Pakistan, and I founded
+            DevoraX. I work on Next.js, React Native, Supabase, Stripe and AWS, including apps built
+            with AI tools such as Lovable, Bolt, Replit and Cursor.
+          </p>
+          <p className="text-lg leading-relaxed text-muted">{devoraxStatement}</p>
+          <p className="text-lg leading-relaxed text-muted">
+            The page for each kind of job, and its price, is on thedevorax.tech. This site keeps my
+            portfolio and my guides.
           </p>
         </div>
 
-        <h2 className="sr-only">Services</h2>
-        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {servicePages.map((s, i) => (
-            <Reveal key={s.slug} delay={(i % 2) * 0.06} className="h-full">
-              <Link
-                to={`/services/${s.slug}`}
-                data-cursor="button"
-                className="panel panel-hover group flex h-full flex-col gap-4 p-7"
-              >
-                <span className="grid h-11 w-11 place-items-center rounded-xl border border-line text-acid transition-colors group-hover:border-acid">
-                  <Icon name={s.icon} className="h-5 w-5" />
-                </span>
-                <h3 className="font-display text-2xl font-bold text-ink transition-colors group-hover:text-acid">
-                  {s.name}
-                </h3>
-                <p className="text-[15px] leading-relaxed text-muted">{s.summary}</p>
-                <span className="mt-auto inline-flex items-center gap-1.5 pt-2 font-mono text-[12px] uppercase tracking-wide text-acid">
-                  See how it works
-                  <Icon name="arrowRight" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </Link>
-            </Reveal>
+        <h2 className="mono-label mt-14 text-acid">where each job is described</h2>
+        <ul className="anim-rise mt-6 flex flex-col gap-4" style={{ animationDelay: "0.14s" }}>
+          {jobs.map((j) => (
+            <li key={j.link.href} className="flex items-start gap-3 text-[16px] leading-relaxed text-muted">
+              <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-acid" aria-hidden="true" />
+              <span>
+                {j.lead} <InlineLink href={j.link.href}>{j.link.text}</InlineLink>
+                {j.after}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <Reveal delay={0.1}>
-          <div className="mt-14 flex flex-wrap items-center gap-3 border-t border-line pt-10">
-            <PrimaryButton href={links.booking} icon="calendar">
-              Book a free call
-            </PrimaryButton>
-            <GhostButton
-              href={whatsappHref(pathname)}
-              icon="whatsapp"
-              onClick={() => track("whatsapp_click", { placement: "services_hub", page_path: pathname })}
-            >
-              WhatsApp
-            </GhostButton>
-          </div>
-        </Reveal>
+        <p className="mt-8 text-[16px] leading-relaxed text-muted">
+          My own page about the work I do in Next.js is{" "}
+          <InlineLink to="/services/nextjs-developer">Next.js development</InlineLink>. For the fixes
+          behind each of these jobs, see the <InlineLink to="/guides">guides</InlineLink>.
+        </p>
+
+        <div className="mt-14 flex flex-wrap items-center gap-3 border-t border-line pt-10">
+          <PrimaryButton href={links.booking} icon="calendar">
+            Book a call
+          </PrimaryButton>
+          <GhostButton
+            href={whatsappHref(pathname)}
+            icon="whatsapp"
+            onClick={() => track("whatsapp_click", { placement: "services_hub", page_path: pathname })}
+          >
+            WhatsApp
+          </GhostButton>
+        </div>
       </section>
     </PageTransition>
   );

@@ -8,6 +8,21 @@
       "source": "/work/constractive",
       "destination": "/work/constraction",
       "permanent": true
+    },
+    {
+      "source": "/services/app-store-launch",
+      "destination": "https://thedevorax.tech/solutions/lovable-app-to-app-store",
+      "permanent": true
+    },
+    {
+      "source": "/services/fix-vibe-coded-app",
+      "destination": "https://thedevorax.tech/solutions/fix-vibe-coded-app",
+      "permanent": true
+    },
+    {
+      "source": "/services/marketplace-development",
+      "destination": "https://thedevorax.tech/solutions/multi-vendor-marketplace-development",
+      "permanent": true
     }
   ],
   "headers": [

@@ -6,7 +6,8 @@
 //  in-app head can never drift apart.
 // ─────────────────────────────────────────────────────────────
 
-import { allProjects, storeAppCount, slugify, getProjectBySlug, profile, links, faqs } from "./index";
+import { allProjects, featuredProjects, moreProjects, storeAppCount, slugify, getProjectBySlug, profile, links, faqs } from "./index";
+import { devoraxPages } from "./doors";
 import { servicePages, getServiceBySlug, SERVICES_UPDATED } from "./services";
 import { guides, getGuideBySlug } from "./guides";
 import { sized } from "../utils/img";
@@ -265,7 +266,7 @@ const STATIC = {
     // search, inside the ~158-char clamp. Was "AI agents … voice agents",
     // which no review or case study backs.
     description:
-      "Freelance full-stack developer. I finish and ship stuck apps: payments that work, real iOS and Android apps, App Store approval. Lovable, Sharetribe, Next.js.",
+      "Full-stack developer. I finish and ship stuck apps: payments that work, and iOS and Android apps prepared and submitted to the App Store and Google Play.",
     type: "profile",
     image: DEFAULT_OG_IMAGE,
     graph: [profilePage, person, organization, website, faqPage(`${ORIGIN}/#faq`, faqs)],
@@ -329,30 +330,22 @@ const STATIC = {
     ],
   },
   "/services": {
-    title: `Services — full-stack & AI development · ${profile.name}`,
+    // A short personal page: thedevorax.tech owns every offer, so this one says
+    // who Sameem is and links to the page there for each kind of job.
+    title: `Services, and where to find them · ${profile.name}`,
     description: clamp(
-      "Finish & ship for stuck apps, Next.js development, App Store launch and marketplace builds. Senior-led, fixed scope and fixed price, from Sameem Amjad and DevoraX."
+      "I'm Sameem Amjad, a freelance full-stack developer. The pages for my services and their prices are on thedevorax.tech, the studio I founded."
     ),
     type: "website",
     image: DEFAULT_OG_IMAGE,
     graph: [
       {
-        "@type": "CollectionPage",
+        "@type": "WebPage",
         "@id": `${ORIGIN}/services#page`,
         url: `${ORIGIN}/services`,
-        name: "Services",
+        name: "Services, and where to find them",
         isPartOf: { "@id": `${ORIGIN}/#website` },
         about: { "@id": `${ORIGIN}/#person` },
-        mainEntity: {
-          "@type": "ItemList",
-          numberOfItems: servicePages.length,
-          itemListElement: servicePages.map((s, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            url: `${ORIGIN}/services/${s.slug}`,
-            name: s.name,
-          })),
-        },
       },
       breadcrumb([
         { name: "Home", path: "/" },
@@ -396,7 +389,8 @@ const STATIC = {
 };
 
 /* A service page's graph: the Service itself, provided by the Person, plus
-   its FAQ. */
+   its FAQ. Only the Next.js page is left; the other three live on
+   thedevorax.tech now. */
 const serviceSeo = (service) => {
   const url = `${ORIGIN}/services/${service.slug}`;
   return {
@@ -419,7 +413,8 @@ const serviceSeo = (service) => {
         areaServed: "Worldwide",
         availableChannel: {
           "@type": "ServiceChannel",
-          serviceUrl: links.booking,
+          // Services and prices are on thedevorax.tech; this page quotes none.
+          serviceUrl: devoraxPages.services,
           availableLanguage: "English",
         },
       },
@@ -445,8 +440,7 @@ const serviceSeo = (service) => {
 
 /* A guide is a TechArticle written by the Person — authorship and dates
    are what make a how-to citable, so both are stated here and shown on the
-   page. `about` ties it to the service it leads to. */
-const guideService = (guide) => (guide.service ? getServiceBySlug(guide.service) : null);
+   page. */
 
 const guideSeo = (guide) => {
   const url = `${ORIGIN}/guides/${guide.slug}`;
@@ -473,19 +467,6 @@ const guideSeo = (guide) => {
         publisher: { "@id": `${ORIGIN}/#person` },
         isPartOf: { "@id": `${ORIGIN}/#website` },
         inLanguage: "en",
-        // Named inline, not a bare @id: the Service node itself lives on the
-        // service page's graph, and a reference this graph doesn't define
-        // would be dropped by consumers.
-        ...(guideService(guide)
-          ? {
-              about: {
-                "@type": "Service",
-                "@id": `${ORIGIN}/services/${guide.service}#service`,
-                name: guideService(guide).name,
-                url: `${ORIGIN}/services/${guide.service}`,
-              },
-            }
-          : {}),
       },
       breadcrumb([
         { name: "Home", path: "/" },
@@ -594,3 +575,44 @@ export const seoRoutes = [
   "/builds",
   ...allProjects.map((p) => `/work/${slugify(p.title)}`),
 ];
+
+/* ── Sitemap dates ───────────────────────────────────────────
+   Each URL carries the date its own content last changed, never the date of
+   the build or one date for the whole site. Google checks a claimed lastmod
+   against the page's real history and, once a site is caught restamping every
+   URL, stops trusting the field site-wide.
+
+   Where each date lives:
+     · a guide        its `updated` (guides.js), the same date the page shows
+     · a project      its `updated` (index.js), bumped when its entry or its
+                      caseStudies.js text changes; first set from git history
+     · the Next.js page   SERVICES_UPDATED (services.js)
+     · /work, /builds the newest of the projects they list and the date their
+                      own page file last changed
+     · /, /services, /guides   PAGE_UPDATED below: edit it when the page's
+                      own copy changes
+   A route with no date throws, so a new page can't ship with a stale one. */
+const PAGE_UPDATED = {
+  "/": "2026-11-16", // doors, checklist and statement links; approval wording replaced
+  "/services": "2026-11-16", // rewritten as a short personal page
+  "/guides": "2026-11-16", // body-text links to the doors and the checklist
+};
+const WORK_PAGE_FILE_UPDATED = "2026-11-02"; // src/pages/WorkPage.jsx, last commit
+const BUILDS_PAGE_FILE_UPDATED = "2026-10-08"; // src/pages/BuildsPage.jsx, last commit
+
+const newest = (dates) => dates.filter(Boolean).sort().at(-1);
+
+export const lastmodFor = (route) => {
+  const path = normalizePath(route);
+  let date;
+  if (PAGE_UPDATED[path]) date = PAGE_UPDATED[path];
+  else if (path === "/work") date = newest([WORK_PAGE_FILE_UPDATED, ...featuredProjects.map((p) => p.updated)]);
+  else if (path === "/builds") date = newest([BUILDS_PAGE_FILE_UPDATED, ...moreProjects.map((p) => p.updated)]);
+  else if (/^\/guides\/[^/]+$/.test(path)) date = getGuideBySlug(path.split("/")[2])?.updated;
+  else if (/^\/services\/[^/]+$/.test(path)) date = getServiceBySlug(path.split("/")[2]) && SERVICES_UPDATED;
+  else if (/^\/work\/[^/]+$/.test(path)) date = getProjectBySlug(path.split("/")[2])?.updated;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date || "")) {
+    throw new Error(`No content date for ${route}: set one where the page's data lives (see seo.js, "Sitemap dates")`);
+  }
+  return date;
+};

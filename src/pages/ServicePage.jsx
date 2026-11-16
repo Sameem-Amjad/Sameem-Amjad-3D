@@ -1,30 +1,30 @@
 import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import {
-  links,
-  profile,
   whatsappHref,
   slugify,
   getProjectBySlug,
   testimonials,
 } from "../constants";
+import { devoraxPages } from "../constants/doors";
 import { getServiceBySlug, SERVICES_UPDATED } from "../constants/services";
 import { formatDate } from "../utils/date";
 import { PageTransition } from "../components/fx";
-import { Icon, PrimaryButton, GhostButton, Reveal, Eyebrow, cn } from "../components/shared";
+import { Icon, PrimaryButton, GhostButton, Reveal, Eyebrow, InlineLink, cn } from "../components/shared";
 import { track } from "../utils/analytics";
 
-/* One page per thing people hire Sameem for.
-
-   These exist because a service that only lives as a tab on the homepage
-   can't rank for anything: it has no URL, no title of its own and no
-   heading a crawler weighs. Each page answers one buyer query, backs it
-   with the case studies and reviews that prove it, and ends in the same
-   two asks — book a call, or message on WhatsApp.
+/* A personal skills page. One is left, the Next.js page: thedevorax.tech owns
+   every offer, so this page quotes no prices and lays out no offer ladder, and
+   it sends readers to thedevorax.tech/services for services and prices.
+   It answers one search query, backs it with the projects and reviews that
+   show the work, and ends with a link to those services and a WhatsApp
+   button.
 
    Everything a crawler or an assistant needs is in the static HTML: the
    FAQ answers are rendered open, not behind an accordion, because the
    answer text is the part most likely to be quoted. */
 
+/* Section numbers count the sections that render, so a page without a proof
+   block or a FAQ doesn't skip a number. */
 const SectionLabel = ({ n, children }) => (
   <h2 className="mono-label mb-6 flex items-center gap-2 text-acid">
     <span className="text-faint">{n}</span>
@@ -32,6 +32,27 @@ const SectionLabel = ({ n, children }) => (
     {children}
   </h2>
 );
+
+/* A FAQ answer's follow-on link: an in-app route, or a plain link to a page
+   on thedevorax.tech (same tab, no rel that hides the referrer). */
+const FaqLink = ({ link }) => {
+  const cls =
+    "group mt-3 inline-flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-wide text-acid";
+  const arrow = (
+    <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+  );
+  return link.href ? (
+    <a href={link.href} data-cursor="button" className={cls}>
+      {link.label}
+      {arrow}
+    </a>
+  ) : (
+    <Link to={link.to} data-cursor="button" className={cls}>
+      {link.label}
+      {arrow}
+    </Link>
+  );
+};
 
 const WhatsAppCta = ({ pathname, placement }) => (
   <GhostButton
@@ -58,7 +79,8 @@ const ServicePage = () => {
     .map((title) => getProjectBySlug(slugify(title)))
     .filter(Boolean);
   const reviews = reviewsFor(service.reviewTags);
-  const related = (service.related || []).map(getServiceBySlug).filter(Boolean);
+  let section = 0;
+  const num = () => String(++section).padStart(2, "0");
 
   return (
     <PageTransition>
@@ -100,8 +122,8 @@ const ServicePage = () => {
             {service.lede}
           </p>
           <div className="anim-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: "0.14s" }}>
-            <PrimaryButton href={links.booking} icon="calendar">
-              Book a free call
+            <PrimaryButton href={devoraxPages.services} icon="arrowUpRight">
+              Services and prices on thedevorax.tech
             </PrimaryButton>
             <WhatsAppCta pathname={pathname} placement="service_hero" />
           </div>
@@ -109,14 +131,6 @@ const ServicePage = () => {
             <span className="inline-flex items-center gap-1.5">
               <Icon name="star" className="h-3.5 w-3.5 text-acid" />
               5.0 on Fiverr · 50+ projects
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Icon name="shield" className="h-3.5 w-3.5 text-acid" />
-              Fixed scope, fixed price
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Icon name="zap" className="h-3.5 w-3.5 text-acid" />
-              Reply within 24 hours
             </span>
             {/* Visible freshness date — these pages name tools that change
                 monthly, and the same date is dateModified in the schema. */}
@@ -129,7 +143,7 @@ const ServicePage = () => {
         {/* ── the problem ── */}
         {service.problems?.length > 0 && (
           <section>
-            <SectionLabel n="01">{service.problemsTitle || "sound familiar?"}</SectionLabel>
+            <SectionLabel n={num()}>{service.problemsTitle || "sound familiar?"}</SectionLabel>
             <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {/* <li> outermost: a Reveal (a div) directly inside a <ul> breaks
                   the list for screen readers. */}
@@ -149,7 +163,7 @@ const ServicePage = () => {
 
         {/* ── what you get ── */}
         <section>
-          <SectionLabel n="02">what you get</SectionLabel>
+          <SectionLabel n={num()}>what I work on</SectionLabel>
           <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
             {service.includes.map((f, i) => (
               <Reveal key={f.title} delay={(i % 2) * 0.06} className="h-full">
@@ -180,32 +194,10 @@ const ServicePage = () => {
           )}
         </section>
 
-        {/* ── how it works ── */}
-        {service.steps?.length > 0 && (
-          <section>
-            <SectionLabel n="03">how it works</SectionLabel>
-            <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {service.steps.map((s, i) => (
-                <li key={s.title}>
-                  <Reveal delay={i * 0.06} className="h-full">
-                    <div className="panel flex h-full flex-col p-6">
-                      <span className="font-display text-4xl font-bold leading-none text-acid">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="mt-4 font-display text-lg font-bold text-ink">{s.title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted">{s.detail}</p>
-                    </div>
-                  </Reveal>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
-
         {/* ── proof ── */}
         {(projects.length > 0 || reviews.length > 0) && (
           <section>
-            <SectionLabel n="04">proof</SectionLabel>
+            <SectionLabel n={num()}>proof</SectionLabel>
             {projects.length > 0 && (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((p) => (
@@ -221,7 +213,7 @@ const ServicePage = () => {
                     </h3>
                     <p className="text-sm leading-relaxed text-muted">{p.tagline || p.description}</p>
                     <span className="mt-auto inline-flex items-center gap-1.5 pt-2 font-mono text-[11px] uppercase tracking-wide text-acid">
-                      Read the case study
+                      Read the write-up
                       <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </Link>
@@ -253,21 +245,14 @@ const ServicePage = () => {
         {/* ── FAQ ── rendered open: the answers are the quotable part */}
         {service.faqs?.length > 0 && (
           <section>
-            <SectionLabel n="05">questions</SectionLabel>
+            <SectionLabel n={num()}>questions</SectionLabel>
             <div className="border-t border-line">
               {service.faqs.map((f) => (
                 <div key={f.q} className="border-b border-line px-1 py-6 sm:px-3">
                   <h3 className="font-display text-lg font-bold leading-snug text-ink sm:text-xl">{f.q}</h3>
                   <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-muted">{f.a}</p>
                   {f.link && (
-                    <Link
-                      to={f.link.to}
-                      data-cursor="button"
-                      className="group mt-3 inline-flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-wide text-acid"
-                    >
-                      {f.link.label}
-                      <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
+                    <FaqLink link={f.link} />
                   )}
                 </div>
               ))}
@@ -275,31 +260,6 @@ const ServicePage = () => {
           </section>
         )}
 
-        {/* ── related ── */}
-        {related.length > 0 && (
-          <section>
-            <SectionLabel n="06">related services</SectionLabel>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((r) => (
-                <Link
-                  key={r.slug}
-                  to={`/services/${r.slug}`}
-                  data-cursor="button"
-                  className="panel panel-hover group flex items-center gap-4 p-5"
-                >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line text-acid transition-colors group-hover:border-acid">
-                    <Icon name={r.icon} className="h-5 w-5" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-ink">{r.name}</span>
-                    <span className="block text-[12px] leading-snug text-faint">{r.summary}</span>
-                  </span>
-                  <Icon name="arrowRight" className="h-4 w-4 shrink-0 text-faint transition-colors group-hover:text-acid" />
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
 
       {/* ── CTA ── */}
@@ -309,12 +269,12 @@ const ServicePage = () => {
             <p className="mono-label mb-2 text-acid">// next step</p>
             <p className="font-display text-2xl font-bold text-ink sm:text-3xl">{service.ctaTitle}</p>
             <p className="mt-3 text-[15px] leading-relaxed text-muted">
-              Thirty minutes with {profile.name.split(" ")[0]}, free. You leave with a scope, a timeline and a
-              price — whether or not we work together.
+              Send me a message about it, or read how DevoraX describes its{" "}
+              <InlineLink href={devoraxPages.services}>services and prices on thedevorax.tech</InlineLink>
+              .
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <PrimaryButton href={links.booking} icon="calendar">Book a call</PrimaryButton>
             <WhatsAppCta pathname={pathname} placement="service_cta" />
           </div>
         </div>
