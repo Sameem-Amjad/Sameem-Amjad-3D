@@ -10,7 +10,7 @@ import { track } from "../utils/analytics";
 const methods = [
   { icon: "calendar", label: "Book a call", value: "Free · 30 minutes", href: links.booking },
   { icon: "whatsapp", label: "WhatsApp", value: profile.phone, href: whatsappHref("/#contact"), track: "contact", wide: true },
-  { icon: "mail", label: "Email", value: "Reply within 24h", href: links.email },
+  { icon: "mail", label: "Email", value: "Send me an email", href: links.email },
   { icon: "star", label: "Fiverr", value: "5.0 · Level 2 seller", href: links.fiverr },
   { icon: "globe", label: "DevoraX", value: "thedevorax.tech", href: links.devorax },
 ];
@@ -19,7 +19,6 @@ const availability = [
   ["status", '"open for projects"'],
   ["location", '"remote · worldwide"'],
   ["clients", '"4 continents"'],
-  ["response", '"< 24 hours"'],
 ];
 
 const Contact = () => {
@@ -71,7 +70,7 @@ const Contact = () => {
         eyebrow="let's build"
         title="Have a product"
         accent="in mind?"
-        description="Tell me what you're building. I'll reply within 24 hours with honest thoughts on scope, timeline and what it'll take to ship."
+        description="Tell me what you're building, and I'll reply with honest thoughts on scope and what it would take to ship."
       />
 
       <div className="mt-14 grid grid-cols-1 gap-4 lg:grid-cols-[1.05fr_0.95fr]">
@@ -120,7 +119,7 @@ const Contact = () => {
                 {status === "loading" ? "Sending your message" : status === "ok" ? "Message sent" : ""}
               </p>
               {status === "ok" && (
-                <p className="font-mono text-sm text-acid">// thanks — reply within 24h</p>
+                <p className="font-mono text-sm text-acid">// thanks, message sent</p>
               )}
               {status === "error" && (
                 <p role="alert" className="font-mono text-sm text-ember">

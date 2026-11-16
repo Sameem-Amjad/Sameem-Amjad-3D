@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { services, links } from "../constants";
-import { SectionHeading, Section, Icon, PrimaryButton, cn } from "./shared";
+import { doors, checklist, devoraxPages } from "../constants/doors";
+import { SectionHeading, Section, Icon, PrimaryButton, InlineLink, cn } from "./shared";
 
 const DWELL = 7000; // ms each capability holds before advancing
 
@@ -46,6 +47,19 @@ const Services = () => {
         accent="end to end."
         description="Six things people hire me for. Pick one — or tell me the business problem and I'll tell you which of these it actually is."
       />
+
+      {/* Body-text links to the pages thedevorax.tech owns for these jobs, in
+          the prerendered HTML: a sentence a reader and a crawler both follow,
+          not only a button inside a tab. */}
+      <p className="mt-8 max-w-3xl text-[15px] leading-relaxed text-muted">
+        Some of this work has its own page on DevoraX's site:{" "}
+        <InlineLink href={doors.lovable.url}>{doors.lovable.phrase}</InlineLink>,{" "}
+        <InlineLink href={doors.audit.url}>{doors.audit.phrase}</InlineLink>,{" "}
+        <InlineLink href={doors.sharetribe.url}>{doors.sharetribe.phrase}</InlineLink> and{" "}
+        <InlineLink href={doors.marketplace.url}>{doors.marketplace.phrase}</InlineLink>. For an
+        investor's technical due diligence, see{" "}
+        <InlineLink href={checklist.investor.url}>{checklist.investor.phrase}</InlineLink>.
+      </p>
 
       <div
         ref={ref}
@@ -119,6 +133,12 @@ const Services = () => {
                   {s.blurb}
                 </h3>
                 <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-muted">{s.detail}</p>
+                {s.priceNote && (
+                  <p className="mt-2 max-w-lg text-[13px] leading-relaxed text-faint">
+                    Prices and terms are on{" "}
+                    <InlineLink href={devoraxPages.pricing}>thedevorax.tech/pricing</InlineLink>.
+                  </p>
+                )}
 
                 <div className="mt-7 flex flex-wrap gap-1.5">
                   {s.tech.map((t) => (
@@ -135,9 +155,22 @@ const Services = () => {
                   <PrimaryButton href="#contact" icon="arrowRight">
                     Talk about this
                   </PrimaryButton>
-                  {/* A real link to the full page, in every panel's HTML —
-                      the homepage is where the service pages get their
-                      internal links from. */}
+                  {/* A real link to the page that covers it, in every panel's
+                      HTML: out to thedevorax.tech where it owns the offer, or
+                      to this site's own Next.js page. */}
+                  {s.door && (
+                    <a
+                      href={doors[s.door].url}
+                      data-cursor="button"
+                      className="group inline-flex min-h-[44px] items-center gap-2 px-2 font-mono text-[13px] uppercase tracking-wider text-muted transition-colors hover:text-acid"
+                    >
+                      {doors[s.door].name}
+                      <Icon
+                        name="arrowUpRight"
+                        className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      />
+                    </a>
+                  )}
                   {s.page && (
                     <Link
                       to={`/services/${s.page}`}
@@ -184,19 +217,36 @@ const Services = () => {
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {[
           { icon: "zap", title: "Senior-led, always", sub: "You get me on the hard parts, not a junior" },
-          { icon: "shield", title: "35 days of free fixes", sub: "For any real problem in what we built" },
-          { icon: "compass", title: "Fixed scope, fixed price", sub: "Quoted per project, not per hour" },
-        ].map((g) => (
-          <div key={g.title} className="panel panel-hover flex items-center gap-4 p-5">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line text-acid">
-              <Icon name={g.icon} className="h-5 w-5" />
-            </span>
-            <span>
-              <span className="block text-sm font-semibold text-ink">{g.title}</span>
-              <span className="mt-0.5 block text-[12px] leading-snug text-faint">{g.sub}</span>
-            </span>
-          </div>
-        ))}
+          { icon: "shield", title: "Free fixes after handover", sub: "Defects in the work we delivered are fixed free for 35 days after handover." },
+          {
+            icon: "compass",
+            title: "Prices and terms",
+            sub: "Most work starts with the $400 audit, credited to the fix. Read the terms on thedevorax.tech/pricing.",
+            href: `${devoraxPages.pricing}#terms`,
+          },
+        ].map((g) => {
+          const body = (
+            <>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line text-acid">
+                <Icon name={g.icon} className="h-5 w-5" />
+              </span>
+              <span>
+                <span className="block text-sm font-semibold text-ink">{g.title}</span>
+                <span className="mt-0.5 block text-[12px] leading-snug text-faint">{g.sub}</span>
+              </span>
+            </>
+          );
+          const cls = "panel panel-hover flex items-center gap-4 p-5";
+          return g.href ? (
+            <a key={g.title} href={g.href} data-cursor="button" className={cls}>
+              {body}
+            </a>
+          ) : (
+            <div key={g.title} className={cls}>
+              {body}
+            </div>
+          );
+        })}
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">

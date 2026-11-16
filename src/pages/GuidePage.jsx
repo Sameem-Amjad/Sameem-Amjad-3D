@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import { links, profile, whatsappHref } from "../constants";
 import { guides, getGuideBySlug } from "../constants/guides";
-import { getServiceBySlug } from "../constants/services";
+import { doors } from "../constants/doors";
 import { PageTransition } from "../components/fx";
-import { Icon, PrimaryButton, GhostButton, Eyebrow } from "../components/shared";
+import { Icon, PrimaryButton, GhostButton, Eyebrow, InlineLink } from "../components/shared";
 import { formatDate } from "../utils/date";
 import { track } from "../utils/analytics";
 
@@ -14,20 +14,34 @@ import { track } from "../utils/analytics";
    of it should be in the prerendered HTML at full opacity — the text is
    what ranks and what gets quoted. CSS entrances only, above the fold. */
 
-/* `inline code` in backticks → <code>. The only markup guides support, so
-   the data stays plain strings and nothing can inject HTML. */
-const Rich = ({ text }) =>
-  text.split(/(`[^`]+`)/).map((part, i) =>
-    part.startsWith("`") && part.endsWith("`") ? (
-      <code key={i} className="rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[0.88em] text-ink">
-        {part.slice(1, -1)}
-      </code>
-    ) : (
-      <Fragment key={i}>{part}</Fragment>
-    )
-  );
+/* `inline code` in backticks → <code>, and [anchor text](door) → a link to the
+   guide's door on thedevorax.tech (the URL comes from constants/doors.js, so
+   it is written once). The only markup guides support, so the data stays
+   plain strings and nothing can inject HTML. */
+const TOKEN = /(`[^`]+`|\[[^\]]+\]\(door\))/;
 
-const Block = ({ block }) => {
+const Rich = ({ text, door }) =>
+  text.split(TOKEN).map((part, i) => {
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return (
+        <code key={i} className="rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[0.88em] text-ink">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    const link = /^\[([^\]]+)\]\(door\)$/.exec(part);
+    if (link) {
+      if (!door) throw new Error(`Guide text links to its door, but the guide has none: "${link[1]}"`);
+      return (
+        <InlineLink key={i} href={door.url}>
+          {link[1]}
+        </InlineLink>
+      );
+    }
+    return <Fragment key={i}>{part}</Fragment>;
+  });
+
+const Block = ({ block, door }) => {
   if (block.code) {
     return (
       // Focusable so a keyboard user can scroll the long lines on a phone.
@@ -48,7 +62,7 @@ const Block = ({ block }) => {
           <li key={item} className="flex items-start gap-3 text-[16px] leading-relaxed text-muted">
             <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-acid" aria-hidden="true" />
             <span>
-              <Rich text={item} />
+              <Rich text={item} door={door} />
             </span>
           </li>
         ))}
@@ -57,7 +71,7 @@ const Block = ({ block }) => {
   }
   return (
     <p className="text-[16px] leading-relaxed text-muted sm:text-[17px]">
-      <Rich text={block.p} />
+      <Rich text={block.p} door={door} />
     </p>
   );
 };
@@ -67,7 +81,8 @@ const GuidePage = () => {
   const { pathname } = useLocation();
   const guide = getGuideBySlug(slug);
   if (!guide) return <Navigate to="/guides" replace />;
-  const service = getServiceBySlug(guide.service);
+  // The one page on thedevorax.tech this guide leads to (constants/doors.js).
+  const door = doors[guide.door];
   const others = guides.filter((g) => g.slug !== guide.slug);
 
   return (
@@ -94,6 +109,14 @@ const GuidePage = () => {
           <p className="anim-rise mt-5 text-lg leading-relaxed text-muted" style={{ animationDelay: "0.08s" }}>
             {guide.summary}
           </p>
+          {/* The guide's door, once, in the first screen: a sentence a reader and
+              a crawler both follow. The close below names it again. */}
+          {door && (
+            <p className="anim-rise mt-4 text-[15px] leading-relaxed text-muted" style={{ animationDelay: "0.11s" }}>
+              The wider job is described on DevoraX's page for{" "}
+              <InlineLink href={door.url}>{door.phrase}</InlineLink>.
+            </p>
+          )}
           {/* Byline: who wrote it and when, visibly — the same facts as the
               article's author and dateModified in the schema. */}
           <p className="anim-rise mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[12px] uppercase tracking-wide text-faint" style={{ animationDelay: "0.14s" }}>
@@ -113,40 +136,29 @@ const GuidePage = () => {
             <section key={section.h2} className="flex flex-col gap-5">
               <h2 className="font-display text-2xl font-bold leading-snug text-ink sm:text-[1.7rem]">{section.h2}</h2>
               {section.blocks.map((block, i) => (
-                <Block key={i} block={block} />
+                <Block key={i} block={block} door={door} />
               ))}
             </section>
           ))}
         </div>
 
-        {service && (
-          <aside className="panel mt-16 flex flex-col gap-5 p-7 sm:p-8">
-            <p className="mono-label text-acid">// need it fixed for you?</p>
-            <p className="font-display text-2xl font-bold text-ink">{service.name}</p>
-            <p className="text-[15px] leading-relaxed text-muted">{service.summary}</p>
-            <div className="flex flex-wrap items-center gap-3">
-              <PrimaryButton to={`/services/${service.slug}`} icon="arrowRight">
-                How it works
-              </PrimaryButton>
-              <GhostButton
-                href={whatsappHref(pathname)}
-                icon="whatsapp"
-                onClick={() => track("whatsapp_click", { placement: "guide", page_path: pathname })}
-              >
-                WhatsApp
-              </GhostButton>
-              <a
-                href={links.booking}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor="button"
-                className="inline-flex min-h-[44px] items-center px-2 font-mono text-[13px] uppercase tracking-wider text-muted transition-colors hover:text-acid"
-              >
-                Book a call
-              </a>
-            </div>
-          </aside>
-        )}
+        {/* The close: the guide's last section names its door once, with a link.
+            This strip is only how to reach Sameem, with one link to /book. */}
+        <aside className="panel mt-16 flex flex-col gap-5 p-7 sm:p-8">
+          <p className="mono-label text-acid">// questions about your own app?</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <PrimaryButton href={links.booking} icon="calendar">
+              Book a call
+            </PrimaryButton>
+            <GhostButton
+              href={whatsappHref(pathname)}
+              icon="whatsapp"
+              onClick={() => track("whatsapp_click", { placement: "guide", page_path: pathname })}
+            >
+              WhatsApp
+            </GhostButton>
+          </div>
+        </aside>
 
         {others.length > 0 && (
           <nav aria-labelledby="more-guides" className="mt-16 border-t border-line pt-10">

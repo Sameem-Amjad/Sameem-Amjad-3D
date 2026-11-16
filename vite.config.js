@@ -8,6 +8,7 @@ import {
   isoDurationSeconds,
   videoUploadIso,
   videoTitle,
+  lastmodFor,
 } from "./src/constants/seo.js";
 import {
   profile,
@@ -16,18 +17,19 @@ import {
   moreProjects,
   slugify,
   getProjectBySlug,
+  devoraxStatement,
 } from "./src/constants/index.js";
+import { doors, devoraxPages } from "./src/constants/doors.js";
 import { servicePages } from "./src/constants/services.js";
 import { guides } from "./src/constants/guides.js";
 
-// Date the site's *content* was last revised — not the date of the last build.
-// Bump this when project copy or case-study text actually changes.
-//
-// Deliberately a constant rather than new Date(): Google checks a claimed
-// lastmod against the page's real modification history and, once a site is
-// caught restamping every URL on every deploy, it stops trusting the field
-// site-wide. A CSS tweak must not tell Google all 28 pages were rewritten.
-const CONTENT_REVISED = "2026-11-13";
+// Each URL's <lastmod> is the date that page's own content last changed:
+// lastmodFor() in src/constants/seo.js reads it from where the page's data
+// lives (a guide's `updated`, a project's `updated`, and so on) and throws if
+// a route has none. It is never the build date and never one date for the
+// whole site: Google checks a claimed lastmod against the page's real history
+// and, once a site is caught restamping every URL, stops trusting the field
+// site-wide. A CSS tweak must not tell Google every page was rewritten.
 
 // The case study behind a /work/<slug> route, when it has a walkthrough.
 const videoProjectFor = (route) => {
@@ -71,7 +73,7 @@ ${routes
     const project = videoProjectFor(loc);
     return `  <url>
     <loc>${ORIGIN}${loc}</loc>
-    <lastmod>${CONTENT_REVISED}</lastmod>${project ? videoEntry(project) : ""}
+    <lastmod>${lastmodFor(loc)}</lastmod>${project ? videoEntry(project) : ""}
   </url>`;
   })
   .join("\n")}
@@ -121,13 +123,20 @@ ${profile.role} at ${profile.company}. ${profile.location}.
 
 ## Hire or contact
 
-- [Book a free 30-minute call](${links.booking}): scope, timeline and a fixed price, whether or not you hire
-- [WhatsApp ${profile.phone}](${links.whatsapp}): fastest reply
+- [Book a free 30-minute call](${links.booking}): you'll leave knowing whether an audit makes sense, what it costs, and the published price range for the work
+- [WhatsApp ${profile.phone}](${links.whatsapp}): the fastest way to reach me
 - [Email](${links.email}): ${profile.email}
 - [Fiverr](${links.fiverr}): 5.0 rating across 50+ projects
 
 ## Services
 
+Services and prices are on thedevorax.tech, the studio's site, which has one page for each offer. This site keeps the portfolio, the guides and a personal Next.js page.
+
+${Object.values(doors)
+  .filter((d) => !d.url.includes("#"))
+  .map((d) => `- [${d.name}](${d.url}): ${d.phrase}`)
+  .join("\n")}
+- [Services and prices](${devoraxPages.services}): every service and its price, on thedevorax.tech
 ${servicePages.map((sv) => line(`/services/${sv.slug}`, sv.name)).join("\n")}
 
 ## Guides
@@ -138,7 +147,7 @@ ${guides.map((g) => line(`/guides/${g.slug}`, g.title)).join("\n")}
 
 ${["/", "/services", "/guides", "/work", "/builds"].map((r) => line(r)).join("\n")}
 
-## Case studies
+## Featured projects
 
 ${featuredProjects.map(project).join("\n")}
 
@@ -148,7 +157,7 @@ ${moreProjects.map(project).join("\n")}
 
 ## Elsewhere
 
-- [${profile.company}](${links.devorax}): the studio I founded and lead
+- [${profile.company}](${links.devorax}): ${devoraxStatement}
 - [Fiverr](${links.fiverr}): freelance profile and client reviews
 - [LinkedIn](${links.linkedin})
 - [GitHub](${links.github})

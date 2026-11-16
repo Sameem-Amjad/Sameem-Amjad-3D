@@ -10,7 +10,6 @@ import {
   industryLabel,
 } from "../constants";
 import { servicesForProject } from "../constants/services";
-import { guidesForServices } from "../constants/guides";
 import { PageTransition } from "../components/fx";
 import ProjectMedia from "../components/ProjectMedia";
 import {
@@ -94,7 +93,6 @@ const ProjectDetail = () => {
   // The services this project is cited as proof for, so the case study
   // links back to the page where someone can hire for the same work.
   const related = servicesForProject(project.title);
-  const relatedGuides = guidesForServices(related.map((sv) => sv.slug));
   const features = project.features || [];
   const platforms = [
     project.web && "Web",
@@ -245,7 +243,9 @@ const ProjectDetail = () => {
                 {/* The project's own role, not the founder title: most of these
                     were built as an employee elsewhere, and "Founder & Lead
                     Engineer" beside them claimed otherwise. */}
-                <SpecRow label="role" value={project.role || "Full-stack engineer"} />
+                {/* No role recorded means no role claimed: the fallback says only
+                    what thedevorax.tech's own page for these builds says. */}
+                <SpecRow label="role" value={project.role || "Worked on this build"} />
                 <SpecRow label="category" value={project.category} />
                 {project.industry && (
                   <SpecRow
@@ -308,7 +308,7 @@ const ProjectDetail = () => {
 
             {features.length > 0 && (
               <div>
-                <SectionLabel n="03">what I built</SectionLabel>
+                <SectionLabel n="03">{project.featuresLabel || "what I built"}</SectionLabel>
                 <div className="mt-2 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
                   {features.map((f, i) => (
                     <Reveal key={f.title} delay={(i % 2) * 0.06} className="h-full">
@@ -408,22 +408,6 @@ const ProjectDetail = () => {
                 className="group inline-flex items-center gap-1.5 text-acid"
               >
                 {sv.name}
-                <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            ))}
-          </div>
-        )}
-        {relatedGuides.length > 0 && (
-          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-[12px] uppercase tracking-wide">
-            <span className="text-faint">Related guide</span>
-            {relatedGuides.map((g) => (
-              <Link
-                key={g.slug}
-                to={`/guides/${g.slug}`}
-                data-cursor="button"
-                className="group inline-flex items-center gap-1.5 text-acid"
-              >
-                {g.short}
                 <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             ))}

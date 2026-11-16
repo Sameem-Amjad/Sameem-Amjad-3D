@@ -141,6 +141,27 @@ export const GhostButton = ({ children, href, to, icon, onClick, className }) =>
   );
 };
 
+/* ───────────────── Inline link ─────────────────
+   A text link for a sentence, with descriptive anchor text. External pages
+   (thedevorax.tech) open in the same tab and keep their referrer, so the
+   studio's own analytics can see the visit came from this site; an in-app
+   path goes through the router. */
+export const InlineLink = ({ href, to, children, className }) => {
+  const cls = cn(
+    "text-ink underline decoration-acid/60 underline-offset-4 transition-colors hover:text-acid",
+    className
+  );
+  return to ? (
+    <Link to={to} data-cursor="button" className={cls}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} data-cursor="button" className={cls}>
+      {children}
+    </a>
+  );
+};
+
 /* ───────────────── Reveal ───────────────── */
 export const Reveal = ({ children, delay = 0, y = 24, className }) => (
   <motion.div

@@ -5,6 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { caseStudies } from "./caseStudies";
+import { doors, devoraxPages } from "./doors";
 
 export const profile = {
   name: "Sameem Amjad",
@@ -21,14 +22,15 @@ export const profile = {
   kicker: "Freelance Full-Stack Developer",
   // "Finish and ship" is the positioning chosen 2026-10-09: "fix/rescue"
   // is the crowded, cheap end of the market. The search phrases ("fix vibe
-  // coded app") still live on the service page that targets them.
+  // coded app") live on the pages thedevorax.tech owns for them: see
+  // constants/doors.js.
   subheadline:
-    "I finish and ship stuck apps: payments that work, real iOS and Android apps, and App Store approval. For founders who built with Lovable, Replit, Bolt or Sharetribe, or whose developer left. Next.js, React Native, Supabase, Stripe and AWS.",
+    "I finish and ship stuck apps: payments that work, and real iOS and Android apps, prepared and submitted to the App Store and Google Play. For founders who built with Lovable, Replit, Bolt or Sharetribe, or whose developer left. Next.js, React Native, Supabase, Stripe and AWS.",
   // Third person, facts only: Person.description in the schema, the opening
   // of llms.txt and the footer's about line. It is the paragraph an
   // assistant quotes when asked who he is, so every clause must be checkable.
   bio:
-    "Sameem Amjad is a freelance full-stack developer based in Pakistan and the founder of DevoraX. He finishes and ships stuck web and mobile apps — payments, iOS and Android apps and App Store approval, on Next.js, React Native, Supabase, Stripe and AWS — including apps built with AI tools such as Lovable, Bolt, Replit and Cursor, and marketplaces on Sharetribe. He has sold on Fiverr since 2022, with a 5.0 rating across 50+ projects for clients in the US, UK, Canada and Hong Kong.",
+    "Sameem Amjad is a freelance full-stack developer based in Pakistan and the founder of DevoraX. He finishes and ships stuck web and mobile apps: payments that work, and real iOS and Android apps, prepared and submitted to the App Store and Google Play. He works on Next.js, React Native, Supabase, Stripe and AWS, including apps built with AI tools such as Lovable, Bolt, Replit and Cursor, and marketplaces on Sharetribe. He has sold on Fiverr since 2022, with a 5.0 rating across 50+ projects for clients in the US, UK, Canada and Hong Kong.",
   location: "Available worldwide · Remote",
   availability: "Available for new projects",
   email: "sameemamjadarsu@gmail.com",
@@ -36,6 +38,12 @@ export const profile = {
   // needs the bare international digits.
   phone: "+92 371 1285190",
 };
+
+/* How the studio describes itself, word for word (thedevorax.tech's own
+   entity statement). Use it verbatim wherever this site describes DevoraX in
+   a sentence; do not paraphrase it per page. */
+export const devoraxStatement =
+  "DevoraX is a two-person software studio, founded in 2022 and based in Pakistan, that finishes and ships stuck apps for founders: payments that work, and real iOS and Android apps, prepared and submitted to the App Store and Google Play.";
 
 export const links = {
   devorax: "https://thedevorax.tech",
@@ -77,7 +85,9 @@ export const navLinks = [
   { id: "contact", title: "Contact" },
 ];
 
-// `page` links a tab to its full /services/<slug> page (constants/services.js).
+// A tab can link out: `door` is a key in constants/doors.js (the page on
+// thedevorax.tech that owns that offer); `page` is a /services/<slug> page on
+// this site (constants/services.js), kept for the personal Next.js page.
 export const services = [
   {
     key: "rescue",
@@ -86,19 +96,22 @@ export const services = [
     blurb:
       "Your app works in the demo and breaks with real users. I find out why, finish it and ship it: to the web, the App Store and Google Play.",
     detail:
-      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, on Sharetribe, or with a contractor who has since disappeared. They look finished, then fall over at login, payments, deploy or App Store review. I start with a $400 audit (credited to the fix), then finish the app in your codebase at $1,200 per week of work.",
+      "A lot of apps now start in Lovable, Bolt, Replit or Cursor, on Sharetribe, or with a contractor who has since disappeared. They look finished, then fall over at login, payments, deploy or App Store review. Most work starts with the $400 audit, credited to the fix if you go ahead.",
+    // Shown under the detail as a link: every place that quotes a price links
+    // to thedevorax.tech/pricing, the one pricing page.
+    priceNote: true,
     points: [
       "Login, Supabase security rules and exposed keys",
       "Stripe checkout, webhooks and subscriptions",
       "Deploys: Vercel, AWS, custom domains and SSL",
-      "iOS and Android launch, submitted until approved",
+      "iOS and Android apps, prepared and submitted to the App Store and Google Play",
       "Slow pages, broken layouts and mobile UI bugs",
       "Moving the app off the builder onto accounts you own",
     ],
     tech: ["Lovable", "Bolt", "Next.js", "Supabase", "Stripe", "AWS"],
     icon: "shield",
     accent: "from-amber-400/25 to-transparent",
-    page: "fix-vibe-coded-app",
+    door: "audit",
   },
   {
     key: "web",
@@ -136,7 +149,7 @@ export const services = [
     ],
     tech: ["React Native", "Flutter", "Firebase", "Node.js"],
     icon: "mobile",
-    page: "app-store-launch",
+    door: "lovable",
     accent: "from-cyan-400/25 to-transparent",
     span: "",
   },
@@ -216,7 +229,7 @@ export const team = [
     name: "Usman",
     badge: "CTO",
     role: "Chief Technical Officer",
-    title: "Full-Stack AI Architect · Web · Mobile · 35-Day Free Maintenance",
+    title: "Full-Stack AI Architect · Web · Mobile",
     image: "/myimage/usman_cto-960.webp",
     bio: "Expert Full-Stack AI Architect with 5+ years building scalable Generative-AI systems, custom web apps and SaaS platforms. I turn slow, outdated systems into fast, scalable, user-friendly products — architecting cross-platform mobile (React Native, Flutter) and high-concurrency web on Kubernetes & AWS.",
     tags: ["Generative AI", "React Native", "Flutter", "Kubernetes", "AWS", "SaaS"],
@@ -233,6 +246,17 @@ export const team = [
 // built while Sameem was employed elsewhere, not delivered by DevoraX.
 // Context confirmed by Sameem on 2026-10-09: direct clients are labelled
 // "direct client", employer work names the employer.
+//
+// Per-entry fields worth knowing:
+//   updated       – YYYY-MM-DD the page's content last changed. It is the
+//                   project page's <lastmod> in the sitemap (lastmodFor in
+//                   seo.js). Bump it when you edit the entry or its
+//                   caseStudies.js text; first set from git history.
+//   featuresLabel – heading over the feature cards, "what I built" by
+//                   default. Set where thedevorax.tech limits Sameem's part
+//                   (Dooz: the backend; Pastel: his employer's iOS app) so the
+//                   heading doesn't claim the whole product.
+// Role lines never say more than thedevorax.tech says of the same project.
 //
 // Demo media (2026-10-19, attribution confirmed by Sameem that day):
 //   video   – { src, poster, caption, duration, uploadDate }. Self-hosted in
@@ -258,6 +282,7 @@ const gallery = (name, ...srcs) => srcs.map((src, i) => ({ src, alt: `${name}: $
 export const featuredProjects = [
   {
     title: "Loopedin",
+    updated: "2026-10-08",
     tagline: "Social + local-events app · built at Zencloud, live on both stores",
     role: "Backend engineer · Zencloud",
     category: "Node.js · Microservices · AWS",
@@ -280,20 +305,22 @@ export const featuredProjects = [
   },
   {
     title: "Dooz Inspected Cars",
-    tagline: "Used-car marketplace in Jordan · 100K+ Google Play downloads",
-    role: "Full-stack engineer · direct client",
+    updated: "2026-11-16",
+    tagline: "Used-car marketplace in Jordan · 100K+ downloads on Google Play",
+    role: "Backend engineer · direct client",
+    featuresLabel: "what the product does",
     category: "Angular · NestJS · React Native",
     filter: "Mobile",
     industry: "marketplaces",
     description:
-      "A direct client project: a platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators across web, iOS and Android, all served by one NestJS backend.",
+      "Dooz hired me directly to work on its shared NestJS backend. The product is a platform to search, buy, finance and insure inspected used cars, with 150-point inspection reports and financing calculators; that one backend serves the Angular web app and the React Native apps for iOS and Android.",
     image:
       "https://arqdtyoiwvhpxkuyettb.supabase.co/storage/v1/object/public/DevoraX/projects/1780687463421-x75fdi95mk8.png",
     accent: "from-cyan-400 to-blue-500",
     stats: [
-      { k: "Google Play", v: "100K+ installs" },
+      { k: "Google Play", v: "100K+ downloads" },
       { k: "Platforms", v: "Web · iOS · Android" },
-      { k: "Backend", v: "NestJS" },
+      { k: "My part", v: "NestJS backend" },
     ],
     tags: ["Angular", "NestJS", "React Native", "PostgreSQL"],
     web: "https://dooz.com/en/cars-for-sale",
@@ -306,6 +333,7 @@ export const featuredProjects = [
     // business is one sentence in its case study; constraction.ca is now this
     // contract generator.
     title: "ConstrAction",
+    updated: "2026-10-19",
     tagline: "Bilingual contract generator for Quebec contractors · live at constraction.ca",
     role: "Full-stack engineer · Fiverr client",
     category: "Next.js 15 · Supabase · Stripe",
@@ -341,6 +369,7 @@ export const featuredProjects = [
   },
   {
     title: "VoiceDesk",
+    updated: "2026-10-19",
     tagline: "White-label AI voice receptionist · built for a Fiverr client",
     role: "Full-stack engineer · Fiverr client",
     category: "Node.js · Deepgram · Twilio",
@@ -375,6 +404,7 @@ export const featuredProjects = [
   },
   {
     title: "Pianissimo Online",
+    updated: "2026-10-19",
     tagline: "Gamified online piano academy in English and Spanish · Fiverr client",
     role: "Full-stack engineer · Fiverr client",
     category: "Next.js 14 · Supabase · PWA",
@@ -409,8 +439,10 @@ export const featuredProjects = [
   },
   {
     title: "Pastel Marketplace",
+    updated: "2026-10-19",
     tagline: "Antiques marketplace on Sharetribe · I work on its iOS app",
     role: "Software engineer · Pastel",
+    featuresLabel: "what the product does",
     category: "Next.js · Firebase · Sharetribe",
     filter: "E-Commerce",
     industry: "marketplaces",
@@ -430,8 +462,10 @@ export const featuredProjects = [
   },
   {
     title: "Koor Food Delivery",
-    tagline: "Homemade-food marketplace · v1 live on Google Play",
-    role: "Full-stack engineer",
+    updated: "2026-11-16",
+    tagline: "Homemade-food marketplace · v1 live on Google Play · DevoraX client",
+    role: "Worked on the build · DevoraX client",
+    featuresLabel: "what the app does",
     category: "React Native · NestJS · AWS",
     filter: "Mobile",
     industry: "food-hospitality",
@@ -451,6 +485,7 @@ export const featuredProjects = [
   // DevoraX client work (the owner's instruction, 12 Nov 2026): no client named.
   {
     title: "Afriva",
+    updated: "2026-11-13",
     tagline: "African-fashion marketplace: a storefront for shoppers and a dashboard for each seller · DevoraX client",
     role: "Full-stack engineer · DevoraX client",
     category: "Next.js 15 · Supabase",
@@ -485,6 +520,7 @@ export const featuredProjects = [
   },
   {
     title: "TAL Workforce",
+    updated: "2026-11-16",
     tagline: "UK welfare app for mobile workers · live on iOS and Android",
     role: "Full-stack engineer · Webrange Solutions",
     category: "Flutter · React · Node.js",
@@ -507,6 +543,7 @@ export const featuredProjects = [
   },
   {
     title: "WOD Pro League",
+    updated: "2026-10-08",
     tagline: "Online functional-fitness league · built at Zencloud",
     role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · Node.js · AWS",
@@ -530,6 +567,7 @@ export const featuredProjects = [
   },
   {
     title: "JUJU Streaming",
+    updated: "2026-10-09",
     tagline: "Media-streaming backend · FFmpeg + BullMQ pipeline",
     role: "Backend engineer · direct client",
     category: "Node.js · AWS · Media",
@@ -549,6 +587,7 @@ export const featuredProjects = [
   },
   {
     title: "Pathana",
+    updated: "2026-11-16",
     tagline: "Career-planning platform for students and counselors · built at ivector",
     role: "Full-stack engineer · ivector",
     category: "Next.js · Node.js · Firebase",
@@ -569,6 +608,7 @@ export const featuredProjects = [
   },
   {
     title: "Three28",
+    updated: "2026-10-09",
     tagline: "Creator video-monetization app · live on the App Store",
     role: "Full-stack engineer · direct client",
     category: "React Native · NestJS · AWS",
@@ -589,6 +629,7 @@ export const featuredProjects = [
   },
   {
     title: "Digital Power of Attorney",
+    updated: "2026-11-16",
     tagline: "Danish digital power-of-attorney service · built at Zencloud",
     role: "Backend engineer · Zencloud",
     category: "Node.js · React · Flutter · AWS",
@@ -627,6 +668,7 @@ export const featuredProjects = [
   },
   {
     title: "Waitmate",
+    updated: "2026-10-08",
     tagline: "Hospitality management suite · demo build",
     role: "Full-stack engineer",
     category: "React · Supabase · React Native",
@@ -647,6 +689,7 @@ export const featuredProjects = [
   },
   {
     title: "iDecorwala",
+    updated: "2026-10-19",
     tagline: "Corporate website for an interior surfaces and fit-out company · direct client",
     role: "Full-stack engineer · direct client",
     category: "Next.js 16 · Supabase",
@@ -683,6 +726,7 @@ export const featuredProjects = [
   // confirmed that day: no platform is named, and each links only its demo.
   {
     title: "Bevy Irie",
+    updated: "2026-11-02",
     tagline: "Trust-first website for a Lagos property manager serving landlords abroad · client project",
     role: "Full-stack engineer · client project",
     category: "Next.js 16 · Upstash Redis",
@@ -717,6 +761,7 @@ export const featuredProjects = [
   },
   {
     title: "SteamBlast Arena",
+    updated: "2026-11-02",
     tagline: "Multiplayer maths and literacy game for primary school children · client project",
     role: "Full-stack engineer · client project",
     category: "Phaser 3 · Socket.IO · Node.js",
@@ -751,6 +796,7 @@ export const featuredProjects = [
   },
   {
     title: "ExpertProfile.AI",
+    updated: "2026-11-02",
     tagline: "Expert-recognition website with a no-code CMS · client project",
     role: "Full-stack engineer · client project",
     category: "Next.js 16 · Supabase",
@@ -785,6 +831,7 @@ export const featuredProjects = [
   },
   {
     title: "SolNotary",
+    updated: "2026-11-02",
     tagline: "On-chain notarization on Solana with a paid reveal · client project",
     role: "Full-stack engineer · client project",
     category: "Next.js 16 · Solana · Supabase",
@@ -819,6 +866,7 @@ export const featuredProjects = [
   },
   {
     title: "GentleR",
+    updated: "2026-11-02",
     tagline: "Calm lessons and a private journal that saves itself · client project",
     role: "Full-stack engineer · client project",
     category: "Next.js 16 · Supabase",
@@ -853,6 +901,7 @@ export const featuredProjects = [
   },
   {
     title: "Royal Malt",
+    updated: "2026-11-02",
     tagline: "Cinematic launch site for an alcohol-free malt drink · client project",
     role: "Front-end engineer · client project",
     category: "TanStack Start · React 19",
@@ -887,6 +936,7 @@ export const featuredProjects = [
   },
   {
     title: "Mint Choc Media",
+    updated: "2026-11-02",
     tagline: "Landing page for a London social-first creative studio · client project",
     role: "Front-end engineer · client project",
     category: "React 18 · Vite · Motion",
@@ -922,6 +972,7 @@ export const featuredProjects = [
   // DevoraX client work (the owner's answer, 11 Nov 2026): no client named.
   {
     title: "Triagely",
+    updated: "2026-11-11",
     tagline: "AI support triage and wholesale lead scoring for an online store · DevoraX client",
     role: "AI engineer · DevoraX client",
     category: "Python · Google Gemini",
@@ -956,6 +1007,7 @@ export const featuredProjects = [
   },
   {
     title: "Tallyfile",
+    updated: "2026-11-11",
     tagline: "Invoice PDFs to one CSV for Excel, checked by code · DevoraX client",
     role: "AI engineer · DevoraX client",
     category: "Python · Google Gemini",
@@ -990,6 +1042,7 @@ export const featuredProjects = [
   },
   {
     title: "Biscuit",
+    updated: "2026-11-11",
     tagline: "AI chat assistant for a dog-grooming salon's website, answering from its FAQ · DevoraX client",
     role: "AI engineer · DevoraX client",
     category: "Gemini · Vercel functions · Supabase",
@@ -1024,6 +1077,7 @@ export const featuredProjects = [
   },
   {
     title: "LinguaBridge",
+    updated: "2026-11-11",
     tagline: "Marketing website for a translation agency, built to turn a visit into a quote request",
     role: "Front-end engineer",
     category: "Next.js 16 · React 19 · Framer Motion",
@@ -1058,6 +1112,7 @@ export const featuredProjects = [
   },
   {
     title: "LearnHub",
+    updated: "2026-11-12",
     tagline: "Members' course platform: paid tiers unlock video courses, a library and progress tracking",
     role: "Full-stack engineer",
     category: "Next.js 16 · Supabase · Stripe",
@@ -1093,6 +1148,7 @@ export const featuredProjects = [
   // DevoraX client work (the owner's instruction, 12 Nov 2026): no client named.
   {
     title: "Career Seal",
+    updated: "2026-11-13",
     tagline: "Visa-sponsored job search for skilled workers, with resumes matched to roles by AI · DevoraX client",
     role: "Full-stack engineer · DevoraX client",
     category: "Next.js 15 · Express · MongoDB",
@@ -1129,6 +1185,7 @@ export const featuredProjects = [
   // catalogue is public-domain classics, not the publisher's own titles.
   {
     title: "Glorious Publications",
+    updated: "2026-11-13",
     tagline: "Online bookshop for a small publisher, with print and e-book editions and a page-flip preview · DevoraX client",
     role: "Full-stack engineer · DevoraX client",
     category: "Next.js 14 · MongoDB",
@@ -1167,6 +1224,7 @@ export const featuredProjects = [
 export const moreProjects = [
   {
     title: "Hear With You",
+    updated: "2026-10-09",
     role: "Full-stack engineer · direct client",
     category: "Flutter · NestJS · Next.js",
     filter: "AI",
@@ -1186,6 +1244,7 @@ export const moreProjects = [
   // each says so on its card and case study.
   {
     title: "FirstPass",
+    updated: "2026-10-19",
     tagline: "MPJE exam preparation for pharmacy graduates · demo build",
     role: "Full-stack engineer · demo build",
     category: "Next.js 16 · Supabase · Stripe",
@@ -1220,6 +1279,7 @@ export const moreProjects = [
   },
   {
     title: "SiteWrite",
+    updated: "2026-10-19",
     tagline: "Offline-first RICS home survey platform for surveying firms · demo build",
     role: "Full-stack engineer · demo build",
     category: "React · Supabase · Offline PWA",
@@ -1254,6 +1314,7 @@ export const moreProjects = [
   },
   {
     title: "AR Lip Filler Preview",
+    updated: "2026-10-19",
     tagline: "Real-time AR preview of lip filler results in the browser · proof of concept",
     role: "Full-stack engineer · proof of concept",
     category: "React · MediaPipe · WebGL2",
@@ -1289,6 +1350,7 @@ export const moreProjects = [
   // A proof of concept built for a client (confirmed 2026-11-02).
   {
     title: "CAD Interior Studio",
+    updated: "2026-11-02",
     tagline: "A CAD/BIM file becomes a walkable 3D home, furnished from a real catalog · proof of concept for a client",
     role: "Full-stack engineer · proof of concept for a client",
     category: "Next.js 15 · React Three Fiber · web-ifc",
@@ -1323,6 +1385,7 @@ export const moreProjects = [
   },
   {
     title: "FinTech Mobile App",
+    updated: "2026-10-09",
     category: "React Native · Node.js",
     filter: "Mobile",
     industry: "legal-finance",
@@ -1339,6 +1402,7 @@ export const moreProjects = [
   },
   {
     title: "AI E-Commerce Ecosystem",
+    updated: "2026-10-08",
     category: "Next.js · Microservices",
     filter: "AI",
     industry: "marketplaces",
@@ -1355,6 +1419,7 @@ export const moreProjects = [
   },
   {
     title: "Barfly Risk Engine",
+    updated: "2026-10-08",
     role: "Backend engineer · Zencloud",
     category: "Node.js · AI",
     filter: "AI",
@@ -1373,6 +1438,7 @@ export const moreProjects = [
   },
   {
     title: "Coffee Shop Web App",
+    updated: "2026-10-09",
     role: "Full-stack engineer · Fleact Tech",
     category: "Next.js · Firebase",
     filter: "Web",
@@ -1391,6 +1457,7 @@ export const moreProjects = [
   },
   {
     title: "Augment Fit",
+    updated: "2026-10-09",
     category: "React · TypeScript · Supabase",
     filter: "Web",
     industry: "fitness",
@@ -1408,6 +1475,7 @@ export const moreProjects = [
   },
   {
     title: "Bondly Pet Care",
+    updated: "2026-10-08",
     role: "Backend lead · Webrange Solutions",
     category: "Node.js · Firebase · Stripe",
     filter: "Mobile",
@@ -1426,6 +1494,7 @@ export const moreProjects = [
   },
   {
     title: "Outstride / Ginger",
+    updated: "2026-10-08",
     role: "Frontend engineer · Webrange Solutions",
     category: "React.js Frontend",
     filter: "E-Commerce",
@@ -1445,6 +1514,7 @@ export const moreProjects = [
   },
   {
     title: "Food Magnet",
+    updated: "2026-10-09",
     role: "Full-stack engineer · Zencloud",
     category: "Flutter · React · AWS Lambda",
     filter: "Mobile",
@@ -1465,6 +1535,7 @@ export const moreProjects = [
   },
   {
     title: "CEDMAT Roller Shutter",
+    updated: "2026-10-08",
     category: "React Native · AWS",
     filter: "Mobile",
     industry: "workforce",
@@ -1482,6 +1553,7 @@ export const moreProjects = [
   },
   {
     title: "AI Art Stylization",
+    updated: "2026-10-09",
     category: "FastAPI · Stable Diffusion",
     filter: "AI",
     industry: "media",
@@ -1497,6 +1569,7 @@ export const moreProjects = [
   },
   {
     title: "Predictive Analytics",
+    updated: "2026-10-09",
     category: "MERN · Machine Learning",
     filter: "AI",
     industry: "legal-finance",
@@ -1512,6 +1585,7 @@ export const moreProjects = [
   },
   {
     title: "AgroBridge",
+    updated: "2026-10-08",
     category: "React Native · Firebase",
     filter: "Mobile",
     industry: "marketplaces",
@@ -1572,7 +1646,7 @@ export const processSteps = [
     no: "03",
     title: "Build",
     blurb:
-      "Agile sprints with weekly demos. You see working software early and steer it the whole way.",
+      "Sprints with a weekly video demo, so you see working software and can steer it.",
   },
   {
     no: "04",
@@ -1721,16 +1795,18 @@ export const faqs = [
   },
   {
     q: "What does a project usually cost, and how long does it take?",
-    a: "An MVP with auth, payments and an admin area is typically 4–8 weeks. A platform with mobile apps and real-time features is more like 3–6 months. I quote per project rather than per hour once scope is clear, so you're not paying for my learning curve. For reference, DevoraX's published packages start at $2,900 for an MVP and $7,500 for a growth build. To finish an app you already have: a $400 audit (credited to the fix), then $1,200 per week, usually one or two weeks. Stripe payments start at $1,200 and an App Store and Google Play launch at $2,400. The discovery call is free and you get an honest number at the end of it.",
+    a: "Most work starts with the $400 audit, credited to the fix if you go ahead. A finish sprint usually takes 1–2 weeks. New builds start from $2,900 (MVP Starter) and from $7,500 (Growth & Scale), and get a fixed-price proposal. New-build timing is set in the proposal. Prices and terms are on thedevorax.tech/pricing.",
+    link: { href: devoraxPages.pricing, label: "Prices and terms on thedevorax.tech/pricing" },
   },
   {
     q: "My app was built with Lovable, Bolt or Cursor and it's broken. Can you fix it?",
-    a: "Yes. A lot of my Fiverr work is fixing and finishing other people's apps — deploys, payments, restructuring and UI bugs — and AI-built apps break in the same places. I audit the app first, then fix login, database security, payments and deploys in your codebase for one fixed price, and get it live.",
-    link: { to: "/services/fix-vibe-coded-app", label: "How finish & ship works" },
+    a: "Yes. A lot of my Fiverr work is fixing and finishing other people's apps — deploys, payments, restructuring and UI bugs — and AI-built apps break in the same places. I audit the app first, then fix login, database security, payments and deploys in your codebase.",
+    link: { href: doors.audit.url, label: "Vibe code audit and fix, on thedevorax.tech" },
   },
   {
     q: "What happens after launch?",
-    a: "Launch is where most builds get abandoned. Every DevoraX project ships with monitoring, CI/CD and 35 days of free fixes for any real problem in what we built; new features are quoted separately. After that, ongoing support is an option rather than an obligation — the code is yours, documented, and handed over properly.",
+    a: "Launch is where most builds get abandoned. Every DevoraX project ships with monitoring and CI/CD. Defects in the work we delivered are fixed free for 35 days after handover. New features are quoted separately, and ongoing support is an option rather than an obligation. The code is yours, documented, and handed over properly. The terms are on thedevorax.tech/pricing.",
+    link: { href: `${devoraxPages.pricing}#terms`, label: "Terms on thedevorax.tech/pricing" },
   },
   {
     q: "Which stack do you work in?",
@@ -1742,7 +1818,7 @@ export const faqs = [
   },
   {
     q: "Where are you based, and will our hours overlap?",
-    a: "I'm based in Pakistan (PKT, UTC+5) and work with clients in the US, UK, Canada and Hong Kong. Calls are booked through the scheduler in your own time zone, work updates are written so nothing waits on a meeting, and messages get a reply within 24 hours.",
+    a: "I'm based in Pakistan (PKT, UTC+5) and work with clients in the US, UK, Canada and Hong Kong. Calls are booked through the scheduler in your own time zone, and work updates are written so nothing waits on a meeting.",
   },
   {
     q: "Can I message you on WhatsApp?",
@@ -1750,7 +1826,8 @@ export const faqs = [
   },
   {
     q: "How do we start?",
-    a: "Book a call. Thirty minutes, no pitch deck. Tell me what you're building and what success looks like, and you'll leave with a scope, a timeline and a number — whether or not you work with me.",
+    a: "Book a call. Thirty minutes, no pitch deck. Tell me what you're building and what success looks like. You'll leave knowing whether an audit makes sense, what it costs, and the published price range for the work. Prices and terms are on thedevorax.tech/pricing.",
+    link: { href: devoraxPages.pricing, label: "Prices and terms on thedevorax.tech/pricing" },
   },
 ];
 
@@ -1982,11 +2059,10 @@ export const experiences = [
     from: 2022,
     location: "Remote · worldwide",
     current: true,
-    summary:
-      "The studio I run. Client products end to end — scoping, architecture, build and launch — with specialists brought in as scope demands.",
+    summary: devoraxStatement,
     bullets: [
       "Lead the design, engineering and launch of web, mobile and AI products for clients in the US, UK, Canada and Hong Kong.",
-      "Own architecture and the hard parts personally; every build ships with CI/CD, monitoring and 35 days of free fixes for real problems.",
+      "Own architecture and the hard parts personally; every build ships with CI/CD and monitoring. Defects in the work we delivered are fixed free for 35 days after handover.",
       "A two-person studio: me and Usman (CTO). Client work so far has come through Fiverr, at a 5.0 rating across 50+ projects since 2022.",
     ],
     tags: ["Next.js", "React Native", "Node.js", "AWS", "AI"],

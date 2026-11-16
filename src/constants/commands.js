@@ -5,6 +5,7 @@
 
 import { allProjects, featuredProjects, slugify, links, profile, whatsappHref, industryLabel } from "./index";
 import { servicePages } from "./services";
+import { doors } from "./doors";
 import { guides } from "./guides";
 
 /* `to` is an in-app route (hash routes scroll to the section on the home
@@ -18,7 +19,7 @@ export const buildCommands = () => {
     { id: "nav-work", label: "Work", sub: `${featuredProjects.length} case studies`, to: "/work", keywords: ["projects", "portfolio", "case studies"] },
     { id: "nav-guides", label: "Guides", sub: "Fixes for apps that break in production", to: "/guides", keywords: ["how to", "fix", "supabase", "404", "help"] },
     { id: "nav-builds", label: "Builds", sub: "The lab — smaller products and experiments", to: "/builds", keywords: ["lab", "more", "projects"] },
-    { id: "nav-services", label: "Services", sub: "What I build", to: "/services", keywords: ["web", "mobile", "ai", "agents", "backend", "architecture", "hire"] },
+    { id: "nav-services", label: "Services", sub: "Who I am, and where the services are described", to: "/services", keywords: ["web", "mobile", "ai", "agents", "backend", "architecture", "hire"] },
     { id: "nav-stack", label: "Stack", sub: "The tools I ship with", to: "/#stack", keywords: ["tech", "tools", "technologies"] },
     { id: "nav-process", label: "Process", sub: "How a project runs", to: "/#process", keywords: ["how", "method", "timeline"] },
     { id: "nav-experience", label: "Experience", sub: "Where I've done it", to: "/#experience", keywords: ["roles", "career", "history", "resume", "cv"] },
@@ -28,15 +29,34 @@ export const buildCommands = () => {
     { id: "nav-contact", label: "Contact", sub: "Send a message", to: "/#contact", keywords: ["message", "form", "hire", "reach"] },
   ].map((c) => ({ ...c, group: "navigate", icon: "arrowRight" }));
 
-  const services = servicePages.map((s) => ({
-    id: `service-${s.slug}`,
-    group: "services",
-    icon: s.icon,
-    label: s.name,
-    sub: s.summary,
-    to: `/services/${s.slug}`,
-    keywords: s.keywords || [],
-  }));
+  // The pages thedevorax.tech owns for each offer open straight at their
+  // URLs; the Next.js page is the one service page left on this site.
+  const doorKeywords = {
+    audit: ["fix", "finish", "ship", "rescue", "broken", "lovable", "bolt", "replit", "cursor", "vibe", "supabase", "stripe", "deploy", "audit"],
+    lovable: ["mobile", "ios", "android", "app store", "play store", "lovable", "base44", "replit", "launch", "push"],
+    sharetribe: ["sharetribe", "marketplace", "custom code", "mobile", "native app"],
+    marketplace: ["marketplace", "multi-vendor", "ecommerce", "e-commerce", "vendors", "payouts", "stripe connect"],
+  };
+  const services = [
+    ...Object.entries(doorKeywords).map(([key, keywords]) => ({
+      id: `service-${key}`,
+      group: "services",
+      icon: "globe",
+      label: doors[key].name,
+      sub: `${doors[key].phrase} · on thedevorax.tech`,
+      href: doors[key].url,
+      keywords,
+    })),
+    ...servicePages.map((s) => ({
+      id: `service-${s.slug}`,
+      group: "services",
+      icon: s.icon,
+      label: s.name,
+      sub: s.summary,
+      to: `/services/${s.slug}`,
+      keywords: s.keywords || [],
+    })),
+  ];
 
   const guideCommands = guides.map((g) => ({
     id: `guide-${g.slug}`,
@@ -67,7 +87,7 @@ export const buildCommands = () => {
     { id: "act-email", label: "Email me", sub: profile.email, href: links.email, icon: "mail", keywords: ["mail", "contact", "write"] },
     { id: "act-copy-email", label: "Copy email address", sub: profile.email, action: "copy-email", icon: "copy", keywords: ["clipboard", "mail"] },
     { id: "act-fiverr", label: "Fiverr", sub: "5.0 · Level 2 seller", href: links.fiverr, icon: "star", keywords: ["freelance", "reviews", "hire"] },
-    { id: "act-devorax", label: "DevoraX", sub: "The studio I founded and lead", href: links.devorax, icon: "globe", keywords: ["studio", "agency", "company"] },
+    { id: "act-devorax", label: "DevoraX", sub: "The studio I founded", href: links.devorax, icon: "globe", keywords: ["studio", "agency", "company"] },
   ].map((c) => ({ ...c, group: "connect" }));
 
   return [...navigate, ...services, ...guideCommands, ...projects, ...connect];

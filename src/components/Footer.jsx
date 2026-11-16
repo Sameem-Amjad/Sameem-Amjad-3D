@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { links, profile, whatsappHref } from "../constants";
 import { servicePages } from "../constants/services";
+import { doors, devoraxPages } from "../constants/doors";
 import { guides } from "../constants/guides";
 import { analyticsEnabled, openPrivacyChoices, track } from "../utils/analytics";
-import { Icon, Magnetic } from "./shared";
+import { Icon, Magnetic, InlineLink } from "./shared";
 
 const explore = [
   { label: "Work", to: "/work" },
@@ -16,6 +17,9 @@ const explore = [
   { label: "Reviews", to: "/#testimonials" },
   { label: "FAQ", to: "/#faq" },
 ];
+/* The pages thedevorax.tech owns for each offer, linked straight at their
+   URLs (the old /services pages here redirect to them). */
+const offers = [doors.audit, doors.lovable, doors.sharetribe, doors.marketplace];
 const socials = [
   { label: "WhatsApp", href: whatsappHref("/"), track: true },
   { label: "Email", href: links.email },
@@ -45,8 +49,10 @@ const Footer = () => (
             Ready when <br /> you are.
           </h2>
           <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted">
-            Thirty minutes, no pitch deck. You'll leave with a scope, a timeline and a
-            number — whether or not we work together.
+            Thirty minutes, no pitch deck. You'll leave knowing whether an audit makes
+            sense, what it costs, and the{" "}
+            <InlineLink href={devoraxPages.pricing}>published price range</InlineLink> for the
+            work.
           </p>
           <Magnetic>
             <a
@@ -73,6 +79,18 @@ const Footer = () => (
             <nav aria-label="Services">
               <p className="mono-label text-faint">Services</p>
               <ul className="mt-5 flex flex-col gap-3.5">
+                {offers.map((d) => (
+                  <li key={d.url}>
+                    <a
+                      href={d.url}
+                      data-cursor="button"
+                      className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-acid"
+                    >
+                      <span className="h-px w-0 bg-acid transition-all duration-300 group-hover:w-4" />
+                      {d.name}
+                    </a>
+                  </li>
+                ))}
                 {servicePages.map((sv) => (
                   <li key={sv.slug}>
                     <Link

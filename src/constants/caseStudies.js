@@ -56,7 +56,7 @@ export const caseStudies = {
       { title: "One backend, three apps", detail: "Angular web plus React Native iOS/Android over a shared NestJS + PostgreSQL API." },
     ],
     results:
-      "Dooz hired me directly. It is live on the web, the App Store and Google Play, where it shows 100K+ installs, and the store links above show its current ratings.",
+      "Dooz hired me directly to work on its shared NestJS backend. The product is live on the web, the App Store and Google Play, where its listing shows 100K+ downloads, and the store links above show its current ratings.",
     quote:
       "Trust is a product feature. Once buyers believe the inspection, everything else, from financing to repeat visits, follows.",
   },
@@ -126,7 +126,7 @@ export const caseStudies = {
     problem:
       "Home cooks make great food but have no easy way to sell it, and delivery apps are built for restaurants, not individuals. Koor needed a marketplace that could onboard home chefs, track orders live and stay fast as the menu grew.",
     approach:
-      "I built Koor on a NestJS backend with Elasticsearch-powered discovery so search stays instant, Firebase for real-time delivery tracking, and AWS (EC2, S3, CloudFront) underneath. A React Native app puts the whole experience on customers' phones.",
+      "Koor runs on a NestJS backend with Elasticsearch-powered discovery so search stays instant, Firebase for real-time delivery tracking, and AWS (EC2, S3, CloudFront) underneath. A React Native app puts the whole experience on customers' phones.",
     features: [
       { title: "Home-chef marketplace", detail: "Onboarding, menus and payouts designed for individual cooks, not restaurants." },
       { title: "Real-time tracking", detail: "Firebase powers live order and delivery status from kitchen to door." },
@@ -134,7 +134,7 @@ export const caseStudies = {
       { title: "Cloud setup", detail: "AWS EC2 / S3 / CloudFront behind the API and media." },
     ],
     results:
-      "Version one went live on Google Play in October 2025. It is a young app, so there are no usage numbers worth quoting yet.",
+      "Koor was DevoraX client work: DevoraX worked on it for a client, and I worked on the build. Version one went live on Google Play in October 2025. It is a young app, so there are no usage numbers worth quoting yet.",
   },
 
   // DevoraX client work (the owner's instruction, 12 Nov 2026).
@@ -187,7 +187,7 @@ export const caseStudies = {
       { title: "Cross-platform", detail: "Flutter iOS/Android apps plus a React web dashboard on one backend." },
     ],
     results:
-      "TAL is live on talservices.co.uk, the App Store and Google Play. I built it while I was a full-stack developer at Webrange Solutions, for Webrange's client.",
+      "TAL is live on talservices.co.uk, the App Store and Google Play. I worked on it while I was a full-stack developer at Webrange Solutions, for Webrange's client.",
   },
 
   "wod-pro-league": {
@@ -235,7 +235,7 @@ export const caseStudies = {
       { title: "Progress tracking", detail: "Milestones show where each student is and what comes next." },
     ],
     results:
-      "Pathana is live at pathana.net, where schools can request a pilot. I built it at ivector, where I work as a software engineer.",
+      "Pathana is live at pathana.net, where schools can request a pilot. I worked on it at ivector, where I work as a software engineer.",
   },
 
   three28: {
@@ -256,7 +256,7 @@ export const caseStudies = {
 
   "digital-power-of-attorney": {
     overview:
-      "e-fuldmagt, a Danish service for managing digital powers of attorney. I built its backend while working at Zencloud.",
+      "e-fuldmagt, a Danish service for managing digital powers of attorney. I worked on its backend while at Zencloud.",
     problem:
       "Power of attorney is high-stakes: it needs verified identity, documents that hold up legally, careful storage and precise, revocable control over who can act for whom, under Danish and EU data rules.",
     approach:

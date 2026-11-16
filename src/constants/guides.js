@@ -4,12 +4,17 @@
 //  Why they exist: a one-week-old domain can't rank for "hire a developer",
 //  but it can rank for a specific error message, and a specific, correct
 //  answer is what AI assistants cite. Each guide solves one problem
-//  completely and then points at the service that fixes the rest
-//  (`service` is a slug from constants/services.js). `short` is the anchor
-//  text wherever a guide is linked from a list (footer, related guides).
+//  completely and then points at the one page on thedevorax.tech that covers
+//  the rest: `door` is a key in constants/doors.js, GuidePage links it once in
+//  the first screen, and the guide's last section names it again. `short` is
+//  the anchor text wherever a guide is linked from a list (footer, related
+//  guides).
 //
 //  Every command and config here must be something that works as written.
-//  Text blocks support `inline code` in backticks; nothing else is parsed.
+//  Text blocks support `inline code` in backticks and, in a guide's closing
+//  paragraph, [anchor text](door), which GuidePage turns into a link to the
+//  guide's door. Nothing else is parsed. Do not bump `updated` for a change to
+//  the closing link: only for a substantive edit (blog-strategy-final.md).
 //
 //  Plain data with no imports, so vite.config.js can read it in Node.
 // ─────────────────────────────────────────────────────────────
@@ -26,7 +31,7 @@ export const guides = [
       "What the warning means, what's exposed until you fix it, and the SQL to turn row-level security on and write policies that hold.",
     published: "2026-09-29",
     updated: "2026-10-30",
-    service: "fix-vibe-coded-app",
+    door: "audit",
     sections: [
       {
         h2: "The short answer",
@@ -146,7 +151,7 @@ select * from public.orders;`,
         h2: "When the tables aren't the only problem",
         blocks: [
           {
-            p: "If an AI tool generated your app, open tables are rarely the only issue. The same apps tend to have secrets in client code, unchecked inputs and payment webhooks that trust the browser. If you'd rather have the whole app checked properly, that's what my app rescue audit covers.",
+            p: "If an AI tool generated your app, open tables are rarely the only issue. The same apps tend to have secrets in client code, unchecked inputs and payment webhooks that trust the browser. If you'd rather have the whole app checked properly, DevoraX, the studio I founded, describes how that works on its [vibe code audit page](door).",
           },
         ],
       },
@@ -164,7 +169,7 @@ select * from public.orders;`,
       "Why deep links break on single-page apps, and the one rewrite rule each host needs, plus the two side effects to handle.",
     published: "2026-09-29",
     updated: "2026-09-29",
-    service: "fix-vibe-coded-app",
+    door: "audit",
     sections: [
       {
         h2: "The short answer",
@@ -249,7 +254,7 @@ select * from public.orders;`,
         h2: "If the 404 is the least of it",
         blocks: [
           {
-            p: "A deploy that 404s is often the first sign of a wider production problem: environment variables missing on the host, login redirects pointing at the preview URL, or a database that's open to the public. If you'd like the whole app checked and fixed, that's what my app rescue service does.",
+            p: "A deploy that 404s is often the first sign of a wider production problem: environment variables missing on the host, login redirects pointing at the preview URL, or a database that's open to the public. If you'd like the whole app checked and fixed, DevoraX, the studio I founded, describes how that works on its [vibe code audit page](door).",
           },
         ],
       },
@@ -267,7 +272,7 @@ select * from public.orders;`,
       "Why apps that wrap a website get this rejection, the native features and fixes that give a reviewer something a website can't do, and how to reply in App Store Connect.",
     published: "2026-10-09",
     updated: "2026-11-02",
-    service: "app-store-launch",
+    door: "lovable",
     sections: [
       {
         h2: "The short answer",
@@ -446,7 +451,7 @@ feature are attached.`,
         h2: "If you'd rather hand it over",
         blocks: [
           {
-            p: "Getting a web-built app through review is mostly judgment: which native features earn their place, what to take out, and how to explain it to App Review. On the Google Play side a new personal account has to run a closed test with 12 testers for 14 days before it can publish; my guide on Google Play's “12 testers for 14 days” rule has the timeline. If you'd like that handled, from the native build to submission and the back-and-forth with review, that's what my App Store and Google Play launch service covers.",
+            p: "Getting a web-built app through review is mostly judgment: which native features earn their place, what to take out, and how to explain it to App Review. On the Google Play side a new personal account has to run a closed test with 12 testers for 14 days before it can publish; my guide on Google Play's “12 testers for 14 days” rule has the timeline. If you'd like help preparing the app, submitting it and answering the reviewers, DevoraX, the studio I founded, describes that work on its page for [taking an AI-built app to the App Store and Google Play](door). The stores decide approval.",
           },
         ],
       },
@@ -464,7 +469,7 @@ feature are attached.`,
       "Why Stripe's signature check fails, the three things that cause it, working code for Next.js and Supabase Edge Functions, and how to make sure a paying customer always gets what they paid for.",
     published: "2026-10-09",
     updated: "2026-11-02",
-    service: "fix-vibe-coded-app",
+    door: "audit-payments",
     sections: [
       {
         h2: "The short answer",
@@ -767,7 +772,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
         h2: "When the webhook isn't the only payment problem",
         blocks: [
           {
-            p: "The webhook is the part of AI-built payment code that usually goes wrong, but rarely the only part: prices taken from the browser, subscriptions that never cancel, refunds nobody handles. If you'd like the payment flow checked end to end and fixed, that's part of my app rescue service. If the signature now verifies and the customer is still locked out, my guide “Stripe says the payment succeeded, but your app still shows the user as unpaid: the events, the mapping and the entitlement check” covers the three causes that remain.",
+            p: "The webhook is the part of AI-built payment code that usually goes wrong, but rarely the only part: prices taken from the browser, subscriptions that never cancel, refunds nobody handles. If you'd like the payment flow checked end to end and fixed, DevoraX, the studio I founded, describes how that works in the [payments section of its vibe code audit page](door). If the signature now verifies and the customer is still locked out, my guide “Stripe says the payment succeeded, but your app still shows the user as unpaid: the events, the mapping and the entitlement check” covers the three causes that remain.",
           },
         ],
       },
@@ -785,7 +790,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
       "What Sharetribe gives you on mobile, the three routes to iOS and Android apps with their trade-offs in cost, feel and upkeep, and what Apple's review means for a marketplace app.",
     published: "2026-10-09",
     updated: "2026-10-09",
-    service: "marketplace-development",
+    door: "sharetribe",
     sections: [
       {
         h2: "The short answer",
@@ -906,7 +911,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
         h2: "If you want it built",
         blocks: [
           {
-            p: "If you're weighing a custom app against a template, or need one built on Sharetribe's backend alongside your website, that's part of my marketplace development work.",
+            p: "If you're weighing a custom app against a template, or need one built on Sharetribe's backend alongside your website, DevoraX, the studio I founded, describes that work on its page for [Sharetribe developers](door).",
           },
         ],
       },
@@ -923,7 +928,7 @@ stripe trigger checkout.session.completed --add checkout_session:client_referenc
       "What the error means, why new tables now need an explicit grant, the SQL for tables, sequences, functions and views, and the curl test as a visitor and as a signed-in user.",
     published: "2026-10-30",
     updated: "2026-10-30",
-    service: "fix-vibe-coded-app",
+    door: "audit",
     sections: [
       {
         h2: "The short answer",
@@ -1153,7 +1158,7 @@ curl -s 'https://YOUR-PROJECT.supabase.co/rest/v1/profiles?select=id,full_name' 
         h2: "When the grant isn't the only problem",
         blocks: [
           {
-            p: "An app that hit this error has usually spent its life on the old default: every earlier table granted to `anon` on creation and protected by whatever policies the builder happened to write. Often there is a Stripe webhook or an Edge Function that trusts the browser as well. Fixing one grant gets this week's table working; it says nothing about what the other tables let a visitor do. If you'd rather have the whole app checked before real users find out, that's what my launch-readiness audit covers, the first step of my Finish & ship service.",
+            p: "An app that hit this error has usually spent its life on the old default: every earlier table granted to `anon` on creation and protected by whatever policies the builder happened to write. Often there is a Stripe webhook or an Edge Function that trusts the browser as well. Fixing one grant gets this week's table working; it says nothing about what the other tables let a visitor do. If you'd rather have the whole app checked before real users find out, DevoraX, the studio I founded, describes how that works on its [vibe code audit page](door).",
           },
         ],
       },
@@ -1171,7 +1176,7 @@ curl -s 'https://YOUR-PROJECT.supabase.co/rest/v1/profiles?select=id,full_name' 
       "What the 429 means, the built-in sender’s cap and team-only rule, the Resend SMTP settings, and the limits and CAPTCHA to keep afterwards.",
     published: "2026-10-30",
     updated: "2026-10-30",
-    service: "fix-vibe-coded-app",
+    door: "audit",
     sections: [
       {
         h2: "The short answer",
@@ -1325,7 +1330,7 @@ supabase status`,
         h2: "When the email limit isn't the only problem",
         blocks: [
           {
-            p: "An app that reached paying users on the built-in sender has often left other defaults in place too. The usual ones are Confirm email switched off during testing, the Site URL still on localhost so reset links land nowhere, and tables without row-level security (RLS). The guide on Supabase's “RLS disabled in public” warning covers the tables. If your app was built with Lovable, Bolt, Replit or Cursor and has paying users waiting on these emails, that is what my launch-readiness audit covers. You get a fixed list of what will fail in production, in the order it will fail, and the work to close it.",
+            p: "An app that reached paying users on the built-in sender has often left other defaults in place too. The usual ones are Confirm email switched off during testing, the Site URL still on localhost so reset links land nowhere, and tables without row-level security (RLS). The guide on Supabase's “RLS disabled in public” warning covers the tables. If your app was built with Lovable, Bolt, Replit or Cursor and has paying users waiting on these emails, DevoraX, the studio I founded, describes how it checks an app like that on its [vibe code audit page](door).",
           },
         ],
       },
@@ -1343,7 +1348,7 @@ supabase status`,
       "What the status means, the one-command check on the signed build, the Xcode and EAS fixes for the missing aps-environment entitlement, and how to prove it before TestFlight.",
     published: "2026-11-02",
     updated: "2026-11-02",
-    service: "app-store-launch",
+    door: "lovable",
     sections: [
       {
         h2: "The short answer",
@@ -1514,7 +1519,7 @@ codesign -d --entitlements - --xml ipa/Payload/YourApp.app | plutil -p - | grep 
         h2: "When the entitlement is the least of it",
         blocks: [
           {
-            p: "An app that reached TestFlight without its push entitlement usually has more in the same state: an APNs key for the wrong bundle identifier, store accounts in a developer's name, no extension. In a wrapped app, Apple's reviewer is next, asking what it does beyond a website; my guide on the “Guideline 4.2 - Design - Minimum Functionality” rejection covers that. Push, in-app and email notifications, with the certificate and account setup that usually eats a week, is one line of my App Store and Google Play launch service for that reason. And if your device now shows Subscribed and nothing arrives, the next page to read is “OneSignal push notifications work on Android but never arrive on iOS: a 10-step diagnosis”.",
+            p: "An app that reached TestFlight without its push entitlement usually has more in the same state: an APNs key for the wrong bundle identifier, store accounts in a developer's name, no extension. In a wrapped app, Apple's reviewer is next, asking what it does beyond a website; my guide on the “Guideline 4.2 - Design - Minimum Functionality” rejection covers that. DevoraX, the studio I founded, describes how it prepares and submits an app, push notifications and store account setup included, on its page for [taking an AI-built app to the App Store and Google Play](door). And if your device now shows Subscribed and nothing arrives, the next page to read is “OneSignal push notifications work on Android but never arrive on iOS: a 10-step diagnosis”.",
           },
         ],
       },
@@ -1532,7 +1537,7 @@ codesign -d --entitlements - --xml ipa/Payload/YourApp.app | plutil -p - | grep 
       "Ten checks in order for an iPhone that shows as subscribed but gets nothing: the key, the environment, the bundle ID, the profiles, the build, the phone's own settings and the delivery report.",
     published: "2026-11-02",
     updated: "2026-11-02",
-    service: "app-store-launch",
+    door: "lovable",
     sections: [
       {
         h2: "The short answer",
@@ -1767,7 +1772,7 @@ OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
         h2: "If push is the least of it",
         blocks: [
           {
-            p: "An app that reaches step ten usually has the rest of its iOS setup in the same state: profiles made in a hurry, a developer account in the builder's name, no Sign in with Apple, a review submission still ahead. Push is also one of the native features Apple's reviewer looks for; the guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers that side. Getting all of it done, notifications included, is what my App Store and Google Play launch service is for.",
+            p: "An app that reaches step ten usually has the rest of its iOS setup in the same state: profiles made in a hurry, a developer account in the builder's name, no Sign in with Apple, a review submission still ahead. Push is also one of the native features Apple's reviewer looks for; the guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers that side. If you'd like all of it handled, notifications included, DevoraX, the studio I founded, describes how it prepares and submits an app on its page for [taking an AI-built app to the App Store and Google Play](door).",
           },
         ],
       },
@@ -1785,7 +1790,7 @@ OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
       "Who the rule applies to, what “opted in continuously” means, the questionnaire with example answers, why bought testers end in more testing, and a timeline to plan a launch date around.",
     published: "2026-11-02",
     updated: "2026-11-02",
-    service: "app-store-launch",
+    door: "lovable",
     sections: [
       {
         h2: "The short answer",
@@ -1968,7 +1973,7 @@ First production release                          reviewed; up to 7 days or long
         h2: "When the 14 days aren't the only problem",
         blocks: [
           {
-            p: "An app stuck at closed testing is usually stuck elsewhere too: the Play account is in a freelancer's name, push notifications work on one platform only, and the iOS build has not started. Apple's gate is a human reviewer rather than a tester count, and for a wrapped web app it is the one my guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers. Nine of the apps on my work page are live on the App Store or Google Play. Koor's first version went live on Google Play in October 2025, and Dooz Inspected Cars, a direct client, shows 100K+ installs. TAL Workforce was built while I was at Webrange Solutions, and Loopedin, whose backend I built at Zencloud, launched on both stores in September 2026. Running the closed test with real users, writing the application, and shipping both stores under accounts in your name is what my App Store and Google Play launch service covers.",
+            p: "An app stuck at closed testing is usually stuck elsewhere too: the Play account is in a freelancer's name, push notifications work on one platform only, and the iOS build has not started. Apple's gate is a human reviewer rather than a tester count, and for a wrapped web app it is the one my guide “Apple rejected your app under “Guideline 4.2 - Design - Minimum Functionality”: what it means and how to get approved” covers. Nine of the apps on my work page are live on the App Store or Google Play. Koor's first version went live on Google Play in October 2025, and Dooz Inspected Cars, which hired me directly to work on its NestJS backend, shows 100K+ downloads on its Google Play listing. TAL Workforce was built while I was at Webrange Solutions, and Loopedin, whose backend I built at Zencloud, launched on both stores in September 2026. DevoraX, the studio I founded, describes how it prepares and submits apps to both stores on its page for [taking an AI-built app to the App Store and Google Play](door).",
           },
         ],
       },
@@ -1986,7 +1991,7 @@ First production release                          reviewed; up to 7 days or long
       "Why a successful Stripe payment can leave a user locked out, which events to handle, how to tie the customer to your user, and the server-side check, with a Next.js and an Edge Function handler.",
     published: "2026-11-02",
     updated: "2026-11-02",
-    service: "fix-vibe-coded-app",
+    door: "audit-payments",
     sections: [
       {
         h2: "The short answer",
@@ -2538,7 +2543,7 @@ stripe trigger invoice.paid`,
         h2: "When the unlock is the least of it",
         blocks: [
           {
-            p: "An app that lost a payment this way rarely has only one fault. The usual company is prices taken from the browser, no handling for a failed renewal, the secret key in a public repo, and the same tables still open to the anon key elsewhere. Finding all of that before more customers do is what my launch-readiness audit covers, and the payments work that follows is part of my Finish & ship service.",
+            p: "An app that lost a payment this way rarely has only one fault. The usual company is prices taken from the browser, no handling for a failed renewal, the secret key in a public repo, and the same tables still open to the anon key elsewhere. If you'd like all of that checked, DevoraX, the studio I founded, describes how it works in the [payments section of its vibe code audit page](door).",
           },
         ],
       },
@@ -2548,7 +2553,3 @@ stripe trigger invoice.paid`,
 ];
 
 export const getGuideBySlug = (slug) => guides.find((g) => g.slug === slug) || null;
-
-// The guides that sit under any of the given service slugs, so a case study
-// can link the reading that goes with the work it proves.
-export const guidesForServices = (slugs) => guides.filter((g) => slugs.includes(g.service));
